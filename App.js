@@ -1,6 +1,12 @@
+import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
+import {NavigationContainer} from "@react-navigation/native";
+import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {useFonts} from "expo-font";
 import {StatusBar} from "expo-status-bar";
 import {StyleSheet, View} from "react-native";
+import {SafeAreaView} from "react-native-safe-area-context";
+import Text from "./src/components/tags/Text";
+import TabScreen from "./src/navigations/TabNavigation";
 
 import UnAuth from "./src/screen/UnAuth";
 
@@ -12,16 +18,37 @@ export default function App() {
   // });
   // if (loaded) {
   //   console.log(loaded, error);
-  //   return <Text preset="p1">Font Loaded...</Text>;
+  //   return <Text preset="h1">Font Loaded...</Text>;
+  const Stack = createNativeStackNavigator();
+  const Tab = createBottomTabNavigator();
+
+  const config = {
+    animation: "spring",
+    config: {
+      stiffness: 1000,
+      damping: 500,
+      mass: 3,
+      overshootClamping: true,
+      restDisplacementThreshold: 0.01,
+      restSpeedThreshold: 0.01,
+    },
+  };
   // }
   return (
-    <View style={styles.container}>
-      <>
-        <UnAuth />
-      </>
+    <>
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false,
+            headerMode: "screen",
+          }}>
+          <Stack.Screen name="tab" component={TabScreen} />
+        </Stack.Navigator>
 
+        <StatusBar style="auto" />
+      </NavigationContainer>
       <StatusBar style="auto" />
-    </View>
+    </>
   );
 }
 

@@ -1,4 +1,10 @@
-import {Image, StyleSheet, TouchableOpacity, View} from "react-native";
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React from "react";
 import {height, scale, width} from "../../../utils/funtions";
 import {colors} from "../../theme/colors";
@@ -70,7 +76,8 @@ const Mainlayout = ({children}) => {
               </View>
             </View>
             {children}
-            <View style={{height: scale(130)}}></View>
+
+            {/* <View style={{height: scale(300)}}></View> */}
           </View>
         </View>
       </View>

@@ -150,14 +150,14 @@ function MyTabBar({state, descriptors, navigation, children}) {
 }
 
 export default function TabScreen() {
-  let auth = false;
+  let auth = true;
   return (
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
       }}
       tabBar={(props) => <MyTabBar {...props} />}>
-      {auth ? (
+      {!auth ? (
         <Tab.Screen name="Login" component={UnAuth} />
       ) : (
         <>

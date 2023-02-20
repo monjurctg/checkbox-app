@@ -36,4 +36,12 @@ export const presset = {
   p1: {
     ...Base,
   },
+  p2: {
+    ...Base,
+    fontSize: scale(14),
+  },
+  p3: {
+    ...Base,
+    fontSize: scale(12),
+  },
 };

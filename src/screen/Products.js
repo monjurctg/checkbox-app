@@ -1,15 +1,22 @@
-import {StyleSheet, Text, View} from "react-native";
+import {ScrollView} from "react-native";
 import React from "react";
 import Mainlayout from "../components/layout/Mainlayout";
+
+import Cards from "../components/products/Cards";
 
 const Products = () => {
   return (
     <Mainlayout>
-      <Text>Products</Text>
+      <ScrollView style={{}}>
+        <Cards name={'New Products'}/>
+        <Cards name={'Top Rated'}/>
+        <Cards name={'Most Reviewed'}/>
+
+      </ScrollView>
     </Mainlayout>
   );
 };
 
 export default Products;
 
-const styles = StyleSheet.create({});
+

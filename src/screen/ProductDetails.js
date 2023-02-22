@@ -104,8 +104,8 @@ const ProductDetails = () => {
           <Text preset={["p1"]}>(3.5 stars) • 10 reviews</Text>
         </View>
 
-        <CustomTouchBtn preset={["row mt_10"]}>
-          <Text>arrow</Text>
+        <CustomTouchBtn preset={["row mt_10  border_1"]}>
+          <Text preset={["mr_10 p1"]}>arrow</Text>
           <Text preset={["p1"]}>Download Product Details</Text>
         </CustomTouchBtn>
 

@@ -143,15 +143,18 @@ export const presset = {
   // border
   border_1: {
     borderWidth: 1,
-    borderColor: colors.primary_3,
+    borderColor: colors.secoundary_3,
+    padding: scale(10),
   },
   border_2: {
     borderWidth: 2,
-    borderColor: colors.primary_3,
+    borderColor: colors.secoundary_3,
+    padding: scale(10),
   },
   border_3: {
     borderWidth: 3,
-    borderColor: colors.primary_3,
+    borderColor: colors.secoundary_3,
+    padding: scale(10),
   },
   // padding
 

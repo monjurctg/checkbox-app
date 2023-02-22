@@ -44,4 +44,48 @@ export const presset = {
     ...Base,
     fontSize: scale(12),
   },
+  text_primary1: {
+    color: colors.primary_1,
+  },
+  text_primary2: {
+    color: colors.primary_2,
+  },
+
+  text_primary3: {
+    color: colors.primary_3,
+  },
+  text_primary4: {
+    color: colors.primary_4,
+  },
+  bg_primary1: {
+    backgroundColor: colors.primary_1,
+  },
+  mt_5: {
+    marginTop: scale(5),
+  },
+  mt_10: {
+    marginTop: scale(10),
+  },
+  mt_15: {
+    marginTop: scale(15),
+  },
+  mt_20: {
+    marginTop: scale(20),
+  },
+  mt_25: {
+    marginTop: scale(25),
+  },
+  mt_35: {
+    marginTop: scale(35),
+  },
+  text_center: {
+    textAlign: "center",
+  },
+  center: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  row: {
+    flexDirection: "row",
+  },
 };

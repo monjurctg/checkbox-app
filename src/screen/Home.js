@@ -24,7 +24,7 @@ const Home = () => {
           <TouchableOpacity
             style={{justifyContent: "center", alignItems: "center"}}>
             <Image source={require("../../assets/icons/product.png")} />
-            <Text preset="p2" style={{marginTop: scale(10)}}>
+            <Text preset={["p2"]} style={{marginTop: scale(10)}}>
               My Products
             </Text>
           </TouchableOpacity>
@@ -32,14 +32,14 @@ const Home = () => {
           <TouchableOpacity
             style={{justifyContent: "center", alignItems: "center"}}>
             <Image source={require("../../assets/icons/customers.png")} />
-            <Text preset="p2" style={{marginTop: scale(10)}}>
+            <Text preset={["p2"]} style={{marginTop: scale(10)}}>
               My Products
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={{justifyContent: "center", alignItems: "center"}}>
             <Image source={require("../../assets/icons/earning.png")} />
-            <Text preset="p2" style={{marginTop: scale(10)}}>
+            <Text preset={["p2"]} style={{marginTop: scale(10)}}>
               My Products
             </Text>
           </TouchableOpacity>
@@ -93,12 +93,12 @@ const Home = () => {
             paddingHorizontal: 16,
             borderRadius: 5,
           }}>
-          <Text preset="p1" style={{fontWeight: "bold"}}>
+          <Text preset={["p1"]} style={{fontWeight: "bold"}}>
             Our service
           </Text>
 
           <TouchableOpacity style={{flexDirection: "row"}}>
-            <Text preset="p2">View all</Text>
+            <Text preset={["p2"]}>View all</Text>
             <Image
               source={require("../../assets/icons/arrow-right-o.png")}
               style={{marginLeft: scale(10)}}
@@ -122,7 +122,7 @@ const Home = () => {
                 resizeMode: "contain",
               }}
             />
-            <Text preset="p2">Camera</Text>
+            <Text preset={["p2"]}>Camera</Text>
           </View>
           <View
             style={{
@@ -137,7 +137,7 @@ const Home = () => {
                 resizeMode: "contain",
               }}
             />
-            <Text preset="p2">Head phone</Text>
+            <Text preset={["p2"]}>Head phone</Text>
           </View>
           <View
             style={{
@@ -154,7 +154,7 @@ const Home = () => {
                 resizeMode: "contain",
               }}
             />
-            <Text preset="p2">Sun Glass</Text>
+            <Text preset={["p2"]}>Sun Glass</Text>
           </View>
           <View
             style={{
@@ -171,7 +171,7 @@ const Home = () => {
                 resizeMode: "contain",
               }}
             />
-            <Text preset="p2">Red shoe</Text>
+            <Text preset={["p2"]}>Red shoe</Text>
           </View>
           <View
             style={{
@@ -188,7 +188,7 @@ const Home = () => {
                 resizeMode: "contain",
               }}
             />
-            <Text preset="p2"> shoe</Text>
+            <Text preset={["p2"]}> shoe</Text>
           </View>
         </ScrollView>
 
@@ -206,12 +206,12 @@ const Home = () => {
             paddingHorizontal: 16,
             borderRadius: 5,
           }}>
-          <Text preset="p1" style={{fontWeight: "bold"}}>
+          <Text preset={["p1"]} style={{fontWeight: "bold"}}>
             Our service
           </Text>
 
           <TouchableOpacity style={{flexDirection: "row"}}>
-            <Text preset="p2">Explore all</Text>
+            <Text preset={["p2"]}>Explore all</Text>
             <Image
               source={require("../../assets/icons/arrow-right-o.png")}
               style={{marginLeft: scale(10)}}
@@ -224,42 +224,42 @@ const Home = () => {
               source={require("../../assets/img/shoe1.png")}
               style={{width: "100%", height: scale(112)}}
             />
-            <Text preset="p">Nike Super Red Shoe for Men</Text>
+            <Text preset={["p3"]}>Nike Super Red Shoe for Men</Text>
           </View>
           <View style={styles.product}>
             <Image
               source={require("../../assets/img/sunglass.png")}
               style={{width: "100%", height: scale(112)}}
             />
-            <Text preset="p">Nike Super Red Shoe for Men</Text>
+            <Text preset={["p3"]}>Nike Super Red Shoe for Men</Text>
           </View>
           <View style={styles.product}>
             <Image
               source={require("../../assets/img/redShoe.png")}
               style={{width: "100%", height: scale(112)}}
             />
-            <Text preset="p">Nike Super Red Shoe for Men</Text>
+            <Text preset={["p3"]}>Nike Super Red Shoe for Men</Text>
           </View>
           <View style={styles.product}>
             <Image
               source={require("../../assets/img/watch.png")}
               style={{width: "100%", height: scale(112)}}
             />
-            <Text preset="p">Nike Super Red Shoe for Men</Text>
+            <Text preset={["p3"]}>Nike Super Red Shoe for Men</Text>
           </View>
           <View style={styles.product}>
             <Image
               source={require("../../assets/img/headphone.png")}
               style={{width: "100%", height: scale(112)}}
             />
-            <Text preset="p">Nike Super Red Shoe for Men</Text>
+            <Text preset={["p3"]}>Nike Super Red Shoe for Men</Text>
           </View>
           <View style={styles.product}>
             <Image
               source={require("../../assets/img/camera.png")}
               style={{width: "100%", height: scale(112)}}
             />
-            <Text preset="p">Nike Super Red Shoe for Men</Text>
+            <Text preset={["p3"]}>Nike Super Red Shoe for Men</Text>
           </View>
         </View>
         <View style={{height: scale(300)}}></View>

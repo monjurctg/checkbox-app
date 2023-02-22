@@ -23,7 +23,7 @@ const UnAuth = () => {
             />
             <TouchableOpacity style={styles.loginBtn}>
               <Text
-                preset="p"
+                preset={["p3"]}
                 style={{textAlign: "center", color: colors.white}}>
                 Login
               </Text>
@@ -40,42 +40,42 @@ const UnAuth = () => {
                   source={require("../../assets/img/shoe1.png")}
                   style={{width: "100%", height: scale(112)}}
                 />
-                <Text preset="p">Nike Super Red Shoe for Men</Text>
+                <Text preset={["p3"]}>Nike Super Red Shoe for Men</Text>
               </View>
               <View style={styles.product}>
                 <Image
                   source={require("../../assets/img/sunglass.png")}
                   style={{width: "100%", height: scale(112)}}
                 />
-                <Text preset="p">Nike Super Red Shoe for Men</Text>
+                <Text preset={["p3"]}>Nike Super Red Shoe for Men</Text>
               </View>
               <View style={styles.product}>
                 <Image
                   source={require("../../assets/img/redShoe.png")}
                   style={{width: "100%", height: scale(112)}}
                 />
-                <Text preset="p">Nike Super Red Shoe for Men</Text>
+                <Text preset={["p3"]}>Nike Super Red Shoe for Men</Text>
               </View>
               <View style={styles.product}>
                 <Image
                   source={require("../../assets/img/watch.png")}
                   style={{width: "100%", height: scale(112)}}
                 />
-                <Text preset="p">Nike Super Red Shoe for Men</Text>
+                <Text preset={["p3"]}>Nike Super Red Shoe for Men</Text>
               </View>
               <View style={styles.product}>
                 <Image
                   source={require("../../assets/img/headphone.png")}
                   style={{width: "100%", height: scale(112)}}
                 />
-                <Text preset="p">Nike Super Red Shoe for Men</Text>
+                <Text preset={["p3"]}>Nike Super Red Shoe for Men</Text>
               </View>
               <View style={styles.product}>
                 <Image
                   source={require("../../assets/img/camera.png")}
                   style={{width: "100%", height: scale(112)}}
                 />
-                <Text preset="p">Nike Super Red Shoe for Men</Text>
+                <Text preset={["p3"]}>Nike Super Red Shoe for Men</Text>
               </View>
               <Image
                 style={{

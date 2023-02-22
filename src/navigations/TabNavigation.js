@@ -112,7 +112,7 @@ function MyTabBar({state, descriptors, navigation, children}) {
                     justifyContent: "center",
                     alignItems: "center",
                   }}>
-                  <Text preset="p1" style={{color: colors.white}}>
+                  <Text preset={["p1"]} style={{color: colors.white}}>
                     Signup Now
                   </Text>
                 </View>
@@ -137,7 +137,7 @@ function MyTabBar({state, descriptors, navigation, children}) {
                     resizeMode: "contain",
                   }}
                 />
-                <Text preset="p1" style={{color: color}}>
+                <Text preset={["p3"]} style={{color: color}}>
                   {label}
                 </Text>
               </View>

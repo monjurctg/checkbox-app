@@ -7,6 +7,7 @@ import {StyleSheet, View} from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
 import Text from "./src/components/tags/Text";
 import TabScreen from "./src/navigations/TabNavigation";
+import ProductDetail from "./src/screen/ProductDetail";
 import ProductListing from "./src/screen/ProductListing";
 
 import UnAuth from "./src/screen/UnAuth";
@@ -43,6 +44,8 @@ export default function App() {
             headerShown: false,
             headerMode: "screen",
           }}>
+          {/* <Stack.Screen name="product-details" component={ProductDetail} /> */}
+
           <Stack.Screen name="tab" component={TabScreen} />
           {/* <Stack.Screen
           name="ProductListing"
@@ -51,7 +54,7 @@ export default function App() {
         /> */}
         </Stack.Navigator>
 
-        <StatusBar style="auto" />
+        {/* <StatusBar style="auto" /> */}
       </NavigationContainer>
       <StatusBar style="auto" />
     </>

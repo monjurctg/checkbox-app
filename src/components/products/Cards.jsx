@@ -1,20 +1,20 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import {StyleSheet, View, Image, TouchableOpacity} from "react-native";
 import React from "react";
-import { scale } from "../../../utils/funtions";
+import {scale} from "../../../utils/funtions";
+import Text from "../tags/Text";
 
-const Cards = ({ name }) => {
+const Cards = ({name}) => {
   return (
     <View>
       <View style={styles.newProducts}>
         <Text
-          preset="p1"
+          preset={["p2"]}
           style={{
             fontWeight: "500",
-            fontSize: 18,
+            // fontSize: 18,
             lineHeight: 22,
             color: "#231F20",
-          }}
-        >
+          }}>
           {name}
         </Text>
         <TouchableOpacity
@@ -22,63 +22,57 @@ const Cards = ({ name }) => {
         //     navigation.navigate('ProductListing', {name: 'Jane'})
         //   }
         >
-        <Image source={require("../../../assets/icons/right-icon.png")}
-      
-        />
-        </TouchableOpacity >
+          <Image source={require("../../../assets/icons/right-icon.png")} />
+        </TouchableOpacity>
       </View>
       <View style={styles.products}>
         <View
           style={{
             width: scale(108),
-          }}
-        >
+          }}>
           <Image source={require("../../../assets/img/temp/temp1.png")} />
           <Text
-            preset="p1"
+            preset={["p3 mt_5"]}
             style={{
               fontWeight: "400",
-              fontSize: 12,
+              // fontSize: 12,
               lineHeight: 16,
               color: "#231F20",
-            }}
-          >
+            }}>
             Nike Super Red Shoe for Men
           </Text>
         </View>
         <View
           style={{
             width: scale(108),
-          }}
-        >
+          }}>
           <Image source={require("../../../assets/img/temp/temp2.png")} />
           <Text
-            preset="p1"
+            preset={["p3 mt_5"]}
             style={{
               fontWeight: "400",
-              fontSize: 12,
+              // fontSize: 12,
               lineHeight: 16,
               color: "#231F20",
-            }}
-          >
+            }}>
             Nike Super Red Shoe for Men
           </Text>
         </View>
         <View
           style={{
             width: scale(108),
-          }}
-        >
+            justifyContent: "center",
+            alignItems: "center",
+          }}>
           <Image source={require("../../../assets/img/temp/temp3.png")} />
           <Text
-            preset="p1"
+            preset={["p3 mt_5  text_center"]}
             style={{
               fontWeight: "400",
-              fontSize: 12,
+              // fontSize: 12,
               lineHeight: 16,
               color: "#231F20",
-            }}
-          >
+            }}>
             Nike Super Red Shoe for Men
           </Text>
         </View>

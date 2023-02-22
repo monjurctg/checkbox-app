@@ -29,13 +29,13 @@ const Mainlayout = ({children}) => {
                 />
                 <View style={{marginLeft: scale(10)}}>
                   <Text
-                    preset="p1"
+                    preset={["p1"]}
                     style={{fontWeight: "bold", marginBottom: scale(5)}}>
                     {" "}
                     Monjurul alam
                   </Text>
                   <TouchableOpacity style={styles.checkBlncBtn}>
-                    <Text preset="p1" style={{color: colors.white}}>
+                    <Text preset={["p1"]} style={{color: colors.white}}>
                       Checkk Balance
                     </Text>
                   </TouchableOpacity>

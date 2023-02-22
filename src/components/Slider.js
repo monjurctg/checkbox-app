@@ -127,7 +127,7 @@ const Slider = ({rightClic, leftClick}) => {
           paddingHorizontal: 16,
           borderRadius: 5,
         }}>
-        <Text preset="p1" style={{fontWeight: "bold"}}>
+        <Text preset={["p1"]} style={{fontWeight: "bold"}}>
           Our service
         </Text>
         <View style={{flexDirection: "row"}}>
@@ -166,7 +166,7 @@ const Slider = ({rightClic, leftClick}) => {
               <TouchableOpacity
                 style={{justifyContent: "center", alignItems: "center"}}>
                 <Image source={item?.src} />
-                <Text preset="p3" style={{marginTop: scale(10)}}>
+                <Text preset={["p3"]} style={{marginTop: scale(10)}}>
                   {item?.title} {index}
                 </Text>
               </TouchableOpacity>

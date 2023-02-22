@@ -1,4 +1,4 @@
-import {Dimensions} from "react-native";
+import {Dimensions, Text} from "react-native";
 import {presset} from "../src/components/tags/text.preset";
 const {width, height} = Dimensions.get("window");
 
@@ -14,5 +14,8 @@ const moderateScale = (size, factor = 0.5) =>
 const pressetData = (data) => {
   return data.map((p) => p.split(" ").map((st) => presset[st]));
 };
+{
+  /* <Text style={{flexWrap:"wrap"}}></Text> */
+}
 
 export {scale, verticalScale, moderateScale, height, width, pressetData};

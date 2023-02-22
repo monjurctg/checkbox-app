@@ -78,43 +78,46 @@ export const presset = {
   text_second1: {
     color: colors.secoundary_1,
   },
+  text_white: {
+    color: colors.white,
+  },
   bg_primary1: {
     backgroundColor: colors.primary_1,
   },
 
   // font weight
   fw_100: {
-    fontWeight: 100,
+    fontWeight: "100",
   },
   fw_325: {
-    fontWeight: 325,
+    fontWeight: "325",
   },
   fw_200: {
-    fontWeight: 200,
+    fontWeight: "200",
   },
   fw_300: {
-    fontWeight: 300,
+    fontWeight: " 300",
   },
   fw_325: {
-    fontWeight: 325,
+    fontWeight: "325",
   },
   fw_350: {
-    fontWeight: 350,
+    fontWeight: "350",
   },
   fw_400: {
-    fontWeight: 400,
+    fontWeight: "400",
   },
   fw_500: {
-    fontWeight: 500,
+    fontWeight: "500",
   },
   fw_600: {
-    fontWeight: 600,
+    fontWeight: "600",
   },
   fw_700: {
-    fontWeight: 700,
+    fontWeight: "700",
   },
   fw_800: {
-    fontWeight: 800,
+    fontWeight: "800",
   },
 
   // font size
@@ -367,9 +370,21 @@ export const presset = {
     marginTop: scale(35),
   },
 
+  active: {
+    backgroundColor: colors.secoundary_1,
+    color: colors.white,
+  },
+
+  //
   center: {
     justifyContent: "center",
     alignItems: "center",
+  },
+  d_flex: {
+    display: "flex",
+  },
+  wrap: {
+    flexWrap: "wrap",
   },
   row: {
     flexDirection: "row",

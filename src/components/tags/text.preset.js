@@ -18,9 +18,8 @@ export const Base_bold = {
   fontSize: scale(16),
   color: colors.black,
 };
-{
-  /* <Text style={{fontWeight:"bold"}}></Text>; */
-}
+<Text style={{marginHorizontal: "bold"}}></Text>;
+
 export const presset = {
   default: Base,
   // bold: Bold,
@@ -83,35 +82,24 @@ export const presset = {
     backgroundColor: colors.primary_1,
   },
 
-  // margin Top
-  mt_5: {
-    marginTop: scale(5),
-  },
-  mt_10: {
-    marginTop: scale(10),
-  },
-  mt_15: {
-    marginTop: scale(15),
-  },
-  mt_20: {
-    marginTop: scale(20),
-  },
-  mt_25: {
-    marginTop: scale(25),
-  },
-  mt_35: {
-    marginTop: scale(35),
-  },
-
   // font weight
   fw_100: {
     fontWeight: 100,
+  },
+  fw_325: {
+    fontWeight: 325,
   },
   fw_200: {
     fontWeight: 200,
   },
   fw_300: {
     fontWeight: 300,
+  },
+  fw_325: {
+    fontWeight: 325,
+  },
+  fw_350: {
+    fontWeight: 350,
   },
   fw_400: {
     fontWeight: 400,
@@ -130,27 +118,229 @@ export const presset = {
   },
 
   // font size
-  fs_1: {
+  fs_30: {
     fontSize: scale(30),
   },
-  fs_2: {
+  fs_24: {
     fontSize: scale(24),
   },
-  fs_3: {
+  fs_20: {
     fontSize: scale(20),
   },
-  fs_4: {
+  fs_16: {
     fontSize: scale(16),
   },
-  fs_5: {
+  fs_14: {
     fontSize: scale(14),
   },
-  fs_6: {
+  fs_12: {
     fontSize: scale(12),
   },
 
   text_center: {
     textAlign: "center",
+  },
+  // border
+  border_1: {
+    borderWidth: 1,
+    borderColor: colors.primary_3,
+  },
+  border_2: {
+    borderWidth: 2,
+    borderColor: colors.primary_3,
+  },
+  border_3: {
+    borderWidth: 3,
+    borderColor: colors.primary_3,
+  },
+  // padding
+
+  p_5: {
+    padding: scale(5),
+  },
+  p_10: {
+    padding: scale(10),
+  },
+  p_15: {
+    padding: scale(15),
+  },
+  p_20: {
+    padding: scale(20),
+  },
+  p_25: {
+    padding: scale(25),
+  },
+
+  p_30: {
+    padding: scale(30),
+  },
+  ph_5: {
+    paddingHorizontal: scale(5),
+  },
+  ph_10: {
+    paddingHorizontal: scale(10),
+  },
+  ph_15: {
+    paddingHorizontal: scale(15),
+  },
+  ph_20: {
+    paddingHorizontal: scale(20),
+  },
+  ph_25: {
+    paddingHorizontal: scale(25),
+  },
+
+  ph_30: {
+    paddingHorizontal: scale(30),
+  },
+  pl_5: {
+    paddingLeft: scale(5),
+  },
+  pl_10: {
+    paddingLeft: scale(10),
+  },
+  pl_15: {
+    paddingLeft: scale(15),
+  },
+  pl_20: {
+    paddingLeft: scale(20),
+  },
+  pl_25: {
+    paddingLeft: scale(25),
+  },
+  pl_30: {
+    paddingLeft: scale(30),
+  },
+  pr_5: {
+    paddingRight: scale(5),
+  },
+  pr_10: {
+    paddingRight: scale(10),
+  },
+  pr_15: {
+    paddingRight: scale(15),
+  },
+  pr_20: {
+    paddingRight: scale(20),
+  },
+  pr_25: {
+    paddingRight: scale(25),
+  },
+  pr_30: {
+    paddingRight: scale(30),
+  },
+
+  pt_5: {
+    paddingTop: scale(5),
+  },
+  pt_10: {
+    paddingTop: scale(10),
+  },
+  pt_15: {
+    paddingTop: scale(15),
+  },
+  pt_20: {
+    paddingTop: scale(20),
+  },
+  pt_25: {
+    paddingTop: scale(25),
+  },
+  pt_35: {
+    paddingTop: scale(35),
+  },
+
+  // margin
+  m_5: {
+    margin: scale(5),
+  },
+  m_10: {
+    margin: scale(10),
+  },
+  m_15: {
+    margin: scale(15),
+  },
+  m_20: {
+    margin: scale(20),
+  },
+  m_25: {
+    margin: scale(25),
+  },
+
+  m_30: {
+    margin: scale(30),
+  },
+  mh_5: {
+    marginHorizontal: scale(5),
+  },
+  mh_10: {
+    marginHorizontal: scale(10),
+  },
+  mh_15: {
+    marginHorizontal: scale(15),
+  },
+  mh_20: {
+    marginHorizontal: scale(20),
+  },
+  mh_25: {
+    marginHorizontal: scale(25),
+  },
+
+  mh_30: {
+    marginHorizontal: scale(30),
+  },
+  ml_5: {
+    marginLeft: scale(5),
+  },
+  ml_10: {
+    marginLeft: scale(10),
+  },
+  ml_15: {
+    marginLeft: scale(15),
+  },
+  ml_20: {
+    marginLeft: scale(20),
+  },
+  ml_25: {
+    marginLeft: scale(25),
+  },
+  ml_30: {
+    marginLeft: scale(30),
+  },
+  mr_5: {
+    marginRight: scale(5),
+  },
+  mr_10: {
+    marginRight: scale(10),
+  },
+  mr_15: {
+    marginRight: scale(15),
+  },
+  mr_20: {
+    marginRight: scale(20),
+  },
+  mr_25: {
+    marginRight: scale(25),
+  },
+  mr_30: {
+    marginRight: scale(30),
+  },
+  mt_5: {
+    marginTop: scale(5),
+  },
+  mt_10: {
+    marginTop: scale(10),
+  },
+  mt_15: {
+    marginTop: scale(15),
+  },
+  mt_20: {
+    marginTop: scale(20),
+  },
+  mt_25: {
+    marginTop: scale(25),
+  },
+  mt_35: {
+    marginTop: scale(35),
   },
 
   center: {

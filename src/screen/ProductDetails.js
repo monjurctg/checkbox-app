@@ -5,6 +5,7 @@ import {height, scale, width} from "../../utils/funtions";
 import Text from "../components/tags/Text";
 import {colors} from "../theme/colors";
 import View from "../components/tags/View";
+import CustomTouchBtn from "../components/tags/CustomTouchBtn";
 
 const ProductDetails = () => {
   return (
@@ -19,7 +20,7 @@ const ProductDetails = () => {
           }}
           source={require("../../assets/img/shoe-red.png")}
         />
-        <View style={{flexDirection: "row"}}>
+        <View preset={["row"]}>
           <TouchableOpacity>
             <Image
               style={{
@@ -71,13 +72,7 @@ const ProductDetails = () => {
             />
           </TouchableOpacity>
         </View>
-        <View
-          style={{
-            marginTop: scale(20),
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-          }}>
+        <View preset={["row center mt_20"]}>
           <Text preset={["h3"]} style={{width: "70%"}}>
             Nike Super Red Commercial Shoe for Men
           </Text>
@@ -99,11 +94,20 @@ const ProductDetails = () => {
             <Image />
           </TouchableOpacity>
         </View>
-        <Text preset={["h2 bold mt_5"]}>৳ 8520.24</Text>
+        <Text preset={["h2 bold mt_10"]}>৳ 8520.24</Text>
         <View preset={["row"]} style={styles.text}>
-          <Text preset={["p1"]}>M.S.R.P :</Text>
-          <Text>9200</Text>
+          <Text preset={["p1 fs_20 "]}>M.S.R.P :</Text>
+          <Text preset={[" fs_20  text_second3"]}>9200</Text>
         </View>
+        <View preset={[" row mt_10"]}>
+          <Text>rating</Text>
+          <Text preset={["p1"]}>(3.5 stars) • 10 reviews</Text>
+        </View>
+
+        <CustomTouchBtn preset={["row mt_10"]}>
+          <Text>arrow</Text>
+          <Text preset={["p1"]}>Download Product Details</Text>
+        </CustomTouchBtn>
 
         <View style={{height: scale(200)}}></View>
       </ScrollView>

@@ -104,9 +104,17 @@ const ProductDetails = () => {
           <Text preset={["p1"]}>(3.5 stars) • 10 reviews</Text>
         </View>
 
-        <CustomTouchBtn preset={["row mt_10  border_1"]}>
+        <CustomTouchBtn
+          preset={["row mt_10 radius_5   border_1 "]}
+          style={{height: scale(48), width: scale(293)}}>
           <Text preset={["mr_10 p1"]}>arrow</Text>
           <Text preset={["p1"]}>Download Product Details</Text>
+        </CustomTouchBtn>
+        <CustomTouchBtn
+          preset={["row mt_10 radius_5 border_1 "]}
+          style={{height: scale(48), width: scale(222)}}>
+          <Text preset={["mr_10 p1"]}>arrow</Text>
+          <Text preset={["p1"]}>Post in Facebook</Text>
         </CustomTouchBtn>
 
         <View style={{height: scale(200)}}></View>

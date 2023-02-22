@@ -156,6 +156,27 @@ export const presset = {
     borderColor: colors.secoundary_3,
     padding: scale(10),
   },
+
+  radius_5: {
+    borderRadius: scale(5),
+  },
+
+  radius_4: {
+    borderRadius: scale(4),
+  },
+  radius_10: {
+    borderRadius: scale(10),
+  },
+  radius_15: {
+    borderRadius: scale(15),
+  },
+  radius_20: {
+    borderRadius: scale(20),
+  },
+  border_round: {
+    borderRadius: scale(200),
+  },
+
   // padding
 
   p_5: {

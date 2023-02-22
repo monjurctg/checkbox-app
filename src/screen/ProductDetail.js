@@ -1,15 +1,10 @@
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import {Image, ScrollView, StyleSheet, TouchableOpacity} from "react-native";
 import React from "react";
 import Mainlayout from "../components/layout/Mainlayout";
 import {height, scale, width} from "../../utils/funtions";
 import Text from "../components/tags/Text";
 import {colors} from "../theme/colors";
+import View from "../components/tags/View";
 
 const ProductDetail = () => {
   return (
@@ -104,7 +99,12 @@ const ProductDetail = () => {
             <Image />
           </TouchableOpacity>
         </View>
-        <Text preset={["h2"]}>৳ 8520.24</Text>
+        <Text preset={["h2 bold mt_5"]}>৳ 8520.24</Text>
+        <View preset={["row"]} style={styles.text}>
+          <Text preset={["p1"]}>M.S.R.P :</Text>
+          <Text>9200</Text>
+        </View>
+
         <View style={{height: scale(200)}}></View>
       </ScrollView>
     </Mainlayout>

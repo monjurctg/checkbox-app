@@ -11,6 +11,8 @@ import cart from "../../assets/icons/cart.png";
 import home from "../../assets/icons/blackHome.png";
 
 import prod from "../../assets/icons/blackProduct.png";
+import left from "../../assets/icons/arrow-left-o.png";
+import right from "../../assets/icons/arrow-right-o.png";
 
 import React, {useRef, useState} from "react";
 import {scale, width} from "../../utils/funtions";

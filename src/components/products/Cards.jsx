@@ -7,16 +7,7 @@ const Cards = ({name}) => {
   return (
     <View>
       <View style={styles.newProducts}>
-        <Text
-          preset={["p2"]}
-          style={{
-            fontWeight: "500",
-            // fontSize: 18,
-            lineHeight: 22,
-            color: "#231F20",
-          }}>
-          {name}
-        </Text>
+        <Text preset={["p1 bold"]}>{name}</Text>
         <TouchableOpacity
         //    onPress={() =>
         //     navigation.navigate('ProductListing', {name: 'Jane'})
@@ -31,32 +22,14 @@ const Cards = ({name}) => {
             width: scale(108),
           }}>
           <Image source={require("../../../assets/img/temp/temp1.png")} />
-          <Text
-            preset={["p3 mt_5"]}
-            style={{
-              fontWeight: "400",
-              // fontSize: 12,
-              lineHeight: 16,
-              color: "#231F20",
-            }}>
-            Nike Super Red Shoe for Men
-          </Text>
+          <Text preset={["p3 mt_5"]}>Nike Super Red Shoe for Men</Text>
         </View>
         <View
           style={{
             width: scale(108),
           }}>
           <Image source={require("../../../assets/img/temp/temp2.png")} />
-          <Text
-            preset={["p3 mt_5"]}
-            style={{
-              fontWeight: "400",
-              // fontSize: 12,
-              lineHeight: 16,
-              color: "#231F20",
-            }}>
-            Nike Super Red Shoe for Men
-          </Text>
+          <Text preset={["p3 mt_5"]}>Nike Super Red Shoe for Men</Text>
         </View>
         <View
           style={{
@@ -65,16 +38,7 @@ const Cards = ({name}) => {
             alignItems: "center",
           }}>
           <Image source={require("../../../assets/img/temp/temp3.png")} />
-          <Text
-            preset={["p3 mt_5  text_center"]}
-            style={{
-              fontWeight: "400",
-              // fontSize: 12,
-              lineHeight: 16,
-              color: "#231F20",
-            }}>
-            Nike Super Red Shoe for Men
-          </Text>
+          <Text preset={["p3 text_center"]}>Nike Super Red Shoe for Men</Text>
         </View>
       </View>
     </View>

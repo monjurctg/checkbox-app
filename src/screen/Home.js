@@ -14,7 +14,7 @@ import Text from "../components/tags/Text";
 const Home = () => {
   return (
     <Mainlayout>
-      <ScrollView style={{}}>
+      <ScrollView style={{}} showsVerticalScrollIndicator={false}>
         <View
           style={{
             flexDirection: "row",
@@ -24,7 +24,7 @@ const Home = () => {
           <TouchableOpacity
             style={{justifyContent: "center", alignItems: "center"}}>
             <Image source={require("../../assets/icons/product.png")} />
-            <Text preset={["p2"]} style={{marginTop: scale(10)}}>
+            <Text preset={["p3"]} style={{marginTop: scale(10)}}>
               My Products
             </Text>
           </TouchableOpacity>
@@ -32,14 +32,14 @@ const Home = () => {
           <TouchableOpacity
             style={{justifyContent: "center", alignItems: "center"}}>
             <Image source={require("../../assets/icons/customers.png")} />
-            <Text preset={["p2"]} style={{marginTop: scale(10)}}>
+            <Text preset={["p3"]} style={{marginTop: scale(10)}}>
               My Products
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={{justifyContent: "center", alignItems: "center"}}>
             <Image source={require("../../assets/icons/earning.png")} />
-            <Text preset={["p2"]} style={{marginTop: scale(10)}}>
+            <Text preset={["p3"]} style={{marginTop: scale(10)}}>
               My Products
             </Text>
           </TouchableOpacity>
@@ -89,16 +89,14 @@ const Home = () => {
             borderColor: "#CEE3EA",
             height: scale(40),
             alignItems: "center",
-            paddingVertical: 8,
-            paddingHorizontal: 16,
+            paddingVertical: scale(8),
+            paddingHorizontal: scale(16),
             borderRadius: 5,
           }}>
-          <Text preset={["p1"]} style={{fontWeight: "bold"}}>
-            Our service
-          </Text>
+          <Text preset={["p1 bold"]}>New Collections</Text>
 
           <TouchableOpacity style={{flexDirection: "row"}}>
-            <Text preset={["p2"]}>View all</Text>
+            <Text preset={["p3"]}>View all</Text>
             <Image
               source={require("../../assets/icons/arrow-right-o.png")}
               style={{marginLeft: scale(10)}}
@@ -122,7 +120,7 @@ const Home = () => {
                 resizeMode: "contain",
               }}
             />
-            <Text preset={["p2"]}>Camera</Text>
+            <Text preset={["p3"]}>Camera</Text>
           </View>
           <View
             style={{
@@ -137,7 +135,7 @@ const Home = () => {
                 resizeMode: "contain",
               }}
             />
-            <Text preset={["p2"]}>Head phone</Text>
+            <Text preset={["p3"]}>Head phone</Text>
           </View>
           <View
             style={{
@@ -154,7 +152,7 @@ const Home = () => {
                 resizeMode: "contain",
               }}
             />
-            <Text preset={["p2"]}>Sun Glass</Text>
+            <Text preset={["p3"]}>Sun Glass</Text>
           </View>
           <View
             style={{
@@ -171,7 +169,7 @@ const Home = () => {
                 resizeMode: "contain",
               }}
             />
-            <Text preset={["p2"]}>Red shoe</Text>
+            <Text preset={["p3"]}>Red shoe</Text>
           </View>
           <View
             style={{
@@ -188,7 +186,7 @@ const Home = () => {
                 resizeMode: "contain",
               }}
             />
-            <Text preset={["p2"]}> shoe</Text>
+            <Text preset={["p3"]}> shoe</Text>
           </View>
         </ScrollView>
 
@@ -202,16 +200,14 @@ const Home = () => {
             borderColor: "#CEE3EA",
             height: scale(40),
             alignItems: "center",
-            paddingVertical: 8,
-            paddingHorizontal: 16,
+            paddingVertical: scale(8),
+            paddingHorizontal: scale(16),
             borderRadius: 5,
           }}>
-          <Text preset={["p1"]} style={{fontWeight: "bold"}}>
-            Our service
-          </Text>
+          <Text preset={["p1 bold"]}>New Products</Text>
 
           <TouchableOpacity style={{flexDirection: "row"}}>
-            <Text preset={["p2"]}>Explore all</Text>
+            <Text preset={["p3"]}>Explore all</Text>
             <Image
               source={require("../../assets/icons/arrow-right-o.png")}
               style={{marginLeft: scale(10)}}
@@ -273,7 +269,7 @@ export default Home;
 const styles = StyleSheet.create({
   products: {
     flexDirection: "row",
-    columnGap: scale(40),
+
     marginTop: scale(20),
     flexWrap: "wrap",
     justifyContent: "space-between",

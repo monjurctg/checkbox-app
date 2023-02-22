@@ -36,7 +36,7 @@ const Mainlayout = ({children}) => {
                   </Text>
                   <TouchableOpacity style={styles.checkBlncBtn}>
                     <Text preset={["p1"]} style={{color: colors.white}}>
-                      Checkk Balance
+                      Check Balance
                     </Text>
                   </TouchableOpacity>
                 </View>

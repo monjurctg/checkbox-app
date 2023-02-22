@@ -7,6 +7,7 @@ export const colors = {
   secoundary_1: "#231f20",
   secoundary_2: "",
   secoundary_3: "#58595b",
+
   secoundary_4: "#e6e7e8",
   white: "#ffffff",
   black: "#000000",

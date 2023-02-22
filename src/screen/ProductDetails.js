@@ -6,7 +6,7 @@ import Text from "../components/tags/Text";
 import {colors} from "../theme/colors";
 import View from "../components/tags/View";
 
-const ProductDetail = () => {
+const ProductDetails = () => {
   return (
     <Mainlayout>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -111,6 +111,6 @@ const ProductDetail = () => {
   );
 };
 
-export default ProductDetail;
+export default ProductDetails;
 
 const styles = StyleSheet.create({});

@@ -4,7 +4,7 @@
     "slug": "checkbox",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/img/checkbox-logo.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./sploading.gif",

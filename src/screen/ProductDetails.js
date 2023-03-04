@@ -11,32 +11,23 @@ const ProductDetails = () => {
   let [activeSize, setActiveSize] = useState(6);
   let [activeColor, setActiveColor] = useState("Red");
 
-  <View preset={["mt_10"]}>
-    <Text preset={["fs_16 bold "]}>Select Your Size</Text>
-    <View preset={["row wrap"]}>
-      {[6, 7, 8, 9, 10, 11, 12].map((size, index) => (
-        <CustomTouchBtn
-          key={index}
-          onPress={() => {
-            setActive(size);
-            console.log("hello press");
-          }}
-          preset={[
-            `center  border_1 mr_10 mt_10 ph_15 ${
-              activeSize === size ? "active" : ""
-            }`,
-          ]}
-          style={{width: scale(67), height: scale(48)}}>
-          <Text preset={[` ${activeSize === size && "text_white "}  fs_16`]}>
-            {size}
-          </Text>
-        </CustomTouchBtn>
-      ))}
-    </View>
-  </View>;
   return (
     <Mainlayout>
       <ScrollView showsVerticalScrollIndicator={false}>
+        <CustomTouchBtn
+          preset={["center"]}
+          style={{
+            position: "absolute",
+            width: scale(44),
+            height: scale(44),
+            right: scale(6),
+            top: scale(6),
+            zIndex: 9999,
+            borderRadius: 32,
+            backgroundColor: "white",
+          }}>
+          <Image source={require("../../assets/icons/love.png")} />
+        </CustomTouchBtn>
         <Image
           style={{
             width: scale(360),
@@ -46,6 +37,7 @@ const ProductDetails = () => {
           }}
           source={require("../../assets/img/shoe-red.png")}
         />
+
         <View preset={["row"]}>
           <TouchableOpacity>
             <Image

@@ -1,17 +1,23 @@
 import {
   Image,
+  Modal,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
-  View,
 } from "react-native";
-import React from "react";
+import React, {useState} from "react";
 import {colors} from "../theme/colors";
 
 import Text from "../components/tags/Text";
 import {height, scale, width} from "../../utils/funtions";
+import View from "../components/tags/View";
 
-const UnAuth = () => {
+const UnAuth = ({navigation}) => {
+  const [modalShow, setModalShow] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const login = () => {
+    navigation.navigate("Home");
+  };
   return (
     <View style={styles.container}>
       <View style={styles.bodyContainer}>
@@ -21,7 +27,7 @@ const UnAuth = () => {
               source={require("../../assets/img/checkbox-logo.png")}
               style={{width: scale(200), height: scale(32)}}
             />
-            <TouchableOpacity style={styles.loginBtn}>
+            <TouchableOpacity style={styles.loginBtn} onPress={login}>
               <Text
                 preset={["p3"]}
                 style={{textAlign: "center", color: colors.white}}>
@@ -31,7 +37,7 @@ const UnAuth = () => {
           </View>
           <ScrollView>
             <Image
-              style={{width: "100%", marginTop: scale(20), height: scale(155)}}
+              style={{width: "100%", marginTop: scale(10), height: scale(140)}}
               source={require("../../assets/img/banner_1.png")}
             />
             <View style={styles.products}>
@@ -86,7 +92,7 @@ const UnAuth = () => {
                 source={require("../../assets/img/map_banner.png")}
               />
             </View>
-            <View style={{height: scale(150)}}></View>
+            {/* <View style={{height: scale(150)}}></View> */}
           </ScrollView>
         </View>
       </View>

@@ -44,8 +44,8 @@ export default function App() {
             headerMode: "screen",
           }}>
           <Stack.Screen name="product-details" component={ProductDetails} />
-
           <Stack.Screen name="tab" component={TabScreen} />
+
           {/* <Stack.Screen
           name="ProductListing"
           component={ProductListing}

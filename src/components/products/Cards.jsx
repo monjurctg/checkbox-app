@@ -49,7 +49,7 @@ export default Cards;
 
 const styles = StyleSheet.create({
   newProducts: {
-    padding: 12,
+    padding: scale(12),
     marginTop: scale(15),
     backgroundColor: "#FFFFFF",
     borderStyle: "solid",

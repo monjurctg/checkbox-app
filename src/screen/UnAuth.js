@@ -5,18 +5,20 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import {colors} from "../theme/colors";
 
 import Text from "../components/tags/Text";
 import {height, scale, width} from "../../utils/funtions";
 import View from "../components/tags/View";
+import {CheckboxContext} from "../hooks/CheckboxProvider";
 
 const UnAuth = ({navigation}) => {
+  const {setAuth} = useContext(CheckboxContext);
   const [modalShow, setModalShow] = useState(true);
   const [loading, setLoading] = useState(false);
   const login = () => {
-    navigation.navigate("Home");
+    setAuth(true);
   };
   return (
     <View style={styles.container}>

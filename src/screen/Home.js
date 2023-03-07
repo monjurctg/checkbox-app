@@ -86,16 +86,21 @@ const Home = () => {
             justifyContent: "space-between",
             marginTop: scale(20),
             borderWidth: 1,
-            borderColor: "#CEE3EA",
+            borderColor: "#E5E5E5",
             height: scale(40),
             alignItems: "center",
-            paddingVertical: scale(8),
+            // paddingVertical: scale(8),
             paddingHorizontal: scale(16),
             borderRadius: 5,
+            borderBottomLeftRadius: 0,
+            borderBottomRightRadius: 0,
           }}>
           <Text preset={["p1 bold"]}>New Collections</Text>
 
-          <TouchableOpacity style={{flexDirection: "row"}}>
+          <TouchableOpacity
+            style={{
+              flexDirection: "row",
+            }}>
             <Text preset={["p3"]}>View all</Text>
             <Image
               source={require("../../assets/icons/arrow-right-o.png")}
@@ -106,7 +111,14 @@ const Home = () => {
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
-          style={{marginTop: scale(15)}}>
+          style={{
+            borderWidth: 1,
+            borderColor: "#E5E5E5",
+            padding: scale(12),
+            borderTopWidth: 0,
+
+            // marginTop: scale(15),
+          }}>
           <View
             style={{
               alignItems: "center",
@@ -197,12 +209,14 @@ const Home = () => {
             justifyContent: "space-between",
             marginTop: scale(20),
             borderWidth: 1,
-            borderColor: "#CEE3EA",
+            borderColor: "#E5E5E5",
             height: scale(40),
             alignItems: "center",
-            paddingVertical: scale(8),
+            // paddingVertical: scale(8),
             paddingHorizontal: scale(16),
             borderRadius: 5,
+            borderBottomLeftRadius: 0,
+            borderBottomRightRadius: 0,
           }}>
           <Text preset={["p1 bold"]}>New Products</Text>
 
@@ -218,42 +232,42 @@ const Home = () => {
           <View style={styles.product}>
             <Image
               source={require("../../assets/img/shoe1.png")}
-              style={{width: "100%", height: scale(112)}}
+              style={{width: "100%", height: scale(100)}}
             />
             <Text preset={["p3"]}>Nike Super Red Shoe for Men</Text>
           </View>
           <View style={styles.product}>
             <Image
               source={require("../../assets/img/sunglass.png")}
-              style={{width: "100%", height: scale(112)}}
+              style={{width: "100%", height: scale(100)}}
             />
             <Text preset={["p3"]}>Nike Super Red Shoe for Men</Text>
           </View>
           <View style={styles.product}>
             <Image
               source={require("../../assets/img/redShoe.png")}
-              style={{width: "100%", height: scale(112)}}
+              style={{width: "100%", height: scale(100)}}
             />
             <Text preset={["p3"]}>Nike Super Red Shoe for Men</Text>
           </View>
           <View style={styles.product}>
             <Image
               source={require("../../assets/img/watch.png")}
-              style={{width: "100%", height: scale(112)}}
+              style={{width: "100%", height: scale(100)}}
             />
             <Text preset={["p3"]}>Nike Super Red Shoe for Men</Text>
           </View>
           <View style={styles.product}>
             <Image
               source={require("../../assets/img/headphone.png")}
-              style={{width: "100%", height: scale(112)}}
+              style={{width: "100%", height: scale(100)}}
             />
             <Text preset={["p3"]}>Nike Super Red Shoe for Men</Text>
           </View>
           <View style={styles.product}>
             <Image
               source={require("../../assets/img/camera.png")}
-              style={{width: "100%", height: scale(112)}}
+              style={{width: "100%", height: scale(100)}}
             />
             <Text preset={["p3"]}>Nike Super Red Shoe for Men</Text>
           </View>
@@ -269,12 +283,15 @@ export default Home;
 const styles = StyleSheet.create({
   products: {
     flexDirection: "row",
-
-    marginTop: scale(20),
+    borderWidth: 1,
+    borderColor: "#E5E5E5",
+    padding: scale(5),
+    borderTopWidth: 0,
     flexWrap: "wrap",
     justifyContent: "space-between",
   },
   product: {
-    width: scale(105),
+    width: scale(100),
+    marginBottom: scale(15),
   },
 });

@@ -1,5 +1,5 @@
 import {View, TouchableOpacity, Image} from "react-native";
-import React from "react";
+import React, {useContext} from "react";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import UnAuth from "../screen/UnAuth";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
@@ -13,6 +13,7 @@ import homeNotActive from "../../assets/icons/blackHome.png";
 
 import productActive from "../../assets/icons/activeProduct.png";
 import productNotActive from "../../assets/icons/blackProduct.png";
+import {CheckboxContext} from "../hooks/CheckboxProvider";
 
 const Tab = createBottomTabNavigator();
 const walletStack = createNativeStackNavigator();
@@ -22,7 +23,7 @@ function MyTabBar({state, descriptors, navigation, children}) {
     <View
       style={{
         flexDirection: "row",
-        height: scale(70),
+        height: scale(60),
         backgroundColor: colors.white,
         justifyContent: "space-between",
         alignItems: "center",
@@ -121,7 +122,7 @@ function MyTabBar({state, descriptors, navigation, children}) {
               <View
                 style={{
                   flexDirection: "row",
-                  height: scale(58),
+                  height: scale(48),
                   width: scale(155),
                   borderRadius: scale(7),
                   marginRight: scale(7),
@@ -150,7 +151,7 @@ function MyTabBar({state, descriptors, navigation, children}) {
 }
 
 export default function TabScreen() {
-  let auth = true;
+  const {auth} = useContext(CheckboxContext);
   return (
     <Tab.Navigator
       screenOptions={{

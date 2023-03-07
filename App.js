@@ -6,6 +6,7 @@ import {StatusBar} from "expo-status-bar";
 import {StyleSheet, View} from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
 import Text from "./src/components/tags/Text";
+import {CheckboxProvider} from "./src/hooks/CheckboxProvider";
 import TabScreen from "./src/navigations/TabNavigation";
 import ProductDetails from "./src/screen/ProductDetails";
 
@@ -36,15 +37,16 @@ export default function App() {
   };
   // }
   return (
-    <>
+    <CheckboxProvider>
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{
             headerShown: false,
             headerMode: "screen",
           }}>
-          <Stack.Screen name="product-details" component={ProductDetails} />
           <Stack.Screen name="tab" component={TabScreen} />
+
+          <Stack.Screen name="product-details" component={ProductDetails} />
 
           {/* <Stack.Screen
           name="ProductListing"
@@ -56,7 +58,7 @@ export default function App() {
         {/* <StatusBar style="auto" /> */}
       </NavigationContainer>
       <StatusBar style="auto" />
-    </>
+    </CheckboxProvider>
   );
 }
 

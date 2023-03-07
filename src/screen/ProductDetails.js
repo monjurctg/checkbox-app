@@ -1,15 +1,24 @@
 import {Image, ScrollView, StyleSheet, TouchableOpacity} from "react-native";
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import Mainlayout from "../components/layout/Mainlayout";
 import {height, scale, width} from "../../utils/funtions";
 import Text from "../components/tags/Text";
 import {colors} from "../theme/colors";
 import View from "../components/tags/View";
 import CustomTouchBtn from "../components/tags/CustomTouchBtn";
+import love from "../../assets/icons/love.png";
+import img1 from "../../assets/img/shoe-red.png";
+import img2 from "../../assets/img/camera.png";
+
+import img3 from "../../assets/img/shoe1.png";
+
+import img4 from "../../assets/img/sunglass.png";
+import img5 from "../../assets/img/headphone.png";
 
 const ProductDetails = () => {
   let [activeSize, setActiveSize] = useState(6);
   let [activeColor, setActiveColor] = useState("Red");
+  const [bigImg, setBigImg] = useState(img1);
 
   return (
     <Mainlayout>
@@ -26,7 +35,7 @@ const ProductDetails = () => {
             borderRadius: 32,
             backgroundColor: "white",
           }}>
-          <Image source={require("../../assets/icons/love.png")} />
+          <Image source={love} />
         </CustomTouchBtn>
         <Image
           style={{
@@ -35,58 +44,58 @@ const ProductDetails = () => {
             resizeMode: "cover",
             marginBottom: scale(10),
           }}
-          source={require("../../assets/img/shoe-red.png")}
+          source={bigImg}
         />
 
         <View preset={["row"]}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => setBigImg(img2)}>
             <Image
               style={{
                 height: scale(60),
                 width: scale(62),
                 marginRight: scale(5),
               }}
-              source={require("../../assets/img/sunglass.png")}
+              source={img2}
             />
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => setBigImg(img3)}>
             <Image
               style={{
                 height: scale(60),
                 width: scale(62),
                 marginRight: scale(5),
               }}
-              source={require("../../assets/img/shoe1.png")}
+              source={img3}
             />
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => setBigImg(img4)}>
             <Image
               style={{
                 height: scale(60),
                 width: scale(62),
                 marginRight: scale(5),
               }}
-              source={require("../../assets/img/camera.png")}
+              source={img4}
             />
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => setBigImg(img1)}>
             <Image
               style={{
                 height: scale(60),
                 width: scale(62),
                 marginRight: scale(5),
               }}
-              source={require("../../assets/img/redShoe.png")}
+              source={img1}
             />
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => setBigImg(img5)}>
             <Image
               style={{
                 height: scale(60),
                 width: scale(62),
                 marginRight: scale(5),
               }}
-              source={require("../../assets/img/headphone.png")}
+              source={img5}
             />
           </TouchableOpacity>
         </View>

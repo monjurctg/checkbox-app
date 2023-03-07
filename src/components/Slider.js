@@ -122,12 +122,14 @@ const Slider = ({rightClic, leftClick}) => {
           justifyContent: "space-between",
           marginTop: scale(20),
           borderWidth: 1,
-          borderColor: "#CEE3EA",
+          borderColor: "#E5E5E5",
           height: scale(40),
           alignItems: "center",
-          paddingVertical: 8,
-          paddingHorizontal: 16,
+          // paddingVertical: scale(8),
+          paddingHorizontal: scale(16),
           borderRadius: 5,
+          borderBottomLeftRadius: 0,
+          borderBottomRightRadius: 0,
         }}>
         <Text preset={["p1"]} style={{fontWeight: "bold"}}>
           Our service
@@ -177,8 +179,12 @@ const Slider = ({rightClic, leftClick}) => {
         }}
         style={{
           // flexDirection: "row",
+          borderWidth: 1,
+          borderColor: "#E5E5E5",
+          padding: scale(8),
+          borderTopWidth: 0,
 
-          marginTop: scale(15),
+          // marginTop: scale(15),
         }}
       />
     </>

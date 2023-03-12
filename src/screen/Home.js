@@ -11,7 +11,8 @@ import {height, scale} from "../../utils/funtions";
 import Slider from "../components/Slider";
 import Text from "../components/tags/Text";
 
-const Home = () => {
+const Home = ({navigation}) => {
+  // console.log(navigation, "home navigation");
   return (
     <Mainlayout>
       <ScrollView style={{}} showsVerticalScrollIndicator={false}>

@@ -15,7 +15,7 @@ import img3 from "../../assets/img/shoe1.png";
 import img4 from "../../assets/img/sunglass.png";
 import img5 from "../../assets/img/headphone.png";
 
-const ProductDetails = () => {
+const ProductDetails = ({navigation}) => {
   let [activeSize, setActiveSize] = useState(6);
   let [activeColor, setActiveColor] = useState("Red");
   const [bigImg, setBigImg] = useState(img1);

@@ -4,10 +4,10 @@
     "slug": "checkbox",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/img/checkbox-logo.png",
+    "icon": "./assets/icon .png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./sploading.gif",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

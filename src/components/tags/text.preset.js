@@ -84,6 +84,9 @@ export const presset = {
   bg_primary1: {
     backgroundColor: colors.primary_1,
   },
+  text_center: {
+    textAlign: "center",
+  },
 
   // font weight
   fw_100: {
@@ -375,7 +378,24 @@ export const presset = {
     color: colors.white,
   },
 
-  //
+  // flexboz
+
+  jc_between: {
+    justifyContent: "space-between",
+  },
+  jc_even: {
+    justifyContent: "space-evenly",
+  },
+  jc_end: {
+    justifyContent: "flex-end",
+  },
+  jc_start: {
+    justifyContent: "flex-start",
+  },
+
+  alignCenter: {
+    alignSelf: "center",
+  },
   center: {
     justifyContent: "center",
     alignItems: "center",

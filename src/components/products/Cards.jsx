@@ -3,16 +3,15 @@ import React from "react";
 import {scale} from "../../../utils/funtions";
 import Text from "../tags/Text";
 
-const Cards = ({name}) => {
+const Cards = ({navigation, name}) => {
+  console.log(navigation, "navigation");
+
   return (
     <View>
       <View style={styles.newProducts}>
         <Text preset={["p1 bold"]}>{name}</Text>
         <TouchableOpacity
-        //    onPress={() =>
-        //     navigation.navigate('ProductListing', {name: 'Jane'})
-        //   }
-        >
+          onPress={() => navigation.navigate("ProductList", {name: "Jane"})}>
           <Image source={require("../../../assets/icons/right-icon.png")} />
         </TouchableOpacity>
       </View>

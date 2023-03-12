@@ -3,7 +3,7 @@ export const colors = {
   primary_2: "#dc394d",
   primary_3: "#ee2349",
   primary_4: "#ef405e",
-  notActive: "#FBEAEB",
+  border: "#ededed",
   secoundary_1: "#231f20",
   secoundary_2: "",
   secoundary_3: "#58595b",

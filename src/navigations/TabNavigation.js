@@ -8,23 +8,54 @@ import {colors} from "../theme/colors";
 import Text from "../components/tags/Text";
 import Home from "../screen/Home";
 import Products from "../screen/Products";
-import homeActive from "../../assets/icons/activeHome.png";
+import homeActive from "../../assets/icons/home-active.png";
 import homeNotActive from "../../assets/icons/blackHome.png";
 
-import productActive from "../../assets/icons/activeProduct.png";
+import productActive from "../../assets/icons/products-active.png";
 import productNotActive from "../../assets/icons/blackProduct.png";
+import dash from "../../assets/icons/dash.png";
+import dashActive from "../../assets/icons/dash-active.png";
+import orders from "../../assets/icons/orders.png";
+import ordersActive from "../../assets/icons/orders-active.png";
 import {CheckboxContext} from "../hooks/CheckboxProvider";
+import ProductList from "../screen/ProductList";
 
 const Tab = createBottomTabNavigator();
-const walletStack = createNativeStackNavigator();
-const ProfileStack = createNativeStackNavigator();
+const HomeStack = createNativeStackNavigator();
+const ProductsStack = createNativeStackNavigator();
+
+function HomeScreen() {
+  return (
+    <HomeStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <HomeStack.Screen name="/" component={Home} />
+    </HomeStack.Navigator>
+  );
+}
+
+function ProductsScreen() {
+  return (
+    <ProductsStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <ProductsStack.Screen name="/" component={Products} />
+      <ProductsStack.Screen name="ProductList" component={ProductList} />
+    </ProductsStack.Navigator>
+  );
+}
+
 function MyTabBar({state, descriptors, navigation, children}) {
   return (
     <View
       style={{
         flexDirection: "row",
         height: scale(60),
-        backgroundColor: colors.white,
+        borderTopWidth: 1,
+        backgroundColor: "white",
+        borderTopColor: colors.border,
         justifyContent: "space-between",
         alignItems: "center",
       }}>
@@ -47,8 +78,8 @@ function MyTabBar({state, descriptors, navigation, children}) {
         if (label === "Home") {
           if (isFocused) {
             src = homeActive;
-            color = colors.white;
-            bg = colors.primary_1;
+            color = colors.primary_4;
+            // bg = colors.primary_1;
           } else {
             src = homeNotActive;
             color = colors.black;
@@ -57,10 +88,30 @@ function MyTabBar({state, descriptors, navigation, children}) {
         } else if (label === "Products") {
           if (isFocused) {
             src = productActive;
-            color = colors.white;
+            color = colors.primary_4;
             bg = colors.primary_1;
           } else {
             src = productNotActive;
+            color = colors.black;
+            bg = colors.notActive;
+          }
+        } else if (label === "dashboard") {
+          if (isFocused) {
+            src = dashActive;
+            color = colors.primary_4;
+            // bg = colors.primary_1;
+          } else {
+            src = dash;
+            color = colors.black;
+            bg = colors.notActive;
+          }
+        } else if (label === "orders") {
+          if (isFocused) {
+            src = ordersActive;
+            color = colors.primary_4;
+            // bg = colors.primary_1;
+          } else {
+            src = orders;
             color = colors.black;
             bg = colors.notActive;
           }
@@ -89,6 +140,7 @@ function MyTabBar({state, descriptors, navigation, children}) {
         return (
           <TouchableOpacity
             accessibilityRole="button"
+            key={index}
             accessibilityState={isFocused ? {selected: true} : {}}
             accessibilityLabel={options.tabBarAccessibilityLabel}
             testID={options.tabBarTestID}
@@ -121,14 +173,15 @@ function MyTabBar({state, descriptors, navigation, children}) {
             ) : (
               <View
                 style={{
-                  flexDirection: "row",
+                  // flexDirection: "row",
                   height: scale(48),
-                  width: scale(155),
+                  // width: scale(60),
+                  // padding: scale(10),
                   borderRadius: scale(7),
-                  marginRight: scale(7),
+                  // marginRight: scale(7),
                   alignItems: "center",
                   justifyContent: "space-evenly",
-                  backgroundColor: bg,
+                  // backgroundColor: "white",
                 }}>
                 <Image
                   source={src}
@@ -162,8 +215,10 @@ export default function TabScreen() {
         <Tab.Screen name="Login" component={UnAuth} />
       ) : (
         <>
-          <Tab.Screen name="Home" component={Home} />
-          <Tab.Screen name="Products" component={Products} />
+          <Tab.Screen name="Home" component={HomeScreen} />
+          <Tab.Screen name="Products" component={ProductsScreen} />
+          <Tab.Screen name="orders" component={HomeScreen} />
+          <Tab.Screen name="dashboard" component={ProductsScreen} />
         </>
       )}
     </Tab.Navigator>

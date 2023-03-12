@@ -11,7 +11,7 @@ import {colors} from "../../theme/colors";
 import {SafeAreaView} from "react-native-safe-area-context";
 import Text from "../tags/Text";
 
-const Mainlayout = ({children}) => {
+const Mainlayout = ({children, navigation}) => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
@@ -40,7 +40,7 @@ const Mainlayout = ({children}) => {
                 </View>
               </View>
               <View style={styles.right}>
-                <TouchableOpacity>
+                {/* <TouchableOpacity>
                   <Image
                     style={{
                       width: scale(18),
@@ -49,8 +49,8 @@ const Mainlayout = ({children}) => {
                     }}
                     source={require("../../../assets/icons/dash.png")}
                   />
-                </TouchableOpacity>
-                <TouchableOpacity>
+                </TouchableOpacity> */}
+                {/* <TouchableOpacity>
                   <Image
                     style={{
                       width: scale(18),
@@ -59,7 +59,7 @@ const Mainlayout = ({children}) => {
                     }}
                     source={require("../../../assets/icons/bar.png")}
                   />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
                 <TouchableOpacity>
                   <Image
@@ -102,6 +102,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     height: scale(87),
+    borderBottomColor: colors.border,
+    // borderBottomWidth: 1,
   },
   left: {
     // width: 100,

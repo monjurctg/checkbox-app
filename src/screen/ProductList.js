@@ -15,16 +15,16 @@ import img6 from "../../assets/img/shoe1.png";
 
 const ProductList = ({navigation}) => {
   return (
-    <Mainlayout>
+    <Mainlayout navigation={navigation}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Filters navigation={navigation} />
         <View preset={["mt_10 d_flex row wrap jc_between"]}>
-          <SingleProduct src={img1} />
-          <SingleProduct src={img2} />
-          <SingleProduct src={img3} />
-          <SingleProduct src={img4} />
-          <SingleProduct src={img5} />
-          <SingleProduct src={img6} />
+          <SingleProduct navigation={navigation} src={img1} />
+          <SingleProduct navigation={navigation} src={img2} />
+          <SingleProduct navigation={navigation} src={img3} />
+          <SingleProduct navigation={navigation} src={img4} />
+          <SingleProduct navigation={navigation} src={img5} />
+          <SingleProduct navigation={navigation} src={img6} />
         </View>
         <View style={{height: scale(270)}}></View>
       </ScrollView>

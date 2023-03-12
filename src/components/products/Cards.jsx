@@ -1,7 +1,9 @@
-import {StyleSheet, View, Image, TouchableOpacity} from "react-native";
+import {StyleSheet, Image, TouchableOpacity} from "react-native";
 import React from "react";
 import {scale} from "../../../utils/funtions";
 import Text from "../tags/Text";
+import CustomTouchBtn from "../tags/CustomTouchBtn";
+import View from "../tags/View";
 
 const Cards = ({navigation, name}) => {
   console.log(navigation, "navigation");
@@ -10,10 +12,12 @@ const Cards = ({navigation, name}) => {
     <View>
       <View style={styles.newProducts}>
         <Text preset={["p1 bold"]}>{name}</Text>
-        <TouchableOpacity
+        <CustomTouchBtn
+          preset={["row center"]}
           onPress={() => navigation.navigate("ProductList", {name: "Jane"})}>
+          <Text preset={["p2 mr_5"]}>Explore all</Text>
           <Image source={require("../../../assets/icons/right-icon.png")} />
-        </TouchableOpacity>
+        </CustomTouchBtn>
       </View>
       <View style={styles.products}>
         <View
@@ -31,10 +35,9 @@ const Cards = ({navigation, name}) => {
           <Text preset={["p3 mt_5"]}>Nike Super Red Shoe for Men</Text>
         </View>
         <View
+          preset={["center"]}
           style={{
             width: scale(108),
-            justifyContent: "center",
-            alignItems: "center",
           }}>
           <Image source={require("../../../assets/img/temp/temp3.png")} />
           <Text preset={["p3 text_center"]}>Nike Super Red Shoe for Men</Text>

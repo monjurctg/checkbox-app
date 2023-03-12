@@ -7,9 +7,12 @@ import CustomTouchBtn from "../tags/CustomTouchBtn";
 import {colors} from "../../theme/colors";
 
 const SingleProduct = ({navigation, title, price, view, rate, src}) => {
+  const onPress = () => {
+    navigation.navigate("product-details");
+  };
   return (
     <View style={{width: scale(160)}}>
-      <CustomTouchBtn preset={[" mt_20"]}>
+      <CustomTouchBtn preset={[" mt_20"]} onPress={onPress}>
         <Image style={{width: scale(160), height: scale(220)}} source={src} />
         <View preset={["mt_5"]}>
           <Text preset={["p1"]}>Nike Super Red Shoe for Men</Text>

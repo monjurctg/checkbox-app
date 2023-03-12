@@ -87,6 +87,9 @@ export const presset = {
   text_center: {
     textAlign: "center",
   },
+  lh_24: {
+    lineHeight: scale(24),
+  },
 
   // font weight
   fw_100: {
@@ -181,6 +184,9 @@ export const presset = {
   },
   border_round: {
     borderRadius: scale(200),
+  },
+  border_primary1: {
+    borderColor: colors.primary_1,
   },
 
   // padding

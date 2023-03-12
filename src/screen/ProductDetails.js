@@ -198,7 +198,154 @@ const ProductDetails = ({navigation}) => {
           </View>
         </View>
 
-        <View style={{height: scale(200)}}></View>
+        {/* quantity */}
+        <View preset={["mt_10"]}>
+          <Text preset={["fs_16 bold "]}>Qty</Text>
+          <View preset={["row mt_5 "]} style={{}}>
+            <CustomTouchBtn
+              preset={[""]}
+              style={{
+                height: scale(30),
+                width: scale(30),
+                borderWidth: 2,
+                borderColor: "gray",
+                justifyContent: "center",
+                alignItems: "center",
+              }}>
+              <Text preset={[" bold fs_20"]}>-</Text>
+            </CustomTouchBtn>
+            <Text preset={["m_5 fs_16 bold"]}>1</Text>
+            <CustomTouchBtn
+              style={{
+                height: scale(30),
+                width: scale(30),
+                borderWidth: 2,
+                borderColor: "gray",
+                justifyContent: "center",
+                alignItems: "center",
+              }}>
+              <Text preset={["fs_16 bold "]}>+</Text>
+            </CustomTouchBtn>
+          </View>
+        </View>
+
+        {/* add to cart btn */}
+        <CustomTouchBtn preset={["center bg_primary1 p_15 mt_10"]}>
+          <Text preset={["text_white fs_16  fw_500"]}>Add To Cart</Text>
+        </CustomTouchBtn>
+
+        {/* details */}
+        <View
+          preset={["mt_20"]}
+          style={{
+            borderTopWidth: 1,
+            borderTopColor: colors.secoundary_3,
+          }}>
+          <View preset={["row center jc_between mt_20"]}>
+            <View preset={["row center"]}>
+              <Text preset={["fs_20 fw_700"]}>Details</Text>
+              <CustomTouchBtn
+                preset={["row center ml_10 border_1 radius_5 border_primary1"]}>
+                <Text preset={["text_primary1 fs_11 mr_10"]}>
+                  Copy Product Details
+                </Text>
+                <Image source={require("../../assets/icons/copy.png")} />
+              </CustomTouchBtn>
+            </View>
+            <CustomTouchBtn>
+              <Text preset={["fs_20 text_second3 mr_10"]}>+</Text>
+            </CustomTouchBtn>
+          </View>
+          <View>
+            <Text preset={["fs_16 fw_400 lh_24"]}>
+              Name : Classic Fashionista Men Tshirt#Classy Retro Men Tshirts
+              #Classic Elegant Men Tshirts #Stylish Elegant Men Tshirts #Trendy
+              Glamorous Men Tshirts #Comfy Glamorous Men Tshirts #Classic
+              Sensational Men Tshirts
+            </Text>
+            <Text preset={["fs_16 fw_400 lh_24"]}> Fabric : Cotton Blend</Text>
+            <Text preset={["fs_16 fw_400 lh_24"]}>
+              Sleeve Length : Long Sleeves
+            </Text>
+
+            <Text preset={["fs_16 fw_400 lh_24"]}>Pattern : Striped</Text>
+            <Text preset={["fs_16 fw_400 lh_24"]}> Net Quantity (N) : 1 </Text>
+            <Text preset={["fs_16 fw_400 lh_24"]}> Sizes :</Text>
+            <Text preset={["fs_16 fw_400 lh_24"]}>
+              Sizes : S (Chest Size : 36 in, Length Size: 26 in)
+            </Text>
+            <Text preset={["fs_16 fw_400 lh_24"]}>
+              M (Chest Size : 38 in, Length Size: 27 in)
+            </Text>
+            <Text preset={["fs_16 fw_400 lh_24"]}>
+              L (Chest Size : 40 in, Length Size: 28 in)
+            </Text>
+            <Text preset={["fs_16 fw_400 lh_24"]}>
+              XL (Chest Size : 42 in, Length Size: 29 in)
+            </Text>
+            <Text preset={["fs_16 fw_400 lh_24"]}>
+              Trendy Modern Men Tshirts* Fabric : Cotton Blend Sleeve Length:
+              Long Sleeves Pattern: Striped Multipack: 1 Sizes: S (Chest Size:
+              36 in, Length Size: 26 in) XL (Chest Size: 42 in, Length Size: 29
+              in) L (Chest Size: 40 in, Length Size: 28 in) M (Chest Size: 38
+              in, Length Size: 27 in) Easy Returns Available In Case Of Any
+              Issue
+            </Text>
+            <Text preset={["fs_16 fw_400 lh_24"]}>
+              Country of Origin : India
+            </Text>
+          </View>
+        </View>
+
+        {/* shipping */}
+        <View
+          preset={["mt_20"]}
+          style={{
+            borderTopWidth: 1,
+            borderTopColor: colors.secoundary_3,
+          }}>
+          <View preset={["row center jc_between mt_20"]}>
+            <View preset={["row center"]}>
+              <Text preset={["fs_20 fw_700"]}>Shipping</Text>
+            </View>
+            <CustomTouchBtn>
+              <Text preset={["fs_20 text_second3 mr_10"]}>+</Text>
+            </CustomTouchBtn>
+          </View>
+          <Text preset={["fw_400 fs_16 mt_10"]} style={{lineHeight: scale(24)}}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+            varius enim in eros elementum tristique. Duis cursus, mi quis
+            viverra ornare, eros dolor interdum nulla, ut commodo diam libero
+            vitae erat. Aenean faucibus nibh et justo cursus id rutrum lorem
+            imperdiet. Nunc ut sem vitae risus tristique posuere.
+          </Text>
+        </View>
+
+        {/* Returns */}
+        <View
+          preset={["mt_20"]}
+          style={{
+            borderTopWidth: 1,
+            borderTopColor: colors.secoundary_3,
+          }}>
+          <View preset={["row center jc_between mt_20"]}>
+            <View preset={["row center"]}>
+              <Text preset={["fs_20 fw_700"]}>Returns </Text>
+            </View>
+            <CustomTouchBtn>
+              <Text preset={["fs_20 text_second3 mr_10"]}>+</Text>
+            </CustomTouchBtn>
+          </View>
+          <Text preset={["fw_400 fs_16 mt_10"]} style={{lineHeight: scale(24)}}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+            varius enim in eros elementum tristique. Duis cursus, mi quis
+            viverra ornare, eros dolor interdum nulla, ut commodo diam libero
+            vitae erat. Aenean faucibus nibh et justo cursus id rutrum lorem
+            imperdiet. Nunc ut sem vitae risus tristique posuere.
+          </Text>
+        </View>
+
+        <View style={{height: scale(250)}}></View>
       </ScrollView>
     </Mainlayout>
   );

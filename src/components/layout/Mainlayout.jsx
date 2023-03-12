@@ -19,14 +19,17 @@ const Mainlayout = ({children, navigation}) => {
           <View style={{paddingHorizontal: scale(10)}}>
             <View style={styles.headerContainer}>
               <View style={styles.left}>
-                <Image
-                  source={require("../../../assets/img/monjur3.jpg")}
-                  style={{
-                    height: scale(44),
-                    width: scale(44),
-                    borderRadius: scale(100),
-                  }}
-                />
+                <TouchableOpacity>
+                  <Image
+                    source={require("../../../assets/img/monjur3.jpg")}
+                    style={{
+                      height: scale(44),
+                      width: scale(44),
+                      borderRadius: scale(100),
+                      resizeMode: "cover",
+                    }}
+                  />
+                </TouchableOpacity>
                 <View style={{marginLeft: scale(10)}}>
                   <Text preset={["p2"]} style={{marginBottom: scale(5)}}>
                     {" "}

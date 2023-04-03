@@ -19,6 +19,14 @@ import orders from "../../assets/icons/orders.png";
 import ordersActive from "../../assets/icons/orders-active.png";
 import {CheckboxContext} from "../hooks/CheckboxProvider";
 import ProductList from "../screen/ProductList";
+import {
+  AntDesign,
+  Entypo,
+  Feather,
+  MaterialIcons,
+  FontAwesome5,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -74,46 +82,75 @@ function MyTabBar({state, descriptors, navigation, children}) {
         let src;
         let color;
         let bg;
+        let icon;
 
         if (label === "Home") {
           if (isFocused) {
             src = homeActive;
             color = colors.primary_4;
+            icon = <Entypo name="home" size={24} color={color} />;
+
             // bg = colors.primary_1;
           } else {
             src = homeNotActive;
             color = colors.black;
             bg = colors.notActive;
+            icon = (
+              <AntDesign
+                name="home"
+                style={{color: color}}
+                size={24}
+                color={color}
+              />
+            );
           }
         } else if (label === "Products") {
           if (isFocused) {
             src = productActive;
             color = colors.primary_4;
             bg = colors.primary_1;
+            icon = <FontAwesome5 name="box" size={24} color={color} />;
           } else {
             src = productNotActive;
             color = colors.black;
             bg = colors.notActive;
+            icon = <FontAwesome5 name="box" size={24} color={color} />;
           }
         } else if (label === "dashboard") {
           if (isFocused) {
             src = dashActive;
             color = colors.primary_4;
             // bg = colors.primary_1;
+            icon = <MaterialIcons name="dashboard" size={24} color={color} />;
           } else {
             src = dash;
             color = colors.black;
             bg = colors.notActive;
+            icon = <MaterialIcons name="dashboard" size={24} color="black" />;
           }
         } else if (label === "orders") {
           if (isFocused) {
             src = ordersActive;
             color = colors.primary_4;
             // bg = colors.primary_1;
+            icon = (
+              <MaterialCommunityIcons
+                name="notebook-check"
+                size={24}
+                color={color}
+              />
+            );
           } else {
             src = orders;
             color = colors.black;
             bg = colors.notActive;
+            icon = (
+              <MaterialCommunityIcons
+                name="notebook-check"
+                size={24}
+                color={color}
+              />
+            );
           }
         }
         if (label === "login") {
@@ -183,14 +220,15 @@ function MyTabBar({state, descriptors, navigation, children}) {
                   justifyContent: "space-evenly",
                   // backgroundColor: "white",
                 }}>
-                <Image
+                {/* <Image
                   source={src}
                   style={{
                     height: scale(25),
                     width: scale(25),
                     resizeMode: "contain",
                   }}
-                />
+                /> */}
+                {icon}
                 <Text preset={["p3"]} style={{color: color}}>
                   {label}
                 </Text>

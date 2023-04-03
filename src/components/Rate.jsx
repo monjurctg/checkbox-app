@@ -4,7 +4,7 @@ import React from "react";
 const Rate = ({rate}) => {
   return (
     <View>
-      <Text>Rate</Text>
+      <Text>Rate</Text> 
     </View>
   );
 };

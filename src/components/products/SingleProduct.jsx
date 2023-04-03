@@ -5,7 +5,7 @@ import {scale} from "../../../utils/funtions";
 import Text from "../tags/Text";
 import CustomTouchBtn from "../tags/CustomTouchBtn";
 import {colors} from "../../theme/colors";
-
+import {Feather} from "@expo/vector-icons";
 const SingleProduct = ({navigation, title, price, view, rate, src}) => {
   const onPress = () => {
     navigation.navigate("product-details");
@@ -14,6 +14,7 @@ const SingleProduct = ({navigation, title, price, view, rate, src}) => {
     <View style={{width: scale(160)}}>
       <CustomTouchBtn preset={[" mt_20"]} onPress={onPress}>
         <Image style={{width: scale(160), height: scale(220)}} source={src} />
+        {/* <Feather name="heart" size={34} color="black" /> */}
         <View preset={["mt_5"]}>
           <Text preset={["p1"]}>Nike Super Red Shoe for Men</Text>
           <Text preset={["mt_5 p1"]}>৳ 94894.00</Text>

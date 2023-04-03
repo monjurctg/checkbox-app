@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import {Ionicons} from "@expo/vector-icons";
 import React from "react";
 import {height, scale, width} from "../../../utils/funtions";
 import {colors} from "../../theme/colors";
@@ -65,14 +66,15 @@ const Mainlayout = ({children, navigation}) => {
                 </TouchableOpacity> */}
 
                 <TouchableOpacity>
-                  <Image
+                  {/* <Image
                     style={{
                       width: scale(20),
                       height: scale(20),
                       marginRight: scale(7),
                     }}
                     source={require("../../../assets/icons/cart.png")}
-                  />
+                  /> */}
+                  <Ionicons name="cart-outline" size={35} color="black" />
                 </TouchableOpacity>
               </View>
             </View>

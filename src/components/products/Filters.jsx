@@ -4,7 +4,7 @@ import View from "../tags/View";
 import Text from "../tags/Text";
 import {scale} from "../../../utils/funtions";
 import CustomTouchBtn from "../tags/CustomTouchBtn";
-
+import {Feather} from "@expo/vector-icons";
 const Filters = ({navigation}) => {
   return (
     <View preset={["mt-5"]}>
@@ -29,21 +29,28 @@ const Filters = ({navigation}) => {
           </TouchableOpacity>
         </View>
         <View preset={["row center "]}>
-          <CustomTouchBtn>
-            <Image
+          <CustomTouchBtn style={{marginRight: 20}}>
+            <Feather
+              name="search"
+              size={24}
+              style={{fontWeight: "700"}}
+              color="black"
+            />
+            {/* <Image
               source={require("../../../assets/icons/search.png")}
               style={{width: scale(16), height: scale(16)}}
-            />
+            /> */}
           </CustomTouchBtn>
           <CustomTouchBtn>
-            <Image
+            {/* <Image
               style={{
                 marginLeft: scale(20),
                 height: scale(16),
                 width: scale(16),
               }}
               source={require("../../../assets/icons/filter.png")}
-            />
+            /> */}
+            <Feather name="filter" size={24} color="black" />
           </CustomTouchBtn>
         </View>
       </View>

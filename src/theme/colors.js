@@ -11,4 +11,5 @@ export const colors = {
   secoundary_4: "#e6e7e8",
   white: "#ffffff",
   black: "#000000",
+  cartBorder: "#DDDDDD",
 };

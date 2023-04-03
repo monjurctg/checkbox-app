@@ -27,10 +27,12 @@ import {
   FontAwesome5,
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
+import Orders from "../screen/Orders";
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
 const ProductsStack = createNativeStackNavigator();
+const OrdersStack = createNativeStackNavigator();
 
 function HomeScreen() {
   return (
@@ -40,6 +42,17 @@ function HomeScreen() {
       }}>
       <HomeStack.Screen name="/" component={Home} />
     </HomeStack.Navigator>
+  );
+}
+
+function OrderScreen() {
+  return (
+    <OrdersStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <OrdersStack.Screen name="/" component={Orders} />
+    </OrdersStack.Navigator>
   );
 }
 
@@ -255,7 +268,7 @@ export default function TabScreen() {
         <>
           <Tab.Screen name="Home" component={HomeScreen} />
           <Tab.Screen name="Products" component={ProductsScreen} />
-          <Tab.Screen name="orders" component={HomeScreen} />
+          <Tab.Screen name="orders" component={OrderScreen} />
           <Tab.Screen name="dashboard" component={ProductsScreen} />
         </>
       )}

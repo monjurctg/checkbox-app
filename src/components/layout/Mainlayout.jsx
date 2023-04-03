@@ -65,7 +65,7 @@ const Mainlayout = ({children, navigation}) => {
                   />
                 </TouchableOpacity> */}
 
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate("cart")}>
                   {/* <Image
                     style={{
                       width: scale(20),

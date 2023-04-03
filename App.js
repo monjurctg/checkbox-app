@@ -8,6 +8,7 @@ import {SafeAreaView} from "react-native-safe-area-context";
 import Text from "./src/components/tags/Text";
 import {CheckboxProvider} from "./src/hooks/CheckboxProvider";
 import TabScreen from "./src/navigations/TabNavigation";
+import Cart from "./src/screen/Cart";
 import ProductDetails from "./src/screen/ProductDetails";
 
 import UnAuth from "./src/screen/UnAuth";
@@ -45,6 +46,7 @@ export default function App() {
             headerMode: "screen",
           }}>
           <Stack.Screen name="tab" component={TabScreen} />
+          <Stack.Screen name="cart" component={Cart} />
 
           <Stack.Screen name="product-details" component={ProductDetails} />
 

@@ -38,11 +38,36 @@ const ProductList = ({navigation}) => {
             toggleBottomNavigationView={toggleBottomNavigationView}
             visible={visible}
           />
-          <SingleProduct navigation={navigation} src={img2} />
-          <SingleProduct navigation={navigation} src={img3} />
-          <SingleProduct navigation={navigation} src={img4} />
-          <SingleProduct navigation={navigation} src={img5} />
-          <SingleProduct navigation={navigation} src={img6} />
+          <SingleProduct
+            navigation={navigation}
+            src={img2}
+            toggleBottomNavigationView={toggleBottomNavigationView}
+            visible={visible}
+          />
+          <SingleProduct
+            navigation={navigation}
+            src={img3}
+            toggleBottomNavigationView={toggleBottomNavigationView}
+            visible={visible}
+          />
+          <SingleProduct
+            navigation={navigation}
+            src={img4}
+            toggleBottomNavigationView={toggleBottomNavigationView}
+            visible={visible}
+          />
+          <SingleProduct
+            navigation={navigation}
+            src={img5}
+            toggleBottomNavigationView={toggleBottomNavigationView}
+            visible={visible}
+          />
+          <SingleProduct
+            navigation={navigation}
+            src={img6}
+            toggleBottomNavigationView={toggleBottomNavigationView}
+            visible={visible}
+          />
         </View>
 
         <View style={{height: scale(270)}}></View>

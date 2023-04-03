@@ -12,11 +12,19 @@ import Text from "../components/tags/Text";
 import {height, scale, width} from "../../utils/funtions";
 import View from "../components/tags/View";
 import {CheckboxContext} from "../hooks/CheckboxProvider";
+import FullScreenLoader from "../components/loader/FullScreenLoader ";
 
 const UnAuth = ({navigation}) => {
   const {setAuth} = useContext(CheckboxContext);
   const [modalShow, setModalShow] = useState(true);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  setTimeout(() => {
+    setLoading(false);
+  }, 1000);
+  if (loading) {
+    return <FullScreenLoader visible={loading} />;
+  }
+
   const login = () => {
     setAuth(true);
   };

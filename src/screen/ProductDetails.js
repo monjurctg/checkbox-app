@@ -14,11 +14,19 @@ import img3 from "../../assets/img/shoe1.png";
 
 import img4 from "../../assets/img/sunglass.png";
 import img5 from "../../assets/img/headphone.png";
+import FullScreenLoader from "../components/loader/FullScreenLoader ";
 
 const ProductDetails = ({navigation}) => {
   let [activeSize, setActiveSize] = useState(6);
   let [activeColor, setActiveColor] = useState("Red");
   const [bigImg, setBigImg] = useState(img1);
+  const [loading, setLoading] = useState(true);
+  setTimeout(() => {
+    setLoading(false);
+  }, 1000);
+  if (loading) {
+    return <FullScreenLoader visible={loading} />;
+  }
 
   return (
     <Mainlayout>

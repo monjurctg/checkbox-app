@@ -7,6 +7,7 @@ import CustomTouchBtn from "../tags/CustomTouchBtn";
 import {colors} from "../../theme/colors";
 import {Feather} from "@expo/vector-icons";
 import {BottomSheet} from "react-native-btr";
+import Rating from "../Rating";
 
 const SingleProduct = ({
   navigation,
@@ -23,6 +24,9 @@ const SingleProduct = ({
   const onPress = () => {
     navigation.navigate("product-details");
   };
+  const handleRate = (rating) => {
+    console.log(`User rated item with ${rating} stars`);
+  };
 
   return (
     <View style={{width: scale(160)}}>
@@ -34,6 +38,7 @@ const SingleProduct = ({
           <Text preset={["mt_5 p1"]}>৳ 94894.00</Text>
         </View>
       </CustomTouchBtn>
+      <Rating maxStars={5} defaultStars={3} onRate={handleRate} />
       <CustomTouchBtn
         preset={["center border_1 mt_10"]}
         // onPress={() => bottomSheetRef.current.expand()}

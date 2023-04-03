@@ -19,14 +19,24 @@ import CustomTouchBtn from "../components/tags/CustomTouchBtn";
 import Text from "../components/tags/Text";
 import SingleCart from "../components/cart/SingleCart";
 import {colors} from "../theme/colors";
+import FullScreenLoader from "../components/loader/FullScreenLoader ";
 
 const ProductList = ({navigation}) => {
   const [visible, setVisible] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const toggleBottomNavigationView = () => {
     //Toggling the visibility state of the bottom sheet
     setVisible(!visible);
   };
+
+  setTimeout(() => {
+    setLoading(false);
+  }, 1000);
+  if (loading) {
+    return <FullScreenLoader visible={loading} />;
+  }
+
   return (
     <Mainlayout navigation={navigation}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -169,6 +179,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     width: "100%",
     minHeight: scale(300),
+    borderTopEndRadius: scale(15),
+    borderTopStartRadius: scale(15),
+
     // justifyContent: "center",
     // alignItems: "center",
   },

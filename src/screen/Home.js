@@ -5,14 +5,22 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import React, {useState} from "react";
 import Mainlayout from "../components/layout/Mainlayout";
 import {height, scale} from "../../utils/funtions";
 import Slider from "../components/Slider";
 import Text from "../components/tags/Text";
+import FullScreenLoader from "../components/loader/FullScreenLoader ";
 
 const Home = ({navigation}) => {
   // console.log(navigation, "home navigation");
+  const [loading, setLoading] = useState(true);
+  setTimeout(() => {
+    setLoading(false);
+  }, 1000);
+  if (loading) {
+    return <FullScreenLoader visible={loading} />;
+  }
   return (
     <Mainlayout>
       <ScrollView style={{}} showsVerticalScrollIndicator={false}>

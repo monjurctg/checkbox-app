@@ -1,5 +1,6 @@
 import {View, TouchableOpacity, Image} from "react-native";
-import React, {useContext} from "react";
+import {WebView} from "react-native-webview";
+import React, {useContext, useState} from "react";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import UnAuth from "../screen/UnAuth";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
@@ -28,11 +29,30 @@ import {
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import Orders from "../screen/Orders";
+import {SafeAreaView} from "react-native-safe-area-context";
+import FullScreenLoader from "../components/loader/FullScreenLoader ";
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
 const ProductsStack = createNativeStackNavigator();
 const OrdersStack = createNativeStackNavigator();
+const DashStack = createNativeStackNavigator();
+const Dash = () => {
+  const [loading, setLoading] = useState(true);
+  setTimeout(() => {
+    setLoading(false);
+  }, 1000);
+  if (loading) {
+    return <FullScreenLoader visible={loading} />;
+  }
+  return (
+    <>
+      <View style={{flex: 1, marginTop: 30}}>
+        <WebView source={{uri: "https://google.com"}} style={{flex: 1}} />
+      </View>
+    </>
+  );
+};
 
 function HomeScreen() {
   return (
@@ -56,6 +76,17 @@ function OrderScreen() {
   );
 }
 
+function DashScreen() {
+  return (
+    <DashStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <DashStack.Screen name="/" component={Dash} />
+    </DashStack.Navigator>
+  );
+}
+
 function ProductsScreen() {
   return (
     <ProductsStack.Navigator
@@ -67,7 +98,6 @@ function ProductsScreen() {
     </ProductsStack.Navigator>
   );
 }
-
 function MyTabBar({state, descriptors, navigation, children}) {
   return (
     <View
@@ -269,7 +299,7 @@ export default function TabScreen() {
           <Tab.Screen name="Home" component={HomeScreen} />
           <Tab.Screen name="Products" component={ProductsScreen} />
           <Tab.Screen name="orders" component={OrderScreen} />
-          <Tab.Screen name="dashboard" component={ProductsScreen} />
+          <Tab.Screen name="dashboard" component={DashScreen} />
         </>
       )}
     </Tab.Navigator>

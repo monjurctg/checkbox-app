@@ -65,7 +65,9 @@ const Mainlayout = ({children, navigation}) => {
                   />
                 </TouchableOpacity> */}
 
-                <TouchableOpacity onPress={() => navigation.navigate("cart")}>
+                <TouchableOpacity
+                  onPress={() => navigation?.navigate("cart")}
+                  style={{marginRight: scale(10)}}>
                   {/* <Image
                     style={{
                       width: scale(20),
@@ -74,7 +76,11 @@ const Mainlayout = ({children, navigation}) => {
                     }}
                     source={require("../../../assets/icons/cart.png")}
                   /> */}
-                  <Ionicons name="cart-outline" size={35} color="black" />
+                  <Ionicons
+                    name="cart-outline"
+                    size={scale(24)}
+                    color="black"
+                  />
                 </TouchableOpacity>
               </View>
             </View>

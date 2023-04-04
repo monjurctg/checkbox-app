@@ -22,7 +22,7 @@ const Home = ({navigation}) => {
     return <FullScreenLoader visible={loading} />;
   }
   return (
-    <Mainlayout>
+    <Mainlayout navigation={navigation}>
       <ScrollView style={{}} showsVerticalScrollIndicator={false}>
         <View
           style={{

@@ -5,7 +5,7 @@ import {scale} from "../../utils/funtions";
 import View from "./tags/View";
 import Text from "./tags/Text";
 
-const Rating = ({maxStars, defaultStars, onRate}) => {
+const Rating = ({maxStars, from, defaultStars, onRate}) => {
   const [stars, setStars] = useState(defaultStars);
 
   const handleStarPress = (rating) => {
@@ -22,12 +22,12 @@ const Rating = ({maxStars, defaultStars, onRate}) => {
             onPress={() => handleStarPress(index + 1)}>
             <Ionicons
               name={index < stars ? "star" : "star-outline"}
-              size={scale(16)}
+              size={scale(12)}
               color="#E77C40"
             />
           </TouchableWithoutFeedback>
         ))}
-        <Text preset={["ml_10"]}>(34)</Text>
+        {from === "product" && <Text preset={["ml_5"]}>(34)</Text>}
       </View>
     </View>
   );
@@ -36,7 +36,7 @@ const Rating = ({maxStars, defaultStars, onRate}) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    marginTop: scale(10),
+    marginTop: scale(5),
   },
 });
 

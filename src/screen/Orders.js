@@ -47,7 +47,7 @@ const Orders = () => {
           <SaveSingleCart title={"Untitled Cart 1"} />
         </View>
 
-        <View style={{height: scale(110)}}></View>
+        <View style={{height: scale(60)}}></View>
       </ScrollView>
     </SafeAreaView>
   );

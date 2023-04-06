@@ -39,7 +39,7 @@ const Cart = () => {
         <View
           preset={["mt_10 border_1 row jc_between"]}
           style={{borderColor: colors.cartBorder}}>
-          <Text preset={["bold fs_16"]}>Untitled Cart 4</Text>
+          <Text preset={["bold  fs_16"]}>Untitled Cart 4</Text>
           <CustomTouchBtn>
             <Feather name="edit" size={scale(20)} color="black" />
           </CustomTouchBtn>
@@ -88,8 +88,8 @@ const Cart = () => {
               borderBottomColor: "#DDDDDD",
               paddingBottom: scale(10),
             }}>
-            <Text preset={["bold"]}>Total</Text>
-            <Text preset={["bold"]}>৳ 1220</Text>
+            <Text preset={["bold fs_14"]}>Total</Text>
+            <Text preset={["bold fs_14"]}>৳ 1220</Text>
           </View>
           <CustomTouchBtn
             preset={["mt_10 center"]}
@@ -103,7 +103,7 @@ const Cart = () => {
             </Text>
           </CustomTouchBtn>
         </View>
-        <View style={{height: scale(130)}}></View>
+        <View style={{height: scale(20)}}></View>
       </ScrollView>
     </SafeAreaView>
   );

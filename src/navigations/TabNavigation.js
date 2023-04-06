@@ -18,7 +18,7 @@ import dash from "../../assets/icons/dash.png";
 import dashActive from "../../assets/icons/dash-active.png";
 import orders from "../../assets/icons/orders.png";
 import ordersActive from "../../assets/icons/orders-active.png";
-import {CheckboxContext} from "../hooks/CheckboxProvider";
+
 import ProductList from "../screen/ProductList";
 import {
   AntDesign,
@@ -27,10 +27,12 @@ import {
   MaterialIcons,
   FontAwesome5,
   MaterialCommunityIcons,
+  Ionicons,
 } from "@expo/vector-icons";
 import Orders from "../screen/Orders";
 import {SafeAreaView} from "react-native-safe-area-context";
 import FullScreenLoader from "../components/loader/FullScreenLoader ";
+import {CheckboxContext} from "../context/CheckboxProvider";
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -126,12 +128,13 @@ function MyTabBar({state, descriptors, navigation, children}) {
         let color;
         let bg;
         let icon;
+        let fontSize;
 
         if (label === "Home") {
           if (isFocused) {
             src = homeActive;
             color = colors.primary_4;
-            icon = <Entypo name="home" size={24} color={color} />;
+            icon = <FontAwesome5 name="home" size={30} color={color} />;
 
             // bg = colors.primary_1;
           } else {
@@ -139,7 +142,7 @@ function MyTabBar({state, descriptors, navigation, children}) {
             color = colors.black;
             bg = colors.notActive;
             icon = (
-              <AntDesign
+              <FontAwesome5
                 name="home"
                 style={{color: color}}
                 size={24}
@@ -152,24 +155,39 @@ function MyTabBar({state, descriptors, navigation, children}) {
             src = productActive;
             color = colors.primary_4;
             bg = colors.primary_1;
-            icon = <FontAwesome5 name="box" size={24} color={color} />;
+
+            // icon = <FontAwesome5 name="box" size={24} color={color} />;
+            icon = <Ionicons name="cube-outline" size={30} color={color} />;
           } else {
             src = productNotActive;
             color = colors.black;
             bg = colors.notActive;
-            icon = <FontAwesome5 name="box" size={24} color={color} />;
+            // icon = <FontAwesome5 name="box" size={24} color={color} />;
+            icon = <Ionicons name="cube-outline" size={24} color={color} />;
           }
         } else if (label === "dashboard") {
           if (isFocused) {
             src = dashActive;
             color = colors.primary_4;
             // bg = colors.primary_1;
-            icon = <MaterialIcons name="dashboard" size={24} color={color} />;
+            icon = (
+              <MaterialCommunityIcons
+                name="view-dashboard-outline"
+                size={30}
+                color={color}
+              />
+            );
           } else {
             src = dash;
             color = colors.black;
             bg = colors.notActive;
-            icon = <MaterialIcons name="dashboard" size={24} color="black" />;
+            icon = (
+              <MaterialCommunityIcons
+                name="view-dashboard-outline"
+                size={24}
+                color={color}
+              />
+            );
           }
         } else if (label === "orders") {
           if (isFocused) {
@@ -179,7 +197,7 @@ function MyTabBar({state, descriptors, navigation, children}) {
             icon = (
               <MaterialCommunityIcons
                 name="notebook-check"
-                size={24}
+                size={30}
                 color={color}
               />
             );
@@ -230,7 +248,7 @@ function MyTabBar({state, descriptors, navigation, children}) {
             {label === "Login" ? (
               <View
                 style={{
-                  height: scale(54),
+                  height: scale(48),
                   width: width,
                   display: "flex",
                   justifyContent: "center",
@@ -239,8 +257,8 @@ function MyTabBar({state, descriptors, navigation, children}) {
                 <View
                   style={{
                     backgroundColor: colors.primary_1,
-                    height: scale(54),
-                    marginBottom: scale(10),
+                    height: scale(48),
+                    // marginBottom: scale(10),
                     marginHorizontal: scale(7),
                     justifyContent: "center",
                     alignItems: "center",
@@ -255,8 +273,7 @@ function MyTabBar({state, descriptors, navigation, children}) {
                 style={{
                   // flexDirection: "row",
                   height: scale(48),
-                  // width: scale(60),
-                  // padding: scale(10),
+
                   borderRadius: scale(7),
                   // marginRight: scale(7),
                   alignItems: "center",
@@ -271,10 +288,16 @@ function MyTabBar({state, descriptors, navigation, children}) {
                     resizeMode: "contain",
                   }}
                 /> */}
-                {icon}
-                <Text preset={["p3"]} style={{color: color}}>
-                  {label}
-                </Text>
+                <View
+                  style={{
+                    alignItems: "center",
+                    justifyContent: "space-evenly",
+                  }}>
+                  {icon}
+                  <Text preset={["p3"]} style={{color: color}}>
+                    {label}
+                  </Text>
+                </View>
               </View>
             )}
           </TouchableOpacity>

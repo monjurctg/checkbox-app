@@ -43,36 +43,42 @@ const ProductList = ({navigation}) => {
         <Filters navigation={navigation} />
         <View preset={["mt_10 d_flex row wrap jc_between"]}>
           <SingleProduct
+            from={"product"}
             navigation={navigation}
             src={img1}
             toggleBottomNavigationView={toggleBottomNavigationView}
             visible={visible}
           />
           <SingleProduct
+            from={"product"}
             navigation={navigation}
             src={img2}
             toggleBottomNavigationView={toggleBottomNavigationView}
             visible={visible}
           />
           <SingleProduct
+            from={"product"}
             navigation={navigation}
             src={img3}
             toggleBottomNavigationView={toggleBottomNavigationView}
             visible={visible}
           />
           <SingleProduct
+            from={"product"}
             navigation={navigation}
             src={img4}
             toggleBottomNavigationView={toggleBottomNavigationView}
             visible={visible}
           />
           <SingleProduct
+            from={"product"}
             navigation={navigation}
             src={img5}
             toggleBottomNavigationView={toggleBottomNavigationView}
             visible={visible}
           />
           <SingleProduct
+            from={"product"}
             navigation={navigation}
             src={img6}
             toggleBottomNavigationView={toggleBottomNavigationView}
@@ -114,7 +120,6 @@ const ProductList = ({navigation}) => {
               keyboardType="number-pad"
               style={{
                 borderColor: "#E6E7E8",
-
                 borderWidth: 1,
                 marginLeft: scale(5),
                 width: scale(210),

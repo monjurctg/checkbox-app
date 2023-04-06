@@ -84,6 +84,9 @@ export const presset = {
   bg_primary1: {
     backgroundColor: colors.primary_1,
   },
+  bg_secoundary2: {
+    backgroundColor: colors.secoundary_2,
+  },
   text_center: {
     textAlign: "center",
   },
@@ -136,6 +139,9 @@ export const presset = {
   fs_20: {
     fontSize: scale(20),
   },
+  fs_18: {
+    fontSize: scale(18),
+  },
   fs_16: {
     fontSize: scale(16),
   },
@@ -145,11 +151,24 @@ export const presset = {
   fs_12: {
     fontSize: scale(12),
   },
+  // line height
+  lh_14: {
+    lineHeight: scale(14),
+  },
+  lh_16: {
+    lineHeight: scale(16),
+  },
+  lh_20: {
+    lineHeight: scale(20),
+  },
+  lh_30: {
+    lineHeight: scale(30),
+  },
 
   text_center: {
     textAlign: "center",
   },
-  // border
+  // bordercol
   border_1: {
     borderWidth: 1,
     borderColor: colors.secoundary_3,

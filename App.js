@@ -6,7 +6,8 @@ import {StatusBar} from "expo-status-bar";
 import {StyleSheet, View} from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
 import Text from "./src/components/tags/Text";
-import {CheckboxProvider} from "./src/hooks/CheckboxProvider";
+import {CheckboxProvider} from "./src/context/CheckboxProvider";
+import ProducDetailsTab from "./src/navigations/SingleProductNavigation";
 import TabScreen from "./src/navigations/TabNavigation";
 import Cart from "./src/screen/Cart";
 import ProductDetails from "./src/screen/ProductDetails";
@@ -48,7 +49,7 @@ export default function App() {
           <Stack.Screen name="tab" component={TabScreen} />
           <Stack.Screen name="cart" component={Cart} />
 
-          <Stack.Screen name="product-details" component={ProductDetails} />
+          <Stack.Screen name="product-details" component={ProducDetailsTab} />
 
           {/* <Stack.Screen
           name="ProductListing"

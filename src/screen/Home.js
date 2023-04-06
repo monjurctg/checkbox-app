@@ -104,13 +104,13 @@ const Home = ({navigation}) => {
             borderBottomLeftRadius: 0,
             borderBottomRightRadius: 0,
           }}>
-          <Text preset={["p1 bold"]}>New Collections</Text>
+          <Text preset={["p1 bold lh_14"]}>New Collections</Text>
 
           <TouchableOpacity
             style={{
               flexDirection: "row",
             }}>
-            <Text preset={["p3"]}>View all</Text>
+            <Text preset={["p3 "]}>View all</Text>
             <Image
               source={require("../../assets/icons/arrow-right-o.png")}
               style={{marginLeft: scale(10)}}
@@ -243,42 +243,42 @@ const Home = ({navigation}) => {
               source={require("../../assets/img/shoe1.png")}
               style={{width: "100%", height: scale(100)}}
             />
-            <Text preset={["p3"]}>Nike Super Red Shoe for Men</Text>
+            <Text preset={["p3 lh_14"]}>Nike Super Red Shoe for Men</Text>
           </View>
           <View style={styles.product}>
             <Image
               source={require("../../assets/img/sunglass.png")}
               style={{width: "100%", height: scale(100)}}
             />
-            <Text preset={["p3"]}>Nike Super Red Shoe for Men</Text>
+            <Text preset={["p3 lh_14"]}>Nike Super Red Shoe for Men</Text>
           </View>
           <View style={styles.product}>
             <Image
               source={require("../../assets/img/redShoe.png")}
               style={{width: "100%", height: scale(100)}}
             />
-            <Text preset={["p3"]}>Nike Super Red Shoe for Men</Text>
+            <Text preset={["p3 lh_14"]}>Nike Super Red Shoe for Men</Text>
           </View>
           <View style={styles.product}>
             <Image
               source={require("../../assets/img/watch.png")}
               style={{width: "100%", height: scale(100)}}
             />
-            <Text preset={["p3"]}>Nike Super Red Shoe for Men</Text>
+            <Text preset={["p3 lh_14"]}>Nike Super Red Shoe for Men</Text>
           </View>
           <View style={styles.product}>
             <Image
               source={require("../../assets/img/headphone.png")}
               style={{width: "100%", height: scale(100)}}
             />
-            <Text preset={["p3"]}>Nike Super Red Shoe for Men</Text>
+            <Text preset={["p3 lh_14"]}>Nike Super Red Shoe for Men</Text>
           </View>
           <View style={styles.product}>
             <Image
               source={require("../../assets/img/camera.png")}
               style={{width: "100%", height: scale(100)}}
             />
-            <Text preset={["p3"]}>Nike Super Red Shoe for Men</Text>
+            <Text preset={["p3 lh_14"]}>Nike Super Red Shoe for Men</Text>
           </View>
         </View>
         <View style={{height: scale(300)}}></View>

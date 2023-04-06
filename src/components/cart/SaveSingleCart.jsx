@@ -5,6 +5,7 @@ import Text from "../tags/Text";
 import {scale} from "../../../utils/funtions";
 import CustomTouchBtn from "../tags/CustomTouchBtn";
 import {AntDesign} from "@expo/vector-icons";
+import {FontAwesome} from "@expo/vector-icons";
 
 const SaveSingleCart = ({title}) => {
   return (
@@ -16,12 +17,12 @@ const SaveSingleCart = ({title}) => {
         paddingBottom: scale(5),
       }}>
       <View preset={["row jc_between"]}>
-        <Text preset={["bold fs_16"]}>{title}</Text>
+        <Text preset={["bold lh_20   fs_16"]}>{title}</Text>
         <CustomTouchBtn>
-          <AntDesign name="closecircleo" size={scale(20)} color="black" />
+          <FontAwesome name="edit" size={20} color="black" />
         </CustomTouchBtn>
       </View>
-      <Text preset={[" mt_10 fs_11"]} style={{color: "#58595B"}}>
+      <Text preset={[" mt_10 lh_14 fs_11"]} style={{color: "#58595B"}}>
         22 Dec 2022 at 03:20 PM, 2 items, ৳1221220.00
       </Text>
     </View>

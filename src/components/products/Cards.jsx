@@ -25,14 +25,14 @@ const Cards = ({navigation, name}) => {
             width: scale(108),
           }}>
           <Image source={require("../../../assets/img/temp/temp1.png")} />
-          <Text preset={["p3 mt_5"]}>Nike Super Red Shoe for Men</Text>
+          <Text preset={["p3 lh_14 mt_5"]}>Nike Super Red Shoe for Men</Text>
         </View>
         <View
           style={{
             width: scale(108),
           }}>
           <Image source={require("../../../assets/img/temp/temp2.png")} />
-          <Text preset={["p3 mt_5"]}>Nike Super Red Shoe for Men</Text>
+          <Text preset={["p3 lh_14 mt_5"]}>Nike Super Red Shoe for Men</Text>
         </View>
         <View
           preset={["center"]}
@@ -40,7 +40,7 @@ const Cards = ({navigation, name}) => {
             width: scale(108),
           }}>
           <Image source={require("../../../assets/img/temp/temp3.png")} />
-          <Text preset={["p3 text_center"]}>Nike Super Red Shoe for Men</Text>
+          <Text preset={["p3 lh_14 mt_5 "]}>Nike Super Red Shoe for Men</Text>
         </View>
       </View>
     </View>

@@ -24,20 +24,31 @@ const Mainlayout = ({children, navigation}) => {
                   <Image
                     source={require("../../../assets/img/monjur3.jpg")}
                     style={{
-                      height: scale(44),
-                      width: scale(44),
-                      borderRadius: scale(100),
+                      height: 48,
+                      width: 48,
+                      borderRadius: 40,
                       resizeMode: "cover",
                     }}
                   />
                 </TouchableOpacity>
                 <View style={{marginLeft: scale(10)}}>
-                  <Text preset={["p2"]} style={{marginBottom: scale(5)}}>
-                    {" "}
+                  <Text
+                    preset={["fw_400"]}
+                    style={{
+                      marginBottom: scale(5),
+                      fontSize: 14,
+                      lineHeight: 16,
+                    }}>
                     Monjurul alam
                   </Text>
                   <TouchableOpacity style={styles.checkBlncBtn}>
-                    <Text preset={["p3"]} style={{color: colors.white}}>
+                    <Text
+                      // preset={[""]}
+                      style={{
+                        color: colors.white,
+                        fontSize: 11,
+                        lineHeight: 12,
+                      }}>
                       Check Balance
                     </Text>
                   </TouchableOpacity>
@@ -76,11 +87,7 @@ const Mainlayout = ({children, navigation}) => {
                     }}
                     source={require("../../../assets/icons/cart.png")}
                   /> */}
-                  <Ionicons
-                    name="cart-outline"
-                    size={scale(24)}
-                    color="black"
-                  />
+                  <Ionicons name="cart-outline" size={24} color="black" />
                 </TouchableOpacity>
               </View>
             </View>
@@ -112,7 +119,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    height: scale(87),
+    height: scale(72),
     borderBottomColor: colors.border,
     // borderBottomWidth: 1,
   },
@@ -124,12 +131,12 @@ const styles = StyleSheet.create({
   },
   checkBlncBtn: {
     backgroundColor: colors.primary_2,
-    height: scale(35),
+    height: 24,
     justifyContent: "center",
-    width: scale(143),
+    width: 143,
     alignItems: "center",
-    padding: scale(5),
-    borderRadius: scale(5),
+    // padding: scale(5),
+    borderRadius: 4,
   },
   right: {
     width: width / 3 + 10,

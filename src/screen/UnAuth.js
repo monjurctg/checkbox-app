@@ -11,8 +11,9 @@ import {colors} from "../theme/colors";
 import Text from "../components/tags/Text";
 import {height, scale, width} from "../../utils/funtions";
 import View from "../components/tags/View";
-import {CheckboxContext} from "../hooks/CheckboxProvider";
+// import {CheckboxContext} from "../context/CheckboxProvider";
 import FullScreenLoader from "../components/loader/FullScreenLoader ";
+import {CheckboxContext} from "../context/CheckboxProvider";
 
 const UnAuth = ({navigation}) => {
   const {setAuth} = useContext(CheckboxContext);
@@ -102,7 +103,7 @@ const UnAuth = ({navigation}) => {
                 source={require("../../assets/img/map_banner.png")}
               />
             </View>
-            {/* <View style={{height: scale(150)}}></View> */}
+            <View style={{height: scale(150)}}></View>
           </ScrollView>
         </View>
       </View>

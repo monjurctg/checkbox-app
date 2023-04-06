@@ -5,27 +5,39 @@ import Text from "../tags/Text";
 import {scale} from "../../../utils/funtions";
 import CustomTouchBtn from "../tags/CustomTouchBtn";
 import {Feather} from "@expo/vector-icons";
+import {AntDesign} from "@expo/vector-icons";
+import {Foundation} from "@expo/vector-icons";
+
 const Filters = ({navigation}) => {
   return (
     <View preset={["mt-5"]}>
       <View preset={["row jc_between"]}>
         <View preset={["row center"]}>
           <CustomTouchBtn style={{height: scale(16), width: scale(16)}}>
-            <Image
+            {/* <Image
               style={{height: scale(16), width: scale(16)}}
               source={require("../../../assets/icons/bar2.png")}
-            />
+            /> */}
+            <Foundation name="list" size={24} color="black" />
           </CustomTouchBtn>
           <TouchableOpacity
             style={{
               flexDirection: "row",
               width: scale(177),
-              height: scale(32),
+              height: scale(24),
+              justifyContent: "space-around",
+              alignSelf: "center",
+              alignItems: "center",
               marginLeft: scale(10),
               backgroundColor: "#E6E7E8",
               borderRadius: scale(4),
+              paddingVertical: scale(5),
+              paddingHorizontal: scale(12),
             }}>
-            <Text preset={["p1 mt_5  pl_5 center"]}>Price: Low to High</Text>
+            <Text preset={["fs_14  lh_14  fw_400 pl_5 center"]}>
+              Price: Low to High
+            </Text>
+            <AntDesign name="caretdown" size={16} color="black" />
           </TouchableOpacity>
         </View>
         <View preset={["row center "]}>

@@ -11,14 +11,14 @@ const SingleCart = ({src}) => {
       preset={["row mt_10 "]}
       style={{height: scale(108), borderColor: colors.cartBorder}}>
       <View style={{width: scale(110)}}>
-        <Image source={src} />
+        <Image style={{width: scale(110), height: scale(110)}} source={src} />
       </View>
 
-      <View style={{width: scale(220)}}>
-        <Text preset={["bold  fs_14 "]}>Nike Super Red Shoe for Men</Text>
-        <Text preset={["mt_5 fs_16"]}>৳ 120</Text>
+      <View style={{width: scale(220), marginLeft: scale(15)}}>
+        <Text preset={["bold lh_20  fs_14 "]}>Nike Super Red Shoe for Men</Text>
+        <Text preset={["mt_5 lh_20 fs_14"]}>৳ 1600.00</Text>
         <View preset={["mt_10 row"]}>
-          <Text>Quantity</Text>
+          <Text preset={["lh_20 fs_14"]}>Quantity</Text>
           <TextInput
             keyboardType="decimal-pad"
             style={{

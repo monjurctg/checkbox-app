@@ -16,6 +16,7 @@ const SingleProduct = ({
   view,
   rate,
   src,
+  from,
   toggleBottomNavigationView,
   visible,
 }) => {
@@ -29,16 +30,16 @@ const SingleProduct = ({
   };
 
   return (
-    <View style={{width: scale(160)}}>
-      <CustomTouchBtn preset={[" mt_20"]} onPress={onPress}>
+    <View preset={["mt_20"]} style={{width: scale(160)}}>
+      <CustomTouchBtn preset={[" mt_10"]} onPress={onPress}>
         <Image style={{width: scale(160), height: scale(220)}} source={src} />
         {/* <Feather name="heart" size={34} color="black" /> */}
         <View preset={["mt_5"]}>
-          <Text preset={["p1"]}>Nike Super Red Shoe for Men</Text>
-          <Text preset={["mt_5 p1"]}>৳ 94894.00</Text>
+          <Text preset={["p3 lh_14"]}>Nike Super Red Shoe for Men</Text>
+          <Text preset={["mt_5 p3"]}>৳ 94894.00</Text>
         </View>
       </CustomTouchBtn>
-      <Rating maxStars={5} defaultStars={3} onRate={handleRate} />
+      <Rating from={from} maxStars={5} defaultStars={3} onRate={handleRate} />
       <CustomTouchBtn
         preset={["center border_1 mt_10"]}
         // onPress={() => bottomSheetRef.current.expand()}

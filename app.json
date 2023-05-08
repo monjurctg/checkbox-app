@@ -15,9 +15,12 @@
       "fallbackToCacheTimeout": 0,
       "url": "https://u.expo.dev/e5c91494-2df7-47ee-bb95-d1f67bb53a69"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "Checkbox.app"
     },
     "android": {
       "adaptiveIcon": {

@@ -143,11 +143,12 @@ const ProductList = ({navigation}) => {
                 borderRadius: 4,
                 // alignSelf: "center",
               }}>
-              <Text preset={["fs_16 bold"]} style={{color: "white"}}>
+              <Text preset={["fs_14 fw_500"]} style={{color: "white"}}>
                 Add to Cart
               </Text>
             </CustomTouchBtn>
             <CustomTouchBtn
+              onPress={() => navigation.navigate("checkout")}
               preset={["center fs_16 bold"]}
               style={{
                 width: scale(194),
@@ -159,8 +160,8 @@ const ProductList = ({navigation}) => {
                 marginLeft: scale(5),
                 // alignSelf: "center",
               }}>
-              <Text preset={["fs_16 bold"]} style={{color: colors.primary_2}}>
-                Add to My Products
+              <Text preset={["fs_14 fw_500"]} style={{color: colors.primary_2}}>
+                Checkout
               </Text>
             </CustomTouchBtn>
           </View>

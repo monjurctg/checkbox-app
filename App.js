@@ -11,8 +11,10 @@ import ProducDetailsTab from "./src/navigations/SingleProductNavigation";
 import TabScreen from "./src/navigations/TabNavigation";
 import Cart from "./src/screen/Cart";
 import ProductDetails from "./src/screen/ProductDetails";
-
+import {Updates} from "expo";
 import UnAuth from "./src/screen/UnAuth";
+import {useEffect} from "react";
+import Checkout from "./src/screen/Checkout";
 
 export default function App() {
   // const [loaded, error] = useFonts({
@@ -23,6 +25,41 @@ export default function App() {
   // if (loaded) {
   //   console.log(loaded, error);
   //   return <Text preset="h1">Font Loaded...</Text>;
+
+  async function checkForUpdates() {
+    const update = await Updates.checkForUpdateAsync();
+    if (update.isAvailable) {
+      // Display update prompt to user
+      const {downloadSize, updateSize, isUpToDate} = update.manifest;
+      const message = `A new update is available. Would you like to download it? (Size: ${
+        downloadSize / 1000000
+      } MB)`;
+      if (await confirm(message)) {
+        await Updates.fetchUpdateAsync();
+        await Updates.reloadAsync();
+      }
+    } else {
+      console.log("No updates available");
+    }
+  }
+
+  function confirm(message) {
+    return new Promise((resolve) => {
+      if (confirmDialogSupported()) {
+        resolve(window.confirm(message));
+      } else {
+        resolve(alert(message));
+      }
+    });
+  }
+
+  useEffect(() => {
+    checkForUpdates();
+  }, []);
+
+  function confirmDialogSupported() {
+    return window.confirm && typeof window.confirm === "function";
+  }
   const Stack = createNativeStackNavigator();
   const Tab = createBottomTabNavigator();
 
@@ -50,6 +87,7 @@ export default function App() {
           <Stack.Screen name="cart" component={Cart} />
 
           <Stack.Screen name="product-details" component={ProducDetailsTab} />
+          <Stack.Screen name="checkout" component={Checkout} />
 
           {/* <Stack.Screen
           name="ProductListing"

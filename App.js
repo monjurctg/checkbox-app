@@ -15,6 +15,14 @@ import {Updates} from "expo";
 import UnAuth from "./src/screen/UnAuth";
 import {useEffect} from "react";
 import Checkout from "./src/screen/Checkout";
+import InputTestCustom from "./src/components/Input/InputTestCustom";
+// import Login from "./src/screen/SignUp";
+import CustomDatePicker from "./src/components/Input/CustomDatePicker";
+import SiginUp from "./src/screen/SignUp";
+import Login from "./src/screen/Login";
+import NidVerify from "./src/screen/NidVerify";
+import SellerRegister from "./src/screen/SellerRegister";
+import OTPVerification from "./src/screen/OTPVerification";
 
 export default function App() {
   // const [loaded, error] = useFonts({
@@ -26,22 +34,22 @@ export default function App() {
   //   console.log(loaded, error);
   //   return <Text preset="h1">Font Loaded...</Text>;
 
-  async function checkForUpdates() {
-    const update = await Updates.checkForUpdateAsync();
-    if (update.isAvailable) {
-      // Display update prompt to user
-      const {downloadSize, updateSize, isUpToDate} = update.manifest;
-      const message = `A new update is available. Would you like to download it? (Size: ${
-        downloadSize / 1000000
-      } MB)`;
-      if (await confirm(message)) {
-        await Updates.fetchUpdateAsync();
-        await Updates.reloadAsync();
-      }
-    } else {
-      console.log("No updates available");
-    }
-  }
+  // async function checkForUpdates() {
+  //   const update = await Updates.checkForUpdateAsync();
+  //   if (update.isAvailable) {
+  //     // Display update prompt to user
+  //     const {downloadSize, updateSize, isUpToDate} = update.manifest;
+  //     const message = `A new update is available. Would you like to download it? (Size: ${
+  //       downloadSize / 1000000
+  //     } MB)`;
+  //     if (await confirm(message)) {
+  //       await Updates.fetchUpdateAsync();
+  //       await Updates.reloadAsync();
+  //     }
+  //   } else {
+  //     console.log("No updates available");
+  //   }
+  // }
 
   function confirm(message) {
     return new Promise((resolve) => {
@@ -54,7 +62,7 @@ export default function App() {
   }
 
   useEffect(() => {
-    checkForUpdates();
+    // checkForUpdates();
   }, []);
 
   function confirmDialogSupported() {
@@ -83,11 +91,11 @@ export default function App() {
             headerShown: false,
             headerMode: "screen",
           }}>
-          <Stack.Screen name="tab" component={TabScreen} />
-          <Stack.Screen name="cart" component={Cart} />
+          <Stack.Screen name="tab" component={OTPVerification} />
+          {/* <Stack.Screen name="cart" component={Cart} /> */}
 
-          <Stack.Screen name="product-details" component={ProducDetailsTab} />
-          <Stack.Screen name="checkout" component={Checkout} />
+          {/* <Stack.Screen name="product-details" component={ProducDetailsTab} /> */}
+          {/* <Stack.Screen name="checkout" component={Checkout} /> */}
 
           {/* <Stack.Screen
           name="ProductListing"
@@ -106,7 +114,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#FFFFFF",
     alignItems: "center",
     justifyContent: "center",
   },

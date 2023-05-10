@@ -1,11 +1,11 @@
-import {View, TouchableOpacity, Image} from "react-native";
-import {WebView} from "react-native-webview";
-import React, {useContext, useState} from "react";
-import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
-import UnAuth from "../screen/UnAuth";
-import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import {scale, width} from "../../utils/funtions";
-import {colors} from "../theme/colors";
+import { View, TouchableOpacity, Image } from "react-native";
+import { WebView } from "react-native-webview";
+import React, { useContext, useState } from "react";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { scale, width } from "../../utils/funtions";
+import { colors } from "../theme/colors";
 import Text from "../components/tags/Text";
 import Home from "../screen/Home";
 import Products from "../screen/Products";
@@ -30,9 +30,14 @@ import {
   Ionicons,
 } from "@expo/vector-icons";
 import Orders from "../screen/Orders";
-import {SafeAreaView} from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context";
 import FullScreenLoader from "../components/loader/FullScreenLoader ";
-import {CheckboxContext} from "../context/CheckboxProvider";
+import { CheckboxContext } from "../context/CheckboxProvider";
+import Login from "../screen/auth/Login";
+import SiginUp from "../screen/auth/SignUp";
+import OTPVerification from "../screen/auth/OTPVerification";
+import NidVerify from "../screen/auth/NidVerify";
+import UnAuth from "../screen/auth/UnAuth";
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -49,8 +54,8 @@ const Dash = () => {
   }
   return (
     <>
-      <View style={{flex: 1, marginTop: 30}}>
-        <WebView source={{uri: "https://google.com"}} style={{flex: 1}} />
+      <View style={{ flex: 1, marginTop: 30 }}>
+        <WebView source={{ uri: "https://google.com" }} style={{ flex: 1 }} />
       </View>
     </>
   );
@@ -61,7 +66,8 @@ function HomeScreen() {
     <HomeStack.Navigator
       screenOptions={{
         headerShown: false,
-      }}>
+      }}
+    >
       <HomeStack.Screen name="/" component={Home} />
     </HomeStack.Navigator>
   );
@@ -72,7 +78,8 @@ function OrderScreen() {
     <OrdersStack.Navigator
       screenOptions={{
         headerShown: false,
-      }}>
+      }}
+    >
       <OrdersStack.Screen name="/" component={Orders} />
     </OrdersStack.Navigator>
   );
@@ -83,7 +90,8 @@ function DashScreen() {
     <DashStack.Navigator
       screenOptions={{
         headerShown: false,
-      }}>
+      }}
+    >
       <DashStack.Screen name="/" component={Dash} />
     </DashStack.Navigator>
   );
@@ -94,13 +102,14 @@ function ProductsScreen() {
     <ProductsStack.Navigator
       screenOptions={{
         headerShown: false,
-      }}>
+      }}
+    >
       <ProductsStack.Screen name="/" component={Products} />
       <ProductsStack.Screen name="ProductList" component={ProductList} />
     </ProductsStack.Navigator>
   );
 }
-function MyTabBar({state, descriptors, navigation, children}) {
+function MyTabBar({ state, descriptors, navigation, children }) {
   return (
     <View
       style={{
@@ -111,9 +120,10 @@ function MyTabBar({state, descriptors, navigation, children}) {
         borderTopColor: colors.border,
         justifyContent: "space-between",
         alignItems: "center",
-      }}>
+      }}
+    >
       {state.routes.map((route, index) => {
-        const {options} = descriptors[route.key];
+        const { options } = descriptors[route.key];
         const label =
           options.tabBarLabel !== undefined
             ? options.tabBarLabel
@@ -144,7 +154,7 @@ function MyTabBar({state, descriptors, navigation, children}) {
             icon = (
               <FontAwesome5
                 name="home"
-                style={{color: color}}
+                style={{ color: color }}
                 size={24}
                 color={color}
               />
@@ -239,21 +249,23 @@ function MyTabBar({state, descriptors, navigation, children}) {
           <TouchableOpacity
             accessibilityRole="button"
             key={index}
-            accessibilityState={isFocused ? {selected: true} : {}}
+            accessibilityState={isFocused ? { selected: true } : {}}
             accessibilityLabel={options.tabBarAccessibilityLabel}
             testID={options.tabBarTestID}
             onPress={onPress}
             onLongPress={onLongPress}
-            style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
-            {label === "Login" ? (
-              <View
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          >
+            {label === "unauth" ? (
+              <TouchableOpacity
                 style={{
                   height: scale(48),
                   width: width,
                   display: "flex",
                   justifyContent: "center",
                   // alignItems: "center",
-                }}>
+                }}
+              >
                 <View
                   style={{
                     backgroundColor: colors.primary_1,
@@ -262,12 +274,13 @@ function MyTabBar({state, descriptors, navigation, children}) {
                     marginHorizontal: scale(7),
                     justifyContent: "center",
                     alignItems: "center",
-                  }}>
-                  <Text preset={["p1"]} style={{color: colors.white}}>
+                  }}
+                >
+                  <Text preset={["p1"]} style={{ color: colors.white }}>
                     Signup Now
                   </Text>
                 </View>
-              </View>
+              </TouchableOpacity>
             ) : (
               <View
                 style={{
@@ -279,7 +292,8 @@ function MyTabBar({state, descriptors, navigation, children}) {
                   alignItems: "center",
                   justifyContent: "space-evenly",
                   // backgroundColor: "white",
-                }}>
+                }}
+              >
                 {/* <Image
                   source={src}
                   style={{
@@ -292,9 +306,10 @@ function MyTabBar({state, descriptors, navigation, children}) {
                   style={{
                     alignItems: "center",
                     justifyContent: "space-evenly",
-                  }}>
+                  }}
+                >
                   {icon}
-                  <Text preset={["p3"]} style={{color: color}}>
+                  <Text preset={["p3"]} style={{ color: color }}>
                     {label}
                   </Text>
                 </View>
@@ -306,25 +321,38 @@ function MyTabBar({state, descriptors, navigation, children}) {
     </View>
   );
 }
+const Stack = createNativeStackNavigator();
 
 export default function TabScreen() {
-  const {auth} = useContext(CheckboxContext);
+  const { auth } = useContext(CheckboxContext);
   return (
-    <Tab.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}
-      tabBar={(props) => <MyTabBar {...props} />}>
-      {!auth ? (
-        <Tab.Screen name="Login" component={UnAuth} />
-      ) : (
-        <>
-          <Tab.Screen name="Home" component={HomeScreen} />
+    <>
+      {!auth ? <>
+          
+          <Tab.Navigator
+            screenOptions={{
+              headerShown: false,
+            }}
+            tabBar={(props) => <MyTabBar {...props} />}
+          >
+            <Tab.Screen name="unauth" component={UnAuth} />
+          </Tab.Navigator >
+          
+      
+        </>
+      : (
+        <Tab.Navigator
+          screenOptions={{
+            headerShown: false,
+          }}
+          tabBar={(props) => <MyTabBar {...props} />}
+        >
+          <Tab.Screen name="home" component={HomeScreen} />
           <Tab.Screen name="Products" component={ProductsScreen} />
           <Tab.Screen name="orders" component={OrderScreen} />
           <Tab.Screen name="dashboard" component={DashScreen} />
-        </>
+        </Tab.Navigator>
       )}
-    </Tab.Navigator>
+    </>
   );
 }

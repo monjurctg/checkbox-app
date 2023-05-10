@@ -4,7 +4,7 @@ import { scale } from '../../../utils/funtions';
 import { AntDesign } from '@expo/vector-icons';
 import CustomDatePicker from './CustomDatePicker';
 
-const InputTestCustom = ({ label, onChange, value,option, placeholder, type }) => {
+const InputTestCustom = ({ label, onChange,editable, value,option, placeholder, type,keyboardType }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
@@ -47,6 +47,8 @@ const InputTestCustom = ({ label, onChange, value,option, placeholder, type }) =
             placeholder={placeholder}
             onChangeText={onChange}
             value={value}
+            keyboardType={keyboardType}
+            editable={editable}
             
             style={styles.textInput}
           />
@@ -109,6 +111,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     flex: 1,
+    
    
   },
   dropdownValue: {

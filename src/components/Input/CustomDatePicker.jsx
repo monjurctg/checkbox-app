@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { AntDesign } from '@expo/vector-icons';
+import { scale } from '../../../utils/funtions';
 
 const CustomDatePicker = ({ onChange ,value}) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -21,7 +22,7 @@ const CustomDatePicker = ({ onChange ,value}) => {
   const handleConfirm = (date) => {
     if (date) {
       setSelectedDate(date);
-      onChange(date); 
+      onChange(date.toISOString().split('T')[0]); 
       setDatePickerVisible(false);
 
     }
@@ -69,10 +70,13 @@ const styles = StyleSheet.create({
     borderColor: '#000000',
     borderWidth: 1,
     borderRadius: 4,
+    height:scale(45)
   },
   textInput: {
-    flex: 1,
+    flex: 1, 
     marginLeft: 8,
+    color:"black",
+    // fontWeight:"600"
   },
 });
 

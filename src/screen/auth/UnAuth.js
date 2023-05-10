@@ -6,14 +6,14 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React, {useContext, useState} from "react";
-import {colors} from "../theme/colors";
+import {colors} from "../../theme/colors";
 
-import Text from "../components/tags/Text";
-import {height, scale, width} from "../../utils/funtions";
-import View from "../components/tags/View";
+import Text from "../../components/tags/Text";
+import {height, scale, width} from "../../../utils/funtions";
+import View from "../../components/tags/View";
 // import {CheckboxContext} from "../context/CheckboxProvider";
-import FullScreenLoader from "../components/loader/FullScreenLoader ";
-import {CheckboxContext} from "../context/CheckboxProvider";
+import FullScreenLoader from "../../components/loader/FullScreenLoader ";
+import {CheckboxContext} from "../../context/CheckboxProvider";
 
 const UnAuth = ({navigation}) => {
   const {setAuth} = useContext(CheckboxContext);
@@ -27,7 +27,8 @@ const UnAuth = ({navigation}) => {
   }
 
   const login = () => {
-    setAuth(true);
+    // setAuth(true);
+    navigation.navigate("login")
   };
   return (
     <View style={styles.container}>
@@ -35,7 +36,7 @@ const UnAuth = ({navigation}) => {
         <View style={{paddingHorizontal: scale(10)}}>
           <View style={styles.header}>
             <Image
-              source={require("../../assets/img/checkbox-logo.png")}
+              source={require("../../../assets/img/checkbox-logo.png")}
               style={{width: scale(200), height: scale(32)}}
             />
             <TouchableOpacity style={styles.loginBtn} onPress={login}>
@@ -49,47 +50,47 @@ const UnAuth = ({navigation}) => {
           <ScrollView>
             <Image
               style={{width: "100%", marginTop: scale(10), height: scale(140)}}
-              source={require("../../assets/img/banner_1.png")}
+              source={require("../../../assets/img/banner_1.png")}
             />
             <View style={styles.products}>
               <View style={styles.product}>
                 <Image
-                  source={require("../../assets/img/shoe1.png")}
+                  source={require("../../../assets/img/shoe1.png")}
                   style={{width: "100%", height: scale(112)}}
                 />
                 <Text preset={["p3"]}>Nike Super Red Shoe for Men</Text>
               </View>
               <View style={styles.product}>
                 <Image
-                  source={require("../../assets/img/sunglass.png")}
+                  source={require("../../../assets/img/sunglass.png")}
                   style={{width: "100%", height: scale(112)}}
                 />
                 <Text preset={["p3"]}>Nike Super Red Shoe for Men</Text>
               </View>
               <View style={styles.product}>
                 <Image
-                  source={require("../../assets/img/redShoe.png")}
+                  source={require("../../../assets/img/redShoe.png")}
                   style={{width: "100%", height: scale(112)}}
                 />
                 <Text preset={["p3"]}>Nike Super Red Shoe for Men</Text>
               </View>
               <View style={styles.product}>
                 <Image
-                  source={require("../../assets/img/watch.png")}
+                  source={require("../../../assets/img/watch.png")}
                   style={{width: "100%", height: scale(112)}}
                 />
                 <Text preset={["p3"]}>Nike Super Red Shoe for Men</Text>
               </View>
               <View style={styles.product}>
                 <Image
-                  source={require("../../assets/img/headphone.png")}
+                  source={require("../../../assets/img/headphone.png")}
                   style={{width: "100%", height: scale(112)}}
                 />
                 <Text preset={["p3"]}>Nike Super Red Shoe for Men</Text>
               </View>
               <View style={styles.product}>
                 <Image
-                  source={require("../../assets/img/camera.png")}
+                  source={require("../../../assets/img/camera.png")}
                   style={{width: "100%", height: scale(112)}}
                 />
                 <Text preset={["p3"]}>Nike Super Red Shoe for Men</Text>
@@ -100,7 +101,7 @@ const UnAuth = ({navigation}) => {
                   marginTop: scale(20),
                   height: scale(114),
                 }}
-                source={require("../../assets/img/map_banner.png")}
+                source={require("../../../assets/img/map_banner.png")}
               />
             </View>
             <View style={{height: scale(150)}}></View>
@@ -146,7 +147,8 @@ const styles = StyleSheet.create({
   },
   products: {
     flexDirection: "row",
-    columnGap: scale(40),
+    // columnGap: 10,
+    rowGap:20,
     marginTop: scale(20),
     flexWrap: "wrap",
     justifyContent: "space-between",

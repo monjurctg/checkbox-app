@@ -25,7 +25,7 @@ const Login = () => {
     }
 setLoading(true)
     const res = await authServices.login(data).then(res=>res).catch(err=>err)
-    console.log(res.data.data.access_token)
+    console.log(res,"res",res.data.data.access_token,"tokne")
     if(res.status===200){
         setLoading(false)
         setAuth(true)
@@ -37,6 +37,8 @@ setLoading(true)
             duration: 2500,
             statusBarHeight: scale(20),
           });
+        setAuth(true)
+
            await AsyncStorage.setItem('token',res.data?.data?.access_token);
 
           navigation.navigate("home")
@@ -44,6 +46,10 @@ setLoading(true)
     }
 
     else{
+      // setAuth(false)
+      setLoading(false)
+
+
         showMessage({
             style: { alignItems: "center" },
             message: res.message?res.message:"Login field try again",
@@ -85,6 +91,7 @@ setLoading(true)
         keyboardType={"numeric"}
         onChange={(text) => setPhone(text)}
       />
+   
 
       <InputTestCustom
         type={"password"}

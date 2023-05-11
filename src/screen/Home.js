@@ -14,6 +14,8 @@ import FullScreenLoader from "../components/loader/FullScreenLoader ";
 
 const Home = ({navigation}) => {
   // console.log(navigation, "home navigation");
+  // navigation.navigate("")
+
   const [loading, setLoading] = useState(true);
   setTimeout(() => {
     setLoading(false);
@@ -104,7 +106,7 @@ const Home = ({navigation}) => {
             borderBottomLeftRadius: 0,
             borderBottomRightRadius: 0,
           }}>
-          <Text preset={["p1 bold lh_14"]}>New Collections</Text>
+          <Text preset={["p2 bold"]}>New Collections</Text>
 
           <TouchableOpacity
             style={{
@@ -227,7 +229,7 @@ const Home = ({navigation}) => {
             borderBottomLeftRadius: 0,
             borderBottomRightRadius: 0,
           }}>
-          <Text preset={["p1 bold"]}>New Products</Text>
+          <Text preset={["p2 bold"]}>New Products</Text>
 
           <TouchableOpacity style={{flexDirection: "row"}}>
             <Text preset={["p3"]}>Explore all</Text>

@@ -15,11 +15,12 @@ import { useNavigation } from "@react-navigation/native";
 import { showMessage } from "react-native-flash-message";
 import authServices from "../../services/authServices";
 
-const OTPVerification = () => {
+const OTPVerification = ({route}) => {
   const [otp, setOTP] = useState(["", "", "", ""]);
   const otpInputs = useRef([]);
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
+  const {phone}=route.params
 
   //   const handleOTPChange = (value, index) => {
   //     const newOTP = [...otp];
@@ -70,7 +71,7 @@ const OTPVerification = () => {
     }
 
     const data = {
-      phone: "+8801829940853",
+      phone: phone,
       verification_code: enteredOTP,
     };
     setLoading(true);
@@ -97,7 +98,7 @@ const OTPVerification = () => {
 
   const handleResend = async () => {
     const data = {
-      phone: "+8801829940853",
+      phone:phone
     };
 
     const res = await authServices
@@ -186,7 +187,7 @@ const OTPVerification = () => {
         <View style={{flexDirection:"row",marginTop:20,gap:5,justifyContent:"center",alignItems:"center"}}>
           <Text>Didn’t receive the OTP?</Text>
           {/* <Button title="Click to resend" onPress={handleResend} /> */}
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handleResend}>
             <Text style={{fontWeight:"600"}}>Click to resend</Text>
           </TouchableOpacity>
         </View>

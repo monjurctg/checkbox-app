@@ -37,7 +37,7 @@ setLoading(true)
             duration: 2500,
             statusBarHeight: scale(20),
           });
-        setAuth(true)
+        // setAuth(true)
 
            await AsyncStorage.setItem('token',res.data?.data?.access_token);
 

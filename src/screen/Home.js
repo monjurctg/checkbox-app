@@ -5,14 +5,14 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Mainlayout from "../components/layout/Mainlayout";
-import {height, scale} from "../../utils/funtions";
+import { height, scale } from "../../utils/funtions";
 import Slider from "../components/Slider";
 import Text from "../components/tags/Text";
 import FullScreenLoader from "../components/loader/FullScreenLoader ";
 
-const Home = ({navigation}) => {
+const Home = ({ navigation }) => {
   // console.log(navigation, "home navigation");
   // navigation.navigate("")
 
@@ -26,45 +26,177 @@ const Home = ({navigation}) => {
   return (
     <Mainlayout navigation={navigation}>
       <ScrollView style={{}} showsVerticalScrollIndicator={false}>
+        {/* statistic */}
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            paddingHorizontal: 20,
+            paddingVertical: 18,
+            backgroundColor: "#EDEDED",
+            borderColor: "#C7C7C7",
+            borderRadius: 8,
+          }}
+        >
+          <View
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              width: 80,
+            }}
+          >
+            <Text
+              style={{
+                // fontFamily: "Gotham",
+                fontStyle: "normal",
+                fontWeight: "400",
+                fontSize: 14,
+                lineHeight: 16,
+                color: "#231F20",
+                marginBottom: 8,
+              }}
+            >
+              Delivered
+            </Text>
+            <Text
+              style={{
+                // fontFamily: "Gotham",
+                fontStyle: "normal",
+                fontWeight: "700",
+                fontSize: 24,
+                lineHeight: 28,
+                color: "#BE202E",
+              }}
+            >
+              500
+            </Text>
+          </View>
+          <View
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              width: 80,
+            }}
+          >
+            <Text
+              style={{
+                // fontFamily: "Gotham",
+                fontStyle: "normal",
+                fontWeight: "400",
+                fontSize: 14,
+                lineHeight: 16,
+                color: "#231F20",
+                marginBottom: 8,
+              }}
+            >
+              In Progress
+            </Text>
+            <Text
+              style={{
+                // fontFamily: "Gotham",
+                fontStyle: "normal",
+                fontWeight: "700",
+                fontSize: 24,
+                lineHeight: 28,
+                color: "#BE202E",
+              }}
+            >
+              432
+            </Text>
+          </View>
+          <View
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              width: 80,
+            }}
+          >
+            <Text
+              style={{
+                // fontFamily: "Gotham",
+                fontStyle: "normal",
+                fontWeight: "400",
+                fontSize: 14,
+                lineHeight: 16,
+                color: "#231F20",
+                marginBottom: 8,
+              }}
+            >
+              Returned
+            </Text>
+            <Text
+              style={{
+                // fontFamily: "Gotham",
+                fontStyle: "normal",
+                fontWeight: "700",
+                fontSize: 24,
+                lineHeight: 28,
+                color: "#BE202E",
+              }}
+            >
+              500
+            </Text>
+          </View>
+        </View>
         <View
           style={{
             flexDirection: "row",
             justifyContent: "space-around",
             marginTop: scale(15),
-          }}>
+          }}
+        >
           <TouchableOpacity
-            style={{justifyContent: "center", alignItems: "center"}}>
+            style={{ justifyContent: "center", alignItems: "center" }}
+          >
             <Image source={require("../../assets/icons/product.png")} />
-            <Text preset={["p3"]} style={{marginTop: scale(10)}}>
+            <Text preset={["p3"]} style={{ marginTop: scale(10) }}>
               My Products
             </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={{justifyContent: "center", alignItems: "center"}}>
+            style={{ justifyContent: "center", alignItems: "center" }}
+          >
             <Image source={require("../../assets/icons/customers.png")} />
-            <Text preset={["p3"]} style={{marginTop: scale(10)}}>
-              My Products
+            <Text preset={["p3"]} style={{ marginTop: scale(10) }}>
+              My Customers
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={{justifyContent: "center", alignItems: "center"}}>
+            style={{ justifyContent: "center", alignItems: "center" }}
+          >
             <Image source={require("../../assets/icons/earning.png")} />
-            <Text preset={["p3"]} style={{marginTop: scale(10)}}>
-              My Products
+            <Text preset={["p3"]} style={{ marginTop: scale(10) }}>
+              My Earnings
             </Text>
           </TouchableOpacity>
         </View>
+
         {/* out service */}
 
         <Slider />
-        <View
+        <View>
+          <Image
+            style={{
+              marginTop: 32,
+              width: "100%",
+              height: 80,
+            }}
+            source={require("../../assets/img/banner_2.png")}
+          />
+          {/* <View
           style={{
             flexDirection: "row",
             marginTop: scale(20),
 
             justifyContent: "flex-start",
-          }}>
+          }}
+        >
           <Image
             source={require("../../assets/img/fifty.png")}
             style={{
@@ -89,6 +221,7 @@ const Home = ({navigation}) => {
               resizeMode: "contain",
             }}
           />
+        </View> */}
         </View>
         {/* new product */}
         <View
@@ -105,17 +238,19 @@ const Home = ({navigation}) => {
             borderRadius: 5,
             borderBottomLeftRadius: 0,
             borderBottomRightRadius: 0,
-          }}>
+          }}
+        >
           <Text preset={["p2 bold"]}>New Collections</Text>
 
           <TouchableOpacity
             style={{
               flexDirection: "row",
-            }}>
+            }}
+          >
             <Text preset={["p3 "]}>View all</Text>
             <Image
               source={require("../../assets/icons/arrow-right-o.png")}
-              style={{marginLeft: scale(10)}}
+              style={{ marginLeft: scale(10) }}
             />
           </TouchableOpacity>
         </View>
@@ -129,12 +264,14 @@ const Home = ({navigation}) => {
             borderTopWidth: 0,
 
             // marginTop: scale(15),
-          }}>
+          }}
+        >
           <View
             style={{
               alignItems: "center",
               marginRight: scale(20),
-            }}>
+            }}
+          >
             <Image
               source={require("../../assets/img/camera.png")}
               style={{
@@ -149,7 +286,8 @@ const Home = ({navigation}) => {
             style={{
               alignItems: "center",
               marginRight: scale(20),
-            }}>
+            }}
+          >
             <Image
               source={require("../../assets/img/headphone.png")}
               style={{
@@ -166,7 +304,8 @@ const Home = ({navigation}) => {
               marginRight: scale(20),
               width: scale(70),
               height: scale(70),
-            }}>
+            }}
+          >
             <Image
               source={require("../../assets/img/sunglass.png")}
               style={{
@@ -183,7 +322,8 @@ const Home = ({navigation}) => {
               marginRight: scale(20),
               width: scale(70),
               height: scale(70),
-            }}>
+            }}
+          >
             <Image
               source={require("../../assets/img/redShoe.png")}
               style={{
@@ -200,7 +340,8 @@ const Home = ({navigation}) => {
               marginRight: scale(20),
               width: scale(70),
               height: scale(70),
-            }}>
+            }}
+          >
             <Image
               source={require("../../assets/img/shoe1.png")}
               style={{
@@ -228,14 +369,15 @@ const Home = ({navigation}) => {
             borderRadius: 5,
             borderBottomLeftRadius: 0,
             borderBottomRightRadius: 0,
-          }}>
+          }}
+        >
           <Text preset={["p2 bold"]}>New Products</Text>
 
-          <TouchableOpacity style={{flexDirection: "row"}}>
+          <TouchableOpacity style={{ flexDirection: "row" }}>
             <Text preset={["p3"]}>Explore all</Text>
             <Image
               source={require("../../assets/icons/arrow-right-o.png")}
-              style={{marginLeft: scale(10)}}
+              style={{ marginLeft: scale(10) }}
             />
           </TouchableOpacity>
         </View>
@@ -243,47 +385,47 @@ const Home = ({navigation}) => {
           <View style={styles.product}>
             <Image
               source={require("../../assets/img/shoe1.png")}
-              style={{width: "100%", height: scale(100)}}
+              style={{ width: "100%", height: scale(100) }}
             />
             <Text preset={["p3 lh_14"]}>Nike Super Red Shoe for Men</Text>
           </View>
           <View style={styles.product}>
             <Image
               source={require("../../assets/img/sunglass.png")}
-              style={{width: "100%", height: scale(100)}}
+              style={{ width: "100%", height: scale(100) }}
             />
             <Text preset={["p3 lh_14"]}>Nike Super Red Shoe for Men</Text>
           </View>
           <View style={styles.product}>
             <Image
               source={require("../../assets/img/redShoe.png")}
-              style={{width: "100%", height: scale(100)}}
+              style={{ width: "100%", height: scale(100) }}
             />
             <Text preset={["p3 lh_14"]}>Nike Super Red Shoe for Men</Text>
           </View>
           <View style={styles.product}>
             <Image
               source={require("../../assets/img/watch.png")}
-              style={{width: "100%", height: scale(100)}}
+              style={{ width: "100%", height: scale(100) }}
             />
             <Text preset={["p3 lh_14"]}>Nike Super Red Shoe for Men</Text>
           </View>
           <View style={styles.product}>
             <Image
               source={require("../../assets/img/headphone.png")}
-              style={{width: "100%", height: scale(100)}}
+              style={{ width: "100%", height: scale(100) }}
             />
             <Text preset={["p3 lh_14"]}>Nike Super Red Shoe for Men</Text>
           </View>
           <View style={styles.product}>
             <Image
               source={require("../../assets/img/camera.png")}
-              style={{width: "100%", height: scale(100)}}
+              style={{ width: "100%", height: scale(100) }}
             />
             <Text preset={["p3 lh_14"]}>Nike Super Red Shoe for Men</Text>
           </View>
         </View>
-        <View style={{height: scale(300)}}></View>
+        <View style={{ height: scale(300) }}></View>
       </ScrollView>
     </Mainlayout>
   );

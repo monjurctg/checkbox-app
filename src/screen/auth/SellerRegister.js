@@ -1,5 +1,6 @@
 import {
   ActivityIndicator,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -114,7 +115,7 @@ const SellerRegister = ({ route, navigation }) => {
       .addShopInfo(data)
       .then((res) => res)
       .catch((err) => err);
-    // console.log(res, "res from seller"); 
+    // console.log(res, "res from seller");
     if (res.status === 200) {
       setLoading(false);
       showMessage({
@@ -142,7 +143,7 @@ const SellerRegister = ({ route, navigation }) => {
 
   return (
     <InputLayout>
-      <View style={{ marginVertical: scale(10) }}>
+      <View style={{ marginVertical: scale(20) }}>
         <Text
           style={{
             fontSize: 24,
@@ -154,80 +155,83 @@ const SellerRegister = ({ route, navigation }) => {
           Shop Information
         </Text>
       </View>
-      <InputTestCustom
-        placeholder={"Shop Name"}
-        label={"Shop Name"}
-        value={shopName}
-        onChange={(text) => setShopName(text)}
-      />
-      <InputTestCustom
-        placeholder={"Email"}
-        label={"Email*"}
-        value={email}
-        onChange={(text) => setEmail(text)}
-      />
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <InputTestCustom
+          placeholder={"Shop Name"}
+          label={"Shop Name"}
+          value={shopName}
+          onChange={(text) => setShopName(text)}
+        />
+        <InputTestCustom
+          placeholder={"Email"}
+          label={"Email*"}
+          value={email}
+          onChange={(text) => setEmail(text)}
+        />
 
-      <InputTestCustom
-        placeholder={"Phone Nmuber"}
-        label={"Phone Number"}
-        value={phone}
-        editable={false}
-        onChange={(text) => setPhone(text)}
-      />
-      {/* <InputTestCustom placeholder={"Phone Nmuber"} label={"Phone Number*"} value={phone} onChange={(text) => setPhone(text)} /> */}
+        <InputTestCustom
+          placeholder={"Phone Nmuber"}
+          label={"Phone Number"}
+          value={phone}
+          editable={false}
+          onChange={(text) => setPhone(text)}
+        />
+        {/* <InputTestCustom placeholder={"Phone Nmuber"} label={"Phone Number*"} value={phone} onChange={(text) => setPhone(text)} /> */}
 
-      <InputTestCustom
-        // type={"password"}
-        placeholder={"Address"}
-        label={"Address "}
-        value={address}
-        onChange={(text) => setAddress(text)}
-      />
-      <InputTestCustom
-        type={"dropdown"}
-        option={["male", "female"]}
-        label={"Gender"}
-        value={gender}
-        onChange={(text) => setGender(text)}
-      />
-      <InputTestCustom
-        type={"password"}
-        placeholder={"Password"}
-        label={"Password "}
-        value={password}
-        onChange={(text) => setPassword(text)}
-      />
+        <InputTestCustom
+          // type={"password"}
+          placeholder={"Address"}
+          label={"Address "}
+          value={address}
+          onChange={(text) => setAddress(text)}
+        />
+        <InputTestCustom
+          type={"dropdown"}
+          option={["male", "female"]}
+          label={"Gender"}
+          value={gender}
+          onChange={(text) => setGender(text)}
+        />
+        <InputTestCustom
+          type={"password"}
+          placeholder={"Password"}
+          label={"Password "}
+          value={password}
+          onChange={(text) => setPassword(text)}
+        />
 
-      <InputTestCustom
-        type={"password"}
-        placeholder={"Confirm Password"}
-        label={"ConfirmPassword "}
-        value={confirmPassword}
-        onChange={(text) => setConfirmPassword(text)}
-      />
-      <TouchableOpacity
-        onPress={handleShopInfo}
-        style={{
-          backgroundColor: "#BE202E",
-          height: scale(45),
-          justifyContent: "center",
-          alignItems: "center",
-          marginTop: 10,
-          width: scale(320),
-        }}
-      >
-        {loading ? (
-          <ActivityIndicator
-            color="white"
-            size="small"
-            style={styles.spinner}
-          />
-        ) : (
-          <Text style={{ fontSize: 18, fontWeight: "400", color: "#FFFFFF" }}>
-            Submit
-          </Text>
-        )}
-      </TouchableOpacity>
+        <InputTestCustom
+          type={"password"}
+          placeholder={"Confirm Password"}
+          label={"ConfirmPassword "}
+          value={confirmPassword}
+          onChange={(text) => setConfirmPassword(text)}
+        />
+        <TouchableOpacity
+          onPress={handleShopInfo}
+          style={{
+            backgroundColor: "#BE202E",
+            height: scale(45),
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: 10,
+            width: scale(320),
+          }}
+        >
+          {loading ? (
+            <ActivityIndicator
+              color="white"
+              size="small"
+              style={styles.spinner}
+            />
+          ) : (
+            <Text style={{ fontSize: 18, fontWeight: "400", color: "#FFFFFF" }}>
+              Submit
+            </Text>
+          )}
+        </TouchableOpacity>
+        <View style={{ height: scale(100) }}></View>
+      </ScrollView>
     </InputLayout>
   );
 };

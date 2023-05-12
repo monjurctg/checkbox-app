@@ -15,12 +15,12 @@ import { useNavigation } from "@react-navigation/native";
 import { showMessage } from "react-native-flash-message";
 import authServices from "../../services/authServices";
 
-const OTPVerification = ({route}) => {
+const OTPVerification = ({ route }) => {
   const [otp, setOTP] = useState(["", "", "", ""]);
   const otpInputs = useRef([]);
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
-  const {phone}=route.params
+  const { phone } = route.params;
 
   //   const handleOTPChange = (value, index) => {
   //     const newOTP = [...otp];
@@ -82,7 +82,7 @@ const OTPVerification = ({route}) => {
       .catch((err) => err);
     if (res.status === 200) {
       setLoading(false);
-      navigation.navigate("verify-nid");
+      navigation.navigate("otp_verify");
     } else {
       setLoading(false);
 
@@ -98,7 +98,7 @@ const OTPVerification = ({route}) => {
 
   const handleResend = async () => {
     const data = {
-      phone:phone
+      phone: phone,
     };
 
     const res = await authServices
@@ -139,12 +139,19 @@ const OTPVerification = ({route}) => {
             Enter the verification code sent to your registered mobile number
           </Text>
         </View>
-        <View style={{marginTop:20,flexDirection:"row",columnGap:5,justifyContent:"center",alignItems:"center"}}>
-            <Text style={{fontSize:20,fontWeight:"600"}}>50s</Text>
-            <Text style={{fontSize:14,fontWeight:"400"}}>reminig</Text>
-          </View>
+        <View
+          style={{
+            marginTop: 20,
+            flexDirection: "row",
+            columnGap: 5,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Text style={{ fontSize: 20, fontWeight: "600" }}>50s</Text>
+          <Text style={{ fontSize: 14, fontWeight: "400" }}>reminig</Text>
+        </View>
         <View style={styles.otpContainer}>
-         
           {otp.map((digit, index) => (
             <TextInput
               key={index}
@@ -184,11 +191,19 @@ const OTPVerification = ({route}) => {
           )}
         </TouchableOpacity>
 
-        <View style={{flexDirection:"row",marginTop:20,gap:5,justifyContent:"center",alignItems:"center"}}>
+        <View
+          style={{
+            flexDirection: "row",
+            marginTop: 20,
+            gap: 5,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <Text>Didn’t receive the OTP?</Text>
           {/* <Button title="Click to resend" onPress={handleResend} /> */}
           <TouchableOpacity onPress={handleResend}>
-            <Text style={{fontWeight:"600"}}>Click to resend</Text>
+            <Text style={{ fontWeight: "600" }}>Click to resend</Text>
           </TouchableOpacity>
         </View>
       </View>

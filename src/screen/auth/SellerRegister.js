@@ -21,7 +21,7 @@ const SellerRegister = ({ route, navigation }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [address, setAddress] = useState("");
-  const { phone } = route.params;
+  const { phone } = route?.params??{};
   const [loading, setLoading] = useState(false);
 
   const checkError = () => {

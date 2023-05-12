@@ -20,7 +20,7 @@ const OTPVerification = ({ route }) => {
   const otpInputs = useRef([]);
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
-  const { phone } = route.params;
+  const { phone } = route.params??{};
 
   //   const handleOTPChange = (value, index) => {
   //     const newOTP = [...otp];

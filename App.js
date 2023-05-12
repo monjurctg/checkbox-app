@@ -94,6 +94,7 @@ export default function App() {
             headerShown: false,
             headerMode: "screen",
           }}>
+
           <Stack.Screen name="tab" component={TabScreen} />
           <Stack.Screen name="cart" component={Cart} />
 
@@ -104,6 +105,7 @@ export default function App() {
           <Stack.Screen name="otp_verify" component={OTPVerification} />
           <Stack.Screen name="nid_verify"rific component={NidVerify} />
           <Stack.Screen name="user_info"rific component={SellerRegister} />
+
 
 
 

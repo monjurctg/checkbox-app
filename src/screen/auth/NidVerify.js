@@ -14,7 +14,7 @@ const NidVerify = ({ route, navigation }) => {
   const [nid_number, setNid] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const { dob, is_seller, name, phone } = route.params;
+  const { dob, is_seller, name, phone } = route.params??{};
   // console.log(data,"data nid")
 
   const handleVerifyNid = async () => {

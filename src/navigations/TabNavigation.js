@@ -258,6 +258,7 @@ function MyTabBar({ state, descriptors, navigation, children }) {
           >
             {label === "unauth" ? (
               <TouchableOpacity
+              onPress={()=>navigation.navigate("signup")}
                 style={{
                   height: scale(48),
                   width: width,

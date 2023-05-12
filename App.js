@@ -24,6 +24,9 @@ import NidVerify from "./src/screen/auth/NidVerify";
 import SellerRegister from "./src/screen/auth/SellerRegister";
 import OTPVerification from "./src/screen/auth/OTPVerification";
 import FlashMessage from "react-native-flash-message";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Provider } from "react-redux";
+import store from "./src/redux/store";
 
 export default function App() {
   // const [loaded, error] = useFonts({
@@ -51,8 +54,11 @@ export default function App() {
   //     console.log("No updates available");
   //   }
   // }
-  // const {auth} = useContext(CheckboxContext);
 
+
+  const {setAuth,auth} = useContext(CheckboxContext)??{};
+  
+console.log(setAuth,"set")
 
   function confirm(message) {
     return new Promise((resolve) => {
@@ -66,7 +72,24 @@ export default function App() {
 
   useEffect(() => {
     // checkForUpdates();
-  }, []);
+
+    const checkToken=async()=>{
+      const token = await AsyncStorage.getItem('token');
+      if(token){
+        console.log(token,"token")
+        setAuth(true)
+        
+      }
+      else{
+        console.log(token,"token else")
+      }
+
+    }
+
+    checkToken()
+
+
+  }, [auth]);
 
   function confirmDialogSupported() {
     return window.confirm && typeof window.confirm === "function";
@@ -87,7 +110,7 @@ export default function App() {
   };
   // }
   return (
-    <CheckboxProvider>
+    <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{
@@ -125,7 +148,7 @@ export default function App() {
 <FlashMessage position={"bottom"}/>
       <StatusBar style="auto" />
       
-    </CheckboxProvider>
+    </Provider>
   );
 }
 

@@ -38,6 +38,7 @@ import SiginUp from "../screen/auth/SignUp";
 import OTPVerification from "../screen/auth/OTPVerification";
 import NidVerify from "../screen/auth/NidVerify";
 import UnAuth from "../screen/auth/UnAuth";
+import { useSelector } from "react-redux";
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -325,7 +326,9 @@ function MyTabBar({ state, descriptors, navigation, children }) {
 const Stack = createNativeStackNavigator();
 
 export default function TabScreen() {
-  const { auth } = useContext(CheckboxContext);
+  // const { auth } = useContext(CheckboxContext); 
+  const{auth}=useSelector((state)=>state.auth)
+  console.log(auth,"redux auth")
   return (
     <>
       {!auth ? <>

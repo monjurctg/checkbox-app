@@ -26,6 +26,8 @@ import ClientReview from "../components/product-details/ClientReview";
 import {BottomSheet} from "react-native-btr";
 import SingleCart from "../components/cart/SingleCart";
 import {CheckboxContext} from "../context/CheckboxProvider";
+import { useDispatch, useSelector } from "react-redux";
+import { setDetailsBottomSheet } from "../redux/reducers/utilsSlice";
 // import { AntDesign } from '@expo/vector-icons';
 
 const ProductDetails = ({navigation}) => {
@@ -34,11 +36,15 @@ const ProductDetails = ({navigation}) => {
   const [bigImg, setBigImg] = useState(img1);
   const [loading, setLoading] = useState(true);
   const [visible, setVisible] = useState(false);
-  const {auth, DetailsBottomSheet, setDetailsBottomSheet} =
-    useContext(CheckboxContext);
+  // const {auth, detailsBottomSheet, setDetailsBottomSheet} =
+  //   useContext(CheckboxContext);
+const dispatch = useDispatch()
+  
 
+    const {detailsBottomSheet}=useSelector((state)=>state.utils)
   const toggleBottomNavigationView = () => {
-    setDetailsBottomSheet(!DetailsBottomSheet);
+    // setDetailsBottomSheet(!detailsBottomSheet);
+    dispatch(setDetailsBottomSheet())
     //Toggling the visibility state of the bottom sheet
     // setVisible(!visible);
   };
@@ -404,7 +410,8 @@ const ProductDetails = ({navigation}) => {
       </ScrollView>
       <View style={styles.container}>
         <BottomSheet
-          visible={DetailsBottomSheet}
+        
+          visible={detailsBottomSheet}
           //setting the visibility state of the bottom sheet
           onBackButtonPress={toggleBottomNavigationView}
           //Toggling the visibility state on the click of the back botton

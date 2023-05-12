@@ -2,17 +2,26 @@ import {
   Image,
   ScrollView,
   StyleSheet,
+  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
 import {Ionicons} from "@expo/vector-icons";
-import React from "react";
+import Modal from 'react-native-modal';
+import React, { useState } from "react";
 import {height, scale, width} from "../../../utils/funtions";
 import {colors} from "../../theme/colors";
 import {SafeAreaView} from "react-native-safe-area-context";
 import Text from "../tags/Text";
+import { Feather } from '@expo/vector-icons';
 
 const Mainlayout = ({children, navigation}) => {
+  const [isSearchVisible, setSearchVisible] = useState(false);
+
+  const handleSearchIconClick = () => {
+    setSearchVisible(!isSearchVisible);
+  };
+  
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
@@ -56,39 +65,39 @@ const Mainlayout = ({children, navigation}) => {
               </View>
               <View style={styles.right}>
                 {/* <TouchableOpacity>
-                  <Image
-                    style={{
-                      width: scale(18),
-                      height: scale(18),
-                      marginRight: scale(18),
-                    }}
-                    source={require("../../../assets/icons/dash.png")}
-                  />
+                <Feather name="search" size={24} color="black" />
                 </TouchableOpacity> */}
-                {/* <TouchableOpacity>
-                  <Image
-                    style={{
-                      width: scale(18),
-                      height: scale(18),
-                      marginRight: scale(18),
-                    }}
-                    source={require("../../../assets/icons/bar.png")}
-                  />
-                </TouchableOpacity> */}
-
-                <TouchableOpacity
+                 <TouchableOpacity onPress={handleSearchIconClick}>
+        <Feather name="search" size={24} color="black" />
+      </TouchableOpacity>
+      
+               
+                <TouchableOpacity >
+      <Feather name="bell" size={24} color="black" />
+      
+        <View style={styles.notificationBadge}>
+          <Text style={styles.notificationText}>2</Text>
+        </View>
+    
+    </TouchableOpacity>
+                 
+    <TouchableOpacity  onPress={() => navigation?.navigate("cart")} style={{marginRight: scale(10)}} >
+    <Feather name="shopping-cart" size={24} color="black" />
+      
+        <View style={styles.notificationBadge}>
+          <Text style={styles.notificationText}>2</Text>
+        </View>
+    
+    </TouchableOpacity>
+                {/* <TouchableOpacity
                   onPress={() => navigation?.navigate("cart")}
                   style={{marginRight: scale(10)}}>
-                  {/* <Image
-                    style={{
-                      width: scale(20),
-                      height: scale(20),
-                      marginRight: scale(7),
-                    }}
-                    source={require("../../../assets/icons/cart.png")}
-                  /> */}
-                  <Ionicons name="cart-outline" size={24} color="black" />
-                </TouchableOpacity>
+                 
+                  <Feather name="shopping-cart" size={24} color="black" />
+                </TouchableOpacity> */}
+
+                
+                
               </View>
             </View>
             {children}
@@ -97,6 +106,8 @@ const Mainlayout = ({children, navigation}) => {
           </View>
         </View>
       </View>
+
+      
     </SafeAreaView>
   );
 };
@@ -145,5 +156,30 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 20,
     // backgroundColor: "blue",
+  },
+  notificationBadge: {
+    position: 'absolute',
+    top: -8,
+    right: -7,
+    backgroundColor: colors.primary_2,
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  notificationText: {
+    color: 'white',
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
+  searchField: {
+    flex: 1,
+    marginLeft: 10,
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 5,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
   },
 });

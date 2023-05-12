@@ -8,9 +8,12 @@ import authServices from "../../services/authServices";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { showMessage } from "react-native-flash-message";
 import { CheckboxContext } from "../../context/CheckboxProvider";
+import { useDispatch } from "react-redux";
+import { setAuth } from "../../redux/reducers/authSlice";
 
 const Login = () => {
-  const {setAuth} = useContext(CheckboxContext);
+  // const {setAuth} = useContext(CheckboxContext);
+  const dispatch = useDispatch()
 
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
@@ -28,7 +31,7 @@ setLoading(true)
     console.log(res,"res",res.data.data.access_token,"tokne")
     if(res.status===200){
         setLoading(false)
-        setAuth(true)
+       dispatch(setAuth(true)) 
         showMessage({
             style: { alignItems: "center" },
             message: res.data.message,

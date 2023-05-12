@@ -16,7 +16,7 @@ import FullScreenLoader from "../../components/loader/FullScreenLoader ";
 import {CheckboxContext} from "../../context/CheckboxProvider";
 
 const UnAuth = ({navigation}) => {
-  const {setAuth} = useContext(CheckboxContext);
+  // const {setAuth} = useContext(CheckboxContext);
   const [modalShow, setModalShow] = useState(true);
   const [loading, setLoading] = useState(true);
   setTimeout(() => {

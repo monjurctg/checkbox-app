@@ -7,12 +7,15 @@ import Text from "../components/tags/Text";
 import {CheckboxContext} from "../context/CheckboxProvider";
 import ProductDetails from "../screen/ProductDetails";
 import {colors} from "../theme/colors";
+import { useDispatch, useSelector } from "react-redux";
+import { setDetailsBottomSheet } from "../redux/reducers/utilsSlice";
 
 const Tab = createBottomTabNavigator();
 
-function MyTabBar({state, descriptors, navigation, children}) {
-  const {auth, setDetailsBottomSheet, DetailsBottomSheet} =
-    useContext(CheckboxContext);
+function MyTabBar({state, descriptors, navigation}) {
+  const dispatch = useDispatch()
+  
+    const {detailsBottomSheet} = useSelector((state)=>state.utils)
 
   return (
     <View
@@ -38,8 +41,8 @@ function MyTabBar({state, descriptors, navigation, children}) {
         console.log(isFocused);
 
         const onPress = () => {
-          // alert("hello");
-          setDetailsBottomSheet(!DetailsBottomSheet);
+          // alert("hello")t
+          dispatch(setDetailsBottomSheet(!detailsBottomSheet));
           const event = navigation.emit({
             type: "tabPress",
             target: route.key,

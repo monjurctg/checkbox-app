@@ -1,6 +1,6 @@
 import { View, TouchableOpacity, Image } from "react-native";
 import { WebView } from "react-native-webview";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -38,7 +38,9 @@ import SiginUp from "../screen/auth/SignUp";
 import OTPVerification from "../screen/auth/OTPVerification";
 import NidVerify from "../screen/auth/NidVerify";
 import UnAuth from "../screen/auth/UnAuth";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { setAuth } from "../redux/reducers/authSlice";
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -47,9 +49,7 @@ const OrdersStack = createNativeStackNavigator();
 const DashStack = createNativeStackNavigator();
 const Dash = () => {
   const [loading, setLoading] = useState(true);
-  setTimeout(() => {
-    setLoading(false);
-  }, 1000);
+  
   if (loading) {
     return <FullScreenLoader visible={loading} />;
   }
@@ -65,7 +65,7 @@ const Dash = () => {
 function HomeScreen() {
   return (
     <HomeStack.Navigator
-      screenOptions={{
+      screenOptions={{ 
         headerShown: false,
       }}
     >
@@ -141,7 +141,7 @@ function MyTabBar({ state, descriptors, navigation, children }) {
         let icon;
         let fontSize;
 
-        if (label === "Home") {
+        if (label === "home") {
           if (isFocused) {
             src = homeActive;
             color = colors.primary_4;
@@ -326,12 +326,44 @@ function MyTabBar({ state, descriptors, navigation, children }) {
 const Stack = createNativeStackNavigator();
 
 export default function TabScreen() {
+  const dispatch = useDispatch()
   // const { auth } = useContext(CheckboxContext); 
+  const [loading, setLoading] = useState(true);
+  
   const{auth}=useSelector((state)=>state.auth)
-  console.log(auth,"redux auth")
+
+  useEffect(() => {
+    // checkForUpdates();
+    
+
+    const checkToken=async()=>{
+      setLoading(true)
+      const token = await AsyncStorage.getItem('token');
+      if(token){
+        setLoading(false)
+        console.log(token,"token")
+        
+        dispatch(setAuth(true))
+      }
+      else{
+        setLoading(false)
+        console.log(token,"token else")
+      }
+
+    }
+
+    checkToken()
+
+
+  }, [auth]);
+  // console.log(auth,"redux auth")
+  
+  if (loading) {
+    return <FullScreenLoader visible={loading} />;
+  }
   return (
     <>
-      {!auth ? <>
+      {!auth ?  <>
           
           <Tab.Navigator
             screenOptions={{

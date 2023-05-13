@@ -6,7 +6,7 @@ import {StatusBar} from "expo-status-bar";
 import {StyleSheet, View} from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
 import Text from "./src/components/tags/Text";
-import {CheckboxContext, CheckboxProvider} from "./src/context/CheckboxProvider";
+
 import ProducDetailsTab from "./src/navigations/SingleProductNavigation";
 import TabScreen from "./src/navigations/TabNavigation";
 import Cart from "./src/screen/Cart";
@@ -25,8 +25,9 @@ import SellerRegister from "./src/screen/auth/SellerRegister";
 import OTPVerification from "./src/screen/auth/OTPVerification";
 import FlashMessage from "react-native-flash-message";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Provider } from "react-redux";
+import { Provider, useDispatch } from "react-redux";
 import store from "./src/redux/store";
+import { setAuth } from "./src/redux/reducers/authSlice";
 
 export default function App() {
   // const [loaded, error] = useFonts({
@@ -54,11 +55,12 @@ export default function App() {
   //     console.log("No updates available");
   //   }
   // }
+  // const dispatch = useDispatch()
 
 
-  const {setAuth,auth} = useContext(CheckboxContext)??{};
+
   
-console.log(setAuth,"set")
+// console.log(setAuth,"set")
 
   function confirm(message) {
     return new Promise((resolve) => {
@@ -70,26 +72,7 @@ console.log(setAuth,"set")
     });
   }
 
-  useEffect(() => {
-    // checkForUpdates();
-
-    const checkToken=async()=>{
-      const token = await AsyncStorage.getItem('token');
-      if(token){
-        console.log(token,"token")
-        setAuth(true)
-        
-      }
-      else{
-        console.log(token,"token else")
-      }
-
-    }
-
-    checkToken()
-
-
-  }, [auth]);
+  
 
   function confirmDialogSupported() {
     return window.confirm && typeof window.confirm === "function";

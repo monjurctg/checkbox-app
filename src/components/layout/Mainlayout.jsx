@@ -1,4 +1,6 @@
 import {
+  Animated,
+  DevSettings,
   Image,
   ScrollView,
   StyleSheet,
@@ -8,19 +10,65 @@ import {
 } from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import Modal from 'react-native-modal';
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {height, scale, width} from "../../../utils/funtions";
 import {colors} from "../../theme/colors";
 import {SafeAreaView} from "react-native-safe-area-context";
 import Text from "../tags/Text";
 import { Feather } from '@expo/vector-icons';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 
-const Mainlayout = ({children, navigation}) => {
+const Mainlayout = ({children}) => {
   const [isSearchVisible, setSearchVisible] = useState(false);
-
+const navigation = useNavigation()
   const handleSearchIconClick = () => {
     setSearchVisible(!isSearchVisible);
   };
+  const[isMenu,setIsMenu]=useState(false)
+  const animatedValue = new Animated.Value(0);
+
+  useEffect(() => {
+    if (isMenu) {
+      Animated.timing(animatedValue, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    } else {
+      Animated.timing(animatedValue, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    }
+  }, [isMenu]);
+
+  
+
+  const translateY = animatedValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: [-300, 0],
+  });
+
+
+  const handleMenu = ()=>{
+    setIsMenu(!isMenu)
+
+  }
+
+  const  handleLogout = ()=>{
+
+     AsyncStorage.clear().then(()=>{
+    DevSettings.reload()
+    // navigation.navigate("login")
+
+
+     })
+    
+
+
+  }
   
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -29,7 +77,7 @@ const Mainlayout = ({children, navigation}) => {
           <View style={{paddingHorizontal: scale(10)}}>
             <View style={styles.headerContainer}>
               <View style={styles.left}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={handleMenu}>
                   <Image
                     source={require("../../../assets/img/monjur3.jpg")}
                     style={{
@@ -40,6 +88,7 @@ const Mainlayout = ({children, navigation}) => {
                     }}
                   />
                 </TouchableOpacity>
+
                 <View style={{marginLeft: scale(10)}}>
                   <Text
                     preset={["fw_400"]}
@@ -100,6 +149,39 @@ const Mainlayout = ({children, navigation}) => {
                 
               </View>
             </View>
+            {isMenu && (
+        <Animated.View
+          style={[
+            styles.menuContainer,
+            {
+              transform: [{ translateY }],
+              opacity: animatedValue,
+            },
+          ]}
+        >
+          {/* Add your menu items here */}
+          <TouchableOpacity style={styles.menuItem}>
+            <Ionicons name="person-outline" size={24} color={colors.primary_1} style={styles.menuIcon} />
+            {/* Add your profile menu content here */}
+            <Text style={[styles.logoutText,{color:colors.primary_1}]}>Profile</Text>
+            
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.menuItem}>
+            <Ionicons name="settings-outline" size={24} color={colors.primary_1}style={styles.menuIcon} />
+            {/* Add your settings menu content here */}
+            <Text style={[styles.logoutText,{color:colors.primary_1}]}>Settings</Text>
+
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
+            <Ionicons name="log-out-outline" size={24} color="#FFF" style={styles.menuIcon} />
+            <Text style={styles.logoutText}>Logout</Text>
+          </TouchableOpacity>
+        </Animated.View>
+      )}
+            
+            
             {children}
 
             {/* <View style={{height: scale(300)}}></View> */}
@@ -181,5 +263,46 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingVertical: 5,
     paddingHorizontal: 10,
+  }, menuContainer: {
+    position: 'absolute',
+    backgroundColor: '#d1c5c5cf',
+    top: 70,
+    left: 10,
+    minHeight: 160,
+    minWidth:200,
+    zIndex: 999999,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  menuItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#be202e',
+  },
+  menuIcon: {
+    marginRight: 10,
+  },
+  logoutButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    // justifyContent: 'center',
+    backgroundColor: '#be202e',
+    paddingVertical: 10,
+    paddingHorizontal:20,
+    marginTop: 10,
+  },
+  logoutText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: '600',
   },
 });

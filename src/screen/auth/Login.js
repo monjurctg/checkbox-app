@@ -26,6 +26,30 @@ const Login = () => {
     const data ={
         phone,password,user_type:option
     }
+   
+    if (!phone) {
+      showMessage({
+        style: { alignItems: "center" },
+        message: "Phone Field Required",
+        type: "danger",
+        position: "top",
+        statusBarHeight: scale(20),
+        duration: 2500,
+      });
+      return ;
+    }
+    if (!password) {
+      showMessage({
+        style: { alignItems: "center" },
+        message: "Name Field Required",
+        type: "danger",
+        position: "top",
+        statusBarHeight: scale(20),
+        duration: 2500,
+      });
+      return ;
+    }
+    
 setLoading(true)
     const res = await authServices.login(data).then(res=>res).catch(err=>err)
     console.log(res,"res",res.data.data.access_token,"tokne")

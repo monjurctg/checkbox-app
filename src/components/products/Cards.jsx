@@ -1,12 +1,13 @@
-import {StyleSheet, Image, TouchableOpacity} from "react-native";
+import {StyleSheet, Image, TouchableOpacity,ScrollView} from "react-native";
 import React from "react";
 import {scale} from "../../../utils/funtions";
 import Text from "../tags/Text";
 import CustomTouchBtn from "../tags/CustomTouchBtn";
 import View from "../tags/View";
+// import { ScrollView } from "react-native-web";
 
-const Cards = ({navigation, name}) => {
-  console.log(navigation, "navigation");
+const Cards = ({navigation, name,collections=[]}) => {
+  // console.log(navigation, "navigation");
 
   return (
     <View>
@@ -19,30 +20,23 @@ const Cards = ({navigation, name}) => {
           <Image source={require("../../../assets/icons/right-icon.png")} />
         </CustomTouchBtn>
       </View>
-      <View style={styles.products}>
-        <View
-          style={{
-            width: scale(108),
-          }}>
-          <Image source={require("../../../assets/img/temp/temp1.png")} />
-          <Text preset={["p3 lh_14 mt_5"]}>Nike Super Red Shoe for Men</Text>
-        </View>
-        <View
-          style={{
-            width: scale(108),
-          }}>
-          <Image source={require("../../../assets/img/temp/temp2.png")} />
-          <Text preset={["p3 lh_14 mt_5"]}>Nike Super Red Shoe for Men</Text>
-        </View>
-        <View
-          preset={["center"]}
-          style={{
-            width: scale(108),
-          }}>
-          <Image source={require("../../../assets/img/temp/temp3.png")} />
-          <Text preset={["p3 lh_14 mt_5 "]}>Nike Super Red Shoe for Men</Text>
-        </View>
-      </View>
+      <ScrollView style={styles.products} horizontal={true} showsHorizontalScrollIndicator={false}>
+        {
+          collections.map((col,index)=>{
+            return  <View
+            key={index}
+            style={{
+              width: scale(108),
+            }}>
+            <Image source={{uri:col?.thumbnail_image}} style={{height:scale(90),width:scale(90)}} />
+            <Text preset={["p3 lh_14 mt_5"]}>{col?.name}
+            </Text>
+          </View>
+
+          })
+        }
+      
+      </ScrollView>
     </View>
   );
 };
@@ -70,10 +64,11 @@ const styles = StyleSheet.create({
   products: {
     flexDirection: "row",
     // flexWrap: "wrap",
-    justifyContent: "space-between",
+    // justifyContent: "space-between",
     // marginTop: 12,
+    columnGap:10,
     padding: 12,
-    backgroundColor: "#FFFFFF",
+    // backgroundColor: "#FFFFFF",
     borderStyle: "solid",
     borderRadius: 5,
     borderWidth: 1,

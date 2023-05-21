@@ -1,13 +1,15 @@
-import {Button, Image, StyleSheet} from "react-native";
-import React, {useRef} from "react";
+import { Button, Image, StyleSheet } from "react-native";
+import React, { useRef } from "react";
 import View from "../tags/View";
-import {scale} from "../../../utils/funtions";
+import { height, scale } from "../../../utils/funtions";
 import Text from "../tags/Text";
 import CustomTouchBtn from "../tags/CustomTouchBtn";
-import {colors} from "../../theme/colors";
-import {Feather} from "@expo/vector-icons";
-import {BottomSheet} from "react-native-btr";
+import { colors } from "../../theme/colors";
+import { Feather } from "@expo/vector-icons";
+import { BottomSheet } from "react-native-btr";
 import Rating from "../Rating";
+import { AntDesign } from '@expo/vector-icons';
+import { useNavigation } from "@react-navigation/native";
 
 const SingleProduct = ({
   navigation,
@@ -19,36 +21,73 @@ const SingleProduct = ({
   from,
   toggleBottomNavigationView,
   visible,
+  name,
+  sales,
+  id
 }) => {
   const bottomSheetRef = useRef(null);
+  // const navigation = useNavigation()
+  // console.log(id,"id")
 
-  const onPress = () => {
-    navigation.navigate("product-details");
+  const onPress = (id) => {
+    // alert(id)
+    navigation.navigate("product-details",{productId:id});
   };
   const handleRate = (rating) => {
     console.log(`User rated item with ${rating} stars`);
   };
 
   return (
-    <View preset={["mt_20"]} style={{width: scale(160)}}>
-      <CustomTouchBtn preset={[" mt_10"]} onPress={onPress}>
-        <Image style={{width: scale(160), height: scale(220)}} source={src} />
+    <View
+      preset={["mt_20 mr_5   "]}
+      style={{
+        width: scale(160),
+        height:scale(310),
+        backgroundColor:colors.white,
+        // shadowColor: "rgba(0, 0, 0,0.5)",
+       borderColor:"#f2e9e9",
+      //  borderWidth:1,
+       borderRadius:5,
+      //  elevation:2,shadowOpacity: 0.8,
+      //  shadowRadius: 5,shadowOffset: {
+      //   width: 0,
+      //   height: 1,
+      // },
+      }}
+    >
+      <CustomTouchBtn preset={[" mt_10 p_5"]} onPress={()=>onPress(id)}>
+        <Image
+          style={{ width: scale(150), height: scale(150), resizeMode: "cover",borderRadius:5 }}
+          source={{ uri: src }}
+        />
         {/* <Feather name="heart" size={34} color="black" /> */}
         <View preset={["mt_5"]}>
-          <Text preset={["p3 lh_14"]}>Nike Super Red Shoe for Men</Text>
-          <Text preset={["mt_5 p3"]}>৳ 94894.00</Text>
+          <Text preset={["p3 lh_14"]}>{name.slice(0,30)}</Text>
+          <Text preset={["mt_5 p3"]}>{price}</Text>
         </View>
       </CustomTouchBtn>
-      <Rating from={from} maxStars={5} defaultStars={3} onRate={handleRate} />
+      <View preset={["p_5"]}>
+      <Rating
+        sales={sales}
+        from={from}
+        maxStars={5}
+        defaultStars={rate}
+        onRate={handleRate}
+      />
+      </View>
       <CustomTouchBtn
-        preset={["center border_1 mt_10"]}
+        preset={["center row  border_1 mt_10"]}
         // onPress={() => bottomSheetRef.current.expand()}
         onPress={() => {
           toggleBottomNavigationView();
           // alert("twitter");
         }}
-        style={styles.addtocart}>
-        <Text preset={["p2 text_primary2 radius_5 "]}>Add to Cart</Text>
+        style={styles.addtocart}
+      > 
+
+<AntDesign name="shoppingcart" size={23} style={{fontWeight:"700"}} color={colors.primary_3} />
+
+        <Text preset={["p2 ml_5 bold text_primary2 radius_5 "]}>Add to Cart</Text>
       </CustomTouchBtn>
     </View>
   );
@@ -58,8 +97,13 @@ export default SingleProduct;
 
 const styles = StyleSheet.create({
   addtocart: {
-    width: "100%",
+    width: scale(160),
+    alignSelf:"center",
+    position:"absolute",
+
     height: scale(45),
+    bottom:0,
+
     borderRadius: 5,
     borderColor: colors.primary_2,
   },

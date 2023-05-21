@@ -24,18 +24,19 @@ import FullScreenLoader from "../components/loader/FullScreenLoader ";
 const ProductList = ({navigation}) => {
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(true);
+  
 
   const toggleBottomNavigationView = () => {
     //Toggling the visibility state of the bottom sheet
     setVisible(!visible);
   };
 
-  setTimeout(() => {
-    setLoading(false);
-  }, 1000);
-  if (loading) {
-    return <FullScreenLoader visible={loading} />;
-  }
+  // setTimeout(() => {
+  //   setLoading(false);
+  // }, 1000);
+  // if (loading) {
+  //   return <FullScreenLoader visible={loading} />;
+  // }
 
   return (
     <Mainlayout navigation={navigation}>

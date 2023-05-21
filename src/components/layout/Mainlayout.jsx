@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
     // backgroundColor: "#211f1f",
     height: height,
     width: width,
-    backgroundColor: colors.white,
+    // backgroundColor: colors.white,
 
     // paddingTop: scale(10),
   },

@@ -99,7 +99,7 @@ function MyTabBar({state, descriptors, navigation}) {
                 }}>
                 {/* {icon} */}
                 <Text preset={["p2 bold"]} style={{color: colors.white}}>
-                  {label}
+                Add To Cart
                 </Text>
               </View>
             </View>
@@ -110,15 +110,16 @@ function MyTabBar({state, descriptors, navigation}) {
   );
 }
 
-export default function ProducDetailsTab() {
+export default function ProducDetailsTab({route}) {
   // const {auth} = useContext(CheckboxContext);
+  // console.log(route.params)
   return (
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
       }}
       tabBar={(props) => <MyTabBar {...props} />}>
-      <Tab.Screen name="Add To Cart" component={ProductDetails} />
+      <Tab.Screen name="product_details" initialParams={route.params} component={ProductDetails} />
     </Tab.Navigator>
   );
 }

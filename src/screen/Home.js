@@ -5,24 +5,54 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Mainlayout from "../components/layout/Mainlayout";
 import { height, scale } from "../../utils/funtions";
 import Slider from "../components/Slider";
 import Text from "../components/tags/Text";
 import FullScreenLoader from "../components/loader/FullScreenLoader ";
+import productServices from "../services/productServices";
 
 const Home = ({ navigation }) => {
   // console.log(navigation, "home navigation");
   // navigation.navigate("")
-
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
-  setTimeout(() => {
-    setLoading(false);
-  }, 1000);
+  // setTimeout(() => {
+  //   setLoading(false);
+  // }, 1000);
+  
+  
+  const allCategories = () => {
+    productServices
+      .getAllCategories()
+      .then((res) => {
+        // console.log(res.data, "res from api categoried");
+        if(res.status==200){
+          setCategories(res.data.data)
+          // console.log(res.data.data)
+          setLoading(false)
+        }
+      })
+      .catch((err) => {
+        setLoading(false)
+        // console.log(err, "error from api categoried");
+      });
+  };
+
+
+  useEffect(()=>{
+    allCategories()
+
+  },[])
+
+
+  console.log(categories,"categoried=s")
+  
   if (loading) {
     return <FullScreenLoader visible={loading} />;
   }
+
   return (
     <Mainlayout navigation={navigation}>
       <ScrollView style={{}} showsVerticalScrollIndicator={false}>
@@ -224,7 +254,7 @@ const Home = ({ navigation }) => {
         </View> */}
         </View>
         {/* new product */}
-        <View
+        {/* <View
           style={{
             flexDirection: "row",
             justifyContent: "space-between",
@@ -352,7 +382,7 @@ const Home = ({ navigation }) => {
             />
             <Text preset={["p3"]}> shoe</Text>
           </View>
-        </ScrollView>
+        </ScrollView> */}
 
         {/* explore all  */}
         <View
@@ -371,59 +401,31 @@ const Home = ({ navigation }) => {
             borderBottomRightRadius: 0,
           }}
         >
-          <Text preset={["p2 bold"]}>New Products</Text>
+          <Text preset={["p2 bold"]}>Categories</Text>
 
-          <TouchableOpacity style={{ flexDirection: "row" }}>
+          {/* <TouchableOpacity style={{ flexDirection: "row" }}>
             <Text preset={["p3"]}>Explore all</Text>
             <Image
               source={require("../../assets/icons/arrow-right-o.png")}
               style={{ marginLeft: scale(10) }}
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         <View style={styles.products}>
-          <View style={styles.product}>
-            <Image
-              source={require("../../assets/img/shoe1.png")}
-              style={{ width: "100%", height: scale(100) }}
-            />
-            <Text preset={["p3 lh_14"]}>Nike Super Red Shoe for Men</Text>
-          </View>
-          <View style={styles.product}>
-            <Image
-              source={require("../../assets/img/sunglass.png")}
-              style={{ width: "100%", height: scale(100) }}
-            />
-            <Text preset={["p3 lh_14"]}>Nike Super Red Shoe for Men</Text>
-          </View>
-          <View style={styles.product}>
-            <Image
-              source={require("../../assets/img/redShoe.png")}
-              style={{ width: "100%", height: scale(100) }}
-            />
-            <Text preset={["p3 lh_14"]}>Nike Super Red Shoe for Men</Text>
-          </View>
-          <View style={styles.product}>
-            <Image
-              source={require("../../assets/img/watch.png")}
-              style={{ width: "100%", height: scale(100) }}
-            />
-            <Text preset={["p3 lh_14"]}>Nike Super Red Shoe for Men</Text>
-          </View>
-          <View style={styles.product}>
-            <Image
-              source={require("../../assets/img/headphone.png")}
-              style={{ width: "100%", height: scale(100) }}
-            />
-            <Text preset={["p3 lh_14"]}>Nike Super Red Shoe for Men</Text>
-          </View>
-          <View style={styles.product}>
-            <Image
-              source={require("../../assets/img/camera.png")}
-              style={{ width: "100%", height: scale(100) }}
-            />
-            <Text preset={["p3 lh_14"]}>Nike Super Red Shoe for Men</Text>
-          </View>
+          {
+            categories.map((cate,index)=>{
+              return<TouchableOpacity key={index} style={styles.product}>
+              <Image
+                source={require("../../assets/img/shoe1.png")}
+                style={{ width: "100%", height: scale(100) }}
+              />
+              <Text preset={["p3 lh_14"]}>{cate.name}</Text>
+            </TouchableOpacity>
+            })
+          }
+          
+       
+         
         </View>
         <View style={{ height: scale(300) }}></View>
       </ScrollView>

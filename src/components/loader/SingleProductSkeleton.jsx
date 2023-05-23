@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { View, Image, StyleSheet, Animated } from 'react-native';
+import { View, StyleSheet, Animated } from 'react-native';
 
 const SingleProductSkeleton = () => {
   const shimmerAnimatedValue = useRef(new Animated.Value(0)).current;
@@ -12,7 +12,7 @@ const SingleProductSkeleton = () => {
     Animated.loop(
       Animated.timing(shimmerAnimatedValue, {
         toValue: 1,
-        duration: 2000,
+        duration: 1000,
         useNativeDriver: true,
       })
     ).start();

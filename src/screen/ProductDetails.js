@@ -40,23 +40,13 @@ const ProductDetails = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
   const [singleProduct, setSingleProduct] = useState({});
-  // const {auth, detailsBottomSheet, setDetailsBottomSheet} =
-  //   useContext(CheckboxContext);
-
   const dispatch = useDispatch();
   const route = useRoute();
-
-  // alert(id)
-  // console.log(route.params," from details")
   const { productId } = route.params ?? {};
-  // console.log(productId);
 
   const { detailsBottomSheet } = useSelector((state) => state.utils);
   const toggleBottomNavigationView = () => {
-    // setDetailsBottomSheet(!detailsBottomSheet);
     dispatch(setDetailsBottomSheet());
-    //Toggling the visibility state of the bottom sheet
-    // setVisible(!visible);
   };
 
   useEffect(() => {
@@ -73,14 +63,10 @@ const ProductDetails = ({ navigation }) => {
         setLoading(false);
       });
   }, []);
-  // setTimeout(() => {
-  //   setLoading(false);
-  // }, 1000);
+
   if (loading) {
-    // return <FullScreenLoader visible={loading} />;
-    return <SingleProductScreenSkeleton/>
+    return <SingleProductScreenSkeleton />;
   }
-  // console.log(singleProduct?.photos)
 
   return (
     <Mainlayout>
@@ -98,8 +84,6 @@ const ProductDetails = ({ navigation }) => {
               height: height,
               width: width,
               backgroundColor: colors.white,
-
-              // paddingTop: scale(10),
             },
             right: scale(6),
             top: scale(6),
@@ -116,7 +100,7 @@ const ProductDetails = ({ navigation }) => {
             height: scale(500),
             resizeMode: "contain",
             marginBottom: scale(10),
-            alignSelf:"center",
+            alignSelf: "center",
             borderTopLeftRadius: 10,
             borderTopRightRadius: 10,
             // borderRadius:10
@@ -125,21 +109,19 @@ const ProductDetails = ({ navigation }) => {
         />
 
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-          {
-            singleProduct?.photos?.map((photo,index)=><TouchableOpacity onPress={() => setBigImg(photo?.path)}>
-            <Image
-              style={{
-                height: scale(60),
-                width: scale(62),
-                marginRight: scale(5),
-              }}
-              source={{uri:photo?.path}}
-            />
-          </TouchableOpacity>)
-          }
-          
-        
-         
+          {singleProduct?.photos?.map((photo, index) => (
+            <TouchableOpacity onPress={() => setBigImg(photo?.path)}>
+              <Image
+                style={{
+                  height: scale(70),
+                  width: scale(56),
+                  marginRight: scale(5),
+                  resizeMode:"stretch"
+                }}
+                source={{ uri: photo?.path }}
+              />
+            </TouchableOpacity>
+          ))}
         </ScrollView>
         <View preset={[`  mt_20`]}>
           <TouchableOpacity
@@ -163,9 +145,11 @@ const ProductDetails = ({ navigation }) => {
             </Text>
             <Image source={require("../../assets/icons/copy.png")} />
           </TouchableOpacity>
-          <Text preset={["h3"]}>Nike Super Red Commercial Shoe for Men</Text>
+          <Text preset={["h3"]}>{singleProduct?.name}</Text>
         </View>
-        <Text preset={["h2 bold mt_10"]}>৳ 8520.24</Text>
+        <Text preset={["h2 bold mt_10"]}>
+          {singleProduct?.price?.main_price}
+        </Text>
         <View preset={["row"]} style={styles.text}>
           <Text preset={["p1 fs_20 "]}>M.S.R.P :</Text>
           <Text preset={[" fs_20  text_second3"]}>9200</Text>
@@ -177,21 +161,21 @@ const ProductDetails = ({ navigation }) => {
 
         <CustomTouchBtn
           preset={["row mt_10 radius_5 center   border_1 "]}
-          style={{ height: scale(48), width: scale(293) }}
+          style={{ height: scale(48), width: "100%" }}
         >
           <Image source={require("../../assets/icons/dload.png")} />
           <Text preset={["p1 ml_10 fw_325"]}>Download Product Details</Text>
         </CustomTouchBtn>
         <CustomTouchBtn
           preset={["row mt_10  radius_5 center border_1 "]}
-          style={{ height: scale(48), width: scale(222) }}
+          style={{ height: scale(48), width: "100%" }}
         >
           <Image source={require("../../assets/icons/facebook.png")} />
           <Text preset={["p1 ml_10 fw_325 "]}>Post in Facebook</Text>
         </CustomTouchBtn>
 
         {/* size */}
-        <View preset={["mt_10"]}>
+        {/* <View preset={["mt_10"]}>
           <Text preset={["fs_16 bold "]}>Select Your Size</Text>
           <View preset={["row wrap"]}>
             {[6, 7, 8, 9, 10, 11, 12].map((size, index) => (
@@ -202,11 +186,11 @@ const ProductDetails = ({ navigation }) => {
                   console.log("hello press");
                 }}
                 preset={[
-                  `center  border_1 mr_10 mt_10 ph_15 ${
+                  `center   mr_10 mt_10 ph_15 ${
                     activeSize === size ? "active" : ""
                   }`,
                 ]}
-                style={{ width: scale(67), height: scale(48) }}
+                style={{ width: scale(67), height: scale(35),borderWidth:1, }}
               >
                 <Text
                   preset={[` ${activeSize === size && "text_white "}  fs_16`]}
@@ -216,35 +200,43 @@ const ProductDetails = ({ navigation }) => {
               </CustomTouchBtn>
             ))}
           </View>
-        </View>
+        </View> */}
 
         {/* color */}
-        <View preset={["mt_10"]}>
-          <Text preset={["fs_16 bold "]}>Select Color</Text>
-          <View preset={["row wrap"]}>
-            {["Red", "Green", "Black", "Blue"].map((color, index) => (
-              <CustomTouchBtn
-                key={index}
-                onPress={() => {
-                  setActiveColor(color);
-                  console.log("hello press");
-                }}
-                preset={[
-                  `center  border_1 mr_10 mt_10 ph_15 ${
-                    activeColor === color ? "active" : ""
-                  }`,
-                ]}
-                style={{ width: scale(85), height: scale(48) }}
-              >
-                <Text
-                  preset={[` ${activeColor === color && "text_white "}  fs_16`]}
+        {singleProduct?.variation_attributes?.map((variation, index) => (
+          <View key={index} preset={["mt_10"]}>
+            <Text preset={["fs_16 bold "]}>Select {variation?.title}</Text>
+            <View preset={["row wrap"]}>
+              {variation?.options?.map((color, index) => (
+                <CustomTouchBtn
+                  key={index}
+                  onPress={() => {
+                    setActiveColor(color);
+                    // console.log("hello press");
+                  }}
+                  preset={[
+                    `center   mr_10 mt_10 ph_15 ${
+                      activeColor === color ? "active" : ""
+                    }`,
+                  ]}
+                  style={{
+                    width: scale(85),
+                    height: scale(35),
+                    borderWidth: 1,
+                  }}
                 >
-                  {color}
-                </Text>
-              </CustomTouchBtn>
-            ))}
+                  <Text
+                    preset={[
+                      ` ${activeColor === color && "text_white "}  fs_16`,
+                    ]}
+                  >
+                    {color}
+                  </Text>
+                </CustomTouchBtn>
+              ))}
+            </View>
           </View>
-        </View>
+        ))}
 
         {/* quantity */}
         <View preset={["mt_10"]}>

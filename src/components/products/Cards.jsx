@@ -15,7 +15,8 @@ const Cards = ({navigation, name,collections=[]}) => {
         <Text preset={["p1 bold"]}>{name}</Text>
         <CustomTouchBtn
           preset={["row center"]}
-          onPress={() => navigation.navigate("ProductList", {name: "Jane"})}>
+          // onPress={() => navigation.navigate("ProductList", {name: "Jane"})}
+          >
           <Text preset={["p2 mr_5"]}>Explore all</Text>
           <Image source={require("../../../assets/icons/right-icon.png")} />
         </CustomTouchBtn>
@@ -23,7 +24,8 @@ const Cards = ({navigation, name,collections=[]}) => {
       <ScrollView style={styles.products} horizontal={true} showsHorizontalScrollIndicator={false}>
         {
           collections.map((col,index)=>{
-            return  <View
+            return  <CustomTouchBtn
+            preset={["center"]}
             key={index}
             style={{
               width: scale(108),
@@ -31,7 +33,7 @@ const Cards = ({navigation, name,collections=[]}) => {
             <Image source={{uri:col?.thumbnail_image}} style={{height:scale(90),width:scale(90)}} />
             <Text preset={["p3 lh_14 mt_5"]}>{col?.name}
             </Text>
-          </View>
+          </CustomTouchBtn>
 
           })
         }

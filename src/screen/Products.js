@@ -25,30 +25,33 @@ import img6 from "../../assets/img/shoe1.png";
 import productServices from "../services/productServices";
 import { FlatList } from "react-native";
 import SingleProductSkeleton from "../components/loader/SingleProductSkeleton";
+import { BottomSheet } from "react-native-btr";
+import CustomTouchBtn from "../components/tags/CustomTouchBtn";
+import SingleCart from "../components/cart/SingleCart";
+import { TextInput } from "react-native-web";
+import { colors } from "../theme/colors";
 
 const Products = ({ navigation }) => {
   // console.log(navigation, "products navigatio");
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [lastPage, setLastPage] = useState();
-
   const [data, setData] = useState([]);
   const [collections, setCollections] = useState([]);
   // const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const flatListRef = useRef(null);
-
   const fetchCollection = () => {
     productServices.productCollection().then((res) => {
       console.log(res.data.data, "top Selling ");
       setCollections(res.data.data);
     });
+    
   };
   useEffect(() => {
     // fetchData();
     fetchCollection();
   }, []);
-
   const fetchData =  () => {
     setLoading(true);
      productServices.productList(page).then((res)=>{
@@ -64,19 +67,20 @@ const Products = ({ navigation }) => {
       }
       else{
         setLoading(false)
-      } 
 
+        // setData([...data,{id}])
+      } 
                                   
     }).catch((err=>{
       setLoading(false)
 
     }))
     // console.log(res.data.meta, "product apo");
-
    
   };
 
   const renderItem = ({ item }) => (
+
     <SingleProduct
     id={item?.id}
       from={"product"}
@@ -120,14 +124,15 @@ const Products = ({ navigation }) => {
         <SingleProductSkeleton/>
         <SingleProductSkeleton/>
         <SingleProductSkeleton/>
-
         <SingleProductSkeleton/>
-
-
-
+        <SingleProductSkeleton/>
+        <SingleProductSkeleton/>
+        <SingleProductSkeleton/>
+        <SingleProductSkeleton/>
+        <SingleProductSkeleton/>
+        <SingleProductSkeleton/>
         </View>
         </ScrollView>
-        
       </View>
     );
   };
@@ -402,6 +407,11 @@ const Products = ({ navigation }) => {
             </TouchableOpacity>
           </View>
         </View>
+        {
+          data.length<=0 && <View style={{height:300}}>
+
+          </View>
+        }
       </>
     );
   };
@@ -424,6 +434,18 @@ const Products = ({ navigation }) => {
       />
 
       {/* </ScrollView> */}
+      
+      <BottomSheet
+        visible={visible}
+        //setting the visibility state of the bottom shee
+        onBackButtonPress={toggleBottomNavigationView}
+        //Toggling the visibility state on the click of the back botton
+        onBackdropPress={toggleBottomNavigationView}
+        //Toggling the visibility state on the clicking out side of the sheet
+      >
+        {/*Bottom Sheet inner View*/}
+      
+      </BottomSheet>
     </Mainlayout>
   );
 };

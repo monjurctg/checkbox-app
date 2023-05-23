@@ -25,7 +25,8 @@ const Mainlayout = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
   const handleSearchIconClick = () => {
-    setSearchVisible(!isSearchVisible);
+    // setSearchVisible(!isSearchVisible);
+    navigation.navigate("search")
   };
   const [isMenu, setIsMenu] = useState(false);
   const animatedValue = new Animated.Value(0);
@@ -241,7 +242,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    height: scale(72),
+    height: scale(50),
     borderBottomColor: colors.border,
     // borderBottomWidth: 1,
   },

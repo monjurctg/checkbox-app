@@ -18,7 +18,7 @@ const SingleProductScreenSkeleton = () => {
     Animated.loop(
         Animated.timing(fadeAnim, {
           toValue: 1,
-          duration: 1000,
+          duration: 1100,
           useNativeDriver: true,
         })
       ).start();

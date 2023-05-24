@@ -1,9 +1,10 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, StyleSheet,Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { scale } from "../../../utils/funtions";
+// import Text from "../tags/Text";
 
 
-const Categories = ({ categories, title, onCategoryPress }) => {
+const Categories = ({ data, title, onCategoryPress }) => {
   return (
     <View>
       <Text
@@ -20,7 +21,7 @@ const Categories = ({ categories, title, onCategoryPress }) => {
     {title}
       </Text>
       <View style={styles.products}>
-        {categories?.map((cate, index) => (
+        {data?.map((cate, index) => (
           <TouchableOpacity
           onPress={onCategoryPress}
             key={index}
@@ -29,7 +30,7 @@ const Categories = ({ categories, title, onCategoryPress }) => {
               width: "23%",
               backgroundColor:"#FFFFFF",
               borderRadius:5,
-              padding:5
+              padding:2
               // marginRight: scale(12),
             }}
           >
@@ -37,11 +38,11 @@ const Categories = ({ categories, title, onCategoryPress }) => {
               source={{uri:cate?.icon_path}}
               style={{
                 width: "90%",
-                height: scale(90),
+                height: scale(80),
                 resizeMode: "contain",
               }}
             />
-            <Text preset={["p3"]}>Camera</Text>
+            <Text numberOfLines={2}style={{fontSize:11,textAlign:"center",padding:2}}>{cate?.name}</Text>
           </TouchableOpacity>
         ))}
       </View>

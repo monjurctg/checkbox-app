@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 
-const SearchShadowBox = ({ headerText, data,onPress }) => {
+const SearchShadowBox = ({ headerText, data,onPress,loading }) => {
+
   return (
     <View style={styles.container}>
       <View style={styles.box}>
@@ -47,7 +48,8 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   content: {
-    padding: 10,
+    paddingLeft: 10,
+    paddingTop:10
   },
   itemContainer: {
     flexDirection: 'row',

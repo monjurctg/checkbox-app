@@ -15,6 +15,7 @@ import useDebounce from "../hooks/useDebounce";
 import productServices from "../services/productServices";
 import SearchShadowBox from "../components/search/SearchShadowBox";
 import { useNavigation } from "@react-navigation/native";
+import SearchSkeleton from "../components/loader/SearchSkeleton";
 
 const Search = () => {
   const [searchText, setSearchText] = useState("");
@@ -22,13 +23,14 @@ const Search = () => {
   const handleClearSearch = () => {
     setSearchText("");
   };
-  const navigation = useNavigation()
+  const navigation = useNavigation();
 
   const [clearer, setClearer] = React.useState(false);
   const [searchModal, setsearchModal] = useState(false);
   const [searchResult, setsearchResult] = useState([]);
   const [modalCat, setmodalCat] = useState(false);
   const [notItem, setNoItem] = useState("");
+  const [loading, setLoading] = useState(false);
   // console.log('searchModal', searchModal)
   // const { md } = useBreakpoint();
   // console.log("md", md);
@@ -37,10 +39,13 @@ const Search = () => {
   };
 
   // const [searchTerm, setSearchTerm] = useState("");
-  const debouncedSearchTerm = useDebounce(searchText, 500);
+  const debouncedSearchTerm = useDebounce(searchText, 400);
   let searchApi = async (data) => {
+    setLoading(true);
+
     let res = await productServices.searchProducts(data);
     if (res?.status === 200) {
+      setLoading(false);
       if (
         res?.data?.data?.keywords?.length == 0 &&
         res?.data?.data?.categories?.length == 0
@@ -55,7 +60,7 @@ const Search = () => {
       // setsearchResult([]);
     } else {
       setNoItem("");
-
+      setLoading(false);
       setsearchModal(false);
       setsearchResult([]);
     }
@@ -65,7 +70,6 @@ const Search = () => {
   useEffect(() => {
     searchApi(debouncedSearchTerm);
   }, [debouncedSearchTerm]);
-
 
   return (
     <InputLayout>
@@ -79,7 +83,14 @@ const Search = () => {
           onChangeText={setSearchText}
         />
       </View>
+
       {notItem && <Text>{notItem}</Text>}
+      {loading && (
+        <View>
+          <SearchSkeleton />
+          <SearchSkeleton />
+        </View>
+      )}
 
       <ScrollView
         style={{ marginTop: 20 }}
@@ -92,7 +103,7 @@ const Search = () => {
             </View>
             <View style={styles.content}>
               {searchResult?.keywords?.map((item, i) => (
-                <TouchableOpacity key={i} onPress={() => setSearchText(item)}>
+                <TouchableOpacity style={{padding:10}} key={i} onPress={() => setSearchText(item)}>
                   <Text
                     style={{ fontSize: 14, fontWeight: 500, textAlign: "left" }}
                   >
@@ -108,7 +119,7 @@ const Search = () => {
           <SearchShadowBox
             headerText={"Populer Category"}
             data={searchResult?.categories}
-            onPress={()=>alert("hello")}
+            onPress={() => alert("hello")}
           />
         )}
         {/* pr */}
@@ -116,8 +127,9 @@ const Search = () => {
           <SearchShadowBox
             headerText={"Products"}
             data={searchResult?.products}
-            onPress={(item)=>navigation.navigate("product-details",{productId:item?.id})}
-
+            onPress={(item) =>
+              navigation.navigate("product-details", { productId: item?.id })
+            }
           />
         )}
         <View style={{ height: 200 }}></View>

@@ -3,7 +3,7 @@ import { View, StyleSheet, Animated } from "react-native";
 import Text from "../tags/Text";
 import { scale } from "../../../utils/funtions";
 
-const CollectionSkeleton = ({}) => {
+const SearchSkeleton = ({}) => {
   const shimmerAnimatedValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -14,7 +14,7 @@ const CollectionSkeleton = ({}) => {
     Animated.loop(
       Animated.timing(shimmerAnimatedValue, {
         toValue: 1,
-        duration: 1200,
+        duration: 1000,
         useNativeDriver: true,
       })
     ).start();
@@ -26,7 +26,7 @@ const CollectionSkeleton = ({}) => {
   });
 
   return (
-    <View style={{borderWidth:1,marginTop:30, borderColor: "#E5E5E5",}}>
+    <View style={{marginTop:30,}}>
       <View>
         <View
           style={{
@@ -37,46 +37,30 @@ const CollectionSkeleton = ({}) => {
             alignItems: "center",
             backgroundColor: "#FFFFFF",
             padding: 10,
+            // columnGap:10
           }}
         >
+           
           <Animated.View
             style={[
               styles.shimmerText,
-              { opacity: shimmerAnimatedValue, width: "40%" },
+              { opacity: shimmerAnimatedValue },
             ]}
           />
 
-          <Animated.View
-            style={[
-              styles.shimmerText,
-              { opacity: shimmerAnimatedValue, width: "40%" },
-            ]}
-          />
         </View>
       </View>
 
-      <View style={{ flexDirection: "row", columnGap: 7, flexWrap: "wrap" }}>
+      <View >
         {[1, 2, 3].map((sk, index) => (
           <View key={index} style={styles.container}>
             <View style={styles.detailsContainer}>
-              <Animated.View
-                style={{
-                  width: "100%",
-                  //  alignSelf:"center",
-                  //  position:"absolute",
-                  opacity: shimmerAnimatedValue,
-
-                  height: 90,
-                  //  bottom:0,
-                  // marginTop:60,
-
-                  borderRadius: 5,
-                  backgroundColor: "#E0E0E0",
-
-                  //  borderColor: colors.primary_2,
-                }}
-              ></Animated.View>
-
+            <Animated.View
+            style={[
+              styles.shimmerText,
+              { opacity: shimmerAnimatedValue ,width:30},
+            ]}
+          />
               <Animated.View
                 style={[styles.shimmerText, { opacity: shimmerAnimatedValue }]}
               />
@@ -90,26 +74,23 @@ const CollectionSkeleton = ({}) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20,
+    // marginTop: 10,
     marginRight: 5,
-    width: "30%",
-    height: 140,
+    paddingVertical:10,
+    width: "50%",
+    // height: 140,
     backgroundColor: '#FFFFFF',
     borderColor: "#F2E9E9",
     borderRadius: 5,
   },
-  shimmerImage: {
-    width: "100%",
-    height: 150,
-    backgroundColor: "#E0E0E0",
-    borderRadius: 5,
-  },
+  
   detailsContainer: {
-    padding: 5,
+    paddingLeft: 10,
+    flexDirection:"row",columnGap:10
   },
   shimmerText: {
     width: "100%",
-    height: 18,
+    height: 30,
     marginTop: 5,
     backgroundColor: "#E0E0E0",
     borderRadius: 5,
@@ -117,4 +98,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CollectionSkeleton;
+export default SearchSkeleton;

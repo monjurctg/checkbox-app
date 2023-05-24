@@ -4,12 +4,13 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { AntDesign } from '@expo/vector-icons';
 import { scale } from '../../../utils/funtions';
 
-const CustomDatePicker = ({ onChange ,value}) => {
+const CustomDatePicker = ({ onChange ,value,editable}) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isDatePickerVisible, setDatePickerVisible] = useState(false);
 
 
   const showDatePicker = () => {
+    if(!editable) return
     setDatePickerVisible(true);
     // alert(isDatePickerVisible?"TRue":"false")
 
@@ -40,7 +41,7 @@ const CustomDatePicker = ({ onChange ,value}) => {
       <TouchableOpacity style={styles.dateInput} onPress={showDatePicker}>
         <TextInput
           placeholder="Select a date"
-          value={selectedDate.toDateString()}
+          value={value?value:selectedDate.toDateString()}
           style={styles.textInput}
           editable={false}
         />
@@ -49,6 +50,7 @@ const CustomDatePicker = ({ onChange ,value}) => {
       <DateTimePickerModal
         isVisible={isDatePickerVisible}
         mode="date"
+
         date={selectedDate}
         onConfirm={handleConfirm}
         onCancel={handleCancel}

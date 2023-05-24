@@ -34,8 +34,8 @@ productServices.bestSeller = () => {
     .then((res) => res)
     .catch((err) => err);
 };
-productServices.productList = (page) => {
-  let url = `products/all?page=${page}`;
+productServices.productList = (page,limit) => {
+  let url = `products/all?page=${page}&limit=${limit}`;
   return api.get(url);
 };
 

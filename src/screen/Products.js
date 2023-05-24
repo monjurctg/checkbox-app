@@ -77,7 +77,7 @@ const Products = ({ navigation }) => {
   const fetchData = () => {
     setLoading(true);
     productServices
-      .productList(page)
+      .productList(page,20)
       .then((res) => {
         // setLoading(false);
         // flatListRef.current.scrollToEnd({ animated: false });
@@ -209,7 +209,7 @@ const Products = ({ navigation }) => {
     return (
       <>
         {categoriLoading && categories.length == 0 && <CategorySkeleton />}
-        <Categories title={"Top Categories"} categories={categories} />
+        <Categories title={"Top Categories"} data={categories} />
         {/* <CollectionSkeleton/> */}
         {collectionLoading && collections.length == 0 && (
           <View>
@@ -349,7 +349,7 @@ const Products = ({ navigation }) => {
         ListFooterComponent={renderFooter}
         keyExtractor={(item) => item.id.toString()}
         onEndReached={fetchData}
-        onEndReachedThreshold={0.8}
+        onEndReachedThreshold={0.5}
       />
 
       {/* </ScrollView> */}

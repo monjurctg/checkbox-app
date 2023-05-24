@@ -13,6 +13,7 @@ import Text from "../components/tags/Text";
 
 import productServices from "../services/productServices";
 import CategorySkeleton from "../components/loader/CategorySkeleton";
+import Categories from "../components/products/Categories";
 
 const Home = ({ navigation }) => {
   // console.log(navigation, "home navigation");
@@ -385,7 +386,7 @@ const Home = ({ navigation }) => {
         </ScrollView> */}
 
         {/* explore all  */}
-        <View
+        {/* <View
           style={{
             flexDirection: "row",
             justifyContent: "space-between",
@@ -403,18 +404,12 @@ const Home = ({ navigation }) => {
         >
           <Text preset={["p2 bold"]}>Categories</Text>
 
-          {/* <TouchableOpacity style={{ flexDirection: "row" }}>
-            <Text preset={["p3"]}>Explore all</Text>
-            <Image
-              source={require("../../assets/icons/arrow-right-o.png")}
-              style={{ marginLeft: scale(10) }}
-            />
-          </TouchableOpacity> */}
-        </View>
+          
+        </View> */}
         {
           loading &&  <CategorySkeleton/>
         }
-        <View style={styles.products}>
+        {/* <View style={styles.products}>
           {
             categories.map((cate,index)=>{
               return<TouchableOpacity key={index} style={styles.product}>
@@ -429,7 +424,8 @@ const Home = ({ navigation }) => {
           
        
          
-        </View>
+        </View> */}
+        <Categories title={"Categories"} data={categories} />
         <View style={{ height: scale(300) }}></View>
       </ScrollView>
     </Mainlayout>

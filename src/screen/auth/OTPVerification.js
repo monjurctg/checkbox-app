@@ -20,7 +20,7 @@ const OTPVerification = ({ route }) => {
   const otpInputs = useRef([]);
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
-  const { phone } = route.params??{};
+  const { phone ,name,dob} = route.params??{};
 
   //   const handleOTPChange = (value, index) => {
   //     const newOTP = [...otp];
@@ -74,6 +74,7 @@ const OTPVerification = ({ route }) => {
       phone: phone,
       verification_code: enteredOTP,
     };
+    console.log(data,"ohone otp")
     setLoading(true);
 
     const res = await authServices
@@ -82,7 +83,7 @@ const OTPVerification = ({ route }) => {
       .catch((err) => err);
     if (res.status === 200) {
       setLoading(false);
-      navigation.navigate("otp_verify");
+      navigation.navigate("nid_verify",{name,phone,dob});
     } else {
       setLoading(false);
 

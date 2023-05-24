@@ -12,7 +12,7 @@ const SingleProductSkeleton = () => {
     Animated.loop(
       Animated.timing(shimmerAnimatedValue, {
         toValue: 1,
-        duration: 1000,
+        duration: 2200,
         useNativeDriver: true,
       })
     ).start();

@@ -12,7 +12,7 @@ const CategorySkeleton = ({}) => {
     Animated.loop(
       Animated.timing(shimmerAnimatedValue, {
         toValue: 1,
-        duration: 1000,
+        duration: 1100,
         useNativeDriver: true,
       })
     ).start();

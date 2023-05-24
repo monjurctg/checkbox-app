@@ -17,7 +17,16 @@ productServices.productCollection = () => {
     .then((res) => res)
     .catch((err) => err);
 };
-
+productServices.topCategories = () => {
+  let url = `product-listing-page/categories`;
+  // debugger
+  const data = api
+    .get(url)
+    .then((res) => res)
+    .catch((err) => err);
+  // debugger
+  return data;
+};
 productServices.bestSeller = () => {
   let url = "product-listing-page/products/best-seller";
   return api
@@ -27,10 +36,7 @@ productServices.bestSeller = () => {
 };
 productServices.productList = (page) => {
   let url = `products/all?page=${page}`;
-  return api
-    .get(url)
-    .then((res) => res)
-    .catch((err) => err);
+  return api.get(url);
 };
 
 productServices.singleProduct = (productId) => {
@@ -39,6 +45,14 @@ productServices.singleProduct = (productId) => {
     .get(url)
     .then((res) => res)
     .catch((err) => err);
+};
+productServices.searchProducts = async (search) => {
+  let url = `get-search-suggestions?search=${search}`;
+  const data = await api
+    .get(url)
+    .then((res) => res)
+    .catch((err) => err.response);
+  return data;
 };
 
 export default productServices;

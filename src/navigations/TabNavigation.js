@@ -358,9 +358,9 @@ export default function TabScreen() {
   }, [auth]);
   // console.log(auth,"redux auth")
   
-  if (loading) {
-    return <FullScreenLoader visible={loading} />;
-  }
+  // if (loading) {
+  //   return <FullScreenLoader visible={loading} />;
+  // }
   return (
     <>
       {!auth ?  <>

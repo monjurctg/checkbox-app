@@ -1,104 +1,153 @@
 import {
-  ActivityIndicator,
   Image,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
+  FlatList,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import Mainlayout from "../components/layout/Mainlayout";
 
 import Cards from "../components/products/Cards";
 import { scale } from "../../utils/funtions";
-import FullScreenLoader from "../components/loader/FullScreenLoader ";
+
 import { AntDesign } from "@expo/vector-icons";
 import SingleProduct from "../components/products/SingleProduct";
-
-import img1 from "../../assets/img/redShoe.png";
-import img2 from "../../assets/img/camera.png";
-import img3 from "../../assets/img/headphone.png";
-import img4 from "../../assets/img/sunglass.png";
-import img5 from "../../assets/img/watch.png";
-import img6 from "../../assets/img/shoe1.png";
 import productServices from "../services/productServices";
-import { FlatList } from "react-native";
+
 import SingleProductSkeleton from "../components/loader/SingleProductSkeleton";
 import { BottomSheet } from "react-native-btr";
-import CustomTouchBtn from "../components/tags/CustomTouchBtn";
-import SingleCart from "../components/cart/SingleCart";
-import { TextInput } from "react-native-web";
-import { colors } from "../theme/colors";
+
+import BottomSheetCart from "../components/cart/BottomSheetCart";
+import Categories from "../components/products/Categories";
+import CategorySkeleton from "../components/loader/CategorySkeleton";
+import CollectionSkeleton from "../components/loader/CollectionSkeleton";
 
 const Products = ({ navigation }) => {
   // console.log(navigation, "products navigatio");
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [categoriLoading, setCategoryLoading] = useState(false);
+  const [collectionLoading, setCollectionLoading] = useState(false);
+
   const [lastPage, setLastPage] = useState();
   const [data, setData] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [collections, setCollections] = useState([]);
+  const [bottomSheetItem, setBottomSheetItem] = useState({});
   // const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const flatListRef = useRef(null);
+
+  // apis
   const fetchCollection = () => {
-    productServices.productCollection().then((res) => {
-      console.log(res.data.data, "top Selling ");
-      setCollections(res.data.data);
-    });
-    
+    setCollectionLoading(true);
+    productServices
+      .productCollection()
+      .then((res) => {
+        // console.log(res.data.data, "top Selling ");
+        setCollections(res.data.data);
+        setCollectionLoading(false);
+      })
+      .catch((err) => {
+        setCollectionLoading(false);
+      });
+  };
+  const fetchTopCategories = () => {
+    setCategoryLoading(true);
+    productServices
+      .topCategories()
+      .then((res) => {
+        // console.log(res.data,"categories")
+        setCategories(res.data.data);
+        setCategoryLoading(false);
+      })
+      .catch((err) => {
+        setCategoryLoading(false);
+      });
   };
   useEffect(() => {
     // fetchData();
     fetchCollection();
+    fetchTopCategories();
   }, []);
-  const fetchData =  () => {
+
+  const fetchData = () => {
     setLoading(true);
-     productServices.productList(page).then((res)=>{
-      // setLoading(false);
-      // flatListRef.current.scrollToEnd({ animated: false });
-      console.log(res.data.meta.last_page, page);
-      if(res.data.data.length>0){
-        setData([...data, ...res.data.data]);
+    productServices
+      .productList(page)
+      .then((res) => {
+        // setLoading(false);
+        // flatListRef.current.scrollToEnd({ animated: false });
+        console.log(res.data.meta.last_page, page);
+        if (res.data.data.length > 0) {
+          setData([...data, ...res.data.data]);
+          setLoading(false);
+          setPage(page + 1);
+          setLastPage(res.data.meta.last_page);
+        } else {
+          setLoading(false);
+
+          // setData([...data,{id}])
+        }
+      })
+      .catch((err) => {
         setLoading(false);
-        setPage(page + 1);
-        setLastPage(res.data.meta.last_page);  
-
-      }
-      else{
-        setLoading(false)
-
-        // setData([...data,{id}])
-      } 
-                                  
-    }).catch((err=>{
-      setLoading(false)
-
-    }))
+      });
     // console.log(res.data.meta, "product apo");
-   
+  };
+  // const fetchData = async () => {
+  //   setLoading(true);
+
+  //   try {
+  //     const res = await productServices.productList(page);
+  //     console.log(res.data.meta.last_page, page);
+
+  //     if (res.data.data.length > 0) {
+  //       setData((prevData) => [...prevData, ...res.data.data]);
+  //       setLoading(false);
+  //       setPage((prevPage) => prevPage + 1);
+  //       setLastPage(res.data.meta.last_page);
+  //     } else {
+  //       setLoading(false);
+  //     }
+  //   } catch (error) {
+  //     setLoading(false);
+  //   }
+  // };
+
+  const onBottomSheetOpen = (item) => {
+    setVisible(true);
+    setBottomSheetItem(item);
+  };
+  const onBottomSheetCloose = () => {
+    //Toggling the visibility state of the bottom sheet
+    setVisible(false);
+    setBottomSheetItem({});
   };
 
   const renderItem = ({ item }) => (
-
     <SingleProduct
-    id={item?.id}
+      id={item?.id}
       from={"product"}
       navigation={navigation}
       name={item?.name}
       src={item.thumbnail_image}
-      toggleBottomNavigationView={toggleBottomNavigationView}
+      toggleBottomNavigationView={onBottomSheetOpen}
       visible={visible}
       price={item?.price?.main_price}
       rate={item?.rating?.rating}
       sales={item?.sales}
+      item={item}
     />
   );
 
   const renderFooter = () => {
     if (!loading)
       return (
-        <View style={{ height: scale(280), marginTop: 20 }}>
+        <View style={{ height: scale(350), marginTop: 20 }}>
           {page > lastPage && (
             <Text style={{ textAlign: "center", color: "red" }}>
               No more data
@@ -120,27 +169,30 @@ const Products = ({ navigation }) => {
       >
         {/* <ActivityIndicator size="large" color={"red"} /> */}
         <ScrollView>
-        <View style={{flexDirection:"row",justifyContent:"space-around" ,flexWrap:"wrap"}}>
-        <SingleProductSkeleton/>
-        <SingleProductSkeleton/>
-        <SingleProductSkeleton/>
-        <SingleProductSkeleton/>
-        <SingleProductSkeleton/>
-        <SingleProductSkeleton/>
-        <SingleProductSkeleton/>
-        <SingleProductSkeleton/>
-        <SingleProductSkeleton/>
-        <SingleProductSkeleton/>
-        </View>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-around",
+              flexWrap: "wrap",
+            }}
+          >
+            <SingleProductSkeleton />
+            <SingleProductSkeleton />
+            <SingleProductSkeleton />
+            <SingleProductSkeleton />
+            <SingleProductSkeleton />
+            <SingleProductSkeleton />
+            <SingleProductSkeleton />
+            <SingleProductSkeleton />
+            <SingleProductSkeleton />
+            <SingleProductSkeleton />
+          </View>
         </ScrollView>
       </View>
     );
   };
   // loading
-  const toggleBottomNavigationView = () => {
-    //Toggling the visibility state of the bottom sheet
-    setVisible(!visible);
-  };
+
   // setTimeout(() => {
   //   setLoading(false);
   // }, 1000);
@@ -156,158 +208,16 @@ const Products = ({ navigation }) => {
   const Header = () => {
     return (
       <>
-        <View>
-          <Text
-            style={{
-              // fontFamily: "Gotham",
-              fontStyle: "normal",
-              fontWeight: "500",
-              fontSize: 18,
-              lineHeight: 22,
-              color: "#000000",
-            }}
-          >
-            Top Categories
-          </Text>
-          <View style={styles.products}>
-            <View
-              style={{
-                alignItems: "center",
-                width: "25%",
-                // marginRight: scale(12),
-              }}
-            >
-              <Image
-                source={require("../../assets/img/shoe1.png")}
-                style={{
-                  width: "90%",
-                  height: scale(100),
-                  resizeMode: "contain",
-                }}
-              />
-              <Text preset={["p3"]}>Camera</Text>
-            </View>
-            <View
-              style={{
-                alignItems: "center",
-                width: "25%",
-                // marginRight: scale(12),
-              }}
-            >
-              <Image
-                source={require("../../assets/img/headphone.png")}
-                style={{
-                  width: "90%",
-                  height: scale(100),
-                  resizeMode: "contain",
-                }}
-              />
-              <Text preset={["p3"]}>Head Phone</Text>
-            </View>
-            <View
-              style={{
-                alignItems: "center",
-                width: "25%",
-                // marginRight: scale(12),
-              }}
-            >
-              <Image
-                source={require("../../assets/img/sunglass.png")}
-                style={{
-                  width: "90%",
-                  height: scale(100),
-                  resizeMode: "contain",
-                }}
-              />
-              <Text preset={["p3"]}>Women's Dress</Text>
-            </View>
-            <View
-              style={{
-                alignItems: "center",
-                width: "25%",
-                // marginRight: scale(12),
-              }}
-            >
-              <Image
-                source={require("../../assets/img/redShoe.png")}
-                style={{
-                  width: "90%",
-                  height: scale(100),
-                  resizeMode: "contain",
-                }}
-              />
-              <Text preset={["p3"]}>Shoe</Text>
-            </View>
-            <View
-              style={{
-                alignItems: "center",
-                width: "25%",
-                // marginRight: scale(12),
-              }}
-            >
-              <Image
-                source={require("../../assets/img/sunglass.png")}
-                style={{
-                  width: "90%",
-                  height: scale(100),
-                  resizeMode: "contain",
-                }}
-              />
-              <Text preset={["p3"]}>Women's Dress</Text>
-            </View>
-            <View
-              style={{
-                alignItems: "center",
-                width: "25%",
-                // marginRight: scale(12),
-              }}
-            >
-              <Image
-                source={require("../../assets/img/redShoe.png")}
-                style={{
-                  width: "90%",
-                  height: scale(100),
-                  resizeMode: "contain",
-                }}
-              />
-              <Text preset={["p3"]}>Shoe</Text>
-            </View>
-            <View
-              style={{
-                alignItems: "center",
-                width: "25%",
-                // marginRight: scale(12),
-              }}
-            >
-              <Image
-                source={require("../../assets/img/camera.png")}
-                style={{
-                  width: "90%",
-                  height: scale(100),
-                  resizeMode: "contain",
-                }}
-              />
-              <Text preset={["p3"]}>Camera</Text>
-            </View>
-            <View
-              style={{
-                alignItems: "center",
-                width: "25%",
-                // marginRight: scale(12),
-              }}
-            >
-              <Image
-                source={require("../../assets/img/headphone.png")}
-                style={{
-                  width: "90%",
-                  height: scale(100),
-                  resizeMode: "contain",
-                }}
-              />
-              <Text preset={["p3"]}>Head Phone</Text>
-            </View>
+        {categoriLoading && categories.length == 0 && <CategorySkeleton />}
+        <Categories title={"Top Categories"} categories={categories} />
+        {/* <CollectionSkeleton/> */}
+        {collectionLoading && collections.length == 0 && (
+          <View>
+            <CollectionSkeleton /> 
+            <CollectionSkeleton />
           </View>
-        </View>
+        )}
+
         <View>
           <View
             style={{
@@ -407,11 +317,20 @@ const Products = ({ navigation }) => {
             </TouchableOpacity>
           </View>
         </View>
-        {
-          data.length<=0 && <View style={{height:300}}>
-
-          </View>
-        }
+        {data.length <= 0 && (
+          <ScrollView>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-around",
+                flexWrap: "wrap",
+              }}
+            >
+              <SingleProductSkeleton />
+              <SingleProductSkeleton />
+            </View>
+          </ScrollView>
+        )}
       </>
     );
   };
@@ -430,21 +349,24 @@ const Products = ({ navigation }) => {
         ListFooterComponent={renderFooter}
         keyExtractor={(item) => item.id.toString()}
         onEndReached={fetchData}
-        // onEndReachedThreshold={0.5}
+        onEndReachedThreshold={0.8}
       />
 
       {/* </ScrollView> */}
-      
+
       <BottomSheet
         visible={visible}
         //setting the visibility state of the bottom shee
-        onBackButtonPress={toggleBottomNavigationView}
+        onBackButtonPress={onBottomSheetCloose}
         //Toggling the visibility state on the click of the back botton
-        onBackdropPress={toggleBottomNavigationView}
+        onBackdropPress={onBottomSheetCloose}
         //Toggling the visibility state on the clicking out side of the sheet
       >
         {/*Bottom Sheet inner View*/}
-      
+        <BottomSheetCart
+          onBottomSheetClose={onBottomSheetCloose}
+          item={bottomSheetItem}
+        />
       </BottomSheet>
     </Mainlayout>
   );
@@ -460,4 +382,3 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
 });
-

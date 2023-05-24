@@ -10,8 +10,9 @@ import Mainlayout from "../components/layout/Mainlayout";
 import { height, scale } from "../../utils/funtions";
 import Slider from "../components/Slider";
 import Text from "../components/tags/Text";
-import FullScreenLoader from "../components/loader/FullScreenLoader ";
+
 import productServices from "../services/productServices";
+import CategorySkeleton from "../components/loader/CategorySkeleton";
 
 const Home = ({ navigation }) => {
   // console.log(navigation, "home navigation");
@@ -47,11 +48,10 @@ const Home = ({ navigation }) => {
   },[])
 
 
-  console.log(categories,"categoried=s")
   
-  if (loading) {
-    return <FullScreenLoader visible={loading} />;
-  }
+  // if (loading) {
+  //   return <CategorySkeleton/>;
+  // }
 
   return (
     <Mainlayout navigation={navigation}>
@@ -411,6 +411,9 @@ const Home = ({ navigation }) => {
             />
           </TouchableOpacity> */}
         </View>
+        {
+          loading &&  <CategorySkeleton/>
+        }
         <View style={styles.products}>
           {
             categories.map((cate,index)=>{

@@ -17,14 +17,14 @@ const Login = () => {
 
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
-  const [option, setOption] = useState("");
+  // const [option, setOption] = useState("");
   const [loading,setLoading]=useState(false)
   const navigation = useNavigation();
 
 
   const handleLogin = async()=>{
     const data ={
-        phone,password,user_type:option
+        phone,password, user_type: "customer",
     }
    
     if (!phone) {
@@ -128,14 +128,14 @@ setLoading(true)
         onChange={(text) => setPassword(text)}
       />
 
-      <InputTestCustom
+      {/* <InputTestCustom
 
         type={"dropdown"}
         option={["customer", "seller"]}
         label={"User Type"}
         value={option}
         onChange={(text) => setOption(text)}
-      />
+      /> */}
 
      
       <TouchableOpacity

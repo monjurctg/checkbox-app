@@ -23,7 +23,7 @@ const SingleProduct = ({
   visible,
   name,
   sales,
-  id
+  id,item
 }) => {
   const bottomSheetRef = useRef(null);
   // const navigation = useNavigation()
@@ -79,7 +79,7 @@ const SingleProduct = ({
         preset={["center row  border_1 mt_10"]}
         // onPress={() => bottomSheetRef.current.expand()}
         onPress={() => {
-          toggleBottomNavigationView();
+          toggleBottomNavigationView(item);
           // alert("twitter");
         }}
         style={styles.addtocart}

@@ -1,7 +1,18 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { StyleSheet, TextInput, } from 'react-native'
+import React, { useState } from 'react'
+import CustomTouchBtn from '../tags/CustomTouchBtn'
+import View from '../tags/View'
+import Text from '../tags/Text'
+import SingleCart from './SingleCart'
+import { scale } from '../../../utils/funtions'
+import { colors } from '../../theme/colors'
+import img1 from "../../../assets/img/redShoe.png";
+import { useNavigation } from '@react-navigation/native'
+import {AntDesign} from "@expo/vector-icons";
 
-const BottomSheetCart = () => {
+const BottomSheetCart = ({onBottomSheetClose,item}) => {
+    const navigation = useNavigation()
+    const[quantity,setQuantity]=useState(1)
   return (
     <View style={styles.bottomNavigationView} preset={["p_10"]}>
     <View
@@ -12,17 +23,18 @@ const BottomSheetCart = () => {
         paddingBottom: scale(5),
       }}>
       <Text preset={[" fs_16"]}>Product Details</Text>
-      <CustomTouchBtn onPress={() => toggleBottomNavigationView()}>
+      <CustomTouchBtn onPress={() => onBottomSheetClose()}>
         <AntDesign name="closecircleo" size={scale(20)} color="black" />
       </CustomTouchBtn>
     </View>
     <View preset={["mt_10 "]}>
-      <SingleCart src={img1} />
+      <SingleCart item={item} />
     </View>
     <View preset={["mt_10 center row"]}>
       <Text>Customer Rate</Text>
       <TextInput
         keyboardType="number-pad"
+        onChange={(text)=>console.log(text)}
         style={{
           borderColor: "#E6E7E8",
           borderWidth: 1,
@@ -76,4 +88,23 @@ const BottomSheetCart = () => {
 
 export default BottomSheetCart
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      margin: 2,
+      // justifyContent: "center",
+      // alignItems: "center",
+      backgroundColor: "#E0F7FA",
+    },
+    bottomNavigationView: {
+      backgroundColor: "#fff",
+      width: "100%",
+      minHeight: scale(300),
+      borderTopEndRadius: scale(15),
+      borderTopStartRadius: scale(15),
+  
+      // justifyContent: "center",
+      // alignItems: "center",
+    },
+  });
+  

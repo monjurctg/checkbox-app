@@ -1,4 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
+const BASE_URL = "https://phpstack-924353-3259330.cloudwaysapps.com/api/v2";
+const API_KEY = "83324867-6668-4c04-bf36-91714ea8b3e3";
 import axios from "axios";
 
 const api = axios.create({
@@ -31,6 +34,40 @@ const api = axios.create({
     }
     return config;
   });
+
+
+
+
+
+export const getApiData = async (endpoint) => {
+  try {
+    const token = await AsyncStorage.getItem("token");
+    const headers = {
+      Accept: "application/json",
+      "Content-Type": "multipart/form-data; charset=utf-8",
+      "Access-Control-Allow-Origin": "*",
+      "checkbox-api-v2-key": API_KEY,
+      Authorization: token ? `Bearer ${token}` : null,
+    };
+
+    const response = await fetch(`${BASE_URL}/${endpoint}`, {
+      method: "GET",
+      headers: headers,
+    });
+    return response
+
+    // if (!response.ok) {
+    //   throw new Error("Network response was not ok");
+    // }
+
+    // const data = await response.json();
+    // return data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
 
 
 

@@ -101,6 +101,8 @@ export default function App() {
             headerShown: false,
             headerMode: "screen",
           }}>
+          {/* <Stack.Screen name="search" component={Search} /> */}
+
 
           <Stack.Screen name="tab" component={TabScreen} />
           <Stack.Screen name="cart" component={Cart} />
@@ -142,7 +144,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#FFF",
     alignItems: "center",
     justifyContent: "center",
   },

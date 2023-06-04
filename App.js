@@ -29,6 +29,8 @@ import { Provider, useDispatch } from "react-redux";
 import store from "./src/redux/store";
 import { setAuth } from "./src/redux/reducers/authSlice";
 import Search from "./src/screen/Search";
+import ProductList from "./src/screen/ProductList";
+
 
 export default function App() {
   // const [loaded, error] = useFonts({
@@ -115,20 +117,8 @@ export default function App() {
           <Stack.Screen name="nid_verify" component={NidVerify} />
           <Stack.Screen name="user_info" component={SellerRegister} />
           <Stack.Screen name="search" component={Search} />
+          <Stack.Screen name="products-filter" component={ProductList} />
 
-
-
-
-
-
-
-
-
-          {/* <Stack.Screen
-          name="ProductListing"
-          component={ProductListing}
-          // options={{title: 'Welcome'}}
-        /> */}
         </Stack.Navigator>
 
         {/* <StatusBar style="auto" /> */}

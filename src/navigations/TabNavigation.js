@@ -1,6 +1,6 @@
 import { View, TouchableOpacity, Image } from "react-native";
 import { WebView } from "react-native-webview";
-import React, { useContext, useEffect, useState } from "react";
+import React, { Suspense, useContext, useEffect, useState } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -11,32 +11,23 @@ import Home from "../screen/Home";
 import Products from "../screen/Products";
 import homeActive from "../../assets/icons/home-active.png";
 import homeNotActive from "../../assets/icons/blackHome.png";
-
+import ProductList from "../screen/ProductList"
 import productActive from "../../assets/icons/products-active.png";
 import productNotActive from "../../assets/icons/blackProduct.png";
 import dash from "../../assets/icons/dash.png";
 import dashActive from "../../assets/icons/dash-active.png";
 import orders from "../../assets/icons/orders.png";
 import ordersActive from "../../assets/icons/orders-active.png";
+// const Products = React.lazy(() => import("../screen/Products"));
 
-import ProductList from "../screen/ProductList";
+// const ProductList = React.lazy(() => import(""));
 import {
-  AntDesign,
-  Entypo,
-  Feather,
-  MaterialIcons,
   FontAwesome5,
   MaterialCommunityIcons,
   Ionicons,
 } from "@expo/vector-icons";
 import Orders from "../screen/Orders";
-import { SafeAreaView } from "react-native-safe-area-context";
 import FullScreenLoader from "../components/loader/FullScreenLoader ";
-import { CheckboxContext } from "../context/CheckboxProvider";
-import Login from "../screen/auth/Login";
-import SiginUp from "../screen/auth/SignUp";
-import OTPVerification from "../screen/auth/OTPVerification";
-import NidVerify from "../screen/auth/NidVerify";
 import UnAuth from "../screen/auth/UnAuth";
 import { useDispatch, useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -49,7 +40,7 @@ const OrdersStack = createNativeStackNavigator();
 const DashStack = createNativeStackNavigator();
 const Dash = () => {
   const [loading, setLoading] = useState(true);
-  
+
   if (loading) {
     return <FullScreenLoader visible={loading} />;
   }
@@ -64,13 +55,15 @@ const Dash = () => {
 
 function HomeScreen() {
   return (
-    <HomeStack.Navigator
-      screenOptions={{ 
-        headerShown: false,
-      }}
-    >
-      <HomeStack.Screen name="/" component={Home} />
-    </HomeStack.Navigator>
+    <Suspense fallback={<Text>Loading...</Text>}>
+      <HomeStack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        <HomeStack.Screen name="/" component={Home} />
+      </HomeStack.Navigator>
+    </Suspense>
   );
 }
 
@@ -98,18 +91,6 @@ function DashScreen() {
   );
 }
 
-function ProductsScreen() {
-  return (
-    <ProductsStack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      <ProductsStack.Screen name="/" component={Products} />
-      <ProductsStack.Screen name="ProductList" component={ProductList} />
-    </ProductsStack.Navigator>
-  );
-}
 function MyTabBar({ state, descriptors, navigation, children }) {
   return (
     <View
@@ -259,7 +240,7 @@ function MyTabBar({ state, descriptors, navigation, children }) {
           >
             {label === "unauth" ? (
               <TouchableOpacity
-              onPress={()=>navigation.navigate("signup")}
+                onPress={() => navigation.navigate("signup")}
                 style={{
                   height: scale(48),
                   width: width,
@@ -323,48 +304,67 @@ function MyTabBar({ state, descriptors, navigation, children }) {
     </View>
   );
 }
+function ProductsScreen({ route, navigation }) {
+  return (
+   
+      <ProductsStack.Navigator
+      
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        <ProductsStack.Screen
+          initialParams={route.params}
+          name="/"
+          component={Products}
+        />
+        {/* <ProductsStack.Screen
+        // navigationKey="products-filter"
+          name="products-filter"
+          initialParams={{ route:route.params, navigation }}
+          component={ProductList}
+        /> */}
+      </ProductsStack.Navigator>
+  
+  );
+}
 const Stack = createNativeStackNavigator();
 
-export default function TabScreen() {
-  const dispatch = useDispatch()
-  // const { auth } = useContext(CheckboxContext); 
+export default function TabScreen({ route }) {
+  const dispatch = useDispatch();
+  // const { auth } = useContext(CheckboxContext);
   const [loading, setLoading] = useState(true);
-  
-  const{auth}=useSelector((state)=>state.auth)
+  // console.log(route.params)
+  const { auth } = useSelector((state) => state.auth);
 
   useEffect(() => {
     // checkForUpdates();
-    
 
-    const checkToken=async()=>{
-      setLoading(true)
-      const token = await AsyncStorage.getItem('token');
-      if(token){
-        setLoading(false)
-        console.log(token,"token")
-        
-        dispatch(setAuth(true))
+    const checkToken = async () => {
+      setLoading(true);
+      const token = await AsyncStorage.getItem("token");
+      if (token) {
+        setLoading(false);
+        console.log(token, "token");
+
+        dispatch(setAuth(true));
+      } else {
+        setLoading(false);
+        console.log(token, "token else");
       }
-      else{
-        setLoading(false)
-        console.log(token,"token else")
-      }
+    };
 
-    }
-
-    checkToken()
-
-
+    checkToken();
   }, [auth]);
   // console.log(auth,"redux auth")
-  
+
   // if (loading) {
   //   return <FullScreenLoader visible={loading} />;
   // }
   return (
     <>
-      {!auth ?  <>
-          
+      {!auth ? (
+        <>
           <Tab.Navigator
             screenOptions={{
               headerShown: false,
@@ -372,11 +372,9 @@ export default function TabScreen() {
             tabBar={(props) => <MyTabBar {...props} />}
           >
             <Tab.Screen name="unauth" component={UnAuth} />
-          </Tab.Navigator >
-          
-      
+          </Tab.Navigator>
         </>
-      : (
+      ) : (
         <Tab.Navigator
           screenOptions={{
             headerShown: false,

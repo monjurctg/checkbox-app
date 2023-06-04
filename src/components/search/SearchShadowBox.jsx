@@ -1,7 +1,9 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 
-const SearchShadowBox = ({ headerText, data,onPress,loading }) => {
+const SearchShadowBox = ({ headerText, data,onPress }) => {
+// const navigation = useNavigation()
 
   return (
     <View style={styles.container}>

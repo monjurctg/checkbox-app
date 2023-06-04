@@ -32,7 +32,8 @@ import { useRoute } from "@react-navigation/native";
 import productServices from "../services/productServices";
 import SingleProductScreenSkeleton from "../components/loader/SingleProductScreenSkeleton";
 // import { AntDesign } from '@expo/vector-icons';
-
+import { Entypo } from '@expo/vector-icons';
+import Rating from "../components/Rating";
 const ProductDetails = ({ navigation }) => {
   let [activeSize, setActiveSize] = useState(6);
   let [activeColor, setActiveColor] = useState("Red");
@@ -123,7 +124,7 @@ const ProductDetails = ({ navigation }) => {
             </TouchableOpacity>
           ))}
         </ScrollView>
-        <View preset={[`  mt_20`]}>
+        {/* <View preset={[`  mt_20`]}>
           <TouchableOpacity
             style={{
               position: "relative",
@@ -145,19 +146,29 @@ const ProductDetails = ({ navigation }) => {
             </Text>
             <Image source={require("../../assets/icons/copy.png")} />
           </TouchableOpacity>
-          <Text preset={["h3"]}>{singleProduct?.name}</Text>
+          
+        </View> */}
+        <Text preset={["fw_700 fs_20 mt_15"]}>{singleProduct?.name}</Text>
+        <View preset={["row  mt_10 "]} style={{alignItems:"center"}} > 
+          <Text preset={["fs_14  "]}>Sold by</Text>
+          <Text preset={["ml_5 fw_700 fs_16 mr_10"]}>Inter Active</Text>
+          <Entypo name="emoji-happy" size={24} color="black" />
+          <Text preset={["fs_14"]}> 92%</Text>
+
         </View>
         <Text preset={["h2 bold mt_10"]}>
-          {singleProduct?.price?.main_price}
+        {singleProduct?.currency_symbol}{singleProduct?.price?.calculable_price}
         </Text>
+        <View preset={[" row mt_5"]}>
+          {/* <Text>{singleProduct?.rating?.rating_count}</Text> */}
+          <Rating from={"details"} defaultStars={singleProduct?.rating?.rating}maxStars={5}/>
+          <Text preset={["p1"]}>({singleProduct?.rating?.rating_count} stars) • 10 reviews</Text>
+        </View>
         <View preset={["row"]} style={styles.text}>
-          <Text preset={["p1 fs_20 "]}>M.S.R.P :</Text>
-          <Text preset={[" fs_20  text_second3"]}>9200</Text>
+          <Text preset={["p1 fs_20 "]}>M.S.R.P : </Text>
+          <Text preset={[" fs_20  text_second3"]}>{singleProduct?.msrp}</Text>
         </View>
-        <View preset={[" row mt_10"]}>
-          <Text>rating</Text>
-          <Text preset={["p1"]}>(3.5 stars) • 10 reviews</Text>
-        </View>
+       
 
         <CustomTouchBtn
           preset={["row mt_10 radius_5 center   border_1 "]}
@@ -215,19 +226,20 @@ const ProductDetails = ({ navigation }) => {
                     // console.log("hello press");
                   }}
                   preset={[
-                    `center   mr_10 mt_10 ph_15 ${
+                    `center ph_10  mr_10 mt_10  ${
                       activeColor === color ? "active" : ""
                     }`,
                   ]}
                   style={{
-                    width: scale(85),
-                    height: scale(35),
+                    // width: scale(85),
+                    height: scale(30),
+                    borderRadius:4,
                     borderWidth: 1,
                   }}
                 >
                   <Text
                     preset={[
-                      ` ${activeColor === color && "text_white "}  fs_16`,
+                      ` ${activeColor === color && "text_white "}  fs_14`,
                     ]}
                   >
                     {color}

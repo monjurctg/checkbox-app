@@ -62,7 +62,7 @@ const SingleProduct = ({
         />
         {/* <Feather name="heart" size={34} color="black" /> */}
         <View preset={["mt_5"]}>
-          <Text preset={["p3 lh_14"]}>{name.slice(0,30)}</Text>
+          <Text preset={["p3 lh_14"]}>{name?.slice(0,30)}</Text>
           <Text preset={["mt_5 p3"]}>{price}</Text>
         </View>
       </CustomTouchBtn>

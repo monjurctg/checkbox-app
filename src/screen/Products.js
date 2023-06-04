@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
   FlatList,
+  RefreshControl,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import Mainlayout from "../components/layout/Mainlayout";
@@ -40,9 +41,11 @@ const Products = ({ navigation }) => {
   // const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const flatListRef = useRef(null);
+  const [refreshing, setRefreshing] = React.useState(false);
 
   // apis
   const fetchCollection = () => {
+    // alert("calling")
     setCollectionLoading(true);
     productServices
       .productCollection()
@@ -72,12 +75,12 @@ const Products = ({ navigation }) => {
     // fetchData();
     fetchCollection();
     fetchTopCategories();
-  }, []);
+  }, [refreshing]);
 
   const fetchData = () => {
     setLoading(true);
     productServices
-      .productList(page,20)
+      .productList(page, 20)
       .then((res) => {
         // setLoading(false);
         // flatListRef.current.scrollToEnd({ animated: false });
@@ -128,6 +131,19 @@ const Products = ({ navigation }) => {
     setBottomSheetItem({});
   };
 
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1000);
+    setData([]);
+    setCategories([]);
+    setCollections([]);
+    fetchCollection();
+    fetchData();
+    fetchTopCategories();
+    setPage(1);
+  }, []);
   const renderItem = ({ item }) => (
     <SingleProduct
       id={item?.id}
@@ -182,41 +198,24 @@ const Products = ({ navigation }) => {
             <SingleProductSkeleton />
             <SingleProductSkeleton />
             <SingleProductSkeleton />
-            <SingleProductSkeleton />
-            <SingleProductSkeleton />
-            <SingleProductSkeleton />
-            <SingleProductSkeleton />
+          
           </View>
         </ScrollView>
       </View>
     );
   };
-  // loading
-
-  // setTimeout(() => {
-  //   setLoading(false);
-  // }, 1000);
-  // if (loading) {
-  //   return <FullScreenLoader visible={loading} />;
-  // }
-  // console.log(data, "res from product api");
-
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
-
+  
+  const onCategoryPress = (slug)=>{
+    // alert(slug)
+    navigation.navigate("products-filter", { data:{category_slug:slug} })
+  }
+  
   const Header = () => {
     return (
       <>
+        <Categories onCategoryPress={onCategoryPress} title={"Top Categories"} data={categories} />
         {categoriLoading && categories.length == 0 && <CategorySkeleton />}
-        <Categories title={"Top Categories"} data={categories} />
         {/* <CollectionSkeleton/> */}
-        {collectionLoading && collections.length == 0 && (
-          <View>
-            <CollectionSkeleton /> 
-            <CollectionSkeleton />
-          </View>
-        )}
 
         <View>
           <View
@@ -263,9 +262,17 @@ const Products = ({ navigation }) => {
             </TouchableOpacity>
           </View>
         </View>
+        {collectionLoading && collections.length == 0 && (
+          <View>
+            <CollectionSkeleton />
+            <CollectionSkeleton />
+          </View>
+        )}
+
         {/* <Cards name={"Tech Collection"} navigation={navigation} /> */}
         {collections.map((collection, index) => (
           <Cards
+          slug={collection?.slug}
             key={index}
             collections={collection?.selectedProducts}
             img={collection?.coverImage}
@@ -289,7 +296,7 @@ const Products = ({ navigation }) => {
                 // fontFamily: "Gotham",
                 fontStyle: "normal",
                 fontWeight: 700,
-                fontSize: 20,
+                fontSize: 18,
                 lineHeight: 24,
               }}
             >
@@ -340,8 +347,16 @@ const Products = ({ navigation }) => {
       {/* <ScrollView showsVerticalScrollIndicator={false}> */}
       <FlatList
         ListHeaderComponent={Header}
-        // ref={flatListRef}
-        // renderScrollComponent={Header}
+        refreshControl={
+          <RefreshControl
+            colors={["red"]}
+            tintColor="red"
+            title="Refreshing..."
+            titleColor="red"
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />
+        }
         numColumns={2}
         showsVerticalScrollIndicator={false}
         data={data}
@@ -349,7 +364,7 @@ const Products = ({ navigation }) => {
         ListFooterComponent={renderFooter}
         keyExtractor={(item) => item.id.toString()}
         onEndReached={fetchData}
-        onEndReachedThreshold={0.5}
+        onEndReachedThreshold={0.7}
       />
 
       {/* </ScrollView> */}

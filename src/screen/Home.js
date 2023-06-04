@@ -42,6 +42,10 @@ const Home = ({ navigation }) => {
       });
   };
 
+const onCategoryPress = (slug)=>{
+  // alert(slug)
+  navigation.navigate("products-filter", { data:{category_slug:slug} })
+}
 
   useEffect(()=>{
     allCategories()
@@ -425,7 +429,7 @@ const Home = ({ navigation }) => {
        
          
         </View> */}
-        <Categories title={"Categories"} data={categories} />
+        <Categories title={"Categories"} onCategoryPress={onCategoryPress} data={categories} />
         <View style={{ height: scale(300) }}></View>
       </ScrollView>
     </Mainlayout>

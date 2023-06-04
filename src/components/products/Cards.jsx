@@ -6,18 +6,19 @@ import CustomTouchBtn from "../tags/CustomTouchBtn";
 import View from "../tags/View";
 // import { ScrollView } from "react-native-web";
 
-const Cards = ({navigation, name,collections=[]}) => {
+const Cards = ({navigation, name,collections=[],slug}) => {
   // console.log(navigation, "navigation");
+  // console.log(collections,"collection")
 
   return (
     <View>
       <View style={styles.newProducts}>
-        <Text preset={["p1 bold"]}>{name}</Text>
+        <Text preset={["p3 bold"]}>{name}</Text>
         <CustomTouchBtn
           preset={["row center"]}
-          // onPress={() => navigation.navigate("ProductList", {name: "Jane"})}
+          onPress={() => navigation.navigate("products-filter", { data:{collection_slug:slug} })}
           >
-          <Text preset={["p2 mr_5"]}>Explore all</Text>
+          <Text preset={["p3 mr_5"]}>Explore all</Text>
           <Image source={require("../../../assets/icons/right-icon.png")} />
         </CustomTouchBtn>
       </View>

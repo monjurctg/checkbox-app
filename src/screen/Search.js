@@ -38,6 +38,7 @@ const Search = () => {
     setClearer(true);
   };
 
+  // console.log(navigation)
   // const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearchTerm = useDebounce(searchText, 400);
   let searchApi = async (data) => {
@@ -103,7 +104,9 @@ const Search = () => {
             </View>
             <View style={styles.content}>
               {searchResult?.keywords?.map((item, i) => (
-                <TouchableOpacity style={{padding:10}} key={i} onPress={() => setSearchText(item)}>
+                <TouchableOpacity style={{padding:10}} key={i} onPress={()=>{
+                  navigation.navigate("products-filter", { data:{keyword:item} })
+                }}>
                   <Text
                     style={{ fontSize: 14, fontWeight: 500, textAlign: "left" }}
                   >
@@ -119,7 +122,9 @@ const Search = () => {
           <SearchShadowBox
             headerText={"Populer Category"}
             data={searchResult?.categories}
-            onPress={() => alert("hello")}
+            onPress={(item) =>
+              navigation.navigate("products-filter", { data:{category_slug:item?.slug} })
+            }
           />
         )}
         {/* pr */}

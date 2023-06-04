@@ -5,6 +5,7 @@ import { scale } from "../../../utils/funtions";
 
 
 const Categories = ({ data, title, onCategoryPress }) => {
+  console.log(data)
   return (
     <View>
       <Text
@@ -23,7 +24,7 @@ const Categories = ({ data, title, onCategoryPress }) => {
       <View style={styles.products}>
         {data?.map((cate, index) => (
           <TouchableOpacity
-          onPress={onCategoryPress}
+          onPress={()=>onCategoryPress(cate?.slug)}
             key={index}
             style={{
               alignItems: "center",

@@ -62,7 +62,7 @@ const SiginUp = () => {
       .then((res) => res)
       .catch((err) => err);
 
-    console.log(res, data, "res  signup ");
+    // console.log(res, data, "res  signup ");
     if (res.status === 201) {
       setLoading(false);
       navigation.navigate("otp_verify", data);

@@ -5,7 +5,7 @@ import { scale } from "../../../utils/funtions";
 
 
 const Categories = ({ data, title, onCategoryPress }) => {
-  console.log(data)
+  // console.log(data)
   return (
     <View>
       <Text

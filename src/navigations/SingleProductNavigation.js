@@ -38,7 +38,7 @@ function MyTabBar({state, descriptors, navigation}) {
             : route.name;
 
         const isFocused = state.index === index;
-        console.log(isFocused);
+        // console.log(isFocused);
 
         const onPress = () => {
           // alert("hello")t

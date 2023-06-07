@@ -61,7 +61,7 @@ const Mainlayout = ({ children }) => {
 
     AsyncStorage.clear()
       .then((abc) => {
-        console.log(abc, "abc from logout clear");
+        // console.log(abc, "abc from logout clear");
         // setLoading(false);
         // navigation.navigate("login")
         setTimeout(() => {
@@ -69,7 +69,7 @@ const Mainlayout = ({ children }) => {
         }, 3000);
       })
       .catch((err) => {
-        console.log(err, "err from logout");
+        // console.log(err, "err from logout");
         // setLoading(false);
       })
       

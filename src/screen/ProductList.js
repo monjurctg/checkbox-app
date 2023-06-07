@@ -37,6 +37,8 @@ import { FlatList } from "react-native";
 import SingleProductSkeleton from "../components/loader/SingleProductSkeleton";
 import Categories from "../components/products/Categories";
 import CategorySkeleton from "../components/loader/CategorySkeleton";
+import Dropdown from "../components/Input/Dropdown";
+import AttributeDropdown from "../components/Input/AttributeDropdown";
 
 const ProductList = ({ route, navigation }) => {
   const [visible, setVisible] = useState(false);
@@ -48,37 +50,51 @@ const ProductList = ({ route, navigation }) => {
   const [refreshing, setRefreshing] = React.useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(300);
+  const[oldCategory,setOldCategory]=useState()
+  let [filter, setFilter] = useState({
+    page: currentPage,
+    category_slug: data?.category_slug,
+    collection_slug: data?.collection_slug,
+    brand_ids: [],
+    category_ids: [],
+    min_price: null,
+    max_price: null,
+    keyword: data?.keyword,
+    sort_by: "",
+    color_codes: [],
+    selected_attribute_values: {},
+  });
 
   const fetchData = () => {
-    let filter={
-      page:currentPage,
-      category_slug :data?.category_slug,
-      collection_slug : data?.collection_slug,
-      brand_ids : [],
-      category_ids : [],
-      min_price:null,
-      max_price:null,
-      keyword:data?.keyword,
-      sort_by:"",color_codes:[],
-      selected_attribute_values:{},
-    }
+    // let filter={
+    //   page:currentPage,
+    //   category_slug :data?.category_slug,
+    //   collection_slug : data?.collection_slug,
+    //   brand_ids : [],
+    //   category_ids : [],
+    //   min_price:null,
+    //   max_price:null,
+    //   keyword:data?.keyword,
+    //   sort_by:"",color_codes:[],
+    //   selected_attribute_values:{},
+    // }
     setLoading(true);
-    filterServices 
+    filterServices
       .search(filter)
       .then((res) => {
         // console.log(res.data.data.products.data, "res.data");
         setSearchData(res.data.data);
         setSearchProducts([...searchProducts, ...res.data.data.products.data]);
         setLoading(false);
-        setCurrentPage(currentPage + 1);
+        setFilter({...filter,page:filter.page+1});
         // setLastPage(res.data.data.meta.last_page);
       })
       .catch((err) => console.log(err));
   };
 
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   // console.log(data, "data fromo search ");
 
@@ -106,47 +122,106 @@ const ProductList = ({ route, navigation }) => {
       setRefreshing(false);
     }, 1000);
     fetchData();
-    
-
   }, []);
 
-
-  const onCategoryPress = (slug)=>{
+  const onCategoryPress = (slug) => {
     // alert(slug)
+    setSearchData([]);
+    setSearchProducts([]);
+    setSearchProducts([]);
+  
+    setFilter({ ...filter, category_slug: slug,page:1 });
 
-  }
-  const filters = filterData.map((item) => {
-    return (
-      <View key={item?.id}>
-        <View style={styles.productType}>
-          <Text>{item?.name}</Text>
-          <View style={styles.resetContainer}>
-            <Text style={styles.smallText}>reset</Text>
-          </View>
-        </View>
-        <View style={styles.checkBoxes}>
-          {item?.options.map((option) => {
-            return (
-              <TouchableOpacity
-                key={option?.id}
-                style={styles.checkBox}
-                // onPress={() => handleCheckboxPress(item?.id, option?.id)}
-              >
-                <Checkbox
-                  onValueChange={(data) => console.log(data)}
-                  label={option?.name}
-                />
-                <Text></Text>
-              </TouchableOpacity>
-            );
-          })}
-          <View style={styles.viewMoreContainer}>
-            <Text style={styles.smallText}>View more</Text>
-          </View>
-        </View>
-      </View>
-    );
-  });
+    // fetchData();
+  };
+  // const filters = filterData.map((item) => {
+  //   return (
+  //     // <View key={item?.id}>
+  //     //   <View style={styles.productType}>
+  //     //     <Text>{item?.name}</Text>
+  //     //     <View style={styles.resetContainer}>
+  //     //       <Text style={styles.smallText}>reset</Text>
+  //     //     </View>
+  //     //   </View>
+  //     //   <View style={styles.checkBoxes}>
+  //     //     {item?.options.map((option) => {
+  //     //       return (
+  //     //         <TouchableOpacity
+  //     //           key={option?.id}
+  //     //           style={styles.checkBox}
+  //     //           // onPress={() => handleCheckboxPress(item?.id, option?.id)}
+  //     //         >
+  //     //           <Checkbox
+  //     //             onValueChange={(data) => console.log(data)}
+  //     //             label={option?.name}
+  //     //           />
+  //     //           <Text></Text>
+  //     //         </TouchableOpacity>
+  //     //       );
+  //     //     })}
+  //     //     <View style={styles.viewMoreContainer}>
+  //     //       <Text style={styles.smallText}>View more</Text>
+  //     //     </View>
+  //     //   </View>
+  //     // </View>
+  //     // <Dropdown/>
+  //   );
+  // });
+  const categoriesDrop = (
+    <View>
+      {searchData?.search_attributes?.categories.length > 0 && (
+        <Dropdown
+          title={"Categories"}
+          options={searchData?.search_attributes?.categories}
+          // handleChange={handleValueChange}
+          state={"category_ids"}
+        />
+      )}
+    </View>
+  );
+
+  const brandDrop = (
+    <View>
+      {searchData?.search_attributes?.brands.length > 0 && (
+        <Dropdown
+          title={"Brands"}
+          options={searchData?.brands?.categories}
+          // handleChange={handleValueChange}
+         
+        />
+      )}
+    </View>
+  );
+
+  const colorsDrop = (
+    <View>
+      {searchData?.search_attributes?.colors.length > 0 && (
+        <Dropdown
+          title={"Colors"}
+          options={searchData?.colors?.categories}
+         
+        />
+      )}
+    </View>
+  );
+ 
+  const attributesDrop = (
+    <View>
+     {searchData?.search_attributes?.attributes?.length > 0 && (
+    searchData?.search_attributes?.attributes.map((item,index)=>(
+      <AttributeDropdown
+      key={index}
+        title={item?.name}
+        options={item?.attribute_values}
+        // handleChange={handleValueChange}
+        state={"color_codes"}
+      />
+
+    ))
+  )}
+    </View>
+  );
+ 
 
   const navigationView = (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
@@ -157,7 +232,10 @@ const ProductList = ({ route, navigation }) => {
         />
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
-        {filters}
+        {categoriesDrop}
+        {brandDrop}
+        {colorsDrop}
+        {attributesDrop}
         <View style={{ height: 100 }}></View>
       </ScrollView>
     </SafeAreaView>
@@ -165,13 +243,12 @@ const ProductList = ({ route, navigation }) => {
   const Header = () => {
     return (
       <>
-      
         <Categories
           title={"Top Categories"}
-onCategoryPress={onCategoryPress}
+          onCategoryPress={onCategoryPress}
           data={searchData?.search_attributes?.categories}
         />
-        {loading  && <CategorySkeleton />}
+        {loading && <CategorySkeleton />}
         {/* <CollectionSkeleton/> */}
         <Filters navigation={navigation} onFilterClick={openDrawer} />
       </>
@@ -239,7 +316,6 @@ onCategoryPress={onCategoryPress}
       renderNavigationView={() => navigationView}
     >
       <Mainlayout navigation={navigation}>
-    
         {/* <ScrollView showsVerticalScrollIndicator={false}>
           
           <View preset={["mt_10 d_flex row wrap jc_between"]}></View>

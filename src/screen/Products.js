@@ -84,7 +84,7 @@ const Products = ({ navigation }) => {
       .then((res) => {
         // setLoading(false);
         // flatListRef.current.scrollToEnd({ animated: false });
-        console.log(res.data.meta.last_page, page);
+        // console.log(res.data.meta.last_page, page);
         if (res.data.data.length > 0) {
           setData([...data, ...res.data.data]);
           setLoading(false);
@@ -364,7 +364,7 @@ const Products = ({ navigation }) => {
         ListFooterComponent={renderFooter}
         keyExtractor={(item) => item.id.toString()}
         onEndReached={fetchData}
-        onEndReachedThreshold={0.7}
+        onEndReachedThreshold={0.5}
       />
 
       {/* </ScrollView> */}

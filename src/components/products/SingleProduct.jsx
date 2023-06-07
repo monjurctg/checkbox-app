@@ -34,7 +34,7 @@ const SingleProduct = ({
     navigation.navigate("product-details",{productId:id});
   };
   const handleRate = (rating) => {
-    console.log(`User rated item with ${rating} stars`);
+    // console.log(`User rated item with ${rating} stars`);
   };
 
   return (

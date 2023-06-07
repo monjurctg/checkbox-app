@@ -19,12 +19,26 @@ filterServices.search = (data) => {
   //     }
   // }
 
-  console.log(data,"search api filter")
-  return api.request({
-    method: 'GET',
-    url: `search?page=${data?.page}`,
-    data: data,
-  });
+  // console.log(data,"search api filter")
+  return api.get( `search`,{
+    params:{
+      category_slug:data?.category_slug,
+      page:data?.page,
+      collection_slug:data?.collection_slug,
+      keyword:data?.keyword,
+      brand_ids:data?.brand_ids,
+      category_ids:data?.category_ids,
+      min_price:data?.min_price,
+      max_price:data?.max_price,
+      sort_by:data?.sort_by,
+      color_codes:data?.color_codes,
+      selected_attribute_values:data?.selected_attribute_values
+      
+
+    }
+  }
+    
+  );
 };
 
 export default filterServices;

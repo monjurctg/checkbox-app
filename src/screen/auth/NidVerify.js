@@ -56,7 +56,7 @@ const NidVerify = ({ route, navigation }) => {
       });
     } else {
       setLoading(false);
-      console.log(res.message, "nid data res");
+      // console.log(res.message, "nid data res");
 
       showMessage({
         style: { alignItems: "center" },

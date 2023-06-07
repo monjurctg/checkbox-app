@@ -114,7 +114,7 @@ function MyTabBar({ state, descriptors, navigation, children }) {
             : route.name;
 
         const isFocused = state.index === index;
-        console.log(isFocused);
+        // console.log(isFocused);
 
         let src;
         let color;
@@ -345,12 +345,12 @@ export default function TabScreen({ route }) {
       const token = await AsyncStorage.getItem("token");
       if (token) {
         setLoading(false);
-        console.log(token, "token");
+        // console.log(token, "token");
 
         dispatch(setAuth(true));
       } else {
         setLoading(false);
-        console.log(token, "token else");
+        // console.log(token, "token else");
       }
     };
 

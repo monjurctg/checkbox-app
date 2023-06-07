@@ -52,7 +52,7 @@ const Login = () => {
     
 setLoading(true)
     const res = await authServices.login(data).then(res=>res).catch(err=>err)
-    console.log(res,"res",res?.data?.data?.access_token,"tokne")
+    // console.log(res,"res",res?.data?.data?.access_token,"tokne")
     if(res.status===200){
         setLoading(false)
        dispatch(setAuth(true)) 

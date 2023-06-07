@@ -39,7 +39,7 @@ const OTPVerification = ({ route }) => {
     setOTP(newOTP);
 
     if (!value && index > 0) {
-      console.log(otpInputs.current[index - 1].focus());
+      // console.log(otpInputs.current[index - 1].focus());
 
       otpInputs.current[index - 1].focus();
     } else if (index < otpInputs.current.length - 1) {
@@ -74,7 +74,7 @@ const OTPVerification = ({ route }) => {
       phone: phone,
       verification_code: enteredOTP,
     };
-    console.log(data,"ohone otp")
+    // console.log(data,"ohone otp")
     setLoading(true);
 
     const res = await authServices
@@ -106,7 +106,7 @@ const OTPVerification = ({ route }) => {
       .resendCode(data)
       .then((res) => res)
       .catch((err) => err);
-    console.log(res, "res rended code");
+    // console.log(res, "res rended code");
     if (res.status === 200) {
       showMessage({
         style: { alignItems: "center" },

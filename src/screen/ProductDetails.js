@@ -33,23 +33,19 @@ import { Entypo } from "@expo/vector-icons";
 import Rating from "../components/Rating";
 import Tags from "../components/product-details/Tags";
 const ProductDetails = ({ navigation }) => {
-
   let [activeColor, setActiveColor] = useState("Red");
   const [bigImg, setBigImg] = useState();
   const [loading, setLoading] = useState(false);
-  
+
   const [singleProduct, setSingleProduct] = useState({});
   const dispatch = useDispatch();
   const route = useRoute();
-  const[reviews,setReviews]=useState([])
+  const [reviews, setReviews] = useState([]);
   const { productId } = route.params ?? {};
 
   const { detailsBottomSheet } = useSelector((state) => state.utils);
-  const [variant, setVariant] = useState({
-    
-  });
+  const [variant, setVariant] = useState({});
   const [variantDetails, setVariantDetails] = useState([]);
-
 
   useEffect(() => {
     setLoading(true);
@@ -65,29 +61,13 @@ const ProductDetails = ({ navigation }) => {
         setLoading(false);
       });
 
-      productServices.getReviews(productId,1).then(res=>{
-        console.log(res,"revies")
-
-      }).catch(err=>{
-
+    productServices
+      .getReviews(productId, 1)
+      .then((res) => {
+        setReviews(res.data);
       })
+      .catch((err) => {});
   }, []);
-
-  const active = (item,title, name,variantLength) => {
-    // console.log("variation",item, title);
-    if (title === name) {
-      return item == variantDetails?.[variantLength];
-    }
-  };
-
-  const handleVariant = (item,title, name,variantLength) => {
-    console.log(item===title)
-    console.log(variantDetails)
-    if (title === name) {
-      setVariantDetails({ ...variantDetails, [variantLength]: item });
-    }
-  };
-
 
   if (loading) {
     return <SingleProductScreenSkeleton />;
@@ -244,14 +224,14 @@ const ProductDetails = ({ navigation }) => {
 
         {/* color */}
         {singleProduct?.variation_attributes?.map((variation, index) => (
-         <Tags
-         variant={variantDetails}
-         variantLength={index}
-         setVariant={setVariantDetails}
-         title={variation?.title}
-         options={variation?.options}
-         key={index}
-       />
+          <Tags
+            variant={variantDetails}
+            variantLength={index}
+            setVariant={setVariantDetails}
+            title={variation?.title}
+            options={variation?.options}
+            key={index}
+          />
         ))}
 
         {/* quantity */}
@@ -342,37 +322,51 @@ const ProductDetails = ({ navigation }) => {
             </View>
           </View> */}
         </View>
-       
+
         {/* client review */}
-        {/* <View preset={[" mt_20"]}>
+        <View preset={[" mt_20"]}>
           <Text preset={["fs_16 fw_700"]}>Product Reviews</Text>
           <View preset={["mt_5"]}>
-            <ClientReview rating={5} />
-            <ClientReview rating={2} />
-            <ClientReview rating={4} />
-
-            <ClientReview rating={3} />
-
-            <ClientReview rating={5} />
+            {reviews.length == 0 ? (
+              <View
+                style={{
+                  height: 150,
+                  width: "100%",
+                  backgroundColor: "gray",
+                  borderRadius: 10,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Text style={{ color: "white" }}>
+                  No review found for this product
+                </Text>
+              </View>
+            ) : (
+              reviews.map((review, index) => (
+                <>
+                  <ClientReview rating={5} key={index} review={review} />
+                  <View
+                    preset={["row d_flex   mt_10"]}
+                    style={{ alignItems: "center" }}
+                  >
+                    <Text preset={["fs_18 lh_30"]}>See More</Text>
+                    <AntDesign
+                      style={{
+                        marginLeft: scale(20),
+                        fontSize: scale(18),
+                        lineHeight: scale(30),
+                      }}
+                      name="down"
+                      size={18}
+                      color="black"
+                    />
+                  </View>
+                </>
+              ))
+            )}
           </View>
-
-          <View
-            preset={["row d_flex   mt_10"]}
-            style={{ alignItems: "center" }}
-          >
-            <Text preset={["fs_18 lh_30"]}>See More</Text>
-            <AntDesign
-              style={{
-                marginLeft: scale(20),
-                fontSize: scale(18),
-                lineHeight: scale(30),
-              }}
-              name="down"
-              size={18}
-              color="black"
-            />
-          </View>
-        </View> */}
+        </View>
 
         {/* shipping */}
         {/* <View
@@ -421,20 +415,31 @@ const ProductDetails = ({ navigation }) => {
             imperdiet. Nunc ut sem vitae risus tristique posuere.
           </Text>
         </View> */}
-       
+
         <View style={{ height: scale(220) }}></View>
       </ScrollView>
-   
-      <View style={styles.container}>
-       
-      </View>
-     
+
+      <View style={styles.container}></View>
+
       <TouchableOpacity style={styles.addToCart}>
-      <View style={{flexDirection:"row",justifyContent:"center",gap:10,paddingTop:scale(10)}}>
-      <AntDesign name="shoppingcart" size={22} style={{fontWeight:"bold"}} color="white" />
-      <Text style={{color:colors.white,fontWeight:"500"}}>Add To Cart</Text>
-      </View>
-      
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "center",
+            gap: 10,
+            paddingTop: scale(10),
+          }}
+        >
+          <AntDesign
+            name="shoppingcart"
+            size={22}
+            style={{ fontWeight: "bold" }}
+            color="white"
+          />
+          <Text style={{ color: colors.white, fontWeight: "500" }}>
+            Add To Cart
+          </Text>
+        </View>
       </TouchableOpacity>
     </Mainlayout>
   );
@@ -462,16 +467,11 @@ const styles = StyleSheet.create({
     // justifyContent: "center",
     // alignItems: "center",
   },
-  addToCart:{
-    backgroundColor:colors.primary_2,
-    height:167,
-    width:width,
-    position:"absolute",
-    bottom:0,
-    
-    
-    
-
-
-  }
+  addToCart: {
+    backgroundColor: colors.primary_2,
+    height: 167,
+    width: width,
+    position: "absolute",
+    bottom: 0,
+  },
 });

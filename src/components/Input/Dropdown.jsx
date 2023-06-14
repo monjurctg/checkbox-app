@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import Checkbox from "./Checkbox";
 
-const Dropdown = ({ title, options = [] }) => {
+const Dropdown = ({ title, options = [] ,checkBoxHandle}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(null);
 //   console.log(options, "options");
@@ -41,8 +41,9 @@ const Dropdown = ({ title, options = [] }) => {
                 // onPress={() => handleCheckboxPress(item?.id, option?.id)}
               >
                 <Checkbox
-                  onValueChange={(data) => console.log(data)}
+                  onValueChange={checkBoxHandle}
                   label={option?.name}
+                  passingData={option?.id}
                 />
                 <Text></Text>
               </TouchableOpacity>

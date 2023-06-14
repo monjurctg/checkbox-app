@@ -18,10 +18,6 @@ import img2 from "../../assets/img/camera.png";
 
 import img3 from "../../assets/img/shoe1.png";
 import { AntDesign } from "@expo/vector-icons";
-
-import img4 from "../../assets/img/sunglass.png";
-import img5 from "../../assets/img/headphone.png";
-import FullScreenLoader from "../components/loader/FullScreenLoader ";
 import ClientReview from "../components/product-details/ClientReview";
 import { BottomSheet } from "react-native-btr";
 import SingleCart from "../components/cart/SingleCart";
@@ -31,24 +27,29 @@ import { setDetailsBottomSheet } from "../redux/reducers/utilsSlice";
 import { useRoute } from "@react-navigation/native";
 import productServices from "../services/productServices";
 import SingleProductScreenSkeleton from "../components/loader/SingleProductScreenSkeleton";
+
 // import { AntDesign } from '@expo/vector-icons';
-import { Entypo } from '@expo/vector-icons';
+import { Entypo } from "@expo/vector-icons";
 import Rating from "../components/Rating";
+import Tags from "../components/product-details/Tags";
 const ProductDetails = ({ navigation }) => {
-  let [activeSize, setActiveSize] = useState(6);
+
   let [activeColor, setActiveColor] = useState("Red");
   const [bigImg, setBigImg] = useState();
   const [loading, setLoading] = useState(false);
-  const [visible, setVisible] = useState(false);
+  
   const [singleProduct, setSingleProduct] = useState({});
   const dispatch = useDispatch();
   const route = useRoute();
+  const[reviews,setReviews]=useState([])
   const { productId } = route.params ?? {};
 
   const { detailsBottomSheet } = useSelector((state) => state.utils);
-  const toggleBottomNavigationView = () => {
-    dispatch(setDetailsBottomSheet());
-  };
+  const [variant, setVariant] = useState({
+    
+  });
+  const [variantDetails, setVariantDetails] = useState([]);
+
 
   useEffect(() => {
     setLoading(true);
@@ -63,7 +64,30 @@ const ProductDetails = ({ navigation }) => {
       .catch((err) => {
         setLoading(false);
       });
+
+      productServices.getReviews(productId,1).then(res=>{
+        console.log(res,"revies")
+
+      }).catch(err=>{
+
+      })
   }, []);
+
+  const active = (item,title, name,variantLength) => {
+    // console.log("variation",item, title);
+    if (title === name) {
+      return item == variantDetails?.[variantLength];
+    }
+  };
+
+  const handleVariant = (item,title, name,variantLength) => {
+    console.log(item===title)
+    console.log(variantDetails)
+    if (title === name) {
+      setVariantDetails({ ...variantDetails, [variantLength]: item });
+    }
+  };
+
 
   if (loading) {
     return <SingleProductScreenSkeleton />;
@@ -117,7 +141,7 @@ const ProductDetails = ({ navigation }) => {
                   height: scale(70),
                   width: scale(56),
                   marginRight: scale(5),
-                  resizeMode:"stretch"
+                  resizeMode: "stretch",
                 }}
                 source={{ uri: photo?.path }}
               />
@@ -149,26 +173,31 @@ const ProductDetails = ({ navigation }) => {
           
         </View> */}
         <Text preset={["fw_700 fs_20 mt_15"]}>{singleProduct?.name}</Text>
-        <View preset={["row  mt_10 "]} style={{alignItems:"center"}} > 
+        <View preset={["row  mt_10 "]} style={{ alignItems: "center" }}>
           <Text preset={["fs_14  "]}>Sold by</Text>
           <Text preset={["ml_5 fw_700 fs_16 mr_10"]}>Inter Active</Text>
           <Entypo name="emoji-happy" size={24} color="black" />
           <Text preset={["fs_14"]}> 92%</Text>
-
         </View>
         <Text preset={["h2 bold mt_10"]}>
-        {singleProduct?.currency_symbol}{singleProduct?.price?.calculable_price}
+          {singleProduct?.currency_symbol}
+          {singleProduct?.price?.calculable_price}
         </Text>
         <View preset={[" row mt_5"]}>
           {/* <Text>{singleProduct?.rating?.rating_count}</Text> */}
-          <Rating from={"details"} defaultStars={singleProduct?.rating?.rating}maxStars={5}/>
-          <Text preset={["p1"]}>({singleProduct?.rating?.rating_count} stars) • 10 reviews</Text>
+          <Rating
+            from={"details"}
+            defaultStars={singleProduct?.rating?.rating}
+            maxStars={5}
+          />
+          <Text preset={["p1"]}>
+            ({singleProduct?.rating?.rating_count} stars) • 10 reviews
+          </Text>
         </View>
         <View preset={["row"]} style={styles.text}>
           <Text preset={["p1 fs_20 "]}>M.S.R.P : </Text>
           <Text preset={[" fs_20  text_second3"]}>{singleProduct?.msrp}</Text>
         </View>
-       
 
         <CustomTouchBtn
           preset={["row mt_10 radius_5 center   border_1 "]}
@@ -215,39 +244,14 @@ const ProductDetails = ({ navigation }) => {
 
         {/* color */}
         {singleProduct?.variation_attributes?.map((variation, index) => (
-          <View key={index} preset={["mt_10"]}>
-            <Text preset={["fs_16 bold "]}>Select {variation?.title}</Text>
-            <View preset={["row wrap"]}>
-              {variation?.options?.map((color, index) => (
-                <CustomTouchBtn
-                  key={index}
-                  onPress={() => {
-                    setActiveColor(color);
-                    // console.log("hello press");
-                  }}
-                  preset={[
-                    `center ph_10  mr_10 mt_10  ${
-                      activeColor === color ? "active" : ""
-                    }`,
-                  ]}
-                  style={{
-                    // width: scale(85),
-                    height: scale(30),
-                    borderRadius:4,
-                    borderWidth: 1,
-                  }}
-                >
-                  <Text
-                    preset={[
-                      ` ${activeColor === color && "text_white "}  fs_14`,
-                    ]}
-                  >
-                    {color}
-                  </Text>
-                </CustomTouchBtn>
-              ))}
-            </View>
-          </View>
+         <Tags
+         variant={variantDetails}
+         variantLength={index}
+         setVariant={setVariantDetails}
+         title={variation?.title}
+         options={variation?.options}
+         key={index}
+       />
         ))}
 
         {/* quantity */}
@@ -296,7 +300,7 @@ const ProductDetails = ({ navigation }) => {
             borderTopColor: colors.secoundary_3,
           }}
         >
-          <View
+          {/* <View
             preset={[" ph_10  p_10  mt_20"]}
             style={{ backgroundColor: "#414042" }}
           >
@@ -310,12 +314,10 @@ const ProductDetails = ({ navigation }) => {
                 <Text preset={["text_white fs_11 mr_10"]}>
                   Copy Product Details
                 </Text>
-                {/* <Image source={require("../../assets/icons/copy.png")} /> */}
+              
               </CustomTouchBtn>
             </View>
-            {/* <CustomTouchBtn>
-              <Text preset={["fs_20 text_second3 mr_10"]}>+</Text>
-            </CustomTouchBtn> */}
+       
           </View>
           <View preset={["mt_10"]}>
             <View preset={["row lh_20"]}>
@@ -338,11 +340,11 @@ const ProductDetails = ({ navigation }) => {
               <Text preset={["fs_16 fw_500"]}>Sizes</Text>
               <Text preset={["fs_16 fw_400 lh_20"]}> : 11</Text>
             </View>
-          </View>
+          </View> */}
         </View>
-
+       
         {/* client review */}
-        <View preset={[" mt_20"]}>
+        {/* <View preset={[" mt_20"]}>
           <Text preset={["fs_16 fw_700"]}>Product Reviews</Text>
           <View preset={["mt_5"]}>
             <ClientReview rating={5} />
@@ -370,7 +372,7 @@ const ProductDetails = ({ navigation }) => {
               color="black"
             />
           </View>
-        </View>
+        </View> */}
 
         {/* shipping */}
         {/* <View
@@ -419,94 +421,21 @@ const ProductDetails = ({ navigation }) => {
             imperdiet. Nunc ut sem vitae risus tristique posuere.
           </Text>
         </View> */}
-
-        <View style={{ height: scale(250) }}></View>
+       
+        <View style={{ height: scale(220) }}></View>
       </ScrollView>
+   
       <View style={styles.container}>
-        <BottomSheet
-          visible={detailsBottomSheet}
-          //setting the visibility state of the bottom sheet
-          onBackButtonPress={toggleBottomNavigationView}
-          //Toggling the visibility state on the click of the back botton
-          onBackdropPress={toggleBottomNavigationView}
-          //Toggling the visibility state on the clicking out side of the sheet
-        >
-          {/*Bottom Sheet inner View*/}
-          <View style={styles.bottomNavigationView} preset={["p_10"]}>
-            <View
-              preset={["row jc_between p_10 mt_5 "]}
-              style={{
-                borderBottomWidth: 1,
-                borderBottomColor: "#DDDDDD",
-                paddingBottom: scale(5),
-              }}
-            >
-              <Text preset={[" fs_16"]}>Product Details</Text>
-              <CustomTouchBtn onPress={() => toggleBottomNavigationView()}>
-                <AntDesign name="closecircleo" size={scale(20)} color="black" />
-              </CustomTouchBtn>
-            </View>
-            <View preset={["mt_10 "]}>
-              <SingleCart src={img1} />
-            </View>
-            <View preset={["mt_10 center row"]}>
-              <Text>Customer Rate</Text>
-              <TextInput
-                keyboardType="number-pad"
-                style={{
-                  borderColor: "#E6E7E8",
-                  borderWidth: 1,
-                  marginLeft: scale(5),
-                  width: scale(210),
-                  height: scale(40),
-                  paddingLeft: scale(20),
-                  backgroundColor: "#FFFFFF",
-                }}
-              />
-            </View>
-            <View preset={["row mt_15 p_5 jc_between"]}>
-              <Text preset={["bold fs_16"]}>Total</Text>
-              <Text preset={["bold fs_16"]}>৳ 1220</Text>
-            </View>
-            <View preset={["row  mt_15"]}>
-              <CustomTouchBtn
-                preset={["center"]}
-                style={{
-                  width: scale(128),
-                  backgroundColor: colors.primary_2,
-                  padding: scale(8),
-                  borderRadius: 4,
-                  // alignSelf: "center",
-                }}
-              >
-                <Text preset={["fs_14 fw_500"]} style={{ color: "white" }}>
-                  Add to Cart
-                </Text>
-              </CustomTouchBtn>
-              <CustomTouchBtn
-                preset={["center  "]}
-                style={{
-                  width: scale(194),
-                  borderWidth: 1,
-                  borderColor: colors.primary_2,
-                  // backgroundColor: colors.primary_2,
-                  padding: scale(8),
-                  borderRadius: 4,
-                  marginLeft: scale(5),
-                  // alignSelf: "center",
-                }}
-              >
-                <Text
-                  preset={["fs_14 fw_500"]}
-                  style={{ color: colors.primary_2 }}
-                >
-                  Add to My Products
-                </Text>
-              </CustomTouchBtn>
-            </View>
-          </View>
-        </BottomSheet>
+       
       </View>
+     
+      <TouchableOpacity style={styles.addToCart}>
+      <View style={{flexDirection:"row",justifyContent:"center",gap:10,paddingTop:scale(10)}}>
+      <AntDesign name="shoppingcart" size={22} style={{fontWeight:"bold"}} color="white" />
+      <Text style={{color:colors.white,fontWeight:"500"}}>Add To Cart</Text>
+      </View>
+      
+      </TouchableOpacity>
     </Mainlayout>
   );
 };
@@ -533,4 +462,16 @@ const styles = StyleSheet.create({
     // justifyContent: "center",
     // alignItems: "center",
   },
+  addToCart:{
+    backgroundColor:colors.primary_2,
+    height:167,
+    width:width,
+    position:"absolute",
+    bottom:0,
+    
+    
+    
+
+
+  }
 });

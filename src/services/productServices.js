@@ -55,4 +55,14 @@ productServices.searchProducts = async (search) => {
   return data;
 };
 
+
+productServices.getReviews = (id, page) => {
+  let url = `reviews/product/${id}?page_number=${page}`;
+  const data = api
+    .get(url)
+    .then((res) => res.data)
+    .catch((err) => err);
+  return data;
+};
+
 export default productServices;

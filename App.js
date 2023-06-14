@@ -109,7 +109,7 @@ export default function App() {
           <Stack.Screen name="tab" component={TabScreen} />
           <Stack.Screen name="cart" component={Cart} />
 
-          <Stack.Screen name="product-details" component={ProducDetailsTab} />
+          <Stack.Screen name="product-details" component={ProductDetails} />
           <Stack.Screen name="checkout" component={Checkout} />
           <Stack.Screen name="login" component={Login} />
           <Stack.Screen name="signup" component={SiginUp} />

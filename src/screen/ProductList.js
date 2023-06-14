@@ -7,7 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import React, { useRef, useState } from "react";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 import Mainlayout from "../components/layout/Mainlayout";
 import Filters from "../components/products/Filters";
 import SingleProduct from "../components/products/SingleProduct";
@@ -50,16 +50,17 @@ const ProductList = ({ route, navigation }) => {
   const [refreshing, setRefreshing] = React.useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(300);
-  const[oldCategory,setOldCategory]=useState()
+  const [oldCategory, setOldCategory] = useState();
+  let [isFiter, setIsFilter] = useState(false);
   let [filter, setFilter] = useState({
     page: currentPage,
-    category_slug: data?.category_slug,
-    collection_slug: data?.collection_slug,
+    category_slug: data?.category_slug ?? "",
+    collection_slug: data?.collection_slug ?? "",
     brand_ids: [],
     category_ids: [],
     min_price: null,
     max_price: null,
-    keyword: data?.keyword,
+    keyword: data?.keyword ?? "",
     sort_by: "",
     color_codes: [],
     selected_attribute_values: {},
@@ -82,19 +83,52 @@ const ProductList = ({ route, navigation }) => {
     filterServices
       .search(filter)
       .then((res) => {
-        // console.log(res.data.data.products.data, "res.data");
-        setSearchData(res.data.data);
-        setSearchProducts([...searchProducts, ...res.data.data.products.data]);
-        setLoading(false);
-        setFilter({...filter,page:filter.page+1});
-        // setLastPage(res.data.data.meta.last_page);
+        console.log(res.data.data.products.total, "res.data");
+        if (isFiter) {
+          setSearchProducts([]);
+         setTimeout(()=>{
+          setFilter({ ...filter, page: 1 });
+          setLoading(false);
+          setIsFilter(false);
+          setSearchProducts([...searchProducts, ...res.data.data.products.data]);
+         },1000)
+        }
+        else{
+          setSearchData(res.data.data);
+          setSearchProducts([...searchProducts, ...res.data.data.products.data]);
+          setLoading(false);
+          setIsFilter(false);
+          setFilter({ ...filter, page: filter.page + 1 });
+          // setLastPage(res.data.data.meta.last_page);
+        }
+      
       })
       .catch((err) => console.log(err));
   };
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [isFiter]);
+
+  const handleCategoryChange = (cateId) => {
+    setIsFilter(true);
+    setFilter({ ...filter, page: 1 });
+    const isInids = filter.category_ids.find((id) => id === cateId);
+    if (!isInids) {
+      setFilter({
+        ...filter,
+        category_ids: [...filter.category_ids, cateId],
+      });
+    } else {
+      const restIds = filter.category_ids.filter((id) => id !== cateId);
+      setFilter({
+        ...filter,
+        category_ids: restIds,
+      });
+    }
+  };
+
+  // console.log(filter.category_ids)
 
   // console.log(data, "data fromo search ");
 
@@ -129,8 +163,8 @@ const ProductList = ({ route, navigation }) => {
     setSearchData([]);
     setSearchProducts([]);
     setSearchProducts([]);
-  
-    setFilter({ ...filter, category_slug: slug,page:1 });
+
+    setFilter({ ...filter, category_slug: slug, page: 1 });
 
     // fetchData();
   };
@@ -172,6 +206,7 @@ const ProductList = ({ route, navigation }) => {
       {searchData?.search_attributes?.categories.length > 0 && (
         <Dropdown
           title={"Categories"}
+          checkBoxHandle={handleCategoryChange}
           options={searchData?.search_attributes?.categories}
           // handleChange={handleValueChange}
           state={"category_ids"}
@@ -184,10 +219,10 @@ const ProductList = ({ route, navigation }) => {
     <View>
       {searchData?.search_attributes?.brands.length > 0 && (
         <Dropdown
+          checkBoxHandle={handleCategoryChange}
           title={"Brands"}
           options={searchData?.brands?.categories}
           // handleChange={handleValueChange}
-         
         />
       )}
     </View>
@@ -196,32 +231,25 @@ const ProductList = ({ route, navigation }) => {
   const colorsDrop = (
     <View>
       {searchData?.search_attributes?.colors.length > 0 && (
-        <Dropdown
-          title={"Colors"}
-          options={searchData?.colors?.categories}
-         
-        />
+        <Dropdown title={"Colors"} options={searchData?.colors?.categories} />
       )}
     </View>
   );
- 
+
   const attributesDrop = (
     <View>
-     {searchData?.search_attributes?.attributes?.length > 0 && (
-    searchData?.search_attributes?.attributes.map((item,index)=>(
-      <AttributeDropdown
-      key={index}
-        title={item?.name}
-        options={item?.attribute_values}
-        // handleChange={handleValueChange}
-        state={"color_codes"}
-      />
-
-    ))
-  )}
+      {searchData?.search_attributes?.attributes?.length > 0 &&
+        searchData?.search_attributes?.attributes.map((item, index) => (
+          <AttributeDropdown
+            key={index}
+            title={item?.name}
+            options={item?.attribute_values}
+            // handleChange={handleValueChange}
+            state={"color_codes"}
+          />
+        ))}
     </View>
   );
- 
 
   const navigationView = (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
@@ -248,7 +276,7 @@ const ProductList = ({ route, navigation }) => {
           onCategoryPress={onCategoryPress}
           data={searchData?.search_attributes?.categories}
         />
-        {loading && <CategorySkeleton />}
+        {loading &&searchData?.search_attributes?.categories?.length==0 && <CategorySkeleton />}
         {/* <CollectionSkeleton/> */}
         <Filters navigation={navigation} onFilterClick={openDrawer} />
       </>

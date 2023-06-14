@@ -2,16 +2,16 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-const Checkbox = ({ onValueChange, value, label }) => {
+const Checkbox = ({ onValueChange, value, label ,passingData }) => {
   const [isChecked, setIsChecked] = useState(false);
 
-  const handleCheckboxPress = () => {
-    onValueChange(value);
+  const handleCheckboxPress = (data) => {
+    onValueChange(data);
     setIsChecked(!isChecked);
   };
 
   return (
-    <TouchableOpacity style={styles.checkboxContainer} onPress={handleCheckboxPress}>
+    <TouchableOpacity style={styles.checkboxContainer} onPress={()=>handleCheckboxPress(passingData)}>
       <View style={[styles.checkbox, isChecked && styles.checkedCheckbox]}>
         {isChecked && ( 
           <Ionicons name="md-checkmark" style={{fontWeight:"bold"}} size={16} color="#FFF" />

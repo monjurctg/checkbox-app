@@ -24,6 +24,7 @@ const api = axios.create({
   
   // Set up an interceptor to add the token to the request headers
   api.interceptors.request.use(async (config) => {
+    console.log(config?.params,"config")
     try {
       const token = await AsyncStorage.getItem('token');
       if (token) {

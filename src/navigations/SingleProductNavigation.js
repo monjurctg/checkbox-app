@@ -119,7 +119,7 @@ export default function ProducDetailsTab({route}) {
         headerShown: false,
       }}
       tabBar={(props) => <MyTabBar {...props} />}>
-      <Tab.Screen name="product_details" initialParams={route.params} component={ProductDetails} />
+      {/* <Tab.Screen name="product_details" initialParams={route.params} component={ProductDetails} /> */}
     </Tab.Navigator>
   );
 }

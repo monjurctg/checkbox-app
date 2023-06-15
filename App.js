@@ -1,19 +1,19 @@
-import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
-import {NavigationContainer} from "@react-navigation/native";
-import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import {useFonts} from "expo-font";
-import {StatusBar} from "expo-status-bar";
-import {StyleSheet, View} from "react-native";
-import {SafeAreaView} from "react-native-safe-area-context";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useFonts } from "expo-font";
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import Text from "./src/components/tags/Text";
 
 import ProducDetailsTab from "./src/navigations/SingleProductNavigation";
 import TabScreen from "./src/navigations/TabNavigation";
 import Cart from "./src/screen/Cart";
 import ProductDetails from "./src/screen/ProductDetails";
-import {Updates} from "expo";
+import { Updates } from "expo";
 import UnAuth from "./src/screen/auth/UnAuth";
-import {useContext, useEffect} from "react";
+import { useContext, useEffect } from "react";
 import Checkout from "./src/screen/Checkout";
 import InputTestCustom from "./src/components/Input/InputTestCustom";
 // import Login from "./src/screen/SignUp";
@@ -30,7 +30,6 @@ import store from "./src/redux/store";
 import { setAuth } from "./src/redux/reducers/authSlice";
 import Search from "./src/screen/Search";
 import ProductList from "./src/screen/ProductList";
-
 
 export default function App() {
   // const [loaded, error] = useFonts({
@@ -60,10 +59,7 @@ export default function App() {
   // }
   // const dispatch = useDispatch()
 
-
-
-  
-// console.log(setAuth,"set")
+  // console.log(setAuth,"set")
 
   function confirm(message) {
     return new Promise((resolve) => {
@@ -74,8 +70,6 @@ export default function App() {
       }
     });
   }
-
-  
 
   function confirmDialogSupported() {
     return window.confirm && typeof window.confirm === "function";
@@ -102,9 +96,10 @@ export default function App() {
           screenOptions={{
             headerShown: false,
             headerMode: "screen",
-          }}>
+          }}
+        >
           {/* <Stack.Screen name="search" component={Search} /> */}
-
+          {/* I am trying to fixed the git issues */}
 
           <Stack.Screen name="tab" component={TabScreen} />
           <Stack.Screen name="cart" component={Cart} />
@@ -118,15 +113,13 @@ export default function App() {
           <Stack.Screen name="user_info" component={SellerRegister} />
           <Stack.Screen name="search" component={Search} />
           <Stack.Screen name="products-filter" component={ProductList} />
-
         </Stack.Navigator>
 
         {/* <StatusBar style="auto" /> */}
       </NavigationContainer>
-      
-<FlashMessage position={"bottom"}/>
+
+      <FlashMessage position={"bottom"} />
       <StatusBar style="auto" />
-      
     </Provider>
   );
 }

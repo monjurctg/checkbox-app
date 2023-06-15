@@ -7,18 +7,14 @@ import CustomTouchBtn from "../tags/CustomTouchBtn";
 import {Feather} from "@expo/vector-icons";
 import {AntDesign} from "@expo/vector-icons";
 import {Foundation} from "@expo/vector-icons";
-
-const Filters = ({navigation}) => {
+import { Ionicons } from '@expo/vector-icons';
+const Filters = ({navigation,onFilterClick}) => {
   return (
-    <View preset={["mt-5"]}>
+    <View preset={["mt-5"]} style={{paddingTop:20}}>
       <View preset={["row jc_between"]}>
-        <View preset={["row center"]}>
-          <CustomTouchBtn style={{height: scale(16), width: scale(16)}}>
-            {/* <Image
-              style={{height: scale(16), width: scale(16)}}
-              source={require("../../../assets/icons/bar2.png")}
-            /> */}
-            <Foundation name="list" size={24} color="black" />
+        {/* <View preset={["row center"]}> */}
+          <CustomTouchBtn onPress={onFilterClick}>
+           <Ionicons name="options" size={24} color="black" />
           </CustomTouchBtn>
           <TouchableOpacity
             style={{
@@ -34,37 +30,18 @@ const Filters = ({navigation}) => {
               paddingVertical: scale(5),
               paddingHorizontal: scale(12),
             }}>
-            <Text preset={["fs_14  lh_14  fw_400 pl_5 center"]}>
+            <Text preset={["fs_12  lh_14  fw_400 pl_5 center"]}>
               Price: Low to High
             </Text>
-            <AntDesign name="caretdown" size={16} color="black" />
+            <AntDesign name="caretdown" size={14} color="black" />
           </TouchableOpacity>
-        </View>
-        <View preset={["row center "]}>
-          <CustomTouchBtn style={{marginRight: 20}}>
-            <Feather
-              name="search"
-              size={24}
-              style={{fontWeight: "700"}}
-              color="black"
-            />
-            {/* <Image
-              source={require("../../../assets/icons/search.png")}
-              style={{width: scale(16), height: scale(16)}}
-            /> */}
-          </CustomTouchBtn>
+        {/* </View> */}
+        {/* <View preset={["row center "]}>
+          
           <CustomTouchBtn>
-            {/* <Image
-              style={{
-                marginLeft: scale(20),
-                height: scale(16),
-                width: scale(16),
-              }}
-              source={require("../../../assets/icons/filter.png")}
-            /> */}
             <Feather name="filter" size={24} color="black" />
           </CustomTouchBtn>
-        </View>
+        </View> */}
       </View>
     </View>
   );

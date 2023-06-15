@@ -5,7 +5,7 @@ const {width,height}=Dimensions.get("screen")
 
 const InputLayout = ({children}) => {
   return (
-    <SafeAreaView style={{flex:1,backgroundColor:"#FFFFFF"}}>
+    <SafeAreaView style={{flex:1,backgroundColor:"#fff"}}>
        <View style={{alignItems:"center",display:"flex"}}>
                 <Image source={require("../../../assets/logo.png")}/>
             </View>

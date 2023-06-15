@@ -21,7 +21,7 @@ import Text from "./tags/Text";
 const Slider = ({rightClic, leftClick}) => {
   const [currnetIndex, setCurrentIndex] = useState(0);
   const ref = useRef();
-  console.log(currnetIndex, "currnetIndex");
+  // console.log(currnetIndex, "currnetIndex");
 
   const data = [
     {
@@ -98,7 +98,7 @@ const Slider = ({rightClic, leftClick}) => {
     });
   };
   const leftArrowClick = () => {
-    console.log("left");
+    // console.log("left");
     if (parseInt(currnetIndex) <= 3) {
       setCurrentIndex(0);
       ref.current.scrollToIndex({

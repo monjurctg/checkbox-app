@@ -8,27 +8,54 @@ import authServices from "../../services/authServices";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { showMessage } from "react-native-flash-message";
 import { CheckboxContext } from "../../context/CheckboxProvider";
+import { useDispatch } from "react-redux";
+import { setAuth } from "../../redux/reducers/authSlice";
 
 const Login = () => {
-  const {setAuth} = useContext(CheckboxContext);
+  // const {setAuth} = useContext(CheckboxContext);
+  const dispatch = useDispatch()
 
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
-  const [option, setOption] = useState("");
+  // const [option, setOption] = useState("");
   const [loading,setLoading]=useState(false)
   const navigation = useNavigation();
 
 
   const handleLogin = async()=>{
     const data ={
-        phone,password,user_type:option
+        phone,password, user_type: "customer",
     }
+   
+    if (!phone) {
+      showMessage({
+        style: { alignItems: "center" },
+        message: "Phone Field Required",
+        type: "danger",
+        position: "top",
+        statusBarHeight: scale(20),
+        duration: 2500,
+      });
+      return ;
+    }
+    if (!password) {
+      showMessage({
+        style: { alignItems: "center" },
+        message: "Name Field Required",
+        type: "danger",
+        position: "top",
+        statusBarHeight: scale(20),
+        duration: 2500,
+      });
+      return ;
+    }
+    
 setLoading(true)
     const res = await authServices.login(data).then(res=>res).catch(err=>err)
-    console.log(res,"res",res.data.data.access_token,"tokne")
+    // console.log(res,"res",res?.data?.data?.access_token,"tokne")
     if(res.status===200){
         setLoading(false)
-        setAuth(true)
+       dispatch(setAuth(true)) 
         showMessage({
             style: { alignItems: "center" },
             message: res.data.message,
@@ -101,14 +128,14 @@ setLoading(true)
         onChange={(text) => setPassword(text)}
       />
 
-      <InputTestCustom
+      {/* <InputTestCustom
 
         type={"dropdown"}
         option={["customer", "seller"]}
         label={"User Type"}
         value={option}
         onChange={(text) => setOption(text)}
-      />
+      /> */}
 
      
       <TouchableOpacity

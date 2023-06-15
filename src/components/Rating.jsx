@@ -5,7 +5,7 @@ import {scale} from "../../utils/funtions";
 import View from "./tags/View";
 import Text from "./tags/Text";
 
-const Rating = ({maxStars, from, defaultStars, onRate}) => {
+const Rating = ({maxStars, from, defaultStars,sales,onRate}) => {
   const [stars, setStars] = useState(defaultStars);
 
   const handleStarPress = (rating) => {
@@ -27,7 +27,7 @@ const Rating = ({maxStars, from, defaultStars, onRate}) => {
             />
           </TouchableWithoutFeedback>
         ))}
-        {from === "product" && <Text preset={["ml_5"]}>(34)</Text>}
+        {from === "product" && <Text preset={["ml_5"]}>({sales})</Text>}
       </View>
     </View>
   );

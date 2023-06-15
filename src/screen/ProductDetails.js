@@ -5,11 +5,11 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import React, {useContext, useState} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Mainlayout from "../components/layout/Mainlayout";
-import {height, scale, width} from "../../utils/funtions";
+import { height, scale, width } from "../../utils/funtions";
 import Text from "../components/tags/Text";
-import {colors} from "../theme/colors";
+import { colors } from "../theme/colors";
 import View from "../components/tags/View";
 import CustomTouchBtn from "../components/tags/CustomTouchBtn";
 import love from "../../assets/icons/love.png";
@@ -17,36 +17,60 @@ import img1 from "../../assets/img/shoe-red.png";
 import img2 from "../../assets/img/camera.png";
 
 import img3 from "../../assets/img/shoe1.png";
-import {AntDesign} from "@expo/vector-icons";
-
-import img4 from "../../assets/img/sunglass.png";
-import img5 from "../../assets/img/headphone.png";
-import FullScreenLoader from "../components/loader/FullScreenLoader ";
+import { AntDesign } from "@expo/vector-icons";
 import ClientReview from "../components/product-details/ClientReview";
-import {BottomSheet} from "react-native-btr";
+import { BottomSheet } from "react-native-btr";
 import SingleCart from "../components/cart/SingleCart";
-import {CheckboxContext} from "../context/CheckboxProvider";
+import { CheckboxContext } from "../context/CheckboxProvider";
+import { useDispatch, useSelector } from "react-redux";
+import { setDetailsBottomSheet } from "../redux/reducers/utilsSlice";
+import { useRoute } from "@react-navigation/native";
+import productServices from "../services/productServices";
+import SingleProductScreenSkeleton from "../components/loader/SingleProductScreenSkeleton";
+
 // import { AntDesign } from '@expo/vector-icons';
-
-const ProductDetails = ({navigation}) => {
-  let [activeSize, setActiveSize] = useState(6);
+import { Entypo } from "@expo/vector-icons";
+import Rating from "../components/Rating";
+import Tags from "../components/product-details/Tags";
+const ProductDetails = ({ navigation }) => {
   let [activeColor, setActiveColor] = useState("Red");
-  const [bigImg, setBigImg] = useState(img1);
-  const [loading, setLoading] = useState(true);
-  const [visible, setVisible] = useState(false);
-  const {auth, DetailsBottomSheet, setDetailsBottomSheet} =
-    useContext(CheckboxContext);
+  const [bigImg, setBigImg] = useState();
+  const [loading, setLoading] = useState(false);
 
-  const toggleBottomNavigationView = () => {
-    setDetailsBottomSheet(!DetailsBottomSheet);
-    //Toggling the visibility state of the bottom sheet
-    // setVisible(!visible);
-  };
-  setTimeout(() => {
-    setLoading(false);
-  }, 1000);
+  const [singleProduct, setSingleProduct] = useState({});
+  const dispatch = useDispatch();
+  const route = useRoute();
+  const [reviews, setReviews] = useState([]);
+  const { productId } = route.params ?? {};
+
+  const { detailsBottomSheet } = useSelector((state) => state.utils);
+  const [variant, setVariant] = useState({});
+  const [variantDetails, setVariantDetails] = useState([]);
+
+  useEffect(() => {
+    setLoading(true);
+    productServices
+      .singleProduct(productId)
+      .then((res) => {
+        // console.log(res.data.data.thumbnail_image,"singleproduct")
+        setBigImg(res.data.data.thumbnail_image);
+        setLoading(false);
+        setSingleProduct(res.data.data);
+      })
+      .catch((err) => {
+        setLoading(false);
+      });
+
+    productServices
+      .getReviews(productId, 1)
+      .then((res) => {
+        setReviews(res.data);
+      })
+      .catch((err) => {});
+  }, []);
+
   if (loading) {
-    return <FullScreenLoader visible={loading} />;
+    return <SingleProductScreenSkeleton />;
   }
 
   return (
@@ -65,80 +89,46 @@ const ProductDetails = ({navigation}) => {
               height: height,
               width: width,
               backgroundColor: colors.white,
-
-              // paddingTop: scale(10),
             },
             right: scale(6),
             top: scale(6),
             zIndex: 9999,
             borderRadius: 32,
             backgroundColor: "white",
-          }}>
+          }}
+        >
           <Image source={love} />
         </CustomTouchBtn>
         <Image
           style={{
-            width: scale(360),
+            width: scale(330),
             height: scale(500),
-            resizeMode: "cover",
+            resizeMode: "contain",
             marginBottom: scale(10),
+            alignSelf: "center",
+            borderTopLeftRadius: 10,
+            borderTopRightRadius: 10,
+            // borderRadius:10
           }}
-          source={bigImg}
+          source={{ uri: bigImg }}
         />
 
-        <View preset={["row"]}>
-          <TouchableOpacity onPress={() => setBigImg(img2)}>
-            <Image
-              style={{
-                height: scale(60),
-                width: scale(62),
-                marginRight: scale(5),
-              }}
-              source={img2}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => setBigImg(img3)}>
-            <Image
-              style={{
-                height: scale(60),
-                width: scale(62),
-                marginRight: scale(5),
-              }}
-              source={img3}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => setBigImg(img4)}>
-            <Image
-              style={{
-                height: scale(60),
-                width: scale(62),
-                marginRight: scale(5),
-              }}
-              source={img4}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => setBigImg(img1)}>
-            <Image
-              style={{
-                height: scale(60),
-                width: scale(62),
-                marginRight: scale(5),
-              }}
-              source={img1}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => setBigImg(img5)}>
-            <Image
-              style={{
-                height: scale(60),
-                width: scale(62),
-                marginRight: scale(5),
-              }}
-              source={img5}
-            />
-          </TouchableOpacity>
-        </View>
-        <View preset={[`  mt_20`]}>
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+          {singleProduct?.photos?.map((photo, index) => (
+            <TouchableOpacity onPress={() => setBigImg(photo?.path)}>
+              <Image
+                style={{
+                  height: scale(70),
+                  width: scale(56),
+                  marginRight: scale(5),
+                  resizeMode: "stretch",
+                }}
+                source={{ uri: photo?.path }}
+              />
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+        {/* <View preset={[`  mt_20`]}>
           <TouchableOpacity
             style={{
               position: "relative",
@@ -153,39 +143,59 @@ const ProductDetails = ({navigation}) => {
               paddingLeft: scale(6),
               borderColor: colors.primary_3,
               height: scale(25),
-            }}>
-            <Text preset={["p3"]} style={{color: colors.primary_3}}>
+            }}
+          >
+            <Text preset={["p3"]} style={{ color: colors.primary_3 }}>
               Copy Text
             </Text>
             <Image source={require("../../assets/icons/copy.png")} />
           </TouchableOpacity>
-          <Text preset={["h3"]}>Nike Super Red Commercial Shoe for Men</Text>
+          
+        </View> */}
+        <Text preset={["fw_700 fs_20 mt_15"]}>{singleProduct?.name}</Text>
+        <View preset={["row  mt_10 "]} style={{ alignItems: "center" }}>
+          <Text preset={["fs_14  "]}>Sold by</Text>
+          <Text preset={["ml_5 fw_700 fs_16 mr_10"]}>Inter Active</Text>
+          <Entypo name="emoji-happy" size={24} color="black" />
+          <Text preset={["fs_14"]}> 92%</Text>
         </View>
-        <Text preset={["h2 bold mt_10"]}>৳ 8520.24</Text>
+        <Text preset={["h2 bold mt_10"]}>
+          {singleProduct?.currency_symbol}
+          {singleProduct?.price?.calculable_price}
+        </Text>
+        <View preset={[" row mt_5"]}>
+          {/* <Text>{singleProduct?.rating?.rating_count}</Text> */}
+          <Rating
+            from={"details"}
+            defaultStars={singleProduct?.rating?.rating}
+            maxStars={5}
+          />
+          <Text preset={["p1"]}>
+            ({singleProduct?.rating?.rating_count} stars) • 10 reviews
+          </Text>
+        </View>
         <View preset={["row"]} style={styles.text}>
-          <Text preset={["p1 fs_20 "]}>M.S.R.P :</Text>
-          <Text preset={[" fs_20  text_second3"]}>9200</Text>
-        </View>
-        <View preset={[" row mt_10"]}>
-          <Text>rating</Text>
-          <Text preset={["p1"]}>(3.5 stars) • 10 reviews</Text>
+          <Text preset={["p1 fs_20 "]}>M.S.R.P : </Text>
+          <Text preset={[" fs_20  text_second3"]}>{singleProduct?.msrp}</Text>
         </View>
 
         <CustomTouchBtn
           preset={["row mt_10 radius_5 center   border_1 "]}
-          style={{height: scale(48), width: scale(293)}}>
+          style={{ height: scale(48), width: "100%" }}
+        >
           <Image source={require("../../assets/icons/dload.png")} />
           <Text preset={["p1 ml_10 fw_325"]}>Download Product Details</Text>
         </CustomTouchBtn>
         <CustomTouchBtn
           preset={["row mt_10  radius_5 center border_1 "]}
-          style={{height: scale(48), width: scale(222)}}>
+          style={{ height: scale(48), width: "100%" }}
+        >
           <Image source={require("../../assets/icons/facebook.png")} />
           <Text preset={["p1 ml_10 fw_325 "]}>Post in Facebook</Text>
         </CustomTouchBtn>
 
         {/* size */}
-        <View preset={["mt_10"]}>
+        {/* <View preset={["mt_10"]}>
           <Text preset={["fs_16 bold "]}>Select Your Size</Text>
           <View preset={["row wrap"]}>
             {[6, 7, 8, 9, 10, 11, 12].map((size, index) => (
@@ -196,47 +206,33 @@ const ProductDetails = ({navigation}) => {
                   console.log("hello press");
                 }}
                 preset={[
-                  `center  border_1 mr_10 mt_10 ph_15 ${
+                  `center   mr_10 mt_10 ph_15 ${
                     activeSize === size ? "active" : ""
                   }`,
                 ]}
-                style={{width: scale(67), height: scale(48)}}>
+                style={{ width: scale(67), height: scale(35),borderWidth:1, }}
+              >
                 <Text
-                  preset={[` ${activeSize === size && "text_white "}  fs_16`]}>
+                  preset={[` ${activeSize === size && "text_white "}  fs_16`]}
+                >
                   {size}
                 </Text>
               </CustomTouchBtn>
             ))}
           </View>
-        </View>
+        </View> */}
 
         {/* color */}
-        <View preset={["mt_10"]}>
-          <Text preset={["fs_16 bold "]}>Select Color</Text>
-          <View preset={["row wrap"]}>
-            {["Red", "Green", "Black", "Blue"].map((color, index) => (
-              <CustomTouchBtn
-                key={index}
-                onPress={() => {
-                  setActiveColor(color);
-                  console.log("hello press");
-                }}
-                preset={[
-                  `center  border_1 mr_10 mt_10 ph_15 ${
-                    activeColor === color ? "active" : ""
-                  }`,
-                ]}
-                style={{width: scale(85), height: scale(48)}}>
-                <Text
-                  preset={[
-                    ` ${activeColor === color && "text_white "}  fs_16`,
-                  ]}>
-                  {color}
-                </Text>
-              </CustomTouchBtn>
-            ))}
-          </View>
-        </View>
+        {singleProduct?.variation_attributes?.map((variation, index) => (
+          <Tags
+            variant={variantDetails}
+            variantLength={index}
+            setVariant={setVariantDetails}
+            title={variation?.title}
+            options={variation?.options}
+            key={index}
+          />
+        ))}
 
         {/* quantity */}
         <View preset={["mt_10"]}>
@@ -251,7 +247,8 @@ const ProductDetails = ({navigation}) => {
                 borderColor: "gray",
                 justifyContent: "center",
                 alignItems: "center",
-              }}>
+              }}
+            >
               <Text preset={[" bold fs_20"]}>-</Text>
             </CustomTouchBtn>
             <Text preset={["m_5 fs_16 bold"]}>1</Text>
@@ -263,7 +260,8 @@ const ProductDetails = ({navigation}) => {
                 borderColor: "gray",
                 justifyContent: "center",
                 alignItems: "center",
-              }}>
+              }}
+            >
               <Text preset={["fs_16 bold "]}>+</Text>
             </CustomTouchBtn>
           </View>
@@ -280,25 +278,26 @@ const ProductDetails = ({navigation}) => {
           style={{
             // borderTopWidth: 1,
             borderTopColor: colors.secoundary_3,
-          }}>
-          <View
+          }}
+        >
+          {/* <View
             preset={[" ph_10  p_10  mt_20"]}
-            style={{backgroundColor: "#414042"}}>
+            style={{ backgroundColor: "#414042" }}
+          >
             <View preset={["d_flex row jc_between  "]}>
               <Text preset={[" text_white fs_20 fw_700"]}>Details</Text>
 
               <CustomTouchBtn
                 preset={["row center ml_10 border_1 radius_5 "]}
-                style={{padding: 5}}>
+                style={{ padding: 5 }}
+              >
                 <Text preset={["text_white fs_11 mr_10"]}>
                   Copy Product Details
                 </Text>
-                {/* <Image source={require("../../assets/icons/copy.png")} /> */}
+              
               </CustomTouchBtn>
             </View>
-            {/* <CustomTouchBtn>
-              <Text preset={["fs_20 text_second3 mr_10"]}>+</Text>
-            </CustomTouchBtn> */}
+       
           </View>
           <View preset={["mt_10"]}>
             <View preset={["row lh_20"]}>
@@ -321,34 +320,51 @@ const ProductDetails = ({navigation}) => {
               <Text preset={["fs_16 fw_500"]}>Sizes</Text>
               <Text preset={["fs_16 fw_400 lh_20"]}> : 11</Text>
             </View>
-          </View>
+          </View> */}
         </View>
 
         {/* client review */}
         <View preset={[" mt_20"]}>
           <Text preset={["fs_16 fw_700"]}>Product Reviews</Text>
           <View preset={["mt_5"]}>
-            <ClientReview rating={5} />
-            <ClientReview rating={2} />
-            <ClientReview rating={4} />
-
-            <ClientReview rating={3} />
-
-            <ClientReview rating={5} />
-          </View>
-
-          <View preset={["row d_flex   mt_10"]} style={{alignItems: "center"}}>
-            <Text preset={["fs_18 lh_30"]}>See More</Text>
-            <AntDesign
-              style={{
-                marginLeft: scale(20),
-                fontSize: scale(18),
-                lineHeight: scale(30),
-              }}
-              name="down"
-              size={18}
-              color="black"
-            />
+            {reviews.length == 0 ? (
+              <View
+                style={{
+                  height: 150,
+                  width: "100%",
+                  backgroundColor: "gray",
+                  borderRadius: 10,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Text style={{ color: "white" }}>
+                  No review found for this product
+                </Text>
+              </View>
+            ) : (
+              reviews.map((review, index) => (
+                <>
+                  <ClientReview rating={5} key={index} review={review} />
+                  <View
+                    preset={["row d_flex   mt_10"]}
+                    style={{ alignItems: "center" }}
+                  >
+                    <Text preset={["fs_18 lh_30"]}>See More</Text>
+                    <AntDesign
+                      style={{
+                        marginLeft: scale(20),
+                        fontSize: scale(18),
+                        lineHeight: scale(30),
+                      }}
+                      name="down"
+                      size={18}
+                      color="black"
+                    />
+                  </View>
+                </>
+              ))
+            )}
           </View>
         </View>
 
@@ -400,89 +416,31 @@ const ProductDetails = ({navigation}) => {
           </Text>
         </View> */}
 
-        <View style={{height: scale(250)}}></View>
+        <View style={{ height: scale(220) }}></View>
       </ScrollView>
-      <View style={styles.container}>
-        <BottomSheet
-          visible={DetailsBottomSheet}
-          //setting the visibility state of the bottom sheet
-          onBackButtonPress={toggleBottomNavigationView}
-          //Toggling the visibility state on the click of the back botton
-          onBackdropPress={toggleBottomNavigationView}
-          //Toggling the visibility state on the clicking out side of the sheet
+
+      <View style={styles.container}></View>
+
+      <TouchableOpacity style={styles.addToCart}>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "center",
+            gap: 10,
+            paddingTop: scale(10),
+          }}
         >
-          {/*Bottom Sheet inner View*/}
-          <View style={styles.bottomNavigationView} preset={["p_10"]}>
-            <View
-              preset={["row jc_between p_10 mt_5 "]}
-              style={{
-                borderBottomWidth: 1,
-                borderBottomColor: "#DDDDDD",
-                paddingBottom: scale(5),
-              }}>
-              <Text preset={[" fs_16"]}>Product Details</Text>
-              <CustomTouchBtn onPress={() => toggleBottomNavigationView()}>
-                <AntDesign name="closecircleo" size={scale(20)} color="black" />
-              </CustomTouchBtn>
-            </View>
-            <View preset={["mt_10 "]}>
-              <SingleCart src={img1} />
-            </View>
-            <View preset={["mt_10 center row"]}>
-              <Text>Customer Rate</Text>
-              <TextInput
-                keyboardType="number-pad"
-                style={{
-                  borderColor: "#E6E7E8",
-                  borderWidth: 1,
-                  marginLeft: scale(5),
-                  width: scale(210),
-                  height: scale(40),
-                  paddingLeft: scale(20),
-                  backgroundColor: "#FFFFFF",
-                }}
-              />
-            </View>
-            <View preset={["row mt_15 p_5 jc_between"]}>
-              <Text preset={["bold fs_16"]}>Total</Text>
-              <Text preset={["bold fs_16"]}>৳ 1220</Text>
-            </View>
-            <View preset={["row  mt_15"]}>
-              <CustomTouchBtn
-                preset={["center"]}
-                style={{
-                  width: scale(128),
-                  backgroundColor: colors.primary_2,
-                  padding: scale(8),
-                  borderRadius: 4,
-                  // alignSelf: "center",
-                }}>
-                <Text preset={["fs_14 fw_500"]} style={{color: "white"}}>
-                  Add to Cart
-                </Text>
-              </CustomTouchBtn>
-              <CustomTouchBtn
-                preset={["center  "]}
-                style={{
-                  width: scale(194),
-                  borderWidth: 1,
-                  borderColor: colors.primary_2,
-                  // backgroundColor: colors.primary_2,
-                  padding: scale(8),
-                  borderRadius: 4,
-                  marginLeft: scale(5),
-                  // alignSelf: "center",
-                }}>
-                <Text
-                  preset={["fs_14 fw_500"]}
-                  style={{color: colors.primary_2}}>
-                  Add to My Products
-                </Text>
-              </CustomTouchBtn>
-            </View>
-          </View>
-        </BottomSheet>
-      </View>
+          <AntDesign
+            name="shoppingcart"
+            size={22}
+            style={{ fontWeight: "bold" }}
+            color="white"
+          />
+          <Text style={{ color: colors.white, fontWeight: "500" }}>
+            Add To Cart
+          </Text>
+        </View>
+      </TouchableOpacity>
     </Mainlayout>
   );
 };
@@ -508,5 +466,12 @@ const styles = StyleSheet.create({
 
     // justifyContent: "center",
     // alignItems: "center",
+  },
+  addToCart: {
+    backgroundColor: colors.primary_2,
+    height: 167,
+    width: width,
+    position: "absolute",
+    bottom: 0,
   },
 });

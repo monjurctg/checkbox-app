@@ -21,8 +21,9 @@ const SellerRegister = ({ route, navigation }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [address, setAddress] = useState("");
-  const { phone } = route.params;
+  const { phone } = route?.params??{};
   const [loading, setLoading] = useState(false);
+  const[bkash,setBkash]=useState("")
 
   const checkError = () => {
     if (!shopName) {
@@ -108,6 +109,7 @@ const SellerRegister = ({ route, navigation }) => {
       password: password,
       address: address,
       gender: gender,
+      bkash:bkash,
       password_confirmation: confirmPassword,
     };
     setLoading(true);
@@ -162,9 +164,15 @@ const SellerRegister = ({ route, navigation }) => {
           value={shopName}
           onChange={(text) => setShopName(text)}
         />
+         <InputTestCustom
+          placeholder={"Bkash Number"}
+          label={"Bkash Number"}
+          value={bkash}
+          onChange={(text) => setBkash(text)}
+        />
         <InputTestCustom
           placeholder={"Email"}
-          label={"Email*"}
+          label={"Email"}
           value={email}
           onChange={(text) => setEmail(text)}
         />

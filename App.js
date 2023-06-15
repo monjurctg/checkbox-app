@@ -6,7 +6,7 @@ import {StatusBar} from "expo-status-bar";
 import {StyleSheet, View} from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
 import Text from "./src/components/tags/Text";
-import {CheckboxContext, CheckboxProvider} from "./src/context/CheckboxProvider";
+
 import ProducDetailsTab from "./src/navigations/SingleProductNavigation";
 import TabScreen from "./src/navigations/TabNavigation";
 import Cart from "./src/screen/Cart";
@@ -24,6 +24,13 @@ import NidVerify from "./src/screen/auth/NidVerify";
 import SellerRegister from "./src/screen/auth/SellerRegister";
 import OTPVerification from "./src/screen/auth/OTPVerification";
 import FlashMessage from "react-native-flash-message";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Provider, useDispatch } from "react-redux";
+import store from "./src/redux/store";
+import { setAuth } from "./src/redux/reducers/authSlice";
+import Search from "./src/screen/Search";
+import ProductList from "./src/screen/ProductList";
+
 
 export default function App() {
   // const [loaded, error] = useFonts({
@@ -51,8 +58,12 @@ export default function App() {
   //     console.log("No updates available");
   //   }
   // }
-  // const {auth} = useContext(CheckboxContext);
+  // const dispatch = useDispatch()
 
+
+
+  
+// console.log(setAuth,"set")
 
   function confirm(message) {
     return new Promise((resolve) => {
@@ -64,9 +75,7 @@ export default function App() {
     });
   }
 
-  useEffect(() => {
-    // checkForUpdates();
-  }, []);
+  
 
   function confirmDialogSupported() {
     return window.confirm && typeof window.confirm === "function";
@@ -87,34 +96,29 @@ export default function App() {
   };
   // }
   return (
-    <CheckboxProvider>
+    <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{
             headerShown: false,
             headerMode: "screen",
           }}>
+          {/* <Stack.Screen name="search" component={Search} /> */}
+
+
           <Stack.Screen name="tab" component={TabScreen} />
           <Stack.Screen name="cart" component={Cart} />
 
-          <Stack.Screen name="product-details" component={ProducDetailsTab} />
+          <Stack.Screen name="product-details" component={ProductDetails} />
           <Stack.Screen name="checkout" component={Checkout} />
           <Stack.Screen name="login" component={Login} />
           <Stack.Screen name="signup" component={SiginUp} />
           <Stack.Screen name="otp_verify" component={OTPVerification} />
-          <Stack.Screen name="nid_verify"rific component={NidVerify} />
-          <Stack.Screen name="user_info"rific component={SellerRegister} />
+          <Stack.Screen name="nid_verify" component={NidVerify} />
+          <Stack.Screen name="user_info" component={SellerRegister} />
+          <Stack.Screen name="search" component={Search} />
+          <Stack.Screen name="products-filter" component={ProductList} />
 
-
-
-
-
-
-          {/* <Stack.Screen
-          name="ProductListing"
-          component={ProductListing}
-          // options={{title: 'Welcome'}}
-        /> */}
         </Stack.Navigator>
 
         {/* <StatusBar style="auto" /> */}
@@ -123,7 +127,7 @@ export default function App() {
 <FlashMessage position={"bottom"}/>
       <StatusBar style="auto" />
       
-    </CheckboxProvider>
+    </Provider>
   );
 }
 

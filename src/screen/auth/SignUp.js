@@ -17,7 +17,7 @@ import { showMessage, hideMessage } from "react-native-flash-message";
 const SiginUp = () => {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [option, setOption] = useState("");
+  // const [option, setOption] = useState("");
   const [date, setDate] = useState(formatDate(new Date()));
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
@@ -52,9 +52,9 @@ const SiginUp = () => {
     if (error) return;
     const data = {
       name: name,
-      phone: phone,
+      phone: phone, 
       dob: date,
-      is_seller: option === "Seller" ? true : false,
+      is_seller: false,
     };
     setLoading(true);
     const res = await authServices
@@ -62,7 +62,7 @@ const SiginUp = () => {
       .then((res) => res)
       .catch((err) => err);
 
-    console.log(res, data, "res  signup ");
+    // console.log(res, data, "res  signup ");
     if (res.status === 201) {
       setLoading(false);
       navigation.navigate("otp_verify", data);
@@ -99,6 +99,7 @@ const SiginUp = () => {
 
   return (
     <InputLayout>
+  
       <View style={{ marginTop: scale(50), marginBottom: 20 }}>
         <Text
           style={{
@@ -143,13 +144,13 @@ const SiginUp = () => {
         onChange={setDate}
       />
 
-      <InputTestCustom
+      {/* <InputTestCustom
         type={"dropdown"}
         option={["Customer", "Seller"]}
         label={"User Type"}
         value={option}
         onChange={(text) => setOption(text)}
-      />
+      /> */}
 
       <TouchableOpacity
         onPress={handleSignup}

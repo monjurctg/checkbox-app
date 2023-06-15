@@ -23,7 +23,7 @@ const InputTestCustom = ({ label, onChange,editable, value,option, placeholder, 
 
   const renderInput = () => {
     if (type === 'date') {
-      return <CustomDatePicker onChange={onChange} value={value} />;
+      return <CustomDatePicker editable={editable} onChange={onChange} value={value} />;
     } else if (type === 'password') {
       return (
         <View style={styles.inputContainer}>

@@ -14,7 +14,7 @@ const NidVerify = ({ route, navigation }) => {
   const [nid_number, setNid] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const { dob, is_seller, name, phone } = route.params;
+  const { dob, is_seller, name, phone } = route.params??{};
   // console.log(data,"data nid")
 
   const handleVerifyNid = async () => {
@@ -56,7 +56,7 @@ const NidVerify = ({ route, navigation }) => {
       });
     } else {
       setLoading(false);
-      console.log(res.message, "nid data res");
+      // console.log(res.message, "nid data res");
 
       showMessage({
         style: { alignItems: "center" },
@@ -87,12 +87,14 @@ const NidVerify = ({ route, navigation }) => {
         placeholder={"Name"}
         label={"Name"}
         value={name}
+        editable={false}
         onChange={(text) => setName(text)}
       />
       <InputTestCustom
         placeholder={"Phone Nmuber"}
         label={"Phone"}
         value={phone}
+        editable={false}
         onChange={(text) => setPhone(text)}
       />
       {/* <InputTestCustom placeholder={"Name"} label={"Name*"} value={name} onChange={(text) => setName(text)} /> */}
@@ -101,7 +103,9 @@ const NidVerify = ({ route, navigation }) => {
         type={"date"}
         label={"Date of Birth"}
         value={dob}
-        onChange={(text) => setDate(text)}
+        editable={false}
+       
+        // onChange={(text) => setDate(text)}
       />
       <InputTestCustom
         placeholder={"NID Number"}

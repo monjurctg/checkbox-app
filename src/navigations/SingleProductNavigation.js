@@ -7,12 +7,15 @@ import Text from "../components/tags/Text";
 import {CheckboxContext} from "../context/CheckboxProvider";
 import ProductDetails from "../screen/ProductDetails";
 import {colors} from "../theme/colors";
+import { useDispatch, useSelector } from "react-redux";
+import { setDetailsBottomSheet } from "../redux/reducers/utilsSlice";
 
 const Tab = createBottomTabNavigator();
 
-function MyTabBar({state, descriptors, navigation, children}) {
-  const {auth, setDetailsBottomSheet, DetailsBottomSheet} =
-    useContext(CheckboxContext);
+function MyTabBar({state, descriptors, navigation}) {
+  const dispatch = useDispatch()
+  
+    const {detailsBottomSheet} = useSelector((state)=>state.utils)
 
   return (
     <View
@@ -35,11 +38,11 @@ function MyTabBar({state, descriptors, navigation, children}) {
             : route.name;
 
         const isFocused = state.index === index;
-        console.log(isFocused);
+        // console.log(isFocused);
 
         const onPress = () => {
-          // alert("hello");
-          setDetailsBottomSheet(!DetailsBottomSheet);
+          // alert("hello")t
+          dispatch(setDetailsBottomSheet(!detailsBottomSheet));
           const event = navigation.emit({
             type: "tabPress",
             target: route.key,
@@ -96,7 +99,7 @@ function MyTabBar({state, descriptors, navigation, children}) {
                 }}>
                 {/* {icon} */}
                 <Text preset={["p2 bold"]} style={{color: colors.white}}>
-                  {label}
+                Add To Cart
                 </Text>
               </View>
             </View>
@@ -107,15 +110,16 @@ function MyTabBar({state, descriptors, navigation, children}) {
   );
 }
 
-export default function ProducDetailsTab() {
+export default function ProducDetailsTab({route}) {
   // const {auth} = useContext(CheckboxContext);
+  // console.log(route.params)
   return (
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
       }}
       tabBar={(props) => <MyTabBar {...props} />}>
-      <Tab.Screen name="Add To Cart" component={ProductDetails} />
+      {/* <Tab.Screen name="product_details" initialParams={route.params} component={ProductDetails} /> */}
     </Tab.Navigator>
   );
 }

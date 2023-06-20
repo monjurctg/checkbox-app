@@ -1,14 +1,39 @@
-import {StyleSheet, Image, TouchableOpacity,ScrollView} from "react-native";
+import {
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  FlatList,
+} from "react-native";
 import React from "react";
-import {scale} from "../../../utils/funtions";
+import { scale } from "../../../utils/funtions";
 import Text from "../tags/Text";
 import CustomTouchBtn from "../tags/CustomTouchBtn";
 import View from "../tags/View";
 // import { ScrollView } from "react-native-web";
 
-const Cards = ({navigation, name,collections=[],slug}) => {
+const Cards = ({ navigation, name, collections = [], slug }) => {
   // console.log(navigation, "navigation");
   // console.log(collections,"collection")
+
+  const renderItem = ({ item }) => (
+    <CustomTouchBtn
+      preset={["center"]}
+      // key={index}
+      style={{
+        width: scale(108),
+        height:scale(180),
+        
+      }}
+    >
+      <Image
+        source={{ uri: item?.thumbnail_image,cache:"only-if-cached" }}
+        
+        style={{ height: scale(90), width: scale(90),resizeMode:"cover",borderRadius:10}}
+      />
+      <Text style={{height:scale(50)}} preset={["p3 lh_14 mt_5"]}>{item?.name}</Text>
+    </CustomTouchBtn>
+  );
 
   return (
     <View>
@@ -16,13 +41,25 @@ const Cards = ({navigation, name,collections=[],slug}) => {
         <Text preset={["p3 bold"]}>{name}</Text>
         <CustomTouchBtn
           preset={["row center"]}
-          onPress={() => navigation.navigate("products-filter", { data:{collection_slug:slug} })}
-          >
+          onPress={() =>
+            navigation.navigate("products-filter", {
+              data: { collection_slug: slug },
+            })
+          }
+        >
           <Text preset={["p3 mr_5"]}>Explore all</Text>
           <Image source={require("../../../assets/icons/right-icon.png")} />
         </CustomTouchBtn>
       </View>
-      <ScrollView style={styles.products} horizontal={true} showsHorizontalScrollIndicator={false}>
+      <FlatList
+        showsHorizontalScrollIndicator={false}
+        horizontal={true}
+        data={collections}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id.toString()}
+      />
+
+      {/* <ScrollView style={styles.products} horizontal={true} showsHorizontalScrollIndicator={false}>
         {
           collections.map((col,index)=>{
             return  <CustomTouchBtn
@@ -39,7 +76,7 @@ const Cards = ({navigation, name,collections=[],slug}) => {
           })
         }
       
-      </ScrollView>
+      </ScrollView> */}
     </View>
   );
 };
@@ -69,7 +106,7 @@ const styles = StyleSheet.create({
     // flexWrap: "wrap",
     // justifyContent: "space-between",
     // marginTop: 12,
-    columnGap:10,
+    columnGap: 10,
     padding: 12,
     // backgroundColor: "#FFFFFF",
     borderStyle: "solid",

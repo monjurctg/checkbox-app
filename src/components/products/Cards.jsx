@@ -1,8 +1,7 @@
 import {
   StyleSheet,
   Image,
-  TouchableOpacity,
-  ScrollView,
+ 
   FlatList,
 } from "react-native";
 import React from "react";
@@ -15,6 +14,8 @@ import View from "../tags/View";
 const Cards = ({ navigation, name, collections = [], slug }) => {
   // console.log(navigation, "navigation");
   // console.log(collections,"collection")
+
+  
 
   const renderItem = ({ item }) => (
     <CustomTouchBtn

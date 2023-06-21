@@ -72,7 +72,6 @@ const ProductDetails = ({ navigation }) => {
   if (loading) {
     return <SingleProductScreenSkeleton />;
   }
-
   return (
     <Mainlayout>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -427,7 +426,7 @@ const ProductDetails = ({ navigation }) => {
             flexDirection: "row",
             justifyContent: "center",
             gap: 10,
-            paddingTop: scale(10),
+            // paddingTop: scale(10),
           }}
         >
           <AntDesign
@@ -436,7 +435,13 @@ const ProductDetails = ({ navigation }) => {
             style={{ fontWeight: "bold" }}
             color="white"
           />
-          <Text style={{ color: colors.white, fontWeight: "500" }}>
+          <Text
+            style={{
+              color: colors.white,
+              fontWeight: "500",
+              fontSize: scale(14),
+            }}
+          >
             Add To Cart
           </Text>
         </View>
@@ -469,9 +474,13 @@ const styles = StyleSheet.create({
   },
   addToCart: {
     backgroundColor: colors.primary_2,
-    height: scale(160),
+    height: scale(50),
+    marginBottom: scale(height <= 760 ? 115 : 100),
     width: width,
     position: "absolute",
     bottom: 0,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

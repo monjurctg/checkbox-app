@@ -469,7 +469,7 @@ const styles = StyleSheet.create({
   },
   addToCart: {
     backgroundColor: colors.primary_2,
-    height: 167,
+    height: scale(160),
     width: width,
     position: "absolute",
     bottom: 0,

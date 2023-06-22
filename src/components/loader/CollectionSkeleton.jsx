@@ -14,7 +14,7 @@ const CollectionSkeleton = ({}) => {
     Animated.loop(
       Animated.timing(shimmerAnimatedValue, {
         toValue: 1,
-        duration: 1200,
+        duration: 2000,
         useNativeDriver: true,
       })
     ).start();

@@ -1,6 +1,6 @@
-import { View, TouchableOpacity, Image } from "react-native";
+import { View, TouchableOpacity, Image, StyleSheet, Animated } from "react-native";
 import { WebView } from "react-native-webview";
-import React, { Suspense, useContext, useEffect, useState } from "react";
+import React, { Suspense, useContext, useEffect, useRef, useState } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -11,7 +11,6 @@ import Home from "../screen/Home";
 import Products from "../screen/Products";
 import homeActive from "../../assets/icons/home-active.png";
 import homeNotActive from "../../assets/icons/blackHome.png";
-import ProductList from "../screen/ProductList"
 import productActive from "../../assets/icons/products-active.png";
 import productNotActive from "../../assets/icons/blackProduct.png";
 import dash from "../../assets/icons/dash.png";
@@ -22,7 +21,7 @@ import ordersActive from "../../assets/icons/orders-active.png";
 
 // const ProductList = React.lazy(() => import(""));
 import {
-  FontAwesome5,
+ 
   MaterialCommunityIcons,
   Ionicons,
 } from "@expo/vector-icons";
@@ -32,6 +31,13 @@ import UnAuth from "../screen/auth/UnAuth";
 import { useDispatch, useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { setAuth } from "../redux/reducers/authSlice";
+import HomeSVG from "../components/svg/HomeSVG";
+import RoketSVG from "../components/svg/RoketSVG";
+import DashboardSvg from "../components/svg/DashboardSvg";
+import ProductsSVG from "../components/svg/ProductsSVG";
+import OrdersSVG from "../components/svg/OrdersSVG";
+import ActiveProductSVG from "../components/svg/ActiveProductSVG";
+import ActiveHome from "../components/svg/ActiveHome";
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -40,6 +46,8 @@ const OrdersStack = createNativeStackNavigator();
 const DashStack = createNativeStackNavigator();
 const Dash = () => {
   const [loading, setLoading] = useState(true);
+
+
 
   if (loading) {
     return <FullScreenLoader visible={loading} />;
@@ -92,17 +100,10 @@ function DashScreen() {
 }
 
 function MyTabBar({ state, descriptors, navigation, children }) {
+  
   return (
     <View
-      style={{
-        flexDirection: "row",
-        height: scale(60),
-        borderTopWidth: 1,
-        backgroundColor: "white",
-        borderTopColor: colors.border,
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
+      style={styles.footerWraper}
     >
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
@@ -114,102 +115,69 @@ function MyTabBar({ state, descriptors, navigation, children }) {
             : route.name;
 
         const isFocused = state.index === index;
-        // console.log(isFocused);
 
         let src;
         let color;
         let bg;
         let icon;
-        let fontSize;
+        let label2;
 
         if (label === "home") {
+          label2 = "Home";
           if (isFocused) {
-            src = homeActive;
-            color = colors.primary_4;
-            icon = <FontAwesome5 name="home" size={30} color={color} />;
-
-            // bg = colors.primary_1;
+        
+            color = colors.primary_1;
+            icon = <ActiveHome />;
           } else {
             src = homeNotActive;
             color = colors.black;
             bg = colors.notActive;
-            icon = (
-              <FontAwesome5
-                name="home"
-                style={{ color: color }}
-                size={24}
-                color={color}
-              />
-            );
+            icon = <HomeSVG title={label} size={24} />;
           }
         } else if (label === "Products") {
+          label2 = "Products";
           if (isFocused) {
-            src = productActive;
-            color = colors.primary_4;
+            // src = productActive;
+            color = colors.primary_1;
             bg = colors.primary_1;
-
-            // icon = <FontAwesome5 name="box" size={24} color={color} />;
-            icon = <Ionicons name="cube-outline" size={30} color={color} />;
+            icon = <ActiveProductSVG/>
           } else {
-            src = productNotActive;
+            // src = productNotActive;
             color = colors.black;
             bg = colors.notActive;
-            // icon = <FontAwesome5 name="box" size={24} color={color} />;
-            icon = <Ionicons name="cube-outline" size={24} color={color} />;
+            icon = <ProductsSVG color={color}  />;
           }
         } else if (label === "dashboard") {
+          label2 = "Dashboard";
           if (isFocused) {
-            src = dashActive;
-            color = colors.primary_4;
-            // bg = colors.primary_1;
-            icon = (
-              <MaterialCommunityIcons
-                name="view-dashboard-outline"
-                size={30}
-                color={color}
-              />
-            );
+            // src = dashActive;
+            color = colors.primary_1;
+            icon = <DashboardSvg color={color} size={24} />;
           } else {
             src = dash;
             color = colors.black;
             bg = colors.notActive;
-            icon = (
-              <MaterialCommunityIcons
-                name="view-dashboard-outline"
-                size={24}
-                color={color}
-              />
-            );
+            icon = <DashboardSvg size={24} />;
           }
         } else if (label === "orders") {
+          label2 = "Orders";
           if (isFocused) {
-            src = ordersActive;
+            // src = ordersActive;
             color = colors.primary_4;
-            // bg = colors.primary_1;
-            icon = (
-              <MaterialCommunityIcons
-                name="notebook-check"
-                size={30}
-                color={color}
-              />
-            );
+            icon=<OrdersSVG height={20} width={22} color={color}/>
+          
           } else {
             src = orders;
             color = colors.black;
             bg = colors.notActive;
-            icon = (
-              <MaterialCommunityIcons
-                name="notebook-check"
-                size={24}
-                color={color}
-              />
-            );
+            icon=<OrdersSVG height={20} width={22} color={color}/>
+
           }
-        }
-        if (label === "login") {
         }
 
         const onPress = () => {
+        
+          // alert("cl")
           const event = navigation.emit({
             type: "tabPress",
             target: route.key,
@@ -236,66 +204,27 @@ function MyTabBar({ state, descriptors, navigation, children }) {
             testID={options.tabBarTestID}
             onPress={onPress}
             onLongPress={onLongPress}
-            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+            style={styles.container}
           >
             {label === "unauth" ? (
               <TouchableOpacity
                 onPress={() => navigation.navigate("signup")}
-                style={{
-                  height: scale(48),
-                  width: width,
-                  display: "flex",
-                  justifyContent: "center",
-                  // alignItems: "center",
-                }}
+                style={styles.unauthButton}
               >
-                <View
-                  style={{
-                    backgroundColor: colors.primary_1,
-                    height: scale(48),
-                    // marginBottom: scale(10),
-                    marginHorizontal: scale(7),
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <Text preset={["p1"]} style={{ color: colors.white }}>
+                <View style={styles.unauthButtonBackground}>
+                  <Text preset={["p1"]} style={styles.unauthButtonText}>
                     Signup Now
                   </Text>
                 </View>
               </TouchableOpacity>
             ) : (
-              <View
-                style={{
-                  // flexDirection: "row",
-                  height: scale(48),
-
-                  borderRadius: scale(7),
-                  // marginRight: scale(7),
-                  alignItems: "center",
-                  justifyContent: "space-evenly",
-                  // backgroundColor: "white",
-                }}
-              >
-                {/* <Image
-                  source={src}
-                  style={{
-                    height: scale(25),
-                    width: scale(25),
-                    resizeMode: "contain",
-                  }}
-                /> */}
-                <View
-                  style={{
-                    alignItems: "center",
-                    justifyContent: "space-evenly",
-                  }}
-                >
+              <View style={[styles.authButtonContainer]}>
+                <Animated.View style={[styles.authButtonContent,]}>
                   {icon}
-                  <Text preset={["p3"]} style={{ color: color }}>
-                    {label}
+                  <Text preset={["fs_12 fw_500"]} style={{ color: color }}>
+                    {label2}
                   </Text>
-                </View>
+                </Animated.View>
               </View>
             )}
           </TouchableOpacity>
@@ -306,74 +235,53 @@ function MyTabBar({ state, descriptors, navigation, children }) {
 }
 function ProductsScreen({ route, navigation }) {
   return (
-   
-      <ProductsStack.Navigator
-      
-        screenOptions={{
-          headerShown: false,
-        }}
-      >
-        <ProductsStack.Screen
-          initialParams={route.params}
-          name="/"
-          component={Products}
-        />
-        {/* <ProductsStack.Screen
-        // navigationKey="products-filter"
-          name="products-filter"
-          initialParams={{ route:route.params, navigation }}
-          component={ProductList}
-        /> */}
-      </ProductsStack.Navigator>
-  
+    <ProductsStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <ProductsStack.Screen
+        initialParams={route.params}
+        name="/"
+        component={Products}
+      />
+    </ProductsStack.Navigator>
   );
 }
 const Stack = createNativeStackNavigator();
 
 export default function TabScreen({ route }) {
   const dispatch = useDispatch();
-  // const { auth } = useContext(CheckboxContext);
   const [loading, setLoading] = useState(true);
-  // console.log(route.params)
   const { auth } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    // checkForUpdates();
 
     const checkToken = async () => {
       setLoading(true);
       const token = await AsyncStorage.getItem("token");
       if (token) {
         setLoading(false);
-        // console.log(token, "token");
-
         dispatch(setAuth(true));
       } else {
         setLoading(false);
-        // console.log(token, "token else");
       }
     };
 
     checkToken();
   }, [auth]);
-  // console.log(auth,"redux auth")
-
-  // if (loading) {
-  //   return <FullScreenLoader visible={loading} />;
-  // }
+ 
   return (
     <>
       {!auth ? (
-        <>
-          <Tab.Navigator
-            screenOptions={{
-              headerShown: false,
-            }}
-            tabBar={(props) => <MyTabBar {...props} />}
-          >
-            <Tab.Screen name="unauth" component={UnAuth} />
-          </Tab.Navigator>
-        </>
+        <Tab.Navigator
+          screenOptions={{
+            headerShown: false,
+          }}
+          tabBar={(props) => <MyTabBar {...props} />}
+        >
+          <Tab.Screen name="unauth" component={UnAuth} />
+        </Tab.Navigator>
       ) : (
         <Tab.Navigator
           screenOptions={{
@@ -390,3 +298,57 @@ export default function TabScreen({ route }) {
     </>
   );
 }
+const styles = StyleSheet.create({
+  footerWraper:{
+    flexDirection: "row",
+    height: scale(60),
+    width: "95%",
+
+    // borderWidth: 1,
+    backgroundColor: "#FFFFFF",
+    // borderTopColor: colors.border,
+    // borderColor:colors.border,
+    justifyContent: "space-between",
+    alignItems: "center",
+    alignSelf: "center",
+    marginBottom: 10,
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    elevation: 10,
+  
+  },
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  unauthButton: {
+    height: scale(48),
+    width: width,
+    display: "flex",
+    justifyContent: "center",
+  },
+  unauthButtonBackground: {
+    backgroundColor: colors.primary_1,
+    height: scale(48),
+    marginHorizontal: scale(7),
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  unauthButtonText: {
+    color: colors.white,
+  },
+  authButtonContainer: {
+    height: scale(48),
+    borderRadius: scale(7),
+    alignItems: "center",
+    justifyContent: "space-evenly",
+  },
+  authButtonContent: {
+    alignItems: "center",
+    justifyContent: "space-evenly",
+  },
+});

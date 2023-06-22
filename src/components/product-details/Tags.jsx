@@ -4,6 +4,7 @@ import CustomTouchBtn from "../tags/CustomTouchBtn";
 import Text from "../tags/Text";
 import View from "../tags/View";
 import { scale } from "../../../utils/funtions";
+import { colors } from "../../theme/colors";
 
 const Tags = ({ variant, setVariant, variantLength, options, title }) => {
   const handleVariant = (item, name) => {
@@ -46,7 +47,9 @@ const Tags = ({ variant, setVariant, variantLength, options, title }) => {
               borderRadius: 4,
               borderWidth: 1,
               // back
-              backgroundColor: active(option, title) ? "black" : "white",
+              backgroundColor: active(option, title)
+                ? colors.primary_2
+                : "white",
             }}
           >
             <Text

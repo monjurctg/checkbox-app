@@ -1,5 +1,6 @@
 import {
   Image,
+  Modal,
   ScrollView,
   StyleSheet,
   TextInput,
@@ -18,9 +19,26 @@ import { Feather } from "@expo/vector-icons";
 import FullScreenLoader from "../components/loader/FullScreenLoader ";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { Button } from "react-native";
 
 const Cart = () => {
   const [loading, setLoading] = useState(true);
+  const [updateCartModalVisible, setUpdateCartModalVisible] = useState(false);
+  const [switchCartModalVisible, setSwitchCartModalVisible] = useState(false);
+  const [inputValue, setInputValue] = useState("");
+
+  const handleCancel = () => {
+    setUpdateCartModalVisible(false);
+    setInputValue("");
+  };
+
+  const handleOk = () => {
+    // Handle the input value
+    console.log("Input value:", inputValue);
+
+    setUpdateCartModalVisible(false);
+    setInputValue("");
+  };
   const navigation = useNavigation();
   setTimeout(() => {
     setLoading(false);
@@ -92,21 +110,101 @@ const Cart = () => {
                 Copy Cart Link
               </Text>
             </TouchableOpacity>
-            <CustomTouchBtn>
+            <CustomTouchBtn onPress={() => setUpdateCartModalVisible(true)}>
               <Feather name="edit" size={scale(20)} color="black" />
             </CustomTouchBtn>
           </View>
+          <Modal
+            visible={updateCartModalVisible}
+            animationType="slide"
+            transparent={true}
+            onRequestClose={() => setUpdateCartModalVisible(false)}
+          >
+            <View style={styles.modalContainer}>
+              <View style={styles.modalContent}>
+                <TouchableOpacity
+                  style={styles.closeButton}
+                  onPress={() => setUpdateCartModalVisible(false)}
+                >
+                  <AntDesign
+                    style={styles.closeButtonText}
+                    name="close"
+                    size={24}
+                    color="black"
+                  />
+                </TouchableOpacity>
+                <Text preset={["bold fs_14 mt_10"]}>Edit cart name</Text>
+                <TextInput
+                  style={styles.input}
+                  value={inputValue}
+                  onChangeText={(text) => setInputValue(text)}
+                  placeholder="Add cart name"
+                />
+                <View style={styles.buttonContainer}>
+                  <TouchableOpacity
+                    style={styles.cancelButton}
+                    onPress={handleCancel}
+                  >
+                    <Text style={styles.buttonText}>Cancel</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.okButton} onPress={handleOk}>
+                    <Text style={styles.buttonText}>OK</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </Modal>
         </View>
-
-        <View
-          preset={["mt_10 border_1 row center"]}
-          style={{ borderColor: "black", borderRadius: 10 }}
+        <TouchableOpacity onPress={() => setSwitchCartModalVisible(true)}>
+          <View
+            preset={["mt_10 border_1 row center"]}
+            style={{ borderColor: "black", borderRadius: 10 }}
+          >
+            <Text preset={["fs_11"]} style={{ color: "#414042" }}>
+              Switch Cart
+            </Text>
+          </View>
+        </TouchableOpacity>
+        <Modal
+          visible={switchCartModalVisible}
+          animationType="slide"
+          transparent={true}
+          onRequestClose={() => setSwitchCartModalVisible(false)}
         >
-          <Text preset={["fs_11"]} style={{ color: "#414042" }}>
-            Switch Cart
-          </Text>
-        </View>
-
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <TouchableOpacity
+                style={[styles.closeButton]}
+                onPress={() => setSwitchCartModalVisible(false)}
+              >
+                <AntDesign
+                  style={styles.closeButtonText}
+                  name="close"
+                  size={24}
+                  color="black"
+                />
+              </TouchableOpacity>
+              <View style={{ marginTop: 10 }}>
+                <TouchableOpacity>
+                  <Text style={styles.cartName}>My Favourite Products</Text>
+                </TouchableOpacity>
+                <TouchableOpacity>
+                  <Text style={styles.cartName}>Tech Products</Text>
+                </TouchableOpacity>
+                <TouchableOpacity>
+                  <Text style={styles.cartName}>Cloth Collection</Text>
+                </TouchableOpacity>
+              </View>
+              <CustomTouchBtn
+                preset={["mt_10 center"]}
+                style={styles.ViewAllCartButton}
+                // onPress={onProceedPress}
+              >
+                <Text style={styles.ViewAllCartButtonText}>View All Cart</Text>
+              </CustomTouchBtn>
+            </View>
+          </View>
+        </Modal>
         <View preset={["mt_10"]}>
           <SingleCart item={item} />
           <SingleCart item={item} />
@@ -154,4 +252,72 @@ const Cart = () => {
 
 export default Cart;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    backgroundColor: "white",
+    padding: 20,
+    borderRadius: 10,
+    width: "80%",
+  },
+  closeButton: {
+    position: "absolute",
+    top: 10,
+    right: 10,
+    padding: 5,
+  },
+  closeButtonText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#3E4DAC",
+  },
+  input: {
+    height: 40,
+    borderColor: "gray",
+    borderWidth: 1,
+    marginTop: 5,
+    marginBottom: 10,
+    paddingHorizontal: 10,
+    borderRadius: 7,
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
+  cancelButton: {
+    backgroundColor: "#FF0000",
+    paddingHorizontal: 15,
+    paddingVertical: 5,
+    borderRadius: 5,
+  },
+  okButton: {
+    marginLeft: 10,
+    backgroundColor: "#3E4DAC",
+    paddingHorizontal: 15,
+    paddingVertical: 5,
+    borderRadius: 5,
+  },
+  cartName: {
+    borderBottomWidth: 1,
+    borderBottomColor: "#e8e8e8",
+    padding: scale(8),
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  ViewAllCartButton: {
+    backgroundColor: "#BE202E",
+    borderRadius: 4,
+    padding: scale(10),
+  },
+  ViewAllCartButtonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+});

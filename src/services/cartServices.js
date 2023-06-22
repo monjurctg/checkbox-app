@@ -5,7 +5,7 @@ import api from "./api";
 const cartServices = {};
 cartServices.addProductToCart = (data) => {
   let url = "carts/add-product";
-//   console.log(data,"add producut")
+  //   console.log(data,"add producut")
   let res = api
     .post(url, data)
     .then((res) => {
@@ -29,7 +29,6 @@ cartServices.orderStore = (data) => {
     });
   return res;
 };
-
 
 cartServices.getAllCarts = () => {
   let url = "/carts";
@@ -90,7 +89,7 @@ cartServices.saveCart = (data) => {
 };
 
 cartServices.removeProductFromCart = (data) => {
-  let url = "carts/remove-product/"+data?.id;
+  let url = "carts/remove-product/" + data?.id;
   let res = api
     .post(url, data)
     .then((res) => {
@@ -100,10 +99,10 @@ cartServices.removeProductFromCart = (data) => {
       return err.response;
     });
   return res;
-}
+};
 
 cartServices.removeCart = (data) => {
-  let url = "carts/delete/"+data?.id;
+  let url = "carts/delete/" + data?.id;
   let res = api
     .post(url, data)
     .then((res) => {
@@ -113,11 +112,10 @@ cartServices.removeCart = (data) => {
       return err.response;
     });
   return res;
-}
-
+};
 
 cartServices.updateProductFromCart = (data) => {
-  let url = "carts/update-product/"+data?.id;
+  let url = "carts/update-product/" + data?.id;
   let res = api
     .post(url, data)
     .then((res) => {
@@ -127,5 +125,5 @@ cartServices.updateProductFromCart = (data) => {
       return err.response;
     });
   return res;
-}
+};
 export default cartServices;

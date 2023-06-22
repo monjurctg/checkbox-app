@@ -32,6 +32,7 @@ import SingleProductScreenSkeleton from "../components/loader/SingleProductScree
 import { Entypo } from "@expo/vector-icons";
 import Rating from "../components/Rating";
 import Tags from "../components/product-details/Tags";
+import cartServices from "../services/cartServices";
 const ProductDetails = ({ navigation }) => {
   let [activeColor, setActiveColor] = useState("Red");
   const [bigImg, setBigImg] = useState();
@@ -46,6 +47,36 @@ const ProductDetails = ({ navigation }) => {
   const { detailsBottomSheet } = useSelector((state) => state.utils);
   const [variant, setVariant] = useState({});
   const [variantDetails, setVariantDetails] = useState([]);
+  const [quantity, setQuantity] = useState(1);
+
+  let addingToCart = async () => {
+    setLoading(true);
+    let d = {
+      product_id: productId,
+      quantity: quantity,
+      variant: Object.values(variantDetails).join("-"),
+    };
+
+    let res = await cartServices.addProductToCart(d);
+    if (res.status === 200) {
+      setLoading(false);
+      console.log("cart added");
+      // successNotification("Added to Cart", "top-right");
+      // localStorage.setItem(
+      //   "cart_id",
+      //   JSON.stringify(res.data?.data?.items[0]?.cart_id)
+      // );
+      // dispatch(singlecart(res.data?.data?.items[0]?.cart_id));
+      // dispatch(cartNumberChanged());
+    } else {
+      setLoading(false);
+      if (res?.data?.message === "User is not logged in") {
+        // router.push("/login");
+        console.log("Something wrong happen");
+      }
+      errorNotification(res?.data?.message, "top-right");
+    }
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -238,6 +269,11 @@ const ProductDetails = ({ navigation }) => {
           <Text preset={["fs_16 bold "]}>Qty</Text>
           <View preset={["row mt_5 "]} style={{}}>
             <CustomTouchBtn
+              onPress={() => {
+                if (quantity >= 2) {
+                  setQuantity(quantity - 1);
+                }
+              }}
               preset={[""]}
               style={{
                 height: scale(30),
@@ -250,8 +286,11 @@ const ProductDetails = ({ navigation }) => {
             >
               <Text preset={[" bold fs_20"]}>-</Text>
             </CustomTouchBtn>
-            <Text preset={["m_5 fs_16 bold"]}>1</Text>
+            <Text preset={["m_5 fs_16 bold"]}>{quantity}</Text>
             <CustomTouchBtn
+              onPress={() => {
+                setQuantity(quantity + 1);
+              }}
               style={{
                 height: scale(30),
                 width: scale(30),
@@ -420,7 +459,7 @@ const ProductDetails = ({ navigation }) => {
 
       <View style={styles.container}></View>
 
-      <TouchableOpacity style={styles.addToCart}>
+      <TouchableOpacity onPress={() => addingToCart()} style={styles.addToCart}>
         <View
           style={{
             flexDirection: "row",

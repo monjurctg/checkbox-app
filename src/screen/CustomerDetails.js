@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import CustomTouchBtn from "../components/tags/CustomTouchBtn";
@@ -8,6 +8,28 @@ import Mainlayout from "../components/layout/Mainlayout";
 import SaveSingleCart from "../components/cart/SaveSingleCart";
 
 const CustomerDetails = () => {
+  const [name, setName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [country, setCountry] = useState("");
+  const [city, setCity] = useState("");
+  const [thana, setThana] = useState("");
+  const [road, setRoad] = useState("");
+
+  const handleProceed = () => {
+    if (!name || !phoneNumber || !country || !city || !thana || !road) {
+      console.log("Please enter all data!");
+    } else {
+      const data = {
+        name: name,
+        phoneNumber: phoneNumber,
+        country: country,
+        city: city,
+        thana: thana,
+        road: road,
+      };
+      console.log(data);
+    }
+  };
   return (
     <Mainlayout>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -22,19 +44,50 @@ const CustomerDetails = () => {
           <View style={styles.detailsContainer}>
             <View style={styles.sectionContainer}>
               <Text style={styles.sectionTitle}>Personal Information</Text>
-              <CustomerInput title="Name" value="eg. Chawkbazar" />
-              <CustomerInput title="Phone Number" value="eg. +880 12343453" />
+              <CustomerInput
+                setValue={setName}
+                title="Name"
+                placeholder="eg. Chawkbazar"
+                value={name}
+              />
+              <CustomerInput
+                setValue={setPhoneNumber}
+                title="Phone Number"
+                placeholder="eg. +880 12343453"
+                value={phoneNumber}
+              />
             </View>
             <View style={styles.sectionContainer}>
               <Text style={styles.sectionTitle}>Delivery Address</Text>
-              <CustomerInput title="Country" value="Bangladesh" />
-              <CustomerInput title="City" value="eg. Dhaka" />
-              <CustomerInput title="Thana" value="eg. Raozan" />
-              <CustomerInput title="Road" value="eg. Chawkbazar" />
+              <CustomerInput
+                setValue={setCountry}
+                title="Country"
+                placeholder="Bangladesh"
+                value={country}
+              />
+              <CustomerInput
+                setValue={setCity}
+                title="City"
+                placeholder="eg. Dhaka"
+                value={city}
+              />
+              <CustomerInput
+                setValue={setThana}
+                title="Thana"
+                placeholder="eg. Raozan"
+                value={thana}
+              />
+              <CustomerInput
+                setValue={setRoad}
+                title="Road"
+                placeholder="eg. Chawkbazar"
+                value={road}
+              />
             </View>
             <CustomTouchBtn
               preset={["mt_10 center"]}
               style={styles.proceedButton}
+              onPress={handleProceed}
             >
               <Text style={styles.proceedButtonText}>
                 Proceed to Confirmation Page

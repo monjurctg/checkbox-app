@@ -1,11 +1,19 @@
 import React from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 
-const CustomerInput = ({ title, value }) => {
+const CustomerInput = ({ title, value, setValue, placeholder }) => {
+  const handleInputChange = (text) => {
+    setValue(text);
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{title}</Text>
-      <TextInput style={styles.input} value={value} />
+      <TextInput
+        onChangeText={handleInputChange}
+        placeholder={placeholder}
+        value={value}
+        style={styles.input}
+      />
     </View>
   );
 };

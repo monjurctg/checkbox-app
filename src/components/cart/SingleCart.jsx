@@ -7,8 +7,11 @@ import { colors } from "../../theme/colors";
 import { MaterialIcons } from "@expo/vector-icons";
 
 const SingleCart = ({ item }) => {
+  console.log(item,"item")
+  const[customerRate,setCustomerRate]=useState(item?.customer_rate)
+  const[quantity,setQuantity]=useState(item?.quantity)
   return (
-    <View style={{ borderColor: colors.cartBorder }}>
+    <View style={{ borderColor: colors.cartBorder,borderWidth:1 ,padding:10,marginTop:10,borderRadius:10}}>
       <View preset={["row mt_15 "]}>
         <View style={{ width: scale(110) }}>
           <MaterialIcons
@@ -34,9 +37,9 @@ const SingleCart = ({ item }) => {
               borderColor: "#231F20",
               borderWidth: 1,
             }}
-            // source={{ uri: item?.image }}
+            source={{ uri: item?.product_thumbnail_image }}
             // source={require(`${item?.image}`)}
-            source={require("../../../assets/img/redShoe.png")}
+            // source={require("../../../assets/img/redShoe.png")}
           />
         </View>
 
@@ -48,7 +51,7 @@ const SingleCart = ({ item }) => {
             justifyContent: "space-between",
           }}
         >
-          <Text preset={["bold lh_20  fs_14 "]}>{item?.name}</Text>
+          <Text preset={["bold lh_20  fs_14 "]}>{item?.product_name}</Text>
           <Text preset={["mt_5 lh_20 fs_16"]}>
             ৳ <Text style={{ fontWeight: "bold" }}>{item?.price}</Text>
           </Text>
@@ -90,10 +93,10 @@ const SingleCart = ({ item }) => {
       </View>
       <View preset={["mt_10 row"]} style={{ justifyContent: "space-between" }}>
         <Text style={{ color: "#231F20" }} preset={["lh_20 fs_11"]}>
-          Quantity{"    "}
+          Quantity
         </Text>
         <TextInput
-          value={item?.quantity}
+          value={quantity}
           keyboardType="decimal-pad"
           style={{
             textAlign: "center",
@@ -105,16 +108,18 @@ const SingleCart = ({ item }) => {
           }}
         />
         <Text style={{ color: "#231F20" }} preset={["lh_20 fs_11"]}>
-          {"    "}x Customer Rate
+        x Customer Rate 
         </Text>
         <TextInput
-          keyboardType="decimal-pad"
-          value={item?.customerRate}
+          keyboardType="numeric"
+          // value={item?.customer_rate}
+          onChange={(text)=>setCustomerRate(text)}
+          value={customerRate?.toString()}
           style={{
             borderColor: "#E6E7E8",
             borderWidth: 1,
             marginLeft: scale(5),
-            width: scale(110),
+            width: scale(100),
             backgroundColor: "#FFFFFF",
             textAlign: "center",
             fontSize: 14,

@@ -6,7 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import View from "../components/tags/View";
 import Text from "../components/tags/Text";
@@ -20,12 +20,16 @@ import FullScreenLoader from "../components/loader/FullScreenLoader ";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { Button } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import cartServices from "../services/cartServices";
+import { showMessage } from "react-native-flash-message";
 
 const Cart = () => {
   const [loading, setLoading] = useState(true);
   const [updateCartModalVisible, setUpdateCartModalVisible] = useState(false);
   const [switchCartModalVisible, setSwitchCartModalVisible] = useState(false);
   const [inputValue, setInputValue] = useState("");
+  const [carts, setCarts] = useState();
 
   const handleCancel = () => {
     setUpdateCartModalVisible(false);
@@ -34,15 +38,67 @@ const Cart = () => {
 
   const handleOk = () => {
     // Handle the input value
-    console.log("Input value:", inputValue);
-
-    setUpdateCartModalVisible(false);
-    setInputValue("");
+    // console.log("Input value:", inputValue);
+    saveCartname();
   };
   const navigation = useNavigation();
   setTimeout(() => {
     setLoading(false);
   }, 1000);
+
+  const saveCartname = async () => {
+    // setisModalOpen(true)
+    let cart_id = await AsyncStorage.getItem("cart_id");
+   console.log(cart_id)
+    let data = {
+      id: cart_id,
+      name: inputValue,
+      type: "name",
+    };
+    let res = await cartServices.saveCart(data);
+    if (res.status === 200) {
+      setUpdateCartModalVisible(false);
+      fetchSingCart();
+      setInputValue("");
+      showMessage({
+        style: {
+          alignItems: "center",
+          alignContent: "center",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          gap: 15,
+        },
+        message: "Added to Cart",
+        icon: "success",
+        type: "success",
+        position: "top",
+        duration: 2500,
+        statusBarHeight: scale(40),
+      });
+      //   setisModalOpen(false);
+    } else {
+      // errorNotification("Cart name not updated", "top-right");
+    }
+
+    // console.log('res name', res)
+  };
+
+  const fetchSingCart = async () => {
+    const cart_id = await AsyncStorage.getItem("cart_id");
+    // console.log(cart_id,"fjdkjfk")
+    if (cart_id) {
+      cartServices.getSingleCarts(cart_id).then((res) => {
+        // console.log(res.data.data.items)
+        setCarts(res.data.data);
+      });
+    }
+  };
+
+  useEffect(() => {
+    fetchSingCart();
+  }, []);
+
   if (loading) {
     return <FullScreenLoader visible={loading} />;
   }
@@ -57,6 +113,7 @@ const Cart = () => {
     quantity: "120",
     customerRate: "12000.50",
   };
+
   return (
     <SafeAreaView>
       <ScrollView style={{ paddingHorizontal: scale(10) }}>
@@ -85,7 +142,7 @@ const Cart = () => {
           </CustomTouchBtn>
         </View>
         <View preset={["mt_10 ph_10 row jc_between"]}>
-          <Text preset={["bold  fs_20"]}>Current Cart</Text>
+          <Text preset={["bold  fs_18"]}>{carts.name}</Text>
           <View preset={["flex row center"]}>
             <TouchableOpacity
               style={{
@@ -145,10 +202,14 @@ const Cart = () => {
                     style={styles.cancelButton}
                     onPress={handleCancel}
                   >
-                    <Text style={styles.buttonText}>Cancel</Text>
+                    <Text preset={["fs_14"]} style={{ color: "#FFF" }}>
+                      Cancel
+                    </Text>
                   </TouchableOpacity>
                   <TouchableOpacity style={styles.okButton} onPress={handleOk}>
-                    <Text style={styles.buttonText}>OK</Text>
+                    <Text preset={["fs_14"]} style={styles.buttonText}>
+                      OK
+                    </Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -206,9 +267,12 @@ const Cart = () => {
           </View>
         </Modal>
         <View preset={["mt_10"]}>
+          {
+            carts.items.map((item,index)=> <SingleCart key={index} item={item} />)
+          }
+{/*          
           <SingleCart item={item} />
-          <SingleCart item={item} />
-          <SingleCart item={item} />
+          <SingleCart item={item} /> */}
         </View>
         <View preset={["mt_35 p_5 flex row jc_between"]}>
           <TouchableOpacity
@@ -291,10 +355,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   cancelButton: {
-    backgroundColor: "#FF0000",
+    backgroundColor: "#BE202E",
     paddingHorizontal: 15,
     paddingVertical: 5,
     borderRadius: 5,
+  },
+  buttonText: {
+    color: "#FFF",
   },
   okButton: {
     marginLeft: 10,

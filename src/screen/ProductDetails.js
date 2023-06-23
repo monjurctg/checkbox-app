@@ -33,6 +33,8 @@ import { Entypo } from "@expo/vector-icons";
 import Rating from "../components/Rating";
 import Tags from "../components/product-details/Tags";
 import cartServices from "../services/cartServices";
+import { showMessage } from "react-native-flash-message";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const ProductDetails = ({ navigation }) => {
   let [activeColor, setActiveColor] = useState("Red");
   const [bigImg, setBigImg] = useState();
@@ -50,7 +52,7 @@ const ProductDetails = ({ navigation }) => {
   const [quantity, setQuantity] = useState(1);
 
   let addingToCart = async () => {
-    setLoading(true);
+    // setLoading(true);
     let d = {
       product_id: productId,
       quantity: quantity,
@@ -59,8 +61,18 @@ const ProductDetails = ({ navigation }) => {
 
     let res = await cartServices.addProductToCart(d);
     if (res.status === 200) {
-      setLoading(false);
-      console.log("cart added");
+      // setLoading(false);
+      console.log(res.data?.data?.items[0]?.cart_id,"hello")
+      showMessage({
+        style: { alignItems: "center" ,alignContent:"center",display:"flex",flexDirection:"column",justifyContent:"center",gap:15},
+        message:"Added to Cart",
+        icon:"success",
+        type: "success",
+        position: "top",
+        duration: 2500,
+        statusBarHeight: scale(40),
+      });
+      await AsyncStorage.setItem('cart_id',JSON.stringify(res.data?.data?.items[0]?.cart_id));
       // successNotification("Added to Cart", "top-right");
       // localStorage.setItem(
       //   "cart_id",
@@ -74,7 +86,18 @@ const ProductDetails = ({ navigation }) => {
         // router.push("/login");
         console.log("Something wrong happen");
       }
-      errorNotification(res?.data?.message, "top-right");
+      showMessage({
+        style: { alignItems: "center" ,justifyContent:"center", flexDirection:"column",gap:15},
+        message: res?.data?.message,
+        type: "danger",
+        position: "top",
+        duration: 2500,
+        icon:"danger",
+      
+        statusBarHeight: scale(40),
+      });
+
+      // errorNotification(res?.data?.message, "top-right");
     }
   };
 
@@ -224,33 +247,8 @@ const ProductDetails = ({ navigation }) => {
           <Text preset={["p1 ml_10 fw_325 "]}>Post in Facebook</Text>
         </CustomTouchBtn>
 
-        {/* size */}
-        {/* <View preset={["mt_10"]}>
-          <Text preset={["fs_16 bold "]}>Select Your Size</Text>
-          <View preset={["row wrap"]}>
-            {[6, 7, 8, 9, 10, 11, 12].map((size, index) => (
-              <CustomTouchBtn
-                key={index}
-                onPress={() => {
-                  setActiveSize(size);
-                  console.log("hello press");
-                }}
-                preset={[
-                  `center   mr_10 mt_10 ph_15 ${
-                    activeSize === size ? "active" : ""
-                  }`,
-                ]}
-                style={{ width: scale(67), height: scale(35),borderWidth:1, }}
-              >
-                <Text
-                  preset={[` ${activeSize === size && "text_white "}  fs_16`]}
-                >
-                  {size}
-                </Text>
-              </CustomTouchBtn>
-            ))}
-          </View>
-        </View> */}
+      
+     
 
         {/* color */}
         {singleProduct?.variation_attributes?.map((variation, index) => (
@@ -305,10 +303,7 @@ const ProductDetails = ({ navigation }) => {
           </View>
         </View>
 
-        {/* add to cart btn */}
-        {/* <CustomTouchBtn preset={["center bg_primary1 p_15 mt_10"]}>
-          <Text preset={["text_white fs_16  fw_500"]}>Add To Cart</Text>
-        </CustomTouchBtn> */}
+
 
         {/* details */}
         <View

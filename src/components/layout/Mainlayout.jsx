@@ -19,6 +19,7 @@ import { Feather } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import FullScreenLoader from "../loader/FullScreenLoader ";
+import { useSelector } from "react-redux";
 
 const Mainlayout = ({ children }) => {
   const [isSearchVisible, setSearchVisible] = useState(false);
@@ -28,6 +29,7 @@ const Mainlayout = ({ children }) => {
     // setSearchVisible(!isSearchVisible);
     navigation.navigate("search")
   };
+  const { cartSize } = useSelector((state) => state.cart);
   const [isMenu, setIsMenu] = useState(false);
   const animatedValue = new Animated.Value(0);
 
@@ -147,7 +149,7 @@ const Mainlayout = ({ children }) => {
                   <Feather name="shopping-cart" size={24} color="black" />
 
                   <View style={styles.notificationBadge}>
-                    <Text style={styles.notificationText}>2</Text>
+                    <Text style={styles.notificationText}>{cartSize}</Text>
                   </View>
                 </TouchableOpacity>
                 {/* <TouchableOpacity

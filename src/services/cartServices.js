@@ -57,7 +57,9 @@ cartServices.switchCart = (id) => {
 };
 
 cartServices.getSingleCarts = (id) => {
-  let url = "/carts/" + id;
+// const cartid = JSON.parse(id)
+// console.log(JSON.parse(id),"before api call")
+  let url = "/carts/" + JSON.parse(id);
   let res = api
     .get(url)
     .then((res) => {

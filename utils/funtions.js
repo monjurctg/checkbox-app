@@ -1,5 +1,6 @@
 import {Dimensions, Text} from "react-native";
 import {presset} from "../src/components/tags/text.preset";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const {width, height} = Dimensions.get("window");
 
 //Guideline sizes are based on standard ~5" screen mobile device
@@ -26,4 +27,14 @@ const pressetData = (data) => {
 }
 
 
-export {scale, verticalScale, moderateScale, height, width, pressetData,formatDate};
+let setSwichCartIdInLocal = async(id)=>{
+  const cartId = JSON.parse(id)
+// console.log(JSON.stringify(cartId),"id fromo async askdj",JSON.parse(id))
+    await AsyncStorage?.setItem("cart_id",JSON.stringify(cartId))
+  
+
+
+}
+
+
+export {scale, verticalScale, moderateScale, height, width, pressetData,formatDate,setSwichCartIdInLocal};

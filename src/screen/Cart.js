@@ -10,7 +10,7 @@ import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import View from "../components/tags/View";
 import Text from "../components/tags/Text";
-import { scale } from "../../utils/funtions";
+import { scale, setSwichCartIdInLocal } from "../../utils/funtions";
 import CustomTouchBtn from "../components/tags/CustomTouchBtn";
 import { colors } from "../theme/colors";
 import img1 from "../../assets/img/redShoe.png";
@@ -23,14 +23,21 @@ import { Button } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import cartServices from "../services/cartServices";
 import { showMessage } from "react-native-flash-message";
+import { useMemo } from "react";
+import { setCartSize } from "../redux/reducers/cartSlice";
+import { useDispatch } from "react-redux";
 
 const Cart = () => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [updateCartModalVisible, setUpdateCartModalVisible] = useState(false);
   const [switchCartModalVisible, setSwitchCartModalVisible] = useState(false);
+  const [activeSwichCartId, setActiveSwichCartId] = useState();
   const [inputValue, setInputValue] = useState("");
   const [carts, setCarts] = useState();
+  const [switchCartData, setSwitchCartData] = useState([]);
+;
 
+const dispatch = useDispatch()
   const handleCancel = () => {
     setUpdateCartModalVisible(false);
     setInputValue("");
@@ -48,10 +55,8 @@ const Cart = () => {
 
   const saveCartname = async () => {
     // setisModalOpen(true)
-    let cart_id = await AsyncStorage.getItem("cart_id");
-   console.log(cart_id)
     let data = {
-      id: cart_id,
+      id: activeSwichCartId,
       name: inputValue,
       type: "name",
     };
@@ -76,6 +81,7 @@ const Cart = () => {
         duration: 2500,
         statusBarHeight: scale(40),
       });
+      fetchSwithcCartData()
       //   setisModalOpen(false);
     } else {
       // errorNotification("Cart name not updated", "top-right");
@@ -85,19 +91,91 @@ const Cart = () => {
   };
 
   const fetchSingCart = async () => {
-    const cart_id = await AsyncStorage.getItem("cart_id");
-    // console.log(cart_id,"fjdkjfk")
-    if (cart_id) {
-      cartServices.getSingleCarts(cart_id).then((res) => {
-        // console.log(res.data.data.items)
-        setCarts(res.data.data);
+  
+    const cart_id = activeSwichCartId?activeSwichCartId:await AsyncStorage.getItem("cart_id");
+    
+// console.log(cart_id,"cart id from sing")
+     const res = await cartServices.getSingleCarts(cart_id)
+// console.log(res.data,"response ")
+     if(res.status===200){
+      setCarts(res.data.data);
+      setSwitchCartModalVisible(false)
+
+      dispatch(setCartSize(res.data.data.items.length))
+      setInputValue(res?.data?.data.name)
+        setSwichCartIdInLocal(activeSwichCartId?activeSwichCartId:cart_id)
+     }
+    
+  };
+
+  const saveCart = async () => {
+    let cart_id = activeSwichCartId;
+    let data = {
+      id: cart_id,
+      type: "save",
+      is_saved: 1,
+    };
+    let res = await cartServices.saveCart(data);
+    // console.log('res save', res)
+  
+   
+    if (res.status === 200) {
+         await AsyncStorage.setItem("cart_id",cart_id)
+      showMessage({
+        style: {
+          alignItems: "center",
+          alignContent: "center",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          gap: 15,
+        },
+        message: res?.data?.message,
+        icon: "success",
+        type: "success",
+        position: "top",
+        duration: 2500,
+        statusBarHeight: scale(40),
       });
+      // successNotification("Cart Saved", "top-right");
+    } else {
+      // errorNotification("Cart not Saved", "top-right");
+    }
+  };
+
+  const fetchSwithcCartData = async () => {
+    const res = await cartServices.getAllCarts();
+
+    if (res.status === 200) {
+      setSwitchCartData(res?.data?.data);
+    } else {
+      console.error(res);
     }
   };
 
   useEffect(() => {
-    fetchSingCart();
+  
+    fetchSwithcCartData();
+
+    (async () => {
+      let cart_id = await AsyncStorage.getItem("cart_id");
+      // console.log(cart_id, "cart_id");
+      setActiveSwichCartId(cart_id);
+    })();
   }, []);
+
+  useEffect(()=>{
+    // alert("dfdjj")
+    fetchSingCart();
+  },[activeSwichCartId])
+
+  const handleSwitchCart = async (id) => {
+   if(id){
+    setActiveSwichCartId(id)
+  
+   }
+   
+  };
 
   if (loading) {
     return <FullScreenLoader visible={loading} />;
@@ -142,7 +220,7 @@ const Cart = () => {
           </CustomTouchBtn>
         </View>
         <View preset={["mt_10 ph_10 row jc_between"]}>
-          <Text preset={["bold  fs_18"]}>{carts.name}</Text>
+          <Text preset={["bold  fs_18"]}>{carts?.name}</Text>
           <View preset={["flex row center"]}>
             <TouchableOpacity
               style={{
@@ -246,15 +324,21 @@ const Cart = () => {
                 />
               </TouchableOpacity>
               <View style={{ marginTop: 10 }}>
-                <TouchableOpacity>
+                {/* <TouchableOpacity>
                   <Text style={styles.cartName}>My Favourite Products</Text>
                 </TouchableOpacity>
-                <TouchableOpacity>
-                  <Text style={styles.cartName}>Tech Products</Text>
-                </TouchableOpacity>
+            
                 <TouchableOpacity>
                   <Text style={styles.cartName}>Cloth Collection</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
+                {switchCartData?.map((cart, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    onPress={() => handleSwitchCart(cart?.id)}
+                  >
+                    <Text style={styles.cartName}>{cart?.name}</Text>
+                  </TouchableOpacity>
+                ))}
               </View>
               <CustomTouchBtn
                 preset={["mt_10 center"]}
@@ -267,15 +351,16 @@ const Cart = () => {
           </View>
         </Modal>
         <View preset={["mt_10"]}>
-          {
-            carts.items.map((item,index)=> <SingleCart key={index} item={item} />)
-          }
-{/*          
+          {carts?.items.map((item, index) => (
+            <SingleCart key={index} item={item} />
+          ))}
+          {/*          
           <SingleCart item={item} />
           <SingleCart item={item} /> */}
         </View>
         <View preset={["mt_35 p_5 flex row jc_between"]}>
           <TouchableOpacity
+            onPress={saveCart}
             style={{
               borderColor: "#BE202E",
               borderWidth: 1,

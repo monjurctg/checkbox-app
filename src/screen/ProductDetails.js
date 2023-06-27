@@ -35,6 +35,7 @@ import Tags from "../components/product-details/Tags";
 import cartServices from "../services/cartServices";
 import { showMessage } from "react-native-flash-message";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { setCartSize } from "../redux/reducers/cartSlice";
 const ProductDetails = ({ navigation }) => {
   let [activeColor, setActiveColor] = useState("Red");
   const [bigImg, setBigImg] = useState();
@@ -45,7 +46,7 @@ const ProductDetails = ({ navigation }) => {
   const route = useRoute();
   const [reviews, setReviews] = useState([]);
   const { productId } = route.params ?? {};
-
+  const { cartSize } = useSelector((state) => state.cart);
   const { detailsBottomSheet } = useSelector((state) => state.utils);
   const [variant, setVariant] = useState({});
   const [variantDetails, setVariantDetails] = useState([]);
@@ -53,16 +54,17 @@ const ProductDetails = ({ navigation }) => {
 
   let addingToCart = async () => {
     // setLoading(true);
+    const cart_id = await AsyncStorage.getItem("cart_id")
     let d = {
       product_id: productId,
       quantity: quantity,
       variant: Object.values(variantDetails).join("-"),
+      cart_id: cart_id || null,
     };
 
     let res = await cartServices.addProductToCart(d);
     if (res.status === 200) {
-      // setLoading(false);
-      console.log(res.data?.data?.items[0]?.cart_id,"hello")
+    
       showMessage({
         style: { alignItems: "center" ,alignContent:"center",display:"flex",flexDirection:"column",justifyContent:"center",gap:15},
         message:"Added to Cart",
@@ -72,6 +74,9 @@ const ProductDetails = ({ navigation }) => {
         duration: 2500,
         statusBarHeight: scale(40),
       });
+
+      dispatch(setCartSize(cartSize+1))
+      
       await AsyncStorage.setItem('cart_id',JSON.stringify(res.data?.data?.items[0]?.cart_id));
       // successNotification("Added to Cart", "top-right");
       // localStorage.setItem(

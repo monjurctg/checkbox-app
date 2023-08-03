@@ -11,7 +11,7 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import Mainlayout from "../components/layout/Mainlayout";
 
-import Cards from "../components/products/Cards";
+
 import { scale } from "../../utils/funtions";
 
 import { AntDesign } from "@expo/vector-icons";
@@ -25,6 +25,7 @@ import BottomSheetCart from "../components/cart/BottomSheetCart";
 import Categories from "../components/products/Categories";
 import CategorySkeleton from "../components/loader/CategorySkeleton";
 import CollectionSkeleton from "../components/loader/CollectionSkeleton";
+import CollectionItems from "../components/products/CollectionItems";
 
 const Products = ({ navigation }) => {
   // console.log(navigation, "products navigatio");
@@ -270,16 +271,18 @@ const Products = ({ navigation }) => {
         )}
 
         {/* <Cards name={"Tech Collection"} navigation={navigation} /> */}
-        {collections.map((collection, index) => (
-          <Cards
-          slug={collection?.slug}
+        {collections.map((collection, index) => {
+          
+      return<CollectionItems
+          name={collection?.name}
+
             key={index}
-            collections={collection?.selectedProducts}
-            img={collection?.coverImage}
-            name={collection?.name}
+            products={collection?.products}
+        
+          
             navigation={navigation}
           />
-        ))}
+        })}
 
         <View>
           <View

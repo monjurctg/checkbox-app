@@ -117,6 +117,7 @@ cartServices.removeCart = (data) => {
 };
 
 cartServices.updateProductFromCart = (data) => {
+  console.log(data?.id,"id")
   let url = "carts/update-product/" + data?.id;
   let res = api
     .post(url, data)
@@ -124,6 +125,7 @@ cartServices.updateProductFromCart = (data) => {
       return res;
     })
     .catch((err) => {
+      console.log(err,"error frm")
       return err.response;
     });
   return res;

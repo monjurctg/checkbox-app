@@ -389,7 +389,7 @@ const dispatch = useDispatch()
             }}
           >
             <Text style={{ color: "white" }} preset={["fs_12 bold"]}>
-              Proceed to Customer Details Page
+              Proceed to Cart Details 
             </Text>
           </CustomTouchBtn>
         </View>

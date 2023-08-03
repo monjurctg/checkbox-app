@@ -11,7 +11,7 @@ import CustomTouchBtn from "../tags/CustomTouchBtn";
 import View from "../tags/View";
 // import { ScrollView } from "react-native-web";
 
-const Cards = ({ navigation, name, collections = [], slug }) => {
+const CollectionItems = ({ navigation, name, products = [] }) => {
   // console.log(navigation, "navigation");
   // console.log(collections,"collection")
 
@@ -82,7 +82,7 @@ const Cards = ({ navigation, name, collections = [], slug }) => {
   );
 };
 
-export default Cards;
+export default CollectionItems;
 
 const styles = StyleSheet.create({
   newProducts: {

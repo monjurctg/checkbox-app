@@ -21,7 +21,11 @@ const SingleCart = ({ item }) => {
   const debouncedCustomrate = useDebounce(customerRate, 400);
   const debouncedQuantity = useDebounce(quantity, 400);
 
-  const handleCustomRate = (text) => {};
+  const handleCustomRate = (text) => {
+    setCustomerRate(text)
+
+  };
+
 
   let updateQuantity = async () => {
     // if (previousQuality !== null) {
@@ -34,8 +38,11 @@ const SingleCart = ({ item }) => {
       type: "quantity",
       quantity: debouncedQuantity,
     };
+ 
     let res = await cartServices.updateProductFromCart(data);
+    
     if (res?.status === 200) {
+    
       // dispatch(singlecart(res?.data?.data?.cart_id));
       // setpreviousQuality(null);
       // successNotification(res?.data?.message, "top-right");
@@ -56,6 +63,7 @@ const SingleCart = ({ item }) => {
       type: "customer_rate ",
       customer_rate: debouncedCustomrate,
     };
+   
     let res = await cartServices.updateProductFromCart(data);
     if (res?.status === 200) {
       // dispatch(singlecart(res?.data?.data?.cart_id));
@@ -69,9 +77,16 @@ const SingleCart = ({ item }) => {
 
   useEffect(() => {
     updateQuantity(debouncedQuantity);
+  
+    // }
+  }, [ debouncedQuantity]);
+
+  
+  useEffect(() => {
+   
     updateCustomerRate(debouncedCustomrate);
     // }
-  }, [debouncedCustomrate, debouncedQuantity]);
+  }, [debouncedCustomrate, ]);
 
   // console.log(customerRate,"customer rate")
   return (

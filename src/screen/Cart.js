@@ -35,9 +35,7 @@ const Cart = () => {
   const [inputValue, setInputValue] = useState("");
   const [carts, setCarts] = useState();
   const [switchCartData, setSwitchCartData] = useState([]);
-;
-
-const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const handleCancel = () => {
     setUpdateCartModalVisible(false);
     setInputValue("");
@@ -81,7 +79,7 @@ const dispatch = useDispatch()
         duration: 2500,
         statusBarHeight: scale(40),
       });
-      fetchSwithcCartData()
+      fetchSwithcCartData();
       //   setisModalOpen(false);
     } else {
       // errorNotification("Cart name not updated", "top-right");
@@ -91,21 +89,21 @@ const dispatch = useDispatch()
   };
 
   const fetchSingCart = async () => {
-  
-    const cart_id = activeSwichCartId?activeSwichCartId:await AsyncStorage.getItem("cart_id");
-    
-// console.log(cart_id,"cart id from sing")
-     const res = await cartServices.getSingleCarts(cart_id)
-// console.log(res.data,"response ")
-     if(res.status===200){
-      setCarts(res.data.data);
-      setSwitchCartModalVisible(false)
+    const cart_id = activeSwichCartId
+      ? activeSwichCartId
+      : await AsyncStorage.getItem("cart_id");
 
-      dispatch(setCartSize(res.data.data.items.length))
-      setInputValue(res?.data?.data.name)
-        setSwichCartIdInLocal(activeSwichCartId?activeSwichCartId:cart_id)
-     }
-    
+    // console.log(cart_id,"cart id from sing")
+    const res = await cartServices.getSingleCarts(cart_id);
+    // console.log(res.data,"response ")
+    if (res.status === 200) {
+      setCarts(res.data.data);
+      setSwitchCartModalVisible(false);
+
+      dispatch(setCartSize(res.data.data.items.length));
+      setInputValue(res?.data?.data.name);
+      setSwichCartIdInLocal(activeSwichCartId ? activeSwichCartId : cart_id);
+    }
   };
 
   const saveCart = async () => {
@@ -117,10 +115,9 @@ const dispatch = useDispatch()
     };
     let res = await cartServices.saveCart(data);
     // console.log('res save', res)
-  
-   
+
     if (res.status === 200) {
-         await AsyncStorage.setItem("cart_id",cart_id)
+      await AsyncStorage.setItem("cart_id", cart_id);
       showMessage({
         style: {
           alignItems: "center",
@@ -137,6 +134,7 @@ const dispatch = useDispatch()
         duration: 2500,
         statusBarHeight: scale(40),
       });
+
       // successNotification("Cart Saved", "top-right");
     } else {
       // errorNotification("Cart not Saved", "top-right");
@@ -154,7 +152,6 @@ const dispatch = useDispatch()
   };
 
   useEffect(() => {
-  
     fetchSwithcCartData();
 
     (async () => {
@@ -164,17 +161,20 @@ const dispatch = useDispatch()
     })();
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     // alert("dfdjj")
     fetchSingCart();
-  },[activeSwichCartId])
+  }, [activeSwichCartId]);
 
   const handleSwitchCart = async (id) => {
-   if(id){
-    setActiveSwichCartId(id)
-  
-   }
-   
+    if (id) {
+      if (id == (await AsyncStorage.getItem("billingInfo"))) {
+        console.log(id);
+      } else {
+        await AsyncStorage.removeItem("billingInfo ");
+      }
+      setActiveSwichCartId(id);
+    }
   };
 
   if (loading) {
@@ -379,6 +379,7 @@ const dispatch = useDispatch()
             </Text>
           </TouchableOpacity>
           <CustomTouchBtn
+            onPress={() => navigation.navigate("cart-information", { carts })}
             preset={["center"]}
             style={{
               borderColor: "#BE202E",
@@ -389,7 +390,7 @@ const dispatch = useDispatch()
             }}
           >
             <Text style={{ color: "white" }} preset={["fs_12 bold"]}>
-              Proceed to Cart Details 
+              Proceed to Cart Details
             </Text>
           </CustomTouchBtn>
         </View>

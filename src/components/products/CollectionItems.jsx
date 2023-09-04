@@ -13,7 +13,7 @@ import View from "../tags/View";
 
 const CollectionItems = ({ navigation, name, products = [] }) => {
   // console.log(navigation, "navigation");
-  // console.log(collections,"collection")
+  console.log(products,"products")
 
   
 
@@ -55,7 +55,7 @@ const CollectionItems = ({ navigation, name, products = [] }) => {
       <FlatList
         showsHorizontalScrollIndicator={false}
         horizontal={true}
-        data={collections}
+        data={products}
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
       />

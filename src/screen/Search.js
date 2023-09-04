@@ -40,7 +40,7 @@ const Search = () => {
 
   // console.log(navigation)
   // const [searchTerm, setSearchTerm] = useState("");
-  const debouncedSearchTerm = useDebounce(searchText, 400);
+  
   let searchApi = async (data) => {
     setLoading(true);
 

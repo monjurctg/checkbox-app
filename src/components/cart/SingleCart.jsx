@@ -1,5 +1,5 @@
 import { Alert, Image, StyleSheet, TextInput } from "react-native";
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import View from "../tags/View";
 import Text from "../tags/Text";
 import { scale } from "../../../utils/funtions";
@@ -10,22 +10,23 @@ import cartServices from "../../services/cartServices";
 import { useEffect } from "react";
 import { TouchableOpacity } from "react-native-web";
 import CustomTouchBtn from "../tags/CustomTouchBtn";
+import { showMessage } from "react-native-flash-message";
+import { useNavigation } from "@react-navigation/native";
 
 const SingleCart = ({ item }) => {
   // console.log(item, "item");
+  const navigation = useNavigation();
   const [customerRate, setCustomerRate] = useState(
     item?.customer_rate?.toString()
   );
   const [quantity, setQuantity] = useState(item?.quantity?.toString());
 
-  const debouncedCustomrate = useDebounce(customerRate, 400);
-  const debouncedQuantity = useDebounce(quantity, 400);
+  // const debouncedCustomrate = useDebounce(customerRate, 400);
+  const debouncedQuantity = useDebounce(quantity, 600);
 
   const handleCustomRate = (text) => {
-    setCustomerRate(text)
-
+    setCustomerRate(text);
   };
-
 
   let updateQuantity = async () => {
     // if (previousQuality !== null) {
@@ -38,14 +39,21 @@ const SingleCart = ({ item }) => {
       type: "quantity",
       quantity: debouncedQuantity,
     };
- 
+
     let res = await cartServices.updateProductFromCart(data);
-    
+    // console.log(res,"res from api")
+
     if (res?.status === 200) {
-    
+      showMessage({
+        style: { alignItems: "center" },
+        message: res.data.message,
+        type: "success",
+        position: "top",
+        duration: 2500,
+        statusBarHeight: scale(20),
+      });
       // dispatch(singlecart(res?.data?.data?.cart_id));
       // setpreviousQuality(null);
-      // successNotification(res?.data?.message, "top-right");
     } else {
       // setpreviousQuality(null);
       // errorNotification(res?.data?.message, "top-right");
@@ -63,30 +71,31 @@ const SingleCart = ({ item }) => {
       type: "customer_rate ",
       customer_rate: debouncedCustomrate,
     };
-   
-    let res = await cartServices.updateProductFromCart(data);
-    if (res?.status === 200) {
-      // dispatch(singlecart(res?.data?.data?.cart_id));
-      // successNotification(res?.data?.message, "top-righ");
-    } else {
-      setCustomerRate(item?.customer_rate);
-      // setpreviousRate(null);
-      // errorNotification(res?.data?.message, "top-right");
+    console.log(data);
+    try {
+      let res = await cartServices.updateProductFromCart(data);
+      if (res?.status === 200) {
+        // dispatch(singlecart(res?.data?.data?.cart_id));
+        // successNotification(res?.data?.message, "top-righ");
+      } else {
+        // setCustomerRate(item?.customer_rate);
+      }
+    } catch (err) {
+      console.error(err, "error from catch");
     }
   };
 
   useEffect(() => {
     updateQuantity(debouncedQuantity);
-  
-    // }
-  }, [ debouncedQuantity]);
 
-  
-  useEffect(() => {
-   
-    updateCustomerRate(debouncedCustomrate);
     // }
-  }, [debouncedCustomrate, ]);
+  }, [debouncedQuantity]);
+
+  // useEffect(() => {
+
+  //   updateCustomerRate(customerRate);
+  //   // }
+  // }, [ debouncedCustomrate]);
 
   // console.log(customerRate,"customer rate")
   return (
@@ -95,37 +104,38 @@ const SingleCart = ({ item }) => {
         borderColor: colors.cartBorder,
         borderWidth: 1,
         padding: 10,
-        marginTop: 10,
+        // marginTop: 10,
         borderRadius: 10,
       }}
     >
       <View preset={["row mt_15 "]}>
         <View style={{ width: scale(110) }}>
-      <CustomTouchBtn onPress={()=>{
-        const isConfirm = Alert.prompt("Are sure?")
-        console.log(isConfirm)
-      }} style={{
-        backgroundColor: "white",
-        position: "absolute",
-        zIndex: 50,
-        right: 4,
-        top: 4,
-        padding: 4,
-        borderRadius: 32,
-      }}>
-      <MaterialIcons
+          <CustomTouchBtn
+            onPress={() => {
+              const isConfirm = Alert.prompt("Are sure?");
+              console.log(isConfirm);
+            }}
+            style={{
+              backgroundColor: "white",
+              position: "absolute",
+              zIndex: 50,
+              right: 4,
+              top: 4,
+              padding: 4,
+              borderRadius: 32,
+            }}
+          >
+            <MaterialIcons
               style={{
-              
                 fontSize: scale(14),
                 color: "#EE2349",
-              
               }}
               name="delete-outline"
               size={24}
               color="black"
             />
-      </CustomTouchBtn>
- 
+          </CustomTouchBtn>
+
           <Image
             style={{
               width: scale(110),
@@ -193,7 +203,7 @@ const SingleCart = ({ item }) => {
         </Text>
         <TextInput
           value={quantity}
-          onChange={(text) => setQuantity(text)}
+          onChangeText={(text) => setQuantity(text)}
           keyboardType="decimal-pad"
           style={{
             textAlign: "center",
@@ -210,7 +220,8 @@ const SingleCart = ({ item }) => {
         <TextInput
           keyboardType="numeric"
           // value={item?.customer_rate}
-          onChange={handleCustomRate}
+
+          onChangeText={handleCustomRate}
           value={customerRate}
           style={{
             borderColor: "#E6E7E8",
@@ -227,7 +238,7 @@ const SingleCart = ({ item }) => {
   );
 };
 
-export default SingleCart;
+export default memo(SingleCart);
 
 const styles = StyleSheet.create({
   content: {

@@ -30,6 +30,8 @@ import store from "./src/redux/store";
 import { setAuth } from "./src/redux/reducers/authSlice";
 import Search from "./src/screen/Search";
 import ProductList from "./src/screen/ProductList";
+import CustomerDetails from "./src/screen/CustomerDetails";
+import ConfirmOrder from "./src/screen/ConfirmOrder";
 
 export default function App() {
   // const [loaded, error] = useFonts({
@@ -100,9 +102,11 @@ export default function App() {
         >
           {/* <Stack.Screen name="search" component={Search} /> */}
           {/* I am trying to fixed the git issues */}
-
           <Stack.Screen name="tab" component={TabScreen} />
           <Stack.Screen name="cart" component={Cart} />
+          <Stack.Screen name="confirm-order" component={ConfirmOrder} />
+
+          <Stack.Screen name="cart-information" component={CustomerDetails} />
 
           <Stack.Screen name="product-details" component={ProductDetails} />
           <Stack.Screen name="checkout" component={Checkout} />

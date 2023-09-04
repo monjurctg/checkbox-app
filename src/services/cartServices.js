@@ -57,8 +57,8 @@ cartServices.switchCart = (id) => {
 };
 
 cartServices.getSingleCarts = (id) => {
-// const cartid = JSON.parse(id)
-// console.log(JSON.parse(id),"before api call")
+  // const cartid = JSON.parse(id)
+  // console.log(JSON.parse(id),"before api call")
   let url = "/carts/" + JSON.parse(id);
   let res = api
     .get(url)
@@ -70,7 +70,18 @@ cartServices.getSingleCarts = (id) => {
     });
   return res;
 };
-
+cartServices.updateCartBilling = (data) => {
+  let url = "carts/update/" + data?.cart_id;
+  let res = api
+    .post(url, data)
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      return err.response;
+    });
+  return res;
+};
 cartServices.saveCart = (data) => {
   let url;
   if (data?.id) {
@@ -117,15 +128,15 @@ cartServices.removeCart = (data) => {
 };
 
 cartServices.updateProductFromCart = (data) => {
-  console.log(data?.id,"id")
-  let url = "carts/update-product/" + data?.id;
+  // console.log(data?.id,"id")
+  let url = "/carts/update-product/" + data?.id;
   let res = api
     .post(url, data)
     .then((res) => {
       return res;
     })
     .catch((err) => {
-      console.log(err,"error frm")
+      console.log(err, "error frm");
       return err.response;
     });
   return res;

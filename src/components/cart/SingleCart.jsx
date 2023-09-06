@@ -104,7 +104,7 @@ const SingleCart = ({ item }) => {
         borderColor: colors.cartBorder,
         borderWidth: 1,
         padding: 10,
-        // marginTop: 10,
+        marginTop: 10,
         borderRadius: 10,
       }}
     >
@@ -220,7 +220,7 @@ const SingleCart = ({ item }) => {
         <TextInput
           keyboardType="numeric"
           // value={item?.customer_rate}
-
+          editable={false}
           onChangeText={handleCustomRate}
           value={customerRate}
           style={{

@@ -102,6 +102,8 @@ export default function App() {
         >
           {/* <Stack.Screen name="search" component={Search} /> */}
           {/* I am trying to fixed the git issues */}
+          {/* <Stack.Screen name="confirm-order" component={ConfirmOrder} /> */}
+
           <Stack.Screen name="tab" component={TabScreen} />
           <Stack.Screen name="cart" component={Cart} />
           <Stack.Screen name="confirm-order" component={ConfirmOrder} />

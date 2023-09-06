@@ -4,16 +4,21 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Dimensions,
+  TextInput,
 } from "react-native";
 import React from "react";
 import Mainlayout from "../components/layout/Mainlayout";
 import { Feather, EvilIcons, AntDesign } from "@expo/vector-icons";
 import SingleProduct from "../components/products/SingleProduct";
 import SingleCart from "../components/cart/SingleCart";
+import { colors } from "../theme/colors";
+import { scale } from "../../utils/funtions";
+
 const ConfirmOrder = ({ navigation }) => {
   return (
     <Mainlayout>
-      <ScrollView>
+      <ScrollView style={{}} showsVerticalScrollIndicator={false}>
         <View style={{ marginTop: 10 }}>
           <View
             style={{
@@ -65,6 +70,8 @@ const ConfirmOrder = ({ navigation }) => {
           </View>
         </View>
         {/* products */}
+        <SingleCart item={{ product_name: "product1" }} />
+
         <View style={{ marginTop: 10 }}>
           <View
             style={{
@@ -72,23 +79,142 @@ const ConfirmOrder = ({ navigation }) => {
               justifyContent: "space-between",
               padding: 10,
 
-              backgroundColor: "#FFF",
+              backgroundColor: "#222222",
+              borderRadius: 3,
             }}
           >
-            <Text>Customer Information</Text>
+            <Text style={{ color: "white" }}>Total earnings</Text>
           </View>
           <View
             style={{
               marginTop: 10,
               borderRadius: 10,
-              backgroundColor: "#FFFFFF",
+              // backgroundColor: "#FFFFFF",
             }}
           >
-            <SingleCart item={{ product_name: "product1" }} />
-            <SingleCart item={{ product_name: "product1" }} />
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                padding: 7,
+              }}
+            >
+              <Text style={{ fontSize: 17, fontWeight: "600" }}>
+                Total collection amount
+              </Text>
+              <Text style={{ fontSize: 17, fontWeight: "600" }}>300BDT</Text>
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                padding: 7,
+              }}
+            >
+              <Text style={{ fontSize: 15, color: "red" }}>
+                Supplier amount
+              </Text>
+              <Text style={{ fontSize: 15, color: "red" }}>(-) 10000 BDT</Text>
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                padding: 7,
+              }}
+            >
+              <Text style={{ fontSize: 15, color: "red" }}>
+                Proccessing Fee
+              </Text>
+              <Text style={{ fontSize: 15, color: "red" }}>(-) 30 BDT</Text>
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                padding: 7,
+              }}
+            >
+              <Text style={{ fontSize: 15, color: "red" }}>
+                Shipping Charge
+              </Text>
+              <Text style={{ fontSize: 15, color: "red" }}>(-) 100 BDT</Text>
+            </View>
           </View>
         </View>
+        <View
+          style={{
+            flexDirection: "row",
+            alignSelf: "flex-end",
+            alignItems: "center",
+            gap: 7,
+            marginTop: 10,
+          }}
+        >
+          <TextInput
+            // value={quantity}
+            // onChangeText={(text) => setQuantity(text)}
+            keyboardType="decimal-pad"
+            style={{
+              textAlign: "center",
+              borderColor: "#E6E7E8",
+              borderWidth: 1,
+              width: scale(200),
+              height: 40,
+              backgroundColor: "#FFFFFF",
+              fontSize: 14,
+            }}
+          />
+          <TouchableOpacity
+            style={{
+              backgroundColor: "black",
+              paddingHorizontal: 25,
+              height: 40,
+            }}
+          >
+            <Text
+              style={{
+                color: "white",
+                alignSelf: "center",
+                marginTop: 10,
+                fontWeight: "500",
+              }}
+            >
+              Confirm
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View
+          style={{
+            borderTopColor: "#DDD",
+            borderTopWidth: 1,
+            marginTop: 10,
+            flexDirection: "row",
+            justifyContent: "space-between",
+            padding: 7,
+          }}
+        >
+          <Text style={{ fontSize: 15, color: "red" }}>Proccessing Fee</Text>
+          <Text style={{ fontSize: 15, color: "red" }}>(-) 30 BDT</Text>
+        </View>
+        <View style={{ height: 200 }}></View>
       </ScrollView>
+      <TouchableOpacity
+        style={{
+          position: "absolute",
+          backgroundColor: colors.primary_2,
+          width: Dimensions.get("window").width,
+          alignSelf: "center",
+          justifyContent: "center",
+          alignItems: "center",
+          height: 50,
+          marginTop: Dimensions.get("window").height - 50,
+        }}
+      >
+        <Text style={{ color: "white", fontWeight: "600" }}>
+          Pay and Confirm Order
+        </Text>
+      </TouchableOpacity>
     </Mainlayout>
   );
 };

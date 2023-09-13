@@ -1,5 +1,11 @@
-import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useState,useContext } from "react";
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import React, { useState, useContext } from "react";
 import InputLayout from "../../components/layout/InputLayout";
 import InputTestCustom from "../../components/Input/InputTestCustom";
 import { height, scale, width } from "../../../utils/funtions";
@@ -10,23 +16,27 @@ import { showMessage } from "react-native-flash-message";
 import { CheckboxContext } from "../../context/CheckboxProvider";
 import { useDispatch } from "react-redux";
 import { setAuth } from "../../redux/reducers/authSlice";
+import { useFonts } from "expo-font";
+
+
 
 const Login = () => {
-  // const {setAuth} = useContext(CheckboxContext);
-  const dispatch = useDispatch()
-
+  const dispatch = useDispatch();
+  // const [loaded] = useFonts({
+  //   Lexend: require('../../../assets/fonts/Lexend-Black.ttf'),
+  // });
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
-  // const [option, setOption] = useState("");
-  const [loading,setLoading]=useState(false)
+  const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
 
+  const handleLogin = async () => {
+    const data = {
+      phone,
+      password,
+      user_type: "customer",
+    };
 
-  const handleLogin = async()=>{
-    const data ={
-        phone,password, user_type: "customer",
-    }
-   
     if (!phone) {
       showMessage({
         style: { alignItems: "center" },
@@ -36,7 +46,7 @@ const Login = () => {
         statusBarHeight: scale(20),
         duration: 2500,
       });
-      return ;
+      return;
     }
     if (!password) {
       showMessage({
@@ -47,66 +57,62 @@ const Login = () => {
         statusBarHeight: scale(20),
         duration: 2500,
       });
-      return ;
+      return;
     }
-    
-setLoading(true)
-    const res = await authServices.login(data).then(res=>res).catch(err=>err)
+
+    setLoading(true);
+    const res = await authServices
+      .login(data)
+      .then((res) => res)
+      .catch((err) => err);
     // console.log(res,"res",res?.data?.data?.access_token,"tokne")
-    if(res.status===200){
-        setLoading(false)
-       dispatch(setAuth(true)) 
-        showMessage({
-            style: { alignItems: "center" },
-            message: res.data.message,
-            type: "success",
-            position: "top",
-            duration: 2500,
-            statusBarHeight: scale(20),
-          });
-        // setAuth(true)
+    if (res.status === 200) {
+      setLoading(false);
+      dispatch(setAuth(true));
+      showMessage({
+        style: { alignItems: "center" },
+        message: res.data.message,
+        type: "success",
+        position: "top",
+        duration: 2500,
+        statusBarHeight: scale(20),
+      });
+      // setAuth(true)
 
-           await AsyncStorage.setItem('token',res.data?.data?.access_token);
+      await AsyncStorage.setItem("token", res.data?.data?.access_token);
 
-          navigation.navigate("home")
-
-    }
-
-    else{
+      navigation.navigate("home");
+    } else {
       // setAuth(false)
-      setLoading(false)
+      setLoading(false);
 
+      showMessage({
+        style: { alignItems: "center" },
+        message: res.message ? res.message : "Login field try again",
+        type: "danger",
+        position: "top",
+        duration: 2500,
+        statusBarHeight: scale(20),
+      });
 
-        showMessage({
-            style: { alignItems: "center" },
-            message: res.message?res.message:"Login field try again",
-            type: "danger",
-            position: "top",
-            duration: 2500,
-            statusBarHeight: scale(20),
-          });
-    
-        if (res.data.redirect) {
-            navigation.navigate(res.data.redirect, { ...res.data.user, phone });
-          }
-
-
+      if (res.data.redirect) {
+        navigation.navigate(res.data.redirect, { ...res.data.user, phone });
+      }
     }
-
-  }
+  };
 
   return (
     <InputLayout>
-      <View style={{ marginTop: scale(100) }}>
+      <View style={{ marginTop: scale(70) }}>
         <Text
           style={{
-            fontSize: 24,
-            lineHeight: 24,
+            fontSize: 34,
+            // lineHeight: 24,
             fontWeight: "700",
             textAlign: "center",
           }}
         >
-          Login
+          Log In
         </Text>
         {/* <Text style={{ fontSize: 16, lineHeight: 24, fontWeight: "400", textAlign: "center" }}> Lorem ipsum dolor sit amet adipiscing elit.</Text> */}
       </View>
@@ -118,7 +124,6 @@ setLoading(true)
         keyboardType={"numeric"}
         onChange={(text) => setPhone(text)}
       />
-   
 
       <InputTestCustom
         type={"password"}
@@ -137,7 +142,6 @@ setLoading(true)
         onChange={(text) => setOption(text)}
       /> */}
 
-     
       <TouchableOpacity
         onPress={handleLogin}
         style={{
@@ -157,16 +161,27 @@ setLoading(true)
           />
         ) : (
           <Text style={{ fontSize: 18, fontWeight: "400", color: "#FFFFFF" }}>
-            Login
+            Log In
           </Text>
         )}
       </TouchableOpacity>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "flex-end",
+          marginTop: 20,
+        }}
+      >
+        <TouchableOpacity onPress={() => navigation.navigate("signup")}>
+          <Text style={{ fontWeight: "600", fontSize: 16,color:"red",fontWeight:600 }}> Forget Password</Text>
+        </TouchableOpacity>
+      </View>
 
       <View
         style={{
           flexDirection: "row",
           justifyContent: "center",
-          marginTop: 20,
+          // marginTop: 20,
         }}
       >
         <Text style={{ fontSize: 14 }}>Don’t have an account?</Text>

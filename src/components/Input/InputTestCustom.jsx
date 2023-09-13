@@ -102,11 +102,14 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 12,
+    padding: 10,
     backgroundColor: '#FFFFFF',
-    borderColor: '#000000',
+    borderColor: 'hsla(0,0%,50%,.28)',
     borderWidth: 1,
-    height:scale(45)
+    height:scale(55),
+    borderRadius:5,
+    fontSize:16,
+    marginBottom:15
 
   },
   textInput: {

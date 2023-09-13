@@ -47,9 +47,6 @@ const Cart = () => {
     saveCartname();
   };
   const navigation = useNavigation();
-  setTimeout(() => {
-    setLoading(false);
-  }, 1000);
 
   const saveCartname = async () => {
     // setisModalOpen(true)
@@ -89,13 +86,14 @@ const Cart = () => {
   };
 
   const fetchSingCart = async () => {
+    console.log("calling");
     const cart_id = activeSwichCartId
       ? activeSwichCartId
       : await AsyncStorage.getItem("cart_id");
 
     // console.log(cart_id,"cart id from sing")
     const res = await cartServices.getSingleCarts(cart_id);
-    // console.log(res.data,"response ")
+    // console.log(res.data.data.items[0], "response  from calling");uy
     if (res.status === 200) {
       setCarts(res.data.data);
       setSwitchCartModalVisible(false);
@@ -166,11 +164,20 @@ const Cart = () => {
     fetchSingCart();
   }, [activeSwichCartId]);
 
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      fetchSingCart();
+      // console.log("hello world calling ");
+    });
+    return unsubscribe;
+  }, [navigation]);
+
   const handleSwitchCart = async (id) => {
     if (id) {
       if (id == (await AsyncStorage.getItem("billingInfo"))) {
-        console.log(id);
+        console.log(id, "id match");
       } else {
+        console.log("id remove");
         await AsyncStorage.removeItem("billingInfo ");
       }
       setActiveSwichCartId(id);

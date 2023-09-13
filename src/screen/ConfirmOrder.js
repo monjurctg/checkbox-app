@@ -15,7 +15,9 @@ import SingleCart from "../components/cart/SingleCart";
 import { colors } from "../theme/colors";
 import { scale } from "../../utils/funtions";
 
-const ConfirmOrder = ({ navigation }) => {
+const ConfirmOrder = ({ navigation, route }) => {
+  const { data, carts } = route.params;
+  // console.log(data, "data from confirm order");
   return (
     <Mainlayout>
       <ScrollView style={{}} showsVerticalScrollIndicator={false}>
@@ -57,20 +59,26 @@ const ConfirmOrder = ({ navigation }) => {
               }}
             >
               <AntDesign name="user" size={22} color="gray" />
-              <Text style={{ fontSize: 16, color: "gray" }}>Monjurul alam</Text>
+              <Text style={{ fontSize: 16, color: "gray" }}>{data?.name}</Text>
             </View>
             <View style={{ flexDirection: "row", gap: 10 }}>
               <Feather name="phone" size={22} color="gray" />
-              <Text style={{ fontSize: 16, color: "gray" }}>01829940853</Text>
+              <Text style={{ fontSize: 16, color: "gray" }}>
+                {data?.phone_number}
+              </Text>
             </View>
             <View style={{ flexDirection: "row", gap: 10, marginTop: 10 }}>
               <EvilIcons name="location" size={22} color="gray" />
-              <Text style={{ fontSize: 16, color: "gray" }}>abc,abc,abc</Text>
+              <Text style={{ fontSize: 16, color: "gray" }}>
+                {data?.address}
+              </Text>
             </View>
           </View>
         </View>
         {/* products */}
-        <SingleCart item={{ product_name: "product1" }} />
+        {carts?.items.map((item, index) => (
+          <SingleCart key={index} item={item} />
+        ))}
 
         <View style={{ marginTop: 10 }}>
           <View

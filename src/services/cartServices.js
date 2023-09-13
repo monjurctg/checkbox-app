@@ -141,4 +141,17 @@ cartServices.updateProductFromCart = (data) => {
     });
   return res;
 };
+cartServices.getCustomer = async () => {
+  let url = "/get-customers";
+  let res = await api
+    .get(url)
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      return err.response;
+    });
+  // console.log("datassss", res);
+  return res;
+};
 export default cartServices;

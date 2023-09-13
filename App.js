@@ -32,6 +32,7 @@ import Search from "./src/screen/Search";
 import ProductList from "./src/screen/ProductList";
 import CustomerDetails from "./src/screen/CustomerDetails";
 import ConfirmOrder from "./src/screen/ConfirmOrder";
+import SelecAdress from "./src/screen/SelecAdress";
 
 export default function App() {
   // const [loaded, error] = useFonts({
@@ -107,8 +108,8 @@ export default function App() {
           <Stack.Screen name="tab" component={TabScreen} />
           <Stack.Screen name="cart" component={Cart} />
           <Stack.Screen name="confirm-order" component={ConfirmOrder} />
-
           <Stack.Screen name="cart-information" component={CustomerDetails} />
+          <Stack.Screen name="select-address" component={SelecAdress} />
 
           <Stack.Screen name="product-details" component={ProductDetails} />
           <Stack.Screen name="checkout" component={Checkout} />

@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 
-const CustomerInput = ({ title, value, setValue, placeholder }) => {
+const CustomerInput = ({ title, value, setValue, placeholder, editable }) => {
   const handleInputChange = (text) => {
     setValue(text);
   };
@@ -9,6 +9,7 @@ const CustomerInput = ({ title, value, setValue, placeholder }) => {
     <View style={styles.container}>
       <Text style={styles.title}>{title}</Text>
       <TextInput
+        editable={editable}
         onChangeText={handleInputChange}
         placeholder={placeholder}
         value={value}

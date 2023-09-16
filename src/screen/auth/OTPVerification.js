@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from 'react';
 import {
   View,
   Text,
@@ -8,29 +8,21 @@ import {
   Alert,
   TouchableOpacity,
   ActivityIndicator,
-} from "react-native";
-import { scale, width } from "../../../utils/funtions";
-import InputLayout from "../../components/layout/InputLayout";
-import { useNavigation } from "@react-navigation/native";
-import { showMessage } from "react-native-flash-message";
-import authServices from "../../services/authServices";
+} from 'react-native';
+import { scale, width } from '../../../utils/funtions';
+import InputLayout from '../../components/layout/InputLayout';
+import { useNavigation } from '@react-navigation/native';
+import { showMessage } from 'react-native-flash-message';
+import authServices from '../../services/authServices';
 
 const OTPVerification = ({ route }) => {
-  const [otp, setOTP] = useState(["", "", "", ""]);
+  const [otp, setOTP] = useState(['', '', '', '']);
   const otpInputs = useRef([]);
   const [loading, setLoading] = useState(false);
+  const [secondsRemaining, setSecondsRemaining] = useState(60);
+  const [disabledResend, setdisabledResend] = useState(true);
   const navigation = useNavigation();
-  const { phone ,name,dob} = route.params??{};
-
-  //   const handleOTPChange = (value, index) => {
-  //     const newOTP = [...otp];
-  //     newOTP[index] = value;
-  //     setOTP(newOTP);
-
-  //     if (value && index < otpInputs.current.length - 1) {
-  //       otpInputs.current[index + 1].focus();
-  //     }
-  //   };
+  const { phone, name, dob } = route.params ?? {};
 
   const handleOTPChange = (value, index) => {
     const newOTP = [...otp];
@@ -48,22 +40,13 @@ const OTPVerification = ({ route }) => {
   };
 
   const handleOTPVerification = async () => {
-    // const enteredOTP = otp.join('');
-
-    // // Implement your custom OTP verification logic here
-    // if (enteredOTP === '1234') {
-    //   Alert.alert('Success', 'OTP verified successfully!');
-    // } else {
-    //   Alert.alert('Error', 'Invalid OTP. Please try again.');
-    // }
-    const enteredOTP = otp.join("");
+    const enteredOTP = otp.join('');
     if (!enteredOTP || enteredOTP.length !== 4) {
-      // setLoading(false)
       showMessage({
-        style: { alignItems: "center" },
-        message: "Enter your OTP",
-        type: "danger",
-        position: "top",
+        style: { alignItems: 'center' },
+        message: 'Enter your OTP',
+        type: 'danger',
+        position: 'top',
         statusBarHeight: scale(20),
         duration: 2500,
       });
@@ -83,21 +66,24 @@ const OTPVerification = ({ route }) => {
       .catch((err) => err);
     if (res.status === 200) {
       setLoading(false);
-      navigation.navigate("nid_verify",{name,phone,dob});
+      navigation.navigate('forget_password', { name, phone, dob });
     } else {
       setLoading(false);
 
       showMessage({
-        style: { alignItems: "center" },
+        style: { alignItems: 'center' },
         message: res.message,
-        type: "danger",
-        position: "top",
+        type: 'danger',
+        position: 'top',
         statusBarHeight: scale(20),
       });
     }
   };
 
   const handleResend = async () => {
+    console.log('res send');
+    setdisabledResend(true);
+    setSecondsRemaining(60);
     const data = {
       phone: phone,
     };
@@ -109,14 +95,42 @@ const OTPVerification = ({ route }) => {
     // console.log(res, "res rended code");
     if (res.status === 200) {
       showMessage({
-        style: { alignItems: "center" },
-        message: "OTP ",
-        type: "success",
-        position: "top",
+        style: { alignItems: 'center' },
+        message: 'OTP ',
+        type: 'success',
+        position: 'top',
         statusBarHeight: scale(20),
         duration: 2500,
       });
     }
+  };
+
+  const handleOtpTimeout = () => {
+    setOTP(['', '', '', '']);
+    // debugger
+    setdisabledResend(false);
+  };
+
+  useEffect(() => {
+    const countdownTimer = setInterval(() => {
+      if (secondsRemaining <= 0) {
+        clearInterval(countdownTimer);
+        handleOtpTimeout();
+      } else {
+        setSecondsRemaining(secondsRemaining - 1);
+      }
+    }, 1000);
+
+    return () => clearInterval(countdownTimer);
+  }, [secondsRemaining]);
+
+  const formatTime = (timeInSeconds) => {
+    const minutes = Math.floor(timeInSeconds / 60);
+    const seconds = timeInSeconds % 60;
+
+    return `${minutes.toString().padStart(2, '0')}:${seconds
+      .toString()
+      .padStart(2, '0')}`;
   };
 
   return (
@@ -132,9 +146,9 @@ const OTPVerification = ({ route }) => {
           <Text
             style={{
               marginTop: 10,
-              color: "#667085",
+              color: '#667085',
               fontSize: 14,
-              fontWeight: "400",
+              fontWeight: '400',
             }}
           >
             Enter the verification code sent to your registered mobile number
@@ -143,14 +157,16 @@ const OTPVerification = ({ route }) => {
         <View
           style={{
             marginTop: 20,
-            flexDirection: "row",
+            flexDirection: 'row',
             columnGap: 5,
-            justifyContent: "center",
-            alignItems: "center",
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
         >
-          <Text style={{ fontSize: 20, fontWeight: "600" }}>50s</Text>
-          <Text style={{ fontSize: 14, fontWeight: "400" }}>reminig</Text>
+          <Text style={{ fontSize: 20, fontWeight: '600' }}>
+            {formatTime(secondsRemaining)}s
+          </Text>
+          <Text style={{ fontSize: 14, fontWeight: '400' }}>remaining</Text>
         </View>
         <View style={styles.otpContainer}>
           {otp.map((digit, index) => (
@@ -171,10 +187,10 @@ const OTPVerification = ({ route }) => {
         <TouchableOpacity
           onPress={handleOTPVerification}
           style={{
-            backgroundColor: "#BE202E",
+            backgroundColor: '#BE202E',
             height: scale(45),
-            justifyContent: "center",
-            alignItems: "center",
+            justifyContent: 'center',
+            alignItems: 'center',
             marginTop: 10,
             width: scale(300),
           }}
@@ -186,7 +202,7 @@ const OTPVerification = ({ route }) => {
               style={styles.spinner}
             />
           ) : (
-            <Text style={{ fontSize: 18, fontWeight: "400", color: "#FFFFFF" }}>
+            <Text style={{ fontSize: 18, fontWeight: '400', color: '#FFFFFF' }}>
               Verify
             </Text>
           )}
@@ -194,18 +210,26 @@ const OTPVerification = ({ route }) => {
 
         <View
           style={{
-            flexDirection: "row",
+            flexDirection: 'row',
             marginTop: 20,
             gap: 5,
-            justifyContent: "center",
-            alignItems: "center",
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
         >
           <Text>Didn’t receive the OTP?</Text>
           {/* <Button title="Click to resend" onPress={handleResend} /> */}
-          <TouchableOpacity onPress={handleResend}>
-            <Text style={{ fontWeight: "600" }}>Click to resend</Text>
-          </TouchableOpacity>
+          {disabledResend ? (
+            <TouchableOpacity disabled onPress={handleResend}>
+              <Text style={{ fontWeight: '600' }}>Resend</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity onPress={handleResend}>
+              <Text style={{ fontWeight: '600', color: '#BE202E' }}>
+                Resend
+              </Text>
+            </TouchableOpacity>
+          )}
         </View>
       </View>
     </InputLayout>
@@ -217,37 +241,37 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: scale(100),
     // justifyContent: 'center',
-    alignItems: "center",
+    alignItems: 'center',
   },
   title: {
     fontSize: 27,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     // marginBottom: 20,
-    alignSelf: "center",
+    alignSelf: 'center',
     // width:'50%',
   },
   otpContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "90%",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '90%',
     marginBottom: 20,
     // marginTop:50
   },
   otpInput: {
     width: scale(65),
     height: scale(60),
-    borderColor: "gray",
+    borderColor: 'gray',
     borderWidth: 1,
     borderRadius: 5,
     marginVertical: 10,
-    textAlign: "center",
+    textAlign: 'center',
     fontSize: 18,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: '#FFFFFF',
     borderWidth: 1,
-    borderColor: "#EF405E",
-    shadowColor: "#101828",
-    fontWeight: "700",
-    color: "#EF405E",
+    borderColor: '#EF405E',
+    shadowColor: '#101828',
+    fontWeight: '700',
+    color: '#EF405E',
   },
 });
 

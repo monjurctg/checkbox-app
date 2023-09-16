@@ -4,31 +4,43 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from "react-native";
-import React, { useState } from "react";
-import InputLayout from "../../components/layout/InputLayout";
-import InputTestCustom from "../../components/Input/InputTestCustom";
-import { formatDate, height, scale, width } from "../../../utils/funtions";
-import { useNavigation } from "@react-navigation/native";
-import authServices from "../../services/authServices";
+} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import InputLayout from '../../components/layout/InputLayout';
+import InputTestCustom from '../../components/Input/InputTestCustom';
+import { formatDate, height, scale, width } from '../../../utils/funtions';
+import { useNavigation } from '@react-navigation/native';
+import authServices from '../../services/authServices';
 // import { isLoading } from "expo-font";
-import { showMessage, hideMessage } from "react-native-flash-message";
+import { showMessage, hideMessage } from 'react-native-flash-message';
 
 const SiginUp = () => {
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
+  const [phone, setPhone] = useState('');
   // const [option, setOption] = useState("");
   const [date, setDate] = useState(formatDate(new Date()));
   const [loading, setLoading] = useState(false);
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const navigation = useNavigation();
 
   const handleError = () => {
-    if (!name) {
+    if (!password) {
       showMessage({
-        style: { alignItems: "center" },
-        message: "Name Field Required",
-        type: "danger",
-        position: "top",
+        style: { alignItems: 'center' },
+        message: 'Password Field Required',
+        type: 'danger',
+        position: 'top',
+        statusBarHeight: scale(20),
+        duration: 2500,
+      });
+      return true;
+    }
+    if (!confirmPassword) {
+      showMessage({
+        style: { alignItems: 'center' },
+        message: 'Confirm Password Field Required',
+        type: 'danger',
+        position: 'top',
         statusBarHeight: scale(20),
         duration: 2500,
       });
@@ -36,10 +48,22 @@ const SiginUp = () => {
     }
     if (!phone) {
       showMessage({
-        style: { alignItems: "center" },
-        message: "Phone Field Required",
-        type: "danger",
-        position: "top",
+        style: { alignItems: 'center' },
+        message: 'Phone Field Required',
+        type: 'danger',
+        position: 'top',
+        statusBarHeight: scale(20),
+        duration: 2500,
+      });
+      return true;
+    }
+
+    if (password !== confirmPassword) {
+      showMessage({
+        style: { alignItems: 'center' },
+        message: 'Please provide same password!',
+        type: 'danger',
+        position: 'top',
         statusBarHeight: scale(20),
         duration: 2500,
       });
@@ -51,9 +75,9 @@ const SiginUp = () => {
     const error = handleError();
     if (error) return;
     const data = {
-      name: name,
-      phone: phone, 
-      dob: date,
+      phone: phone,
+      password: password,
+      password_confirmation: confirmPassword,
       is_seller: false,
     };
     setLoading(true);
@@ -62,17 +86,17 @@ const SiginUp = () => {
       .then((res) => res)
       .catch((err) => err);
 
-    // console.log(res, data, "res  signup ");
+    console.log('res  signup ', res, data);
     if (res.status === 201) {
       setLoading(false);
-      navigation.navigate("otp_verify", data);
+      navigation.navigate('otp_verify', data);
     } else {
       // console.log(res, "res ");
       showMessage({
-        style: { alignItems: "center" },
+        style: { alignItems: 'center' },
         message: res.message,
-        type: "danger",
-        position: "top",
+        type: 'danger',
+        position: 'top',
         duration: 2500,
 
         statusBarHeight: scale(20),
@@ -99,14 +123,13 @@ const SiginUp = () => {
 
   return (
     <InputLayout>
-  
       <View style={{ marginTop: scale(50), marginBottom: 20 }}>
         <Text
           style={{
             fontSize: 24,
             lineHeight: 24,
-            fontWeight: "700",
-            textAlign: "center",
+            fontWeight: '700',
+            textAlign: 'center',
           }}
         >
           Sign Up
@@ -115,33 +138,34 @@ const SiginUp = () => {
           style={{
             fontSize: 16,
             lineHeight: 24,
-            fontWeight: "400",
-            textAlign: "center",
+            fontWeight: '400',
+            textAlign: 'center',
           }}
         >
-          {" "}
-          Lorem ipsum dolor sit amet adipiscing elit.
+          {' '}
+          Create your account
         </Text>
       </View>
       <InputTestCustom
-        placeholder={"Name"}
-        label={"Name"}
-        value={name}
-        onChange={(text) => setName(text)}
-      />
-      <InputTestCustom
-        keyboardType={"numeric"}
-        placeholder={"Phone Nmuber"}
-        label={"Phone Number"}
+        keyboardType={'numeric'}
+        placeholder={'Phone Nmuber'}
+        label={'Phone Number'}
         value={phone}
         onChange={(text) => setPhone(text)}
       />
-
       <InputTestCustom
-        type={"date"}
-        label={"Date of Birth "}
-        value={date}
-        onChange={setDate}
+        type={'password'}
+        placeholder={'Password'}
+        label={'Password '}
+        value={password}
+        onChange={(text) => setPassword(text)}
+      />
+      <InputTestCustom
+        type={'password'}
+        placeholder={'Confirm password'}
+        label={'Confirm password '}
+        value={confirmPassword}
+        onChange={(text) => setConfirmPassword(text)}
       />
 
       {/* <InputTestCustom
@@ -155,10 +179,10 @@ const SiginUp = () => {
       <TouchableOpacity
         onPress={handleSignup}
         style={{
-          backgroundColor: "#BE202E",
+          backgroundColor: '#BE202E',
           height: 52,
-          justifyContent: "center",
-          alignItems: "center",
+          justifyContent: 'center',
+          alignItems: 'center',
           marginTop: 10,
           width: scale(320),
         }}
@@ -170,7 +194,7 @@ const SiginUp = () => {
             style={styles.spinner}
           />
         ) : (
-          <Text style={{ fontSize: 18, fontWeight: "400", color: "#FFFFFF" }}>
+          <Text style={{ fontSize: 18, fontWeight: '400', color: '#FFFFFF' }}>
             Sign Up
           </Text>
         )}
@@ -178,14 +202,14 @@ const SiginUp = () => {
 
       <View
         style={{
-          flexDirection: "row",
-          justifyContent: "center",
+          flexDirection: 'row',
+          justifyContent: 'center',
           marginTop: 20,
         }}
       >
         <Text style={{ fontSize: 14 }}>Already have an Account?</Text>
-        <TouchableOpacity onPress={() => navigation.navigate("login")}>
-          <Text style={{ fontSize: 14, fontWeight: "600" }}>Log In</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('login')}>
+          <Text style={{ fontSize: 14, fontWeight: '600' }}>Log In</Text>
         </TouchableOpacity>
       </View>
     </InputLayout>

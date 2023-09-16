@@ -3,7 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useFonts } from "expo-font";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View } from "react-native";
+import { Linking, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Text from "./src/components/tags/Text";
 
@@ -33,6 +33,7 @@ import ProductList from "./src/screen/ProductList";
 import CustomerDetails from "./src/screen/CustomerDetails";
 import ConfirmOrder from "./src/screen/ConfirmOrder";
 import SelecAdress from "./src/screen/SelecAdress";
+import WebViewUrl from "./src/screen/WebViewUrl";
 
 export default function App() {
   // const [loaded, error] = useFonts({
@@ -120,6 +121,7 @@ export default function App() {
           <Stack.Screen name="user_info" component={SellerRegister} />
           <Stack.Screen name="search" component={Search} />
           <Stack.Screen name="products-filter" component={ProductList} />
+          <Stack.Screen name="send" component={WebViewUrl} />
         </Stack.Navigator>
 
         {/* <StatusBar style="auto" /> */}

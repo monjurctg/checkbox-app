@@ -1,6 +1,13 @@
-import { View, TouchableOpacity, Image, StyleSheet, Animated } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  Image,
+  StyleSheet,
+  Animated,
+  Linking,
+} from "react-native";
 import { WebView } from "react-native-webview";
-import React, { Suspense, useContext, useEffect, useRef, useState } from "react";
+import React, { Suspense, useContext, useRef, useState } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -17,20 +24,17 @@ import dash from "../../assets/icons/dash.png";
 import dashActive from "../../assets/icons/dash-active.png";
 import orders from "../../assets/icons/orders.png";
 import ordersActive from "../../assets/icons/orders-active.png";
+import * as Linkings from "expo-linking";
 // const Products = React.lazy(() => import("../screen/Products"));
 
 // const ProductList = React.lazy(() => import(""));
-import {
- 
-  MaterialCommunityIcons,
-  Ionicons,
-} from "@expo/vector-icons";
+import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import Orders from "../screen/Orders";
 import FullScreenLoader from "../components/loader/FullScreenLoader ";
 import UnAuth from "../screen/auth/UnAuth";
 import { useDispatch, useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { setAuth } from "../redux/reducers/authSlice";
+import { setAuth, setUser } from "../redux/reducers/authSlice";
 import HomeSVG from "../components/svg/HomeSVG";
 import RoketSVG from "../components/svg/RoketSVG";
 import DashboardSvg from "../components/svg/DashboardSvg";
@@ -38,6 +42,8 @@ import ProductsSVG from "../components/svg/ProductsSVG";
 import OrdersSVG from "../components/svg/OrdersSVG";
 import ActiveProductSVG from "../components/svg/ActiveProductSVG";
 import ActiveHome from "../components/svg/ActiveHome";
+import authServices from "../services/authServices";
+import { useEffect } from "react";
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -46,8 +52,6 @@ const OrdersStack = createNativeStackNavigator();
 const DashStack = createNativeStackNavigator();
 const Dash = () => {
   const [loading, setLoading] = useState(true);
-
-
 
   if (loading) {
     return <FullScreenLoader visible={loading} />;
@@ -100,11 +104,8 @@ function DashScreen() {
 }
 
 function MyTabBar({ state, descriptors, navigation, children }) {
-  
   return (
-    <View
-      style={styles.footerWraper}
-    >
+    <View style={styles.footerWraper}>
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         const label =
@@ -125,7 +126,6 @@ function MyTabBar({ state, descriptors, navigation, children }) {
         if (label === "home") {
           label2 = "Home";
           if (isFocused) {
-        
             color = colors.primary_1;
             icon = <ActiveHome />;
           } else {
@@ -140,12 +140,12 @@ function MyTabBar({ state, descriptors, navigation, children }) {
             // src = productActive;
             color = colors.primary_1;
             bg = colors.primary_1;
-            icon = <ActiveProductSVG/>
+            icon = <ActiveProductSVG />;
           } else {
             // src = productNotActive;
             color = colors.black;
             bg = colors.notActive;
-            icon = <ProductsSVG color={color}  />;
+            icon = <ProductsSVG color={color} />;
           }
         } else if (label === "dashboard") {
           label2 = "Dashboard";
@@ -164,19 +164,16 @@ function MyTabBar({ state, descriptors, navigation, children }) {
           if (isFocused) {
             // src = ordersActive;
             color = colors.primary_4;
-            icon=<OrdersSVG height={20} width={22} color={color}/>
-          
+            icon = <OrdersSVG height={20} width={22} color={color} />;
           } else {
             src = orders;
             color = colors.black;
             bg = colors.notActive;
-            icon=<OrdersSVG height={20} width={22} color={color}/>
-
+            icon = <OrdersSVG height={20} width={22} color={color} />;
           }
         }
 
         const onPress = () => {
-        
           // alert("cl")
           const event = navigation.emit({
             type: "tabPress",
@@ -219,7 +216,7 @@ function MyTabBar({ state, descriptors, navigation, children }) {
               </TouchableOpacity>
             ) : (
               <View style={[styles.authButtonContainer]}>
-                <Animated.View style={[styles.authButtonContent,]}>
+                <Animated.View style={[styles.authButtonContent]}>
                   {icon}
                   <Text preset={["fs_12 fw_500"]} style={{ color: color }}>
                     {label2}
@@ -253,24 +250,44 @@ const Stack = createNativeStackNavigator();
 export default function TabScreen({ route }) {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
-  const { auth } = useSelector((state) => state.auth);
+  const { auth, user } = useSelector((state) => state.auth);
+  const url = Linkings.useURL();
+  if (url) {
+    const { hostname, path, queryParams } = Linkings.parse(url);
+    console.log(hostname, "hostname", url);
+  }
 
   useEffect(() => {
-
     const checkToken = async () => {
       setLoading(true);
       const token = await AsyncStorage.getItem("token");
       if (token) {
-        setLoading(false);
-        dispatch(setAuth(true));
-      } else {
-        setLoading(false);
+        const res = await authServices.getUserinfo();
+        if (res.status == 200) {
+          dispatch(setUser(res.data.data));
+          dispatch(setAuth(true));
+          setLoading(false);
+        } else {
+          setLoading(false);
+        }
       }
+      // if (token) {
+      // } else if (!user?.name && token) {
+      //   setLoading(false);
+      //
+      //
+      //   // console.log(res.data, "data");
+      //
+      // } else {
+      //
+      // }
     };
 
     checkToken();
   }, [auth]);
- 
+
+  useEffect(() => {});
+
   return (
     <>
       {!auth ? (
@@ -299,7 +316,7 @@ export default function TabScreen({ route }) {
   );
 }
 const styles = StyleSheet.create({
-  footerWraper:{
+  footerWraper: {
     flexDirection: "row",
     height: scale(60),
     width: "95%",
@@ -313,12 +330,11 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginBottom: 10,
     borderRadius: 10,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
     shadowRadius: 2,
     elevation: 10,
-  
   },
   container: {
     flex: 1,

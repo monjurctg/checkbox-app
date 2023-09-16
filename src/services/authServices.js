@@ -55,7 +55,21 @@ authServices.addShopInfo = async (data) => {
     .catch((err) => err.response.data);
   // console.log(res,"res")
 };
-
+authServices.addShop = async (data) => {
+  let url = "auth/add-shop-information";
+  // console.log(data, "data from authservice addshop");
+  let res = await api
+    .post(url, data)
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      console.log(err.code, "error");
+      return err;
+    });
+  // console.log("res", res);
+  return res;
+};
 authServices.nidVerify = (data) => {
   let url = "auth/add-personal-information";
   let res = api

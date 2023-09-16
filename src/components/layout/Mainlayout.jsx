@@ -39,7 +39,7 @@ const Mainlayout = ({ children }) => {
   const fetchSingCart = async () => {
     const cart_id = await AsyncStorage.getItem("cart_id");
 
-    console.log(cart_id, "cart id from sing");
+    // console.log(cart_id, "cart id from sing");
     const res = await cartServices.getSingleCarts(cart_id);
     console.log(res.data, "response ");
     if (res.status === 200) {

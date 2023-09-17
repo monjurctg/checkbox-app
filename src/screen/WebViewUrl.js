@@ -5,11 +5,26 @@ import WebView from "react-native-webview";
 const WebViewUrl = ({ navigation, route }) => {
   const { url } = route.params;
   console.log(url);
+  const _onNavigationStateChange = (webViewState) => {
+    const geturl = webViewState.url;
+    // console.log(geturl, "geturl");
+    const getsplit = geturl.split("&");
+    console.log(getsplit, "geturl");
+
+    // getsplit.map((item,index)=>{
+    //     const itemsplit = item.split("=");
+    //     //console.log(itemsplit[1]);
+    //     if(itemsplit[0]=='status'){
+    //         setPaymentStatus(itemsplit[1]);
+    //     }
+    // })
+  };
   return (
-    <View>
-      {/* <Text>WebViewUrl</Text> */}
-      <WebView source={{ uri: url }} style={{ flex: 1 }} />
-    </View>
+    <WebView
+      source={{ uri: url }}
+      onNavigationStateChange={_onNavigationStateChange.bind(this)}
+      style={{ flex: 1 }}
+    />
   );
 };
 

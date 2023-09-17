@@ -58,13 +58,13 @@ authServices.addShopInfo = async (data) => {
 authServices.addShop = async (data) => {
   let url = "auth/add-shop-information";
   // console.log(data, "data from authservice addshop");
-  let res = await api
+  let res = api
     .post(url, data)
     .then((res) => {
       return res;
     })
     .catch((err) => {
-      console.log(err.code, "error");
+      console.log(err.response.data, "error");
       return err;
     });
   // console.log("res", res);

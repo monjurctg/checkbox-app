@@ -87,7 +87,7 @@ const ConfirmOrder = ({ navigation, route }) => {
       processing_fee: processingFee,
       delivery_charge: shippingFee,
       payment_type: "due_payment",
-      success_url: "navigation.navigate(home)",
+      success_url: "https://checkbox-rosy.vercel.app/cart/payment-order",
       cancel_url:
         "https://checkbox-rosy.vercel.app/cart/order-confirmation/" + carts.id,
       fail_url:
@@ -216,12 +216,16 @@ const ConfirmOrder = ({ navigation, route }) => {
     if (bkash) formdata.append("bkash", bkash);
 
     if (imageAssets?.uri) {
-      formdata.append("shop_image", imageAssets);
+      formdata.append("shop_image", {
+        uri: imageAssets.uri,
+        type: "image/jpeg",
+        name: new Date().getTime() + ".jpg",
+      });
     }
-    // console.log("formdata", formdata);
+    // console.log("monjur", bkash, shopName);
     // setloading(true);
     const res = await authServices.addShop(formdata);
-    console.log("formdata res", res);
+    // console.log("formdata res", res);
     if (res?.status === 200) {
       // setloading(false);
       // console.log(res, "after info shop");
@@ -519,8 +523,13 @@ const ConfirmOrder = ({ navigation, route }) => {
                   <Text>+</Text>
                 )}
               </TouchableOpacity>
-              <TextInput placeholder="Enter shop name" style={styles.input} />
               <TextInput
+                onChangeText={(text) => setShopName(text)}
+                placeholder="Enter shop name"
+                style={styles.input}
+              />
+              <TextInput
+                onChangeText={(text) => setBkash(text)}
                 placeholder="Enter bkash number"
                 style={[styles.input, { marginTop: 20 }]}
                 keyboardType="decimal-pad"

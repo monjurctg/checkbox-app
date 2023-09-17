@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useFonts } from 'expo-font';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View } from 'react-native';
+import { Linking, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Text from './src/components/tags/Text';
 
@@ -34,6 +34,8 @@ import CustomerDetails from './src/screen/CustomerDetails';
 import ConfirmOrder from './src/screen/ConfirmOrder';
 import ForgetPassword from './src/screen/auth/ForgetPassword';
 import UserInfo from './src/screen/auth/UserInfo';
+import SelecAdress from './src/screen/SelecAdress';
+import WebViewUrl from './src/screen/WebViewUrl';
 
 export default function App() {
   // const [loaded, error] = useFonts({
@@ -109,8 +111,8 @@ export default function App() {
           <Stack.Screen name="tab" component={TabScreen} />
           <Stack.Screen name="cart" component={Cart} />
           <Stack.Screen name="confirm-order" component={ConfirmOrder} />
-
           <Stack.Screen name="cart-information" component={CustomerDetails} />
+          <Stack.Screen name="select-address" component={SelecAdress} />
 
           <Stack.Screen name="product-details" component={ProductDetails} />
           <Stack.Screen name="checkout" component={Checkout} />
@@ -121,6 +123,7 @@ export default function App() {
           {/* <Stack.Screen name="user_info" component={SellerRegister} /> */}
           <Stack.Screen name="search" component={Search} />
           <Stack.Screen name="products-filter" component={ProductList} />
+          <Stack.Screen name="send" component={WebViewUrl} />
           <Stack.Screen name="forget_password" component={ForgetPassword} />
           <Stack.Screen name="user_info" component={UserInfo} />
         </Stack.Navigator>

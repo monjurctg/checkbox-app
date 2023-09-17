@@ -141,4 +141,87 @@ cartServices.updateProductFromCart = (data) => {
     });
   return res;
 };
+cartServices.getCustomer = async () => {
+  let url = "/get-customers";
+  let res = await api
+    .get(url)
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      return err.response;
+    });
+  // console.log("datassss", res);
+  return res;
+};
+cartServices.getOtherFees = (id) => {
+  let url = "carts/get-other-fees/" + id;
+  let res = api
+    .get(url)
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      return err.response;
+    });
+  return res;
+};
+
+cartServices.orderStore = (data) => {
+  let url = "order/store";
+  let res = api
+    .post(url, data)
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      return err.response;
+    });
+  return res;
+};
+cartServices.voucherApply = (data) => {
+  let url = "coupon-apply";
+  let res = api
+    .post(url, data)
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      return err.response;
+    });
+  return res;
+};
+
+cartServices.payWithSsl = (data) => {
+  let url = "sslcommerz/begin";
+  Object.keys(data).forEach((key) => {
+    if (url.indexOf("?") === -1) {
+      url += `?${key}=${data[key]}`;
+    } else {
+      url += `&${key}=${data[key]}`;
+    }
+  });
+
+  let res = api
+    .get(url)
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      return err.response;
+    });
+  return res;
+};
+cartServices.couponRemove = (data) => {
+  let url = "coupon-remove";
+  let res = api
+    .post(url, data)
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      return err.response;
+    });
+  return res;
+};
 export default cartServices;

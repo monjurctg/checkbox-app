@@ -28,15 +28,16 @@ const CustomerBillingInfo = ({ carts, setIsBill }) => {
     };
     // console.log(data);
     if (billFromCustomer - adVance == 0) {
-      alert("Total Collection Amount can not be 0", "top-right");
+      alert("Total Collection Amount can not be 0");
     } else {
       let res = await cartServices.updateCartBilling(data);
       if (res.status === 200) {
         alert(res?.data?.message, "top-right");
         setAdvance(res?.data?.data?.advance_from_customer);
         setBillFromCustomer(res?.data?.data?.reseller_to_customer_price);
+        setIsBill(false);
+
         await AsyncStorage.setItem("billingInfo", `${carts.items[0].cart_id}`);
-        setIsBill(true);
         // setdisabled(true);
         // setshowUpdateBtn(true);
         // changeDisable({
@@ -55,6 +56,12 @@ const CustomerBillingInfo = ({ carts, setIsBill }) => {
       }
     }
   };
+
+const proceedToConfirmaion = async()=>{
+  
+}
+
+
 
   return (
     <View style={{ marginTop: 40 }}>
@@ -197,6 +204,6 @@ const CustomerBillingInfo = ({ carts, setIsBill }) => {
   );
 };
 
-export default CustomerBillingInfo;
+export default React.memo(CustomerBillingInfo);
 
 const styles = StyleSheet.create({});

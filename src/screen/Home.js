@@ -42,6 +42,8 @@ const Home = ({ navigation }) => {
       });
   };
 
+
+  
 const onCategoryPress = (slug)=>{
   // alert(slug)
   navigation.navigate("products-filter", { data:{category_slug:slug} })

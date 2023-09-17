@@ -19,19 +19,33 @@ import { Feather } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import FullScreenLoader from "../loader/FullScreenLoader ";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setCartSize } from "../../redux/reducers/cartSlice";
+import cartServices from "../../services/cartServices";
 
 const Mainlayout = ({ children }) => {
   const [isSearchVisible, setSearchVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const handleSearchIconClick = () => {
     // setSearchVisible(!isSearchVisible);
-    navigation.navigate("search")
+    navigation.navigate("search");
   };
   const { cartSize } = useSelector((state) => state.cart);
   const [isMenu, setIsMenu] = useState(false);
   const animatedValue = new Animated.Value(0);
+
+  const fetchSingCart = async () => {
+    const cart_id = await AsyncStorage.getItem("cart_id");
+
+    // console.log(cart_id, "cart id from sing");
+    const res = await cartServices.getSingleCarts(cart_id);
+    console.log(res.data, "response ");
+    if (res.status === 200) {
+      dispatch(setCartSize(res.data.data.items.length));
+    }
+  };
 
   useEffect(() => {
     if (isMenu) {
@@ -48,6 +62,10 @@ const Mainlayout = ({ children }) => {
       }).start();
     }
   }, [isMenu]);
+
+  useEffect(() => {
+    fetchSingCart();
+  }, []);
 
   const translateY = animatedValue.interpolate({
     inputRange: [0, 1],
@@ -73,9 +91,7 @@ const Mainlayout = ({ children }) => {
       .catch((err) => {
         // console.log(err, "err from logout");
         // setLoading(false);
-      })
-      
-      
+      });
   };
 
   if (loading) {

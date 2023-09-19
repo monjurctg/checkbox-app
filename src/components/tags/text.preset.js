@@ -40,7 +40,7 @@ export const presset = {
   },
   p1: {
     ...Base,
-    leineHeight: scale(30),
+    lineHeight: scale(30),
   },
   p2: {
     ...Base,

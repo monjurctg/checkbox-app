@@ -83,25 +83,29 @@ const ProductList = ({ route, navigation }) => {
     filterServices
       .search(filter)
       .then((res) => {
-        console.log(res.data.data.products.total, "res.data");
+        // console.log(res.data.data.products.total, "res.data");
         if (isFiter) {
           setSearchProducts([]);
-         setTimeout(()=>{
-          setFilter({ ...filter, page: 1 });
-          setLoading(false);
-          setIsFilter(false);
-          setSearchProducts([...searchProducts, ...res.data.data.products.data]);
-         },1000)
-        }
-        else{
+          setTimeout(() => {
+            setFilter({ ...filter, page: 1 });
+            setLoading(false);
+            setIsFilter(false);
+            setSearchProducts([
+              ...searchProducts,
+              ...res.data.data.products.data,
+            ]);
+          }, 1000);
+        } else {
           setSearchData(res.data.data);
-          setSearchProducts([...searchProducts, ...res.data.data.products.data]);
+          setSearchProducts([
+            ...searchProducts,
+            ...res.data.data.products.data,
+          ]);
           setLoading(false);
           setIsFilter(false);
           setFilter({ ...filter, page: filter.page + 1 });
           // setLastPage(res.data.data.meta.last_page);
         }
-      
       })
       .catch((err) => console.log(err));
   };
@@ -276,7 +280,9 @@ const ProductList = ({ route, navigation }) => {
           onCategoryPress={onCategoryPress}
           data={searchData?.search_attributes?.categories}
         />
-        {loading &&searchData?.search_attributes?.categories?.length==0 && <CategorySkeleton />}
+        {loading && searchData?.search_attributes?.categories?.length == 0 && (
+          <CategorySkeleton />
+        )}
         {/* <CollectionSkeleton/> */}
         <Filters navigation={navigation} onFilterClick={openDrawer} />
       </>

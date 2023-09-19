@@ -41,9 +41,11 @@ const Mainlayout = ({ children }) => {
 
     // console.log(cart_id, "cart id from sing");
     const res = await cartServices.getSingleCarts(cart_id);
-    console.log(res.data, "response ");
+    // console.log(res.data, "response ");
     if (res.status === 200) {
       dispatch(setCartSize(res.data.data.items.length));
+    } else {
+      dispatch(setCartSize(0));
     }
   };
 

@@ -4,29 +4,24 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from "react-native";
-import React, { useState, useContext } from "react";
-import InputLayout from "../../components/layout/InputLayout";
-import InputTestCustom from "../../components/Input/InputTestCustom";
-import { height, scale, width } from "../../../utils/funtions";
-import { useNavigation } from "@react-navigation/native";
-import authServices from "../../services/authServices";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { showMessage } from "react-native-flash-message";
-import { CheckboxContext } from "../../context/CheckboxProvider";
-import { useDispatch } from "react-redux";
-import { setAuth } from "../../redux/reducers/authSlice";
-import { useFonts } from "expo-font";
-
-
+} from 'react-native';
+import React, { useState, useContext } from 'react';
+import InputLayout from '../../components/layout/InputLayout';
+import InputTestCustom from '../../components/Input/InputTestCustom';
+import { height, scale, width } from '../../../utils/funtions';
+import { useNavigation } from '@react-navigation/native';
+import authServices from '../../services/authServices';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { showMessage } from 'react-native-flash-message';
+import { CheckboxContext } from '../../context/CheckboxProvider';
+import { useDispatch } from 'react-redux';
+import { setAuth } from '../../redux/reducers/authSlice';
+import { useFonts } from 'expo-font';
 
 const Login = () => {
   const dispatch = useDispatch();
-  // const [loaded] = useFonts({
-  //   Lexend: require('../../../assets/fonts/Lexend-Black.ttf'),
-  // });
-  const [password, setPassword] = useState("");
-  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState('');
+  const [phone, setPhone] = useState('');
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
 
@@ -34,15 +29,15 @@ const Login = () => {
     const data = {
       phone,
       password,
-      user_type: "customer",
+      user_type: 'customer',
     };
 
     if (!phone) {
       showMessage({
-        style: { alignItems: "center" },
-        message: "Phone Field Required",
-        type: "danger",
-        position: "top",
+        style: { alignItems: 'center' },
+        message: 'Phone Field Required',
+        type: 'danger',
+        position: 'top',
         statusBarHeight: scale(20),
         duration: 2500,
       });
@@ -50,10 +45,10 @@ const Login = () => {
     }
     if (!password) {
       showMessage({
-        style: { alignItems: "center" },
-        message: "Name Field Required",
-        type: "danger",
-        position: "top",
+        style: { alignItems: 'center' },
+        message: 'Name Field Required',
+        type: 'danger',
+        position: 'top',
         statusBarHeight: scale(20),
         duration: 2500,
       });
@@ -66,37 +61,48 @@ const Login = () => {
       .then((res) => res)
       .catch((err) => err);
     // console.log(res,"res",res?.data?.data?.access_token,"tokne")
+    console.log('res: ', res);
+    console.log(res?.data?.data?.redirect);
     if (res.status === 200) {
       setLoading(false);
       dispatch(setAuth(true));
       showMessage({
-        style: { alignItems: "center" },
+        style: { alignItems: 'center' },
         message: res.data.message,
-        type: "success",
-        position: "top",
+        type: 'success',
+        position: 'top',
         duration: 2500,
         statusBarHeight: scale(20),
       });
       // setAuth(true)
 
-      await AsyncStorage.setItem("token", res.data?.data?.access_token);
+      await AsyncStorage.setItem('token', res.data?.data?.access_token);
 
-      navigation.navigate("home");
+      navigation.navigate('home');
     } else {
       // setAuth(false)
+      //otp_verify
       setLoading(false);
-
-      showMessage({
-        style: { alignItems: "center" },
-        message: res.message ? res.message : "Login field try again",
-        type: "danger",
-        position: "top",
-        duration: 2500,
-        statusBarHeight: scale(20),
-      });
-
-      if (res.data.redirect) {
-        navigation.navigate(res.data.redirect, { ...res.data.user, phone });
+      if (res?.data?.data?.redirect === 'otp_verify') {
+        showMessage({
+          style: { alignItems: 'center' },
+          message: res.message ? res.message : 'Login field try again',
+          type: 'danger',
+          position: 'top',
+          duration: 2500,
+          statusBarHeight: scale(20),
+        });
+        navigation.navigate(res?.data?.data?.redirect, {
+          ...res.data.user,
+          phone,
+        });
+      } else {
+        if (res.data.redirect) {
+          navigation.navigate(res.data.redirect, {
+            ...res.data.user,
+            phone,
+          });
+        }
       }
     }
   };
@@ -108,47 +114,37 @@ const Login = () => {
           style={{
             fontSize: 34,
             // lineHeight: 24,
-            fontWeight: "700",
-            textAlign: "center",
+            fontWeight: '700',
+            textAlign: 'center',
           }}
         >
           Log In
         </Text>
-        {/* <Text style={{ fontSize: 16, lineHeight: 24, fontWeight: "400", textAlign: "center" }}> Lorem ipsum dolor sit amet adipiscing elit.</Text> */}
       </View>
 
       <InputTestCustom
-        placeholder={"Phone Nmuber"}
-        label={"Phone "}
+        placeholder={'Phone Nmuber'}
+        label={'Phone '}
         value={phone}
-        keyboardType={"numeric"}
+        keyboardType={'numeric'}
         onChange={(text) => setPhone(text)}
       />
 
       <InputTestCustom
-        type={"password"}
-        placeholder={"Password"}
-        label={"Password "}
+        type={'password'}
+        placeholder={'Password'}
+        label={'Password '}
         value={password}
         onChange={(text) => setPassword(text)}
       />
 
-      {/* <InputTestCustom
-
-        type={"dropdown"}
-        option={["customer", "seller"]}
-        label={"User Type"}
-        value={option}
-        onChange={(text) => setOption(text)}
-      /> */}
-
       <TouchableOpacity
         onPress={handleLogin}
         style={{
-          backgroundColor: "#BE202E",
+          backgroundColor: '#BE202E',
           height: scale(45),
-          justifyContent: "center",
-          alignItems: "center",
+          justifyContent: 'center',
+          alignItems: 'center',
           marginTop: 10,
           width: scale(320),
         }}
@@ -160,33 +156,45 @@ const Login = () => {
             style={styles.spinner}
           />
         ) : (
-          <Text style={{ fontSize: 18, fontWeight: "400", color: "#FFFFFF" }}>
+          <Text style={{ fontSize: 18, fontWeight: '400', color: '#FFFFFF' }}>
             Log In
           </Text>
         )}
       </TouchableOpacity>
       <View
         style={{
-          flexDirection: "row",
-          justifyContent: "flex-end",
+          flexDirection: 'row',
+          justifyContent: 'flex-end',
           marginTop: 20,
         }}
       >
-        <TouchableOpacity onPress={() => navigation.navigate("signup")}>
-          <Text style={{ fontWeight: "600", fontSize: 16,color:"red",fontWeight:600 }}> Forget Password</Text>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('forget_password')}
+        >
+          <Text
+            style={{
+              fontWeight: '600',
+              fontSize: 16,
+              color: 'red',
+              fontWeight: 600,
+            }}
+          >
+            {' '}
+            Forget Password
+          </Text>
         </TouchableOpacity>
       </View>
 
       <View
         style={{
-          flexDirection: "row",
-          justifyContent: "center",
+          flexDirection: 'row',
+          justifyContent: 'center',
           // marginTop: 20,
         }}
       >
         <Text style={{ fontSize: 14 }}>Don’t have an account?</Text>
-        <TouchableOpacity onPress={() => navigation.navigate("signup")}>
-          <Text style={{ fontWeight: "600", fontSize: 14 }}> Sign Up</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('signup')}>
+          <Text style={{ fontWeight: '600', fontSize: 14 }}> Sign Up</Text>
         </TouchableOpacity>
       </View>
     </InputLayout>

@@ -1,39 +1,41 @@
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useFonts } from "expo-font";
-import { StatusBar } from "expo-status-bar";
-import { Linking, StyleSheet, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import Text from "./src/components/tags/Text";
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useFonts } from 'expo-font';
+import { StatusBar } from 'expo-status-bar';
+import { Linking, StyleSheet, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import Text from './src/components/tags/Text';
 
-import ProducDetailsTab from "./src/navigations/SingleProductNavigation";
-import TabScreen from "./src/navigations/TabNavigation";
-import Cart from "./src/screen/Cart";
-import ProductDetails from "./src/screen/ProductDetails";
-import { Updates } from "expo";
-import UnAuth from "./src/screen/auth/UnAuth";
-import { useContext, useEffect } from "react";
-import Checkout from "./src/screen/Checkout";
-import InputTestCustom from "./src/components/Input/InputTestCustom";
+import ProducDetailsTab from './src/navigations/SingleProductNavigation';
+import TabScreen from './src/navigations/TabNavigation';
+import Cart from './src/screen/Cart';
+import ProductDetails from './src/screen/ProductDetails';
+import { Updates } from 'expo';
+import UnAuth from './src/screen/auth/UnAuth';
+import { useContext, useEffect } from 'react';
+import Checkout from './src/screen/Checkout';
+import InputTestCustom from './src/components/Input/InputTestCustom';
 // import Login from "./src/screen/SignUp";
-import CustomDatePicker from "./src/components/Input/CustomDatePicker";
-import SiginUp from "./src/screen/auth/SignUp";
-import Login from "./src/screen/auth/Login";
-import NidVerify from "./src/screen/auth/NidVerify";
-import SellerRegister from "./src/screen/auth/SellerRegister";
-import OTPVerification from "./src/screen/auth/OTPVerification";
-import FlashMessage from "react-native-flash-message";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Provider, useDispatch } from "react-redux";
-import store from "./src/redux/store";
-import { setAuth } from "./src/redux/reducers/authSlice";
-import Search from "./src/screen/Search";
-import ProductList from "./src/screen/ProductList";
-import CustomerDetails from "./src/screen/CustomerDetails";
-import ConfirmOrder from "./src/screen/ConfirmOrder";
-import SelecAdress from "./src/screen/SelecAdress";
-import WebViewUrl from "./src/screen/WebViewUrl";
+import CustomDatePicker from './src/components/Input/CustomDatePicker';
+import SiginUp from './src/screen/auth/SignUp';
+import Login from './src/screen/auth/Login';
+import NidVerify from './src/screen/auth/NidVerify';
+import SellerRegister from './src/screen/auth/SellerRegister';
+import OTPVerification from './src/screen/auth/OTPVerification';
+import FlashMessage from 'react-native-flash-message';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Provider, useDispatch } from 'react-redux';
+import store from './src/redux/store';
+import { setAuth } from './src/redux/reducers/authSlice';
+import Search from './src/screen/Search';
+import ProductList from './src/screen/ProductList';
+import CustomerDetails from './src/screen/CustomerDetails';
+import ConfirmOrder from './src/screen/ConfirmOrder';
+import ForgetPassword from './src/screen/auth/ForgetPassword';
+import UserInfo from './src/screen/auth/UserInfo';
+import SelecAdress from './src/screen/SelecAdress';
+import WebViewUrl from './src/screen/WebViewUrl';
 
 export default function App() {
   // const [loaded, error] = useFonts({
@@ -76,13 +78,13 @@ export default function App() {
   }
 
   function confirmDialogSupported() {
-    return window.confirm && typeof window.confirm === "function";
+    return window.confirm && typeof window.confirm === 'function';
   }
   const Stack = createNativeStackNavigator();
   const Tab = createBottomTabNavigator();
 
   const config = {
-    animation: "spring",
+    animation: 'spring',
     config: {
       stiffness: 1000,
       damping: 500,
@@ -99,7 +101,7 @@ export default function App() {
         <Stack.Navigator
           screenOptions={{
             headerShown: false,
-            headerMode: "screen",
+            headerMode: 'screen',
           }}
         >
           {/* <Stack.Screen name="search" component={Search} /> */}
@@ -118,16 +120,18 @@ export default function App() {
           <Stack.Screen name="signup" component={SiginUp} />
           <Stack.Screen name="otp_verify" component={OTPVerification} />
           <Stack.Screen name="nid_verify" component={NidVerify} />
-          <Stack.Screen name="user_info" component={SellerRegister} />
+          {/* <Stack.Screen name="user_info" component={SellerRegister} /> */}
           <Stack.Screen name="search" component={Search} />
           <Stack.Screen name="products-filter" component={ProductList} />
           <Stack.Screen name="send" component={WebViewUrl} />
+          <Stack.Screen name="forget_password" component={ForgetPassword} />
+          <Stack.Screen name="user_info" component={UserInfo} />
         </Stack.Navigator>
 
         {/* <StatusBar style="auto" /> */}
       </NavigationContainer>
 
-      <FlashMessage position={"bottom"} />
+      <FlashMessage position={'bottom'} />
       <StatusBar style="auto" />
     </Provider>
   );
@@ -136,8 +140,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

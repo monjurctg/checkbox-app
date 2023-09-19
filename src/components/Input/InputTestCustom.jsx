@@ -17,6 +17,7 @@ const InputTestCustom = ({ label, onChange,editable, value,option, placeholder, 
   };
 
   const handleSelectOption = (option) => {
+    console.log('option: ' ,option)
     onChange(option);
     toggleDropdown();
   };

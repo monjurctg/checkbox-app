@@ -51,7 +51,7 @@ const CustomerDetails = ({ navigation, route }) => {
   const dispatch = useDispatch();
   const getPreBillInfo = async () => {
     const billInfo = await AsyncStorage.getItem("billingInfo");
-    // console.log(billInfo, "billingInfo");
+    console.log(billInfo, "billingInfo");
     if (!billInfo) {
       // console.log("inside if");
       setIsBill(true);

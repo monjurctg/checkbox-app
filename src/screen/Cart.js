@@ -6,7 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import View from "../components/tags/View";
 import Text from "../components/tags/Text";
@@ -86,7 +86,7 @@ const Cart = () => {
   };
 
   const fetchSingCart = async () => {
-    console.log("calling");
+    // console.log("calling");
     const cart_id = activeSwichCartId
       ? activeSwichCartId
       : await AsyncStorage.getItem("cart_id");
@@ -407,7 +407,7 @@ const Cart = () => {
   );
 };
 
-export default Cart;
+export default memo(Cart);
 
 const styles = StyleSheet.create({
   modalContainer: {

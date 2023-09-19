@@ -1,9 +1,4 @@
-import {
-  StyleSheet,
-  Image,
- 
-  FlatList,
-} from "react-native";
+import { StyleSheet, Image, FlatList } from "react-native";
 import React from "react";
 import { scale } from "../../../utils/funtions";
 import Text from "../tags/Text";
@@ -13,9 +8,7 @@ import View from "../tags/View";
 
 const CollectionItems = ({ navigation, name, products = [] }) => {
   // console.log(navigation, "navigation");
-  console.log(products,"products")
-
-  
+  // console.log(products,"products")
 
   const renderItem = ({ item }) => (
     <CustomTouchBtn
@@ -23,16 +16,21 @@ const CollectionItems = ({ navigation, name, products = [] }) => {
       // key={index}
       style={{
         width: scale(108),
-        height:scale(180),
-        
+        height: scale(180),
       }}
     >
       <Image
-        source={{ uri: item?.thumbnail_image,cache:"only-if-cached" }}
-        
-        style={{ height: scale(90), width: scale(90),resizeMode:"cover",borderRadius:10}}
+        source={{ uri: item?.thumbnail_image, cache: "only-if-cached" }}
+        style={{
+          height: scale(90),
+          width: scale(90),
+          resizeMode: "cover",
+          borderRadius: 10,
+        }}
       />
-      <Text style={{height:scale(50)}} preset={["p3 lh_14 mt_5"]}>{item?.name}</Text>
+      <Text style={{ height: scale(50) }} preset={["p3 lh_14 mt_5"]}>
+        {item?.name}
+      </Text>
     </CustomTouchBtn>
   );
 

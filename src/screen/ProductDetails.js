@@ -54,7 +54,7 @@ const ProductDetails = ({ navigation }) => {
 
   let addingToCart = async () => {
     // setLoading(true);
-    const cart_id = await AsyncStorage.getItem("cart_id")
+    const cart_id = await AsyncStorage.getItem("cart_id");
     let d = {
       product_id: productId,
       quantity: quantity,
@@ -64,20 +64,29 @@ const ProductDetails = ({ navigation }) => {
 
     let res = await cartServices.addProductToCart(d);
     if (res.status === 200) {
-    
       showMessage({
-        style: { alignItems: "center" ,alignContent:"center",display:"flex",flexDirection:"column",justifyContent:"center",gap:15},
-        message:"Added to Cart",
-        icon:"success",
+        style: {
+          alignItems: "center",
+          alignContent: "center",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          gap: 15,
+        },
+        message: "Added to Cart",
+        icon: "success",
         type: "success",
         position: "top",
         duration: 2500,
         statusBarHeight: scale(40),
       });
 
-      dispatch(setCartSize(cartSize+1))
-      
-      await AsyncStorage.setItem('cart_id',JSON.stringify(res.data?.data?.items[0]?.cart_id));
+      dispatch(setCartSize(cartSize + 1));
+
+      await AsyncStorage.setItem(
+        "cart_id",
+        JSON.stringify(res.data?.data?.items[0]?.cart_id)
+      );
       // successNotification("Added to Cart", "top-right");
       // localStorage.setItem(
       //   "cart_id",
@@ -90,15 +99,22 @@ const ProductDetails = ({ navigation }) => {
       if (res?.data?.message === "User is not logged in") {
         // router.push("/login");
         console.log("Something wrong happen");
+      } else if (res.data.message == "Cart is assigned to an order") {
+        await AsyncStorage.removeItem("cart_id");
       }
       showMessage({
-        style: { alignItems: "center" ,justifyContent:"center", flexDirection:"column",gap:15},
+        style: {
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "column",
+          gap: 15,
+        },
         message: res?.data?.message,
         type: "danger",
         position: "top",
         duration: 2500,
-        icon:"danger",
-      
+        icon: "danger",
+
         statusBarHeight: scale(40),
       });
 
@@ -252,9 +268,6 @@ const ProductDetails = ({ navigation }) => {
           <Text preset={["p1 ml_10 fw_325 "]}>Post in Facebook</Text>
         </CustomTouchBtn>
 
-      
-     
-
         {/* color */}
         {singleProduct?.variation_attributes?.map((variation, index) => (
           <Tags
@@ -307,8 +320,6 @@ const ProductDetails = ({ navigation }) => {
             </CustomTouchBtn>
           </View>
         </View>
-
-
 
         {/* details */}
         <View

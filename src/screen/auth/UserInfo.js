@@ -16,8 +16,11 @@ import { showMessage } from 'react-native-flash-message';
 import { Picker } from '@react-native-picker/picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+import { setAuth } from '../../redux/reducers/authSlice';
+import { useDispatch } from 'react-redux';
 
 const UserInfo = ({ route, navigation }) => {
+  const dispatch = useDispatch();
   const [shopName, setShopName] = useState('');
   // const [phone, setPhone] = useState("")
   const [email, setEmail] = useState('');
@@ -115,13 +118,11 @@ const UserInfo = ({ route, navigation }) => {
     };
 
     const res = await authServices.nidVerify(data);
-    console.log('res: ', res);
     if (res.status === 200) {
       setLoading(false);
-      successNotification(
-        res?.data?.message || 'api message changed',
-        'top-right'
-      );
+      dispatch(setAuth(true));
+      await AsyncStorage.setItem('token', res.data?.data?.access_token);
+
       showMessage({
         style: { alignItems: 'center' },
         message: res?.data?.message || 'api message changed',
@@ -129,8 +130,7 @@ const UserInfo = ({ route, navigation }) => {
         position: 'top',
         statusBarHeight: scale(20),
       });
-      await AsyncStorage.setItem('token', res.data?.data?.access_token);
-      navigation.navigate('products-filter');
+      navigation.navigate('home');
     } else {
       setLoading(false);
 

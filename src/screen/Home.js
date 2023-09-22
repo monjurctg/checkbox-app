@@ -4,16 +4,16 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
-} from "react-native";
-import React, { useEffect, useState } from "react";
-import Mainlayout from "../components/layout/Mainlayout";
-import { height, scale } from "../../utils/funtions";
-import Slider from "../components/Slider";
-import Text from "../components/tags/Text";
+} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import Mainlayout from '../components/layout/Mainlayout';
+import { height, scale } from '../../utils/funtions';
+import Slider from '../components/Slider';
+import Text from '../components/tags/Text';
 
-import productServices from "../services/productServices";
-import CategorySkeleton from "../components/loader/CategorySkeleton";
-import Categories from "../components/products/Categories";
+import productServices from '../services/productServices';
+import CategorySkeleton from '../components/loader/CategorySkeleton';
+import Categories from '../components/products/Categories';
 
 const Home = ({ navigation }) => {
   // console.log(navigation, "home navigation");
@@ -23,39 +23,33 @@ const Home = ({ navigation }) => {
   // setTimeout(() => {
   //   setLoading(false);
   // }, 1000);
-  
-  
+
   const allCategories = () => {
     productServices
       .getAllCategories()
       .then((res) => {
         // console.log(res.data, "res from api categoried");
-        if(res.status==200){
-          setCategories(res.data.data)
+        if (res.status == 200) {
+          setCategories(res.data.data);
           // console.log(res.data.data)
-          setLoading(false)
+          setLoading(false);
         }
       })
       .catch((err) => {
-        setLoading(false)
+        setLoading(false);
         // console.log(err, "error from api categoried");
       });
   };
 
+  const onCategoryPress = (slug) => {
+    // alert(slug)
+    navigation.navigate('products-filter', { data: { category_slug: slug } });
+  };
 
-  
-const onCategoryPress = (slug)=>{
-  // alert(slug)
-  navigation.navigate("products-filter", { data:{category_slug:slug} })
-}
+  useEffect(() => {
+    allCategories();
+  }, []);
 
-  useEffect(()=>{
-    allCategories()
-
-  },[])
-
-
-  
   // if (loading) {
   //   return <CategorySkeleton/>;
   // }
@@ -66,33 +60,33 @@ const onCategoryPress = (slug)=>{
         {/* statistic */}
         <View
           style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
             paddingHorizontal: 20,
             paddingVertical: 18,
-            backgroundColor: "#EDEDED",
-            borderColor: "#C7C7C7",
+            backgroundColor: '#EDEDED',
+            borderColor: '#C7C7C7',
             borderRadius: 8,
           }}
         >
           <View
             style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
               width: 80,
             }}
           >
             <Text
               style={{
                 // fontFamily: "Gotham",
-                fontStyle: "normal",
-                fontWeight: "400",
+                fontStyle: 'normal',
+                fontWeight: '400',
                 fontSize: 14,
                 lineHeight: 16,
-                color: "#231F20",
+                color: '#231F20',
                 marginBottom: 8,
               }}
             >
@@ -101,11 +95,11 @@ const onCategoryPress = (slug)=>{
             <Text
               style={{
                 // fontFamily: "Gotham",
-                fontStyle: "normal",
-                fontWeight: "700",
+                fontStyle: 'normal',
+                fontWeight: '700',
                 fontSize: 24,
                 lineHeight: 28,
-                color: "#BE202E",
+                color: '#BE202E',
               }}
             >
               500
@@ -113,20 +107,20 @@ const onCategoryPress = (slug)=>{
           </View>
           <View
             style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
               width: 80,
             }}
           >
             <Text
               style={{
                 // fontFamily: "Gotham",
-                fontStyle: "normal",
-                fontWeight: "400",
+                fontStyle: 'normal',
+                fontWeight: '400',
                 fontSize: 14,
                 lineHeight: 16,
-                color: "#231F20",
+                color: '#231F20',
                 marginBottom: 8,
               }}
             >
@@ -135,11 +129,11 @@ const onCategoryPress = (slug)=>{
             <Text
               style={{
                 // fontFamily: "Gotham",
-                fontStyle: "normal",
-                fontWeight: "700",
+                fontStyle: 'normal',
+                fontWeight: '700',
                 fontSize: 24,
                 lineHeight: 28,
-                color: "#BE202E",
+                color: '#BE202E',
               }}
             >
               432
@@ -147,20 +141,20 @@ const onCategoryPress = (slug)=>{
           </View>
           <View
             style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
               width: 80,
             }}
           >
             <Text
               style={{
                 // fontFamily: "Gotham",
-                fontStyle: "normal",
-                fontWeight: "400",
+                fontStyle: 'normal',
+                fontWeight: '400',
                 fontSize: 14,
                 lineHeight: 16,
-                color: "#231F20",
+                color: '#231F20',
                 marginBottom: 8,
               }}
             >
@@ -169,11 +163,11 @@ const onCategoryPress = (slug)=>{
             <Text
               style={{
                 // fontFamily: "Gotham",
-                fontStyle: "normal",
-                fontWeight: "700",
+                fontStyle: 'normal',
+                fontWeight: '700',
                 fontSize: 24,
                 lineHeight: 28,
-                color: "#BE202E",
+                color: '#BE202E',
               }}
             >
               500
@@ -182,33 +176,33 @@ const onCategoryPress = (slug)=>{
         </View>
         <View
           style={{
-            flexDirection: "row",
-            justifyContent: "space-around",
+            flexDirection: 'row',
+            justifyContent: 'space-around',
             marginTop: scale(15),
           }}
         >
           <TouchableOpacity
-            style={{ justifyContent: "center", alignItems: "center" }}
+            style={{ justifyContent: 'center', alignItems: 'center' }}
           >
-            <Image source={require("../../assets/icons/product.png")} />
-            <Text preset={["p3"]} style={{ marginTop: scale(10) }}>
+            <Image source={require('../../assets/icons/product.png')} />
+            <Text preset={['p3']} style={{ marginTop: scale(10) }}>
               My Products
             </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={{ justifyContent: "center", alignItems: "center" }}
+            style={{ justifyContent: 'center', alignItems: 'center' }}
           >
-            <Image source={require("../../assets/icons/customers.png")} />
-            <Text preset={["p3"]} style={{ marginTop: scale(10) }}>
+            <Image source={require('../../assets/icons/customers.png')} />
+            <Text preset={['p3']} style={{ marginTop: scale(10) }}>
               My Customers
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={{ justifyContent: "center", alignItems: "center" }}
+            style={{ justifyContent: 'center', alignItems: 'center' }}
           >
-            <Image source={require("../../assets/icons/earning.png")} />
-            <Text preset={["p3"]} style={{ marginTop: scale(10) }}>
+            <Image source={require('../../assets/icons/earning.png')} />
+            <Text preset={['p3']} style={{ marginTop: scale(10) }}>
               My Earnings
             </Text>
           </TouchableOpacity>
@@ -221,10 +215,10 @@ const onCategoryPress = (slug)=>{
           <Image
             style={{
               marginTop: 32,
-              width: "100%",
+              width: '100%',
               height: 80,
             }}
-            source={require("../../assets/img/banner_2.png")}
+            source={require('../../assets/img/banner_2.png')}
           />
           {/* <View
           style={{
@@ -412,9 +406,7 @@ const onCategoryPress = (slug)=>{
 
           
         </View> */}
-        {
-          loading &&  <CategorySkeleton/>
-        }
+        {loading && <CategorySkeleton />}
         {/* <View style={styles.products}>
           {
             categories.map((cate,index)=>{
@@ -431,7 +423,11 @@ const onCategoryPress = (slug)=>{
        
          
         </View> */}
-        <Categories title={"Categories"} onCategoryPress={onCategoryPress} data={categories} />
+        <Categories
+          title={'Categories'}
+          onCategoryPress={onCategoryPress}
+          data={categories}
+        />
         <View style={{ height: scale(300) }}></View>
       </ScrollView>
     </Mainlayout>
@@ -442,13 +438,13 @@ export default Home;
 
 const styles = StyleSheet.create({
   products: {
-    flexDirection: "row",
+    flexDirection: 'row',
     borderWidth: 1,
-    borderColor: "#E5E5E5",
+    borderColor: '#E5E5E5',
     padding: scale(5),
     borderTopWidth: 0,
-    flexWrap: "wrap",
-    justifyContent: "space-between",
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
   },
   product: {
     width: scale(100),

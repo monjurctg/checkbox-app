@@ -55,53 +55,81 @@ const Login = () => {
       return;
     }
 
-    setLoading(true);
     const res = await authServices
       .login(data)
       .then((res) => res)
       .catch((err) => err);
+    console.log('hello res: ', res);
     // console.log(res,"res",res?.data?.data?.access_token,"tokne")
-    console.log('res: ', res);
-    console.log(res?.data?.data?.redirect);
-    if (res.status === 200) {
-      setLoading(false);
-      dispatch(setAuth(true));
+
+    if (res.message) {
       showMessage({
         style: { alignItems: 'center' },
-        message: res.data.message,
-        type: 'success',
+        message: res.message ? res.message : 'Login field try again',
+        type: 'danger',
         position: 'top',
         duration: 2500,
         statusBarHeight: scale(20),
       });
-      // setAuth(true)
-
-      await AsyncStorage.setItem('token', res.data?.data?.access_token);
-
-      navigation.navigate('home');
     } else {
-      // setAuth(false)
-      //otp_verify
-      setLoading(false);
-      if (res?.data?.data?.redirect === 'otp_verify') {
+      if (res.status === 200) {
+        setLoading(false);
+        dispatch(setAuth(true));
         showMessage({
           style: { alignItems: 'center' },
-          message: res.message ? res.message : 'Login field try again',
-          type: 'danger',
+          message: res.data.message,
+          type: 'success',
           position: 'top',
           duration: 2500,
           statusBarHeight: scale(20),
         });
-        navigation.navigate(res?.data?.data?.redirect, {
-          ...res.data.user,
-          phone,
-        });
+        // setAuth(true)
+
+        await AsyncStorage.setItem('token', res.data?.data?.access_token);
+        navigation.navigate('home');
       } else {
-        if (res.data.redirect) {
-          navigation.navigate(res.data.redirect, {
+        // setAuth(false)
+        //otp_verify
+        setLoading(false);
+        if (res?.data?.data?.redirect === 'otp_verify') {
+          showMessage({
+            style: { alignItems: 'center' },
+            message: res.message ? res.message : 'Login field try again',
+            type: 'danger',
+            position: 'top',
+            duration: 2500,
+            statusBarHeight: scale(20),
+          });
+          navigation.navigate(res?.data?.data?.redirect, {
             ...res.data.user,
             phone,
           });
+        } else {
+          console.log('res.data: ', res);
+          if (res.data.redirect) {
+            showMessage({
+              style: { alignItems: 'center' },
+              message: res?.message,
+              type: 'danger',
+              position: 'top',
+              duration: 2500,
+              statusBarHeight: scale(20),
+            });
+            console.log('res.data.redirect', res.data.redirect);
+            navigation.navigate(res.data.redirect, {
+              ...res.data.user,
+              phone,
+            });
+          } else if (res?.message === 'User not found') {
+            showMessage({
+              style: { alignItems: 'center' },
+              message: res?.message ? res?.message : 'Login field try again',
+              type: 'danger',
+              position: 'top',
+              duration: 2500,
+              statusBarHeight: scale(20),
+            });
+          }
         }
       }
     }

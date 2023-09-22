@@ -15,14 +15,14 @@ import { useNavigation } from '@react-navigation/native';
 import { showMessage } from 'react-native-flash-message';
 import authServices from '../../services/authServices';
 
-const OTPVerification = ({ route }) => {
+const OTPForgetPassword = ({ route }) => {
   const [otp, setOTP] = useState(['', '', '', '']);
   const otpInputs = useRef([]);
   const [loading, setLoading] = useState(false);
   const [secondsRemaining, setSecondsRemaining] = useState(60);
   const [disabledResend, setdisabledResend] = useState(true);
   const navigation = useNavigation();
-  const { phone, name, dob } = route.params ?? {};
+  const { phone } = route.params ?? {};
 
   const handleOTPChange = (value, index) => {
     const newOTP = [...otp];
@@ -52,32 +52,9 @@ const OTPVerification = ({ route }) => {
       });
       return true;
     }
-
-    const data = {
-      phone: phone,
-      verification_code: enteredOTP,
-    };
     // console.log(data,"ohone otp")
-    setLoading(true);
-
-    const res = await authServices
-      .confirmCode(data)
-      .then((res) => res)
-      .catch((err) => err);
-    if (res.status === 200) {
-      setLoading(false);
-      navigation.navigate('user_info', { name, phone, dob });
-    } else {
-      setLoading(false);
-
-      showMessage({
-        style: { alignItems: 'center' },
-        message: res.message,
-        type: 'danger',
-        position: 'top',
-        statusBarHeight: scale(20),
-      });
-    }
+    setLoading(false);
+    navigation.navigate('reset_password', { phone, enteredOTP });
   };
 
   const handleResend = async () => {
@@ -275,4 +252,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default OTPVerification;
+export default OTPForgetPassword;

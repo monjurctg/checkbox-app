@@ -10,29 +10,41 @@ const CollectionItems = ({ navigation, name, products = [] }) => {
   // console.log(navigation, "navigation");
   // console.log(products,"products")
 
-  const renderItem = ({ item }) => (
-    <CustomTouchBtn
-      preset={["center"]}
+  const renderItem = ({ item }) => {
+    let data = JSON.parse(item?.data);
+    // console.log(data)
+   
+    
+    return <CustomTouchBtn
+      // preset={["center"]}
       // key={index}
       style={{
         width: scale(108),
-        height: scale(180),
+        // height: scale(180),
+        borderWidth:1,
+        marginEnd:10,
+        padding:0,
+        marginTop:10,
+        borderRadius:7,
+        elevation:4,
+        backgroundColor:"#FFF",
+        borderColor:"#DDD"
       }}
     >
       <Image
-        source={{ uri: item?.thumbnail_image, cache: "only-if-cached" }}
+        source={{ uri: data?.thumbnail_image, cache: "only-if-cached" }}
         style={{
           height: scale(90),
-          width: scale(90),
-          resizeMode: "cover",
-          borderRadius: 10,
+          width: scale(106),
+          resizeMode: "center",
+          borderRadius: 7,
         }}
       />
-      <Text style={{ height: scale(50) }} preset={["p3 lh_14 mt_5"]}>
-        {item?.name}
+      <Text numberOfLines={2} ellipsizeMode="tail"   style={{ }} preset={["p3 p_5  lh_14 mt_5"]}>
+        {data?.name}
       </Text>
     </CustomTouchBtn>
-  );
+  }
 
   return (
     <View>

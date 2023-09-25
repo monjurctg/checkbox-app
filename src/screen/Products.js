@@ -39,7 +39,7 @@ const Products = ({ navigation }) => {
   const [categories, setCategories] = useState([]);
   const [collections, setCollections] = useState([]);
   const [bottomSheetItem, setBottomSheetItem] = useState({});
-  // const [loading, setLoading] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [page, setPage] = useState(1);
   const flatListRef = useRef(null);
   const [refreshing, setRefreshing] = React.useState(false);
@@ -79,7 +79,8 @@ const Products = ({ navigation }) => {
   }, [refreshing]);
 
   const fetchData = () => {
-    setLoading(true);
+    console.log("hitting")
+    setLoadingMore(true);
     productServices
       .productList(page, 20)
       .then((res) => {
@@ -92,13 +93,14 @@ const Products = ({ navigation }) => {
           setPage(page + 1);
           setLastPage(res.data.meta.last_page);
         } else {
-          setLoading(false);
+          setLoadingMore(false);
 
           // setData([...data,{id}])
         }
       })
       .catch((err) => {
-        setLoading(false);
+        setLoadingMore(false);
+
       });
     // console.log(res.data.meta, "product apo");
   };
@@ -162,7 +164,7 @@ const Products = ({ navigation }) => {
   );
 
   const renderFooter = () => {
-    if (!loading)
+    if (!loadingMore)
       return (
         <View style={{ height: scale(350), marginTop: 20 }}>
           {page > lastPage && (
@@ -195,10 +197,7 @@ const Products = ({ navigation }) => {
           >
             <SingleProductSkeleton />
             <SingleProductSkeleton />
-            <SingleProductSkeleton />
-            <SingleProductSkeleton />
-            <SingleProductSkeleton />
-            <SingleProductSkeleton />
+            
           
           </View>
         </ScrollView>
@@ -367,7 +366,7 @@ const Products = ({ navigation }) => {
         ListFooterComponent={renderFooter}
         keyExtractor={(item) => item.id.toString()}
         onEndReached={fetchData}
-        onEndReachedThreshold={0.5}
+        onEndReachedThreshold={0.7}
       />
 
       {/* </ScrollView> */}

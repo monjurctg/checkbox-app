@@ -8,10 +8,12 @@ import { MaterialIcons } from "@expo/vector-icons";
 import useDebounce from "../../hooks/useDebounce";
 import cartServices from "../../services/cartServices";
 import { useEffect } from "react";
-import { TouchableOpacity } from "react-native-web";
+// import { TouchableOpacity } from "react-native-web";
 import CustomTouchBtn from "../tags/CustomTouchBtn";
 import { showMessage } from "react-native-flash-message";
 import { useNavigation } from "@react-navigation/native";
+import { TouchableOpacity } from "react-native";
+import { AntDesign } from '@expo/vector-icons';
 
 const SingleCart = ({ item }) => {
   // console.log(item, "item");
@@ -19,31 +21,40 @@ const SingleCart = ({ item }) => {
   const [customerRate, setCustomerRate] = useState(
     item?.customer_rate?.toString()
   );
-  const [quantity, setQuantity] = useState(item?.quantity?.toString());
+  const [quantity, setQuantity] = useState(item?.quantity);
 
   // const debouncedCustomrate = useDebounce(customerRate, 400);
-  const debouncedQuantity = useDebounce(quantity, 600);
+  // const debouncedQuantity = useDebounce(quantity, 600);
 
   const handleCustomRate = (text) => {
     setCustomerRate(text);
   };
 
-  let updateQuantity = async () => {
+  let updateQuantity = async (type) => {
     // if (previousQuality !== null) {
 
     // }
-    if (!debouncedQuantity?.trim()) return;
+    // if (!debouncedQuantity?.trim()) return;
+   
     let data = {
       id: item?.id,
       cart_id: item?.cart_id,
       type: "quantity",
-      quantity: debouncedQuantity,
+      quantity: type=="plus"?item?.quantity+1:item?.quantity-1,
     };
 
     let res = await cartServices.updateProductFromCart(data);
-    // console.log(res,"res from api")
+    console.log(res.data.data,"res from api")
 
     if (res?.status === 200) {
+      if(type=="plus"){
+        setQuantity(quantity+1)
+      }
+      else if(type=="minus"){
+        setQuantity(quantity-1)
+  
+      }
+
       showMessage({
         style: { alignItems: "center" },
         message: res.data.message,
@@ -71,7 +82,7 @@ const SingleCart = ({ item }) => {
       type: "customer_rate ",
       customer_rate: debouncedCustomrate,
     };
-    console.log(data);
+    // console.log(data);
     try {
       let res = await cartServices.updateProductFromCart(data);
       if (res?.status === 200) {
@@ -85,11 +96,12 @@ const SingleCart = ({ item }) => {
     }
   };
 
-  useEffect(() => {
-    updateQuantity(debouncedQuantity);
 
-    // }
-  }, [debouncedQuantity]);
+  // useEffect(() => {
+  //   updateQuantity(debouncedQuantity);
+
+  //   // }
+  // }, []);
 
   // useEffect(() => {
 
@@ -106,9 +118,12 @@ const SingleCart = ({ item }) => {
         padding: 10,
         marginTop: 10,
         borderRadius: 10,
+        elevation:3,
+        backgroundColor:"#FFF"
+
       }}
     >
-      <View preset={["row mt_15 "]}>
+      <View preset={["row"]}>
         <View style={{ width: scale(110) }}>
           <CustomTouchBtn
             onPress={() => {
@@ -140,8 +155,10 @@ const SingleCart = ({ item }) => {
             style={{
               width: scale(110),
               height: scale(110),
-              borderColor: "#231F20",
-              borderWidth: 1,
+              // borderColor: "#231F20",
+              // borderWidth: 1,
+              borderRadius:10
+
             }}
             source={{ uri: item?.product_thumbnail_image }}
             // source={require(`${item?.image}`)}
@@ -154,14 +171,30 @@ const SingleCart = ({ item }) => {
             width: scale(220),
             marginLeft: scale(15),
             display: "flex",
-            justifyContent: "space-between",
+            gap:10
+            // justifyContent: "space-between",
           }}
         >
-          <Text preset={["bold lh_20  fs_14 "]}>{item?.product_name}</Text>
+          <Text numberOfLines={2} ellipsizeMode="tail" style={{width:scale(190)}} preset={["bold lh_20  fs_14 "]}>{item?.product_name}</Text>
           <Text preset={["mt_5 lh_20 fs_16"]}>
             ৳ <Text style={{ fontWeight: "bold" }}>{item?.price}</Text>
           </Text>
-          <Text style={{ color: "#58595B" }} preset={["fs_11"]}>
+          <View style={{flexDirection:"row"}}>
+            <TouchableOpacity onPress={()=>{
+              updateQuantity("minus")
+
+            }}   style={{borderWidth:1,borderColor:"#DDD",width:scale(60),height:40,justifyContent:"center",alignItems:"center"}}><AntDesign name="minus" size={24} color="black" /></TouchableOpacity>
+            <View  style={{borderWidth:1,width:scale(60),height:40,justifyContent:"center",alignItems:"center",borderColor:"#DDD"}}>
+              <Text>{quantity}</Text>
+            </View>
+           
+            <TouchableOpacity onPress={()=>{
+              updateQuantity("plus")
+
+            }}   style={{borderWidth:1,width:scale(60),height:40,justifyContent:"center",alignItems:"center",borderColor:"#DDD"}}><AntDesign name="plus" size={24} color="black" /></TouchableOpacity>
+
+          </View>
+          {/* <Text style={{ color: "#58595B" }} preset={["fs_11"]}>
             Color{"  "}
             <Text
               preset={["fs_11"]}
@@ -177,8 +210,8 @@ const SingleCart = ({ item }) => {
             >
               {item?.size}
             </Text>
-          </Text>
-          <Text style={{ color: "#58595B" }} preset={["fs_11"]}>
+          </Text> */}
+          {/* <Text style={{ color: "#58595B" }} preset={["fs_11"]}>
             Type{"  "}
             <Text
               preset={["fs_11"]}
@@ -194,10 +227,10 @@ const SingleCart = ({ item }) => {
             >
               {item?.origin}
             </Text>
-          </Text>
+          </Text> */}
         </View>
       </View>
-      <View preset={["mt_10 row"]} style={{ justifyContent: "space-between" }}>
+      {/* <View preset={["mt_10 row"]} style={{ justifyContent: "space-between" }}>
         <Text style={{ color: "#231F20" }} preset={["lh_20 fs_11"]}>
           Quantity
         </Text>
@@ -233,7 +266,7 @@ const SingleCart = ({ item }) => {
             fontSize: 14,
           }}
         />
-      </View>
+      </View> */}
     </View>
   );
 };

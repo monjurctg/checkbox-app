@@ -139,6 +139,7 @@ const ProductDetails = ({ navigation }) => {
     productServices
       .getReviews(productId, 1)
       .then((res) => {
+        console.log(res,"res review")
         setReviews(res.data);
       })
       .catch((err) => {});
@@ -376,7 +377,7 @@ const ProductDetails = ({ navigation }) => {
         <View preset={[" mt_20"]}>
           <Text preset={["fs_16 fw_700"]}>Product Reviews</Text>
           <View preset={["mt_5"]}>
-            {reviews.length == 0 ? (
+            {reviews?.length == 0 ? (
               <View
                 style={{
                   height: 150,
@@ -392,7 +393,7 @@ const ProductDetails = ({ navigation }) => {
                 </Text>
               </View>
             ) : (
-              reviews.map((review, index) => (
+              reviews?.map((review, index) => (
                 <>
                   <ClientReview rating={5} key={index} review={review} />
                   <View

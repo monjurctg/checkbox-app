@@ -10,7 +10,7 @@ import Mainlayout from "../components/layout/Mainlayout";
 import authServices from "../services/authServices";
 import { colors } from "../theme/colors";
 import { useDispatch, useSelector } from "react-redux";
-import { setSelectDistricts, setThana } from "../redux/reducers/utilsSlice";
+import { setSelectDistricts, setThana as setSelectThana } from "../redux/reducers/utilsSlice";
 
 const SelecAdress = ({ navigation, route }) => {
   const { from } = route.params;
@@ -29,8 +29,9 @@ const SelecAdress = ({ navigation, route }) => {
     });
   };
   const getThana = () => {
-    authServices.getThanas(customerSelectedDistricts.id).then((res) => {
-      //   console.log(res.data, "data from country");
+    // console.log(res.data, "data from country");
+    authServices.getThanas(customerSelectedDistricts?.id).then((res) => {
+        console.log(res.data, "data from country");
       setThanas(res.data);
     });
   };
@@ -67,11 +68,11 @@ const SelecAdress = ({ navigation, route }) => {
     );
   });
 
-  let thana = thanas.map((t, i) => {
+  let thana = thanas?.map((t, i) => {
     return (
       <TouchableOpacity
         onPress={() => {
-          dispatch(setThana(t));
+          dispatch(setSelectThana(t));
           navigation.goBack();
         }}
         key={i}

@@ -9,6 +9,7 @@ import {
   Modal,
   Linking,
   KeyboardAvoidingView,
+  Alert,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import Mainlayout from "../components/layout/Mainlayout";
@@ -23,21 +24,24 @@ import { useSelector } from "react-redux";
 import WebView from "react-native-webview";
 import * as ImagePicker from "expo-image-picker";
 import { Image } from "react-native";
+// import { AntDesign } from '@expo/vector-icons';
 import authServices from "../services/authServices";
 
 const ConfirmOrder = ({ navigation, route }) => {
-  const { data, carts } = route.params;
+  const { data, carts   } = route.params;
   // const [showSuccessModal, setshowSuccessModal] = useState(false);
   const [processingFee, setProcessingFee] = useState();
   const [toolTip, settoolTip] = useState();
   const [shippingFee, setshippingFee] = useState();
-  const [isShopModal, setIsShopModal] = useState(true);
+  const [isShopModal, setIsShopModal] = useState(false);
   const [imageAssets, setImageAssets] = useState();
   const [orderSuccess, setOrederSuccess] = useState([]);
-  const { auth, user } = useSelector((state) => state.auth);
+  const {  user } = useSelector((state) => state.auth);
   const [selectedImage, setSelectedImage] = useState(null);
   const [shopName, setShopName] = useState("");
   const [bkash, setBkash] = useState("");
+  const[couponText,setCouponText]=useState("")
+  const[singleCart,setSingCart]=useState(carts)
 
   // console.log(data, "data from confirm order");
   // console.log(carts.id, "card");
@@ -51,12 +55,32 @@ const ConfirmOrder = ({ navigation, route }) => {
       // console.log("singlecartData", singlecartData);
     }
   };
+
+  
+  const fetchSingCart = async () => {
+   
+
+    // console.log(cart_id,"cart id from sing")
+    const res = await cartServices.getSingleCarts(carts?.id);
+    // console.log(res.data.data.items[0], "response  from calling");uy
+    if (res.status === 200) {
+      setSingCart(res.data.data);
+      // setSwitchCartModalVisible(false);
+
+      // dispatch(setCartSize(res.data.data.items.length));
+      // setInputValue(res?.data?.data.name);
+      // setSwichCartIdInLocal(activeSwichCartId ? activeSwichCartId : cart_id);
+    }
+  };
+
   useEffect(() => {
     // dispatch(singlecart(localStorage.getItem("cart_id")));
     getOtherFee();
+    fetchSingCart()
     // refetch();
   }, []);
   let orderPlace = () => {
+    console.log(user);
     if (!user?.shop) {
       setIsShopModal(true);
     } else {
@@ -113,30 +137,30 @@ const ConfirmOrder = ({ navigation, route }) => {
     // singlecartData?.items?.map((item) => {
     //   total += item.price * item.quantity;
     // });
-    if (carts?.cashback_discount === "cashback") {
+    if (singleCart?.cashback_discount === "cashback") {
       total =
-        carts?.reseller_to_customer_price -
-        (carts?.advance_from_customer +
-          carts?.price +
+      singleCart?.reseller_to_customer_price -
+        (singleCart?.advance_from_customer +
+          singleCart?.price +
           processingFee +
           shippingFee) +
-        carts?.coupon?.discount;
+          singleCart?.coupon?.discount;
     } else {
       total =
-        carts?.reseller_to_customer_price -
-        (carts?.advance_from_customer +
-          carts?.price +
+      singleCart?.reseller_to_customer_price -
+        (singleCart?.advance_from_customer +
+          singleCart?.price +
           processingFee +
           shippingFee);
     }
-    console.log("total", carts?.coupon?.discount_amount);
+    console.log("total", singleCart?.coupon?.discount_amount);
     return total;
   };
   let placeOrder = async () => {
     let data = {
       cart_id: carts?.id,
       payment_type: 1,
-      advanced_payment: carts?.advance_from_customer,
+      advanced_payment: singleCart?.advance_from_customer,
       amount_to_collect: calculateTotal(),
       processing_fee: processingFee,
       delivery_charge: shippingFee,
@@ -166,30 +190,32 @@ const ConfirmOrder = ({ navigation, route }) => {
   let applyVoucher = async () => {
     let data = {
       cart_id: carts.id,
-      coupon_code: coupon,
+      coupon_code: couponText,
     };
     let res = await cartServices.voucherApply(data);
     if (res.status === 200) {
-      successNotification(res.data.message, "top-right");
-      refetch();
+      Alert.alert(res.data.message, "top-right");
+      // refetch();
       // dispatch(singlecart(localStorage.getItem("cart_id")));
-      setcoupon("");
-      setapplyCoupon(true);
+      setCouponText("");
+      fetchSingCart()
+      // setapplyCoupon(true);
     } else {
-      errorNotification(res.data.message, "top-right");
+      alert(res.data.message, "top-right");
     }
   };
   let couponRemove = async () => {
     let data = {
       cart_id: carts?.id,
     };
+    
     let res = await cartServices.couponRemove(data);
     if (res.status === 200) {
-      successNotification(res.data.message, "top-right");
-      refetch();
+      alert(res.data.message, "top-right");
+      fetchSingCart()
       // dispatch(singlecart(localStorage.getItem("cart_id")));
     } else {
-      errorNotification(res.data.message, "top-right");
+      alert(res.data.message, "top-right");
     }
   };
 
@@ -239,8 +265,34 @@ const ConfirmOrder = ({ navigation, route }) => {
     }
   };
 
+  let showTotalProfit = "";
+  if (calculateTotal() > 0) {
+    showTotalProfit = (
+      <Text
+        style={{
+          fontSize: 18,
+        }}
+        color="green"
+      >
+        {Math.abs(calculateTotal()).toFixed(2)}
+      </Text>
+    );
+  } else {
+    showTotalProfit = (
+      <Text
+        color="red"
+        style={{
+          fontSize: 18,
+        }}
+      >
+        {Math.abs(calculateTotal()).toFixed(2)}
+      </Text>
+    );
+  }
+
   return (
     <Mainlayout>
+
       <ScrollView style={{}} showsVerticalScrollIndicator={false}>
         <View style={{ marginTop: 10 }}>
           <View
@@ -297,7 +349,7 @@ const ConfirmOrder = ({ navigation, route }) => {
           </View>
         </View>
         {/* products */}
-        {carts?.items.map((item, index) => (
+        {singleCart?.items.map((item, index) => (
           <SingleCart key={index} item={item} />
         ))}
 
@@ -333,8 +385,8 @@ const ConfirmOrder = ({ navigation, route }) => {
               </Text>
               <Text style={{ fontSize: 17, fontWeight: "600" }}>
                 {/* {" "} */}
-                {carts?.reseller_to_customer_price -
-                  carts?.advance_from_customer}
+                {singleCart?.reseller_to_customer_price -
+                  singleCart?.advance_from_customer}
                 BDT
               </Text>
             </View>
@@ -349,9 +401,28 @@ const ConfirmOrder = ({ navigation, route }) => {
                 Supplier amount
               </Text>
               <Text style={{ fontSize: 15, color: "red" }}>
-                (-) {carts?.price} BDT
+                (-) {singleCart?.price} BDT
               </Text>
             </View>
+            {/* if discount then show  */}
+            {
+              singleCart.coupon?.cashback_discount ===
+              "discount" &&  <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                padding: 7,
+              }}
+            >
+              <Text style={{ fontSize: 15, color: "green" }}>
+              (+) 190 BDT discount applied
+              </Text>
+              <Text style={{ fontSize: 15, color: "red" }}>
+                (-) {singleCart?.price-singleCart?.discount} BDT
+              </Text>
+            </View>
+            }
+           
             <View
               style={{
                 flexDirection: "row",
@@ -380,9 +451,30 @@ const ConfirmOrder = ({ navigation, route }) => {
                 (-) {shippingFee} BDT
               </Text>
             </View>
+            {/* if cashback then show */}
+            {
+              singleCart?.coupon?.cashback_discount ===
+              "cashback" &&  <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                padding: 7,
+              }}
+            >
+              <Text style={{ fontSize: 15, color: "green" }}>
+              Cashback
+              </Text>
+              <Text style={{ fontSize: 15, color: "green" }}>
+                (+) {singleCart?.discount} BDT
+              </Text>
+            </View>
+            }
+           
           </View>
         </View>
-        <View
+        {/* if not copon code   */}
+        {
+         !singleCart?.coupon_code &&   <View
           style={{
             flexDirection: "row",
             alignSelf: "flex-end",
@@ -393,8 +485,8 @@ const ConfirmOrder = ({ navigation, route }) => {
         >
           <TextInput
             // value={quantity}
-            // onChangeText={(text) => setQuantity(text)}
-            keyboardType="decimal-pad"
+            onChangeText={(text) => setCouponText (text)}
+            // keyboardType="decimal-pad"
             style={{
               textAlign: "center",
               borderColor: "#E6E7E8",
@@ -406,6 +498,8 @@ const ConfirmOrder = ({ navigation, route }) => {
             }}
           />
           <TouchableOpacity
+          onPress={applyVoucher}
+        
             style={{
               backgroundColor: "black",
               paddingHorizontal: 25,
@@ -424,6 +518,24 @@ const ConfirmOrder = ({ navigation, route }) => {
             </Text>
           </TouchableOpacity>
         </View>
+        }
+
+        {/* if coupon code  */}
+        {singleCart?.coupon_code && (
+                <View style={{alignSelf:"flex-end",flexDirection:"row",gap:10,alignItems:"center"}}>
+                  <Text style={{fontSize:16,fontWeight:"bold"}}>Applied Coupon:
+
+                    <Text style={{fontSize:14,fontWeight:"500",color:"red"}}>{singleCart?.coupon_code}</Text>
+                  </Text>
+                  <TouchableOpacity onPress={couponRemove} style={{borderWidth:1,padding:2,borderRadius:5,borderColor:"red"}} >
+                  <AntDesign name="delete" size={20} color="black" />
+                  </TouchableOpacity>
+                </View>
+              )}
+       
+      
+        
+       
         <View
           style={{
             borderTopColor: "#DDD",
@@ -434,16 +546,19 @@ const ConfirmOrder = ({ navigation, route }) => {
             padding: 7,
           }}
         >
-          <Text style={{ fontSize: 15, color: "red" }}>Due Amount</Text>
-          <Text style={{ fontSize: 15, color: "red" }}>(-) 30 BDT</Text>
+          <Text style={{ fontSize: 15, color: "red" }}>{calculateTotal() > 0 ? "Total Profit" : "Due Amount"}</Text>
+          <Text style={{ fontSize: 15, color: "red" }}>{showTotalProfit||0}   BDT</Text>
         </View>
         <View style={{ height: 200 }}></View>
       </ScrollView>
+     
+
+
       <TouchableOpacity
         onPress={orderPlace}
         style={{
           position: "absolute",
-          backgroundColor: colors.primary_2,
+          backgroundColor: calculateTotal() > 0 ? "green" : "#be202e",
           width: Dimensions.get("window").width,
           alignSelf: "center",
           justifyContent: "center",
@@ -453,7 +568,11 @@ const ConfirmOrder = ({ navigation, route }) => {
         }}
       >
         <Text style={{ color: "white", fontWeight: "600" }}>
-          Pay and Confirm Order
+        {calculateTotal() > 0
+                  ? "Order Now"
+                  : "Pay BDT " +
+                    Math.abs(calculateTotal()).toFixed(2) +
+                    " and Confirm Order"}
         </Text>
       </TouchableOpacity>
 

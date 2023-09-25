@@ -1,9 +1,9 @@
-import api from './api';
+import api from "./api";
 
 const authServices = {};
 
 authServices.login = async (data) => {
-  const url = '/auth/login';
+  const url = "/auth/login";
   return await api
     .post(url, data)
     .then((res) => res)
@@ -12,7 +12,7 @@ authServices.login = async (data) => {
 };
 
 authServices.signup = async (data) => {
-  const url = '/auth/signup';
+  const url = "/auth/signup";
   return await api
     .post(url, data)
     .then((res) => res)
@@ -21,7 +21,7 @@ authServices.signup = async (data) => {
 };
 
 authServices.confirmCode = async (data) => {
-  const url = '/auth/confirm_code';
+  const url = "/auth/confirm_code";
   return await api
     .post(url, data)
     .then((res) => res)
@@ -30,7 +30,7 @@ authServices.confirmCode = async (data) => {
 };
 
 authServices.resendCode = async (data) => {
-  const url = '/auth/resend_code';
+  const url = "/auth/resend_code";
   return await api
     .post(url, data)
     .then((res) => res)
@@ -39,16 +39,29 @@ authServices.resendCode = async (data) => {
 };
 
 authServices.verifyNid = async (data) => {
-  const url = '/auth/verify-nid';
+  const url = "/auth/verify-nid";
   return await api
     .post(url, data)
     .then((res) => res)
     .catch((err) => err.response.data);
   // console.log(res,"res")
 };
+authServices.getUserinfo = async () => {
+  let url = "auth/user";
+  let res = await api
+    .get(url)
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      return err.response;
+    });
+
+  return res;
+};
 
 authServices.addShopInfo = async (data) => {
-  const url = '/auth/add-shop-information';
+  const url = "/auth/add-shop-information";
   return await api
     .post(url, data)
     .then((res) => res)
@@ -58,7 +71,7 @@ authServices.addShopInfo = async (data) => {
 
 authServices.sendForgetPasswordOtp = async (data) => {
   // console.log('data', data)
-  const url = '/auth/password/forget_request';
+  const url = "/auth/password/forget_request";
   return await api
     .post(url, data)
     .then((res) => res)
@@ -66,7 +79,7 @@ authServices.sendForgetPasswordOtp = async (data) => {
 };
 
 authServices.getDistricts = async () => {
-  const url = '/get-districts';
+  const url = "/get-districts";
   return await api
     .get(url)
     .then((res) => res)
@@ -74,13 +87,27 @@ authServices.getDistricts = async () => {
 };
 
 authServices.nidVerify = async (data) => {
-  let url = 'auth/add-personal-information';
+  let url = "auth/add-personal-information";
   return await api
     .post(url, data)
     .then((res) => {
       return res;
     })
     .catch((err) => err.response);
+};
+
+authServices.getThanas = async (district_id) => {
+  console.log(district_id)
+  let url = "get-areas?district_id=" + district_id;
+  let res = await api
+    .get(url)
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      return err.response;
+    });
+  return res;
 };
 
 export default authServices;

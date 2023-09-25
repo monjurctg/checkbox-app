@@ -260,33 +260,30 @@ export default function TabScreen({ route }) {
   useEffect(() => {
     const checkToken = async () => {
       setLoading(true);
+     try{
       const token = await AsyncStorage.getItem("token");
       if (token) {
         const res = await authServices.getUserinfo();
         if (res.status == 200) {
           dispatch(setUser(res.data.data));
           dispatch(setAuth(true));
-          setLoading(false);
-        } else {
-          setLoading(false);
-        }
+          // setLoading(false);
+        } 
       }
-      // if (token) {
-      // } else if (!user?.name && token) {
-      //   setLoading(false);
-      //
-      //
-      //   // console.log(res.data, "data");
-      //
-      // } else {
-      //
-      // }
+
+     }catch(err){
+
+     }
+     finally{
+      setLoading(false);
+     }
     };
 
     checkToken();
-  }, [auth]);
+  }, []);
 
-  useEffect(() => {});
+  
+  console.log("user",loading);
 
   return (
     <>

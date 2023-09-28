@@ -98,7 +98,7 @@ const ProductDetails = ({ navigation }) => {
       setLoading(false);
       if (res?.data?.message === "User is not logged in") {
         // router.push("/login");
-        console.log("Something wrong happen");
+        // console.log("Something wrong happen");
       } else if (res.data.message == "Cart is assigned to an order") {
         await AsyncStorage.removeItem("cart_id");
       }
@@ -139,7 +139,7 @@ const ProductDetails = ({ navigation }) => {
     productServices
       .getReviews(productId, 1)
       .then((res) => {
-        console.log(res,"res review")
+        // console.log(res,"res review")
         setReviews(res.data);
       })
       .catch((err) => {});
@@ -190,7 +190,7 @@ const ProductDetails = ({ navigation }) => {
 
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
           {singleProduct?.photos?.map((photo, index) => (
-            <TouchableOpacity onPress={() => setBigImg(photo?.path)}>
+            <TouchableOpacity key={index} onPress={() => setBigImg(photo?.path)}>
               <Image
                 style={{
                   height: scale(70),
@@ -238,7 +238,7 @@ const ProductDetails = ({ navigation }) => {
           {singleProduct?.currency_symbol}
           {singleProduct?.price?.calculable_price}
         </Text>
-        <View preset={[" row mt_5"]}>
+        <View preset={[" row mt_5 "]} style={{alignItems:"center",gap:3}}>
           {/* <Text>{singleProduct?.rating?.rating_count}</Text> */}
           <Rating
             from={"details"}
@@ -259,7 +259,7 @@ const ProductDetails = ({ navigation }) => {
           style={{ height: scale(48), width: "100%" }}
         >
           <Image source={require("../../assets/icons/dload.png")} />
-          <Text preset={["p1 ml_10 fw_325"]}>Download Product Details</Text>
+          <Text preset={["p1 ml_10"]} style={{fontWeight:"300"}}>Download Product Details</Text>
         </CustomTouchBtn>
         <CustomTouchBtn
           preset={["row mt_10  radius_5 center border_1 "]}
@@ -284,7 +284,7 @@ const ProductDetails = ({ navigation }) => {
         {/* quantity */}
         <View preset={["mt_10"]}>
           <Text preset={["fs_16 bold "]}>Qty</Text>
-          <View preset={["row mt_5 "]} style={{}}>
+          {/* <View preset={["row mt_5 "]} style={{}}>
             <CustomTouchBtn
               onPress={() => {
                 if (quantity >= 2) {
@@ -319,8 +319,26 @@ const ProductDetails = ({ navigation }) => {
             >
               <Text preset={["fs_16 bold "]}>+</Text>
             </CustomTouchBtn>
+          </View> */}
+           <View preset={["mt_10"]} style={{flexDirection:"row"}}>
+            <TouchableOpacity onPress={()=>{
+               if (quantity >= 2) {
+                setQuantity(quantity - 1);
+              }
+
+            }}   style={{borderWidth:1,borderColor:"#DDD",width:scale(60),height:40,justifyContent:"center",alignItems:"center"}}><AntDesign name="minus" size={24} color="black" /></TouchableOpacity>
+            <View  style={{borderWidth:1,width:scale(60),height:40,justifyContent:"center",alignItems:"center",borderColor:"#DDD"}}>
+              <Text>{quantity}</Text>
+            </View>
+           
+            <TouchableOpacity onPress={()=>{
+             setQuantity(quantity + 1);
+
+            }}   style={{borderWidth:1,width:scale(60),height:40,justifyContent:"center",alignItems:"center",borderColor:"#DDD"}}><AntDesign name="plus" size={24} color="black" /></TouchableOpacity>
+
           </View>
         </View>
+       
 
         {/* details */}
         <View
@@ -400,7 +418,7 @@ const ProductDetails = ({ navigation }) => {
                     preset={["row d_flex   mt_10"]}
                     style={{ alignItems: "center" }}
                   >
-                    <Text preset={["fs_18 lh_30"]}>See More</Text>
+                    <Text preset={["fs_18"]}>See More</Text>
                     <AntDesign
                       style={{
                         marginLeft: scale(20),

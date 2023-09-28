@@ -10,6 +10,7 @@ import {
   Linking,
   KeyboardAvoidingView,
   Alert,
+  SafeAreaView,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import Mainlayout from "../components/layout/Mainlayout";
@@ -20,12 +21,14 @@ import { colors } from "../theme/colors";
 import { scale } from "../../utils/funtions";
 import cartServices from "../services/cartServices";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import WebView from "react-native-webview";
 import * as ImagePicker from "expo-image-picker";
 import { Image } from "react-native";
 // import { AntDesign } from '@expo/vector-icons';
 import authServices from "../services/authServices";
+import { setCartSize } from "../redux/reducers/cartSlice";
+import { setSelectDistricts, setThana } from "../redux/reducers/utilsSlice";
 
 const ConfirmOrder = ({ navigation, route }) => {
   const { data, carts   } = route.params;
@@ -42,6 +45,7 @@ const ConfirmOrder = ({ navigation, route }) => {
   const [bkash, setBkash] = useState("");
   const[couponText,setCouponText]=useState("")
   const[singleCart,setSingCart]=useState(carts)
+  const dispatch = useDispatch()
 
   // console.log(data, "data from confirm order");
   // console.log(carts.id, "card");
@@ -166,12 +170,20 @@ const ConfirmOrder = ({ navigation, route }) => {
       delivery_charge: shippingFee,
     };
 
-    console.log("data placeorder", data);
+    // console.log("data placeorder", data);
 
     let res = await cartServices.orderStore(data);
-    console.log("ressss", res);
+    // console.log("ressss", res);
     if (res.status === 200) {
-      console.log(res);
+      console.log(res.data);
+      await AsyncStorage.removeItem("cart_id")
+      dispatch(setCartSize(0))
+      dispatch(setSelectDistricts({name:"Select Districts",key:"nD"}))
+      dispatch(setThana({name:"Select Thana",key:"nT"}))
+
+        alert(res.data.message)
+        navigation.navigate("Products")
+
       // successNotification(res.data.message, "top-right");
       // setshippingFee(true);
       // dispatch(successDataStore({ ...data, ...res?.data?.data }));
@@ -184,7 +196,16 @@ const ConfirmOrder = ({ navigation, route }) => {
       // dispatch(singlecart(localStorage.getItem("cart_id")));
       // router.push("/product-list");
     } else {
-      alert(res.data.message, "top-right");
+      // console.log(res.data,"res data from ")
+      alert(res.data.message);
+      if(res.data.message== "Cart is allready assigned to an order"){
+        await AsyncStorage.removeItem("cart_id")
+      dispatch(setCartSize(0))
+
+        navigation.navigate("Products")
+
+      }
+      
     }
   };
   let applyVoucher = async () => {
@@ -268,399 +289,137 @@ const ConfirmOrder = ({ navigation, route }) => {
   let showTotalProfit = "";
   if (calculateTotal() > 0) {
     showTotalProfit = (
-      <Text
-        style={{
-          fontSize: 18,
-        }}
-        color="green"
-      >
+      <Text style={{fontSize: 18,color:"green"}}>
         {Math.abs(calculateTotal()).toFixed(2)}
       </Text>
     );
   } else {
     showTotalProfit = (
-      <Text
-        color="red"
-        style={{
-          fontSize: 18,
-        }}
-      >
+      <Text style={{fontSize: 18,color:"red"}}>
         {Math.abs(calculateTotal()).toFixed(2)}
       </Text>
     );
   }
 
   return (
-    <Mainlayout>
-
-      <ScrollView style={{}} showsVerticalScrollIndicator={false}>
-        <View style={{ marginTop: 10 }}>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              padding: 10,
-              backgroundColor: "#FFF",
-              //   borderBottomColor: "#DDD",
-              //   borderBottomWidth: 1,
-              borderTopLeftRadius: 10,
-              borderTopRightRadius: 10,
-            }}
-          >
-            <Text>Customer Information</Text>
-            <TouchableOpacity>
-              <Text>Edit</Text>
-            </TouchableOpacity>
-          </View>
-          <View
-            style={{
-              marginTop: 1,
-              backgroundColor: "#ffff",
-              minHeight: 120,
-              //   marginTop: 10,
-              borderBottomRightRadius: 10,
-              borderBottomLeftRadius: 10,
-
-              padding: 10,
-            }}
-          >
-            <View
-              style={{
-                flexDirection: "row",
-                gap: 10,
-                marginBottom: 10,
-              }}
-            >
-              <AntDesign name="user" size={22} color="gray" />
-              <Text style={{ fontSize: 16, color: "gray" }}>{data?.name}</Text>
-            </View>
-            <View style={{ flexDirection: "row", gap: 10 }}>
-              <Feather name="phone" size={22} color="gray" />
-              <Text style={{ fontSize: 16, color: "gray" }}>
-                {data?.phone_number}
-              </Text>
-            </View>
-            <View style={{ flexDirection: "row", gap: 10, marginTop: 10 }}>
-              <EvilIcons name="location" size={22} color="gray" />
-              <Text style={{ fontSize: 16, color: "gray" }}>
-                {data?.address}
-              </Text>
-            </View>
-          </View>
-        </View>
-        {/* products */}
-        {singleCart?.items.map((item, index) => (
-          <SingleCart key={index} item={item} />
-        ))}
-
-        <View style={{ marginTop: 10 }}>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              padding: 10,
-
-              backgroundColor: "#222222",
-              borderRadius: 3,
-            }}
-          >
-            <Text style={{ color: "white" }}>Total earnings</Text>
-          </View>
-          <View
-            style={{
-              marginTop: 10,
-              borderRadius: 10,
-              // backgroundColor: "#FFFFFF",
-            }}
-          >
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                padding: 7,
-              }}
-            >
-              <Text style={{ fontSize: 17, fontWeight: "600" }}>
-                Total collection amount
-              </Text>
-              <Text style={{ fontSize: 17, fontWeight: "600" }}>
-                {/* {" "} */}
-                {singleCart?.reseller_to_customer_price -
-                  singleCart?.advance_from_customer}
-                BDT
-              </Text>
-            </View>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                padding: 7,
-              }}
-            >
-              <Text style={{ fontSize: 15, color: "red" }}>
-                Supplier amount
-              </Text>
-              <Text style={{ fontSize: 15, color: "red" }}>
-                (-) {singleCart?.price} BDT
-              </Text>
-            </View>
-            {/* if discount then show  */}
-            {
-              singleCart.coupon?.cashback_discount ===
-              "discount" &&  <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                padding: 7,
-              }}
-            >
-              <Text style={{ fontSize: 15, color: "green" }}>
-              (+) 190 BDT discount applied
-              </Text>
-              <Text style={{ fontSize: 15, color: "red" }}>
-                (-) {singleCart?.price-singleCart?.discount} BDT
-              </Text>
-            </View>
-            }
-           
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                padding: 7,
-              }}
-            >
-              <Text style={{ fontSize: 15, color: "red" }}>
-                Proccessing Fee
-              </Text>
-              <Text style={{ fontSize: 15, color: "red" }}>
-                (-) {processingFee} BDT
-              </Text>
-            </View>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                padding: 7,
-              }}
-            >
-              <Text style={{ fontSize: 15, color: "red" }}>
-                Shipping Charge
-              </Text>
-              <Text style={{ fontSize: 15, color: "red" }}>
-                (-) {shippingFee} BDT
-              </Text>
-            </View>
-            {/* if cashback then show */}
-            {
-              singleCart?.coupon?.cashback_discount ===
-              "cashback" &&  <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                padding: 7,
-              }}
-            >
-              <Text style={{ fontSize: 15, color: "green" }}>
-              Cashback
-              </Text>
-              <Text style={{ fontSize: 15, color: "green" }}>
-                (+) {singleCart?.discount} BDT
-              </Text>
-            </View>
-            }
-           
-          </View>
-        </View>
-        {/* if not copon code   */}
-        {
-         !singleCart?.coupon_code &&   <View
-          style={{
-            flexDirection: "row",
-            alignSelf: "flex-end",
-            alignItems: "center",
-            gap: 7,
-            marginTop: 10,
-          }}
-        >
-          <TextInput
-            // value={quantity}
-            onChangeText={(text) => setCouponText (text)}
-            // keyboardType="decimal-pad"
-            style={{
-              textAlign: "center",
-              borderColor: "#E6E7E8",
-              borderWidth: 1,
-              width: scale(200),
-              height: 40,
-              backgroundColor: "#FFFFFF",
-              fontSize: 14,
-            }}
-          />
-          <TouchableOpacity
-          onPress={applyVoucher}
-        
-            style={{
-              backgroundColor: "black",
-              paddingHorizontal: 25,
-              height: 40,
-            }}
-          >
-            <Text
-              style={{
-                color: "white",
-                alignSelf: "center",
-                marginTop: 10,
-                fontWeight: "500",
-              }}
-            >
-              Confirm
-            </Text>
-          </TouchableOpacity>
-        </View>
-        }
-
-        {/* if coupon code  */}
-        {singleCart?.coupon_code && (
-                <View style={{alignSelf:"flex-end",flexDirection:"row",gap:10,alignItems:"center"}}>
-                  <Text style={{fontSize:16,fontWeight:"bold"}}>Applied Coupon:
-
-                    <Text style={{fontSize:14,fontWeight:"500",color:"red"}}>{singleCart?.coupon_code}</Text>
-                  </Text>
-                  <TouchableOpacity onPress={couponRemove} style={{borderWidth:1,padding:2,borderRadius:5,borderColor:"red"}} >
-                  <AntDesign name="delete" size={20} color="black" />
-                  </TouchableOpacity>
-                </View>
-              )}
-       
-      
-        
-       
-        <View
-          style={{
-            borderTopColor: "#DDD",
-            borderTopWidth: 1,
-            marginTop: 10,
-            flexDirection: "row",
-            justifyContent: "space-between",
-            padding: 7,
-          }}
-        >
-          <Text style={{ fontSize: 15, color: "red" }}>{calculateTotal() > 0 ? "Total Profit" : "Due Amount"}</Text>
-          <Text style={{ fontSize: 15, color: "red" }}>{showTotalProfit||0}   BDT</Text>
-        </View>
-        <View style={{ height: 200 }}></View>
-      </ScrollView>
-     
-
-
-      <TouchableOpacity
-        onPress={orderPlace}
-        style={{
-          position: "absolute",
-          backgroundColor: calculateTotal() > 0 ? "green" : "#be202e",
-          width: Dimensions.get("window").width,
-          alignSelf: "center",
-          justifyContent: "center",
-          alignItems: "center",
-          height: 50,
-          marginTop: Dimensions.get("window").height - 50,
-        }}
-      >
-        <Text style={{ color: "white", fontWeight: "600" }}>
-        {calculateTotal() > 0
-                  ? "Order Now"
-                  : "Pay BDT " +
-                    Math.abs(calculateTotal()).toFixed(2) +
-                    " and Confirm Order"}
-        </Text>
+    <SafeAreaView style={{flex:1,padding:10}}>
+      <TouchableOpacity style={{marginTop:scale(30),marginBottom:10}} onPress={()=>{
+        navigation.goBack()
+      }}>
+      <AntDesign name="arrowleft" size={27} color="black" />
       </TouchableOpacity>
-
-      {/* modal */}
-      <Modal
-        visible={isShopModal}
-        animationType="slide"
-        transparent={true}
-        // onRequestClose={() => setSearchPreCustomer(false)}
-      >
-        {/* <Text>jEDJFDJKFJSDKJ </Text> */}
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <TouchableOpacity
-              style={styles.closeButton}
-              onPress={() => setIsShopModal(false)}
-            >
-              <AntDesign
-                style={styles.closeButtonText}
-                name="close"
-                size={24}
-                color="black"
-              />
-            </TouchableOpacity>
-
-            <Text
-              style={{
-                fontSize: 20,
-                fontWeight: "500",
-                borderBottomWidth: 1,
-                borderBottomColor: "#cccc",
-                padding: 10,
-              }}
-            >
-              Shop Information
-            </Text>
-
-            <KeyboardAvoidingView
-              behavior={Platform.OS === "ios" ? "padding" : "height"}
-              style={styles.container}
-            >
-              <TouchableOpacity
-                onPress={openImagePickerAsync}
-                style={{
-                  alignItems: "center",
-                  alignSelf: "center",
-                  width: 150,
-                  height: 150,
-                  justifyContent: "center",
-                  borderWidth: 1,
-                  marginVertical: 10,
-                  borderColor: "#ccc",
-                }}
-              >
-                {/* <Text>+</Text> */}
-                {selectedImage !== null ? (
-                  <Image
-                    source={{ uri: selectedImage.localUri }}
-                    style={{
-                      width: 150,
-                      height: 150,
-                      resizeMode: "cover",
-                      // marginTop: 20,
-                    }}
-                  />
-                ) : (
-                  <Text>+</Text>
-                )}
-              </TouchableOpacity>
-              <TextInput
-                onChangeText={(text) => setShopName(text)}
-                placeholder="Enter shop name"
-                style={styles.input}
-              />
-              <TextInput
-                onChangeText={(text) => setBkash(text)}
-                placeholder="Enter bkash number"
-                style={[styles.input, { marginTop: 20 }]}
-                keyboardType="decimal-pad"
-              />
-              <TouchableOpacity style={styles.submitButton} onPress={submit}>
-                <Text style={styles.submitButtonText}>Submit</Text>
-              </TouchableOpacity>
-            </KeyboardAvoidingView>
-          </View>
+  <ScrollView style={{}} showsVerticalScrollIndicator={false}>
+    <View style={{ marginTop: 10 }}>
+      <View style={{ flexDirection: "row", justifyContent: "space-between", padding: 10, backgroundColor: "#FFF", borderTopLeftRadius: 10, borderTopRightRadius: 10, }}>
+        <Text>Customer Information</Text>
+        <TouchableOpacity><Text>Edit</Text></TouchableOpacity>
+      </View>
+      <View style={{ marginTop: 1, backgroundColor: "#ffff", minHeight: 120, borderBottomRightRadius: 10, borderBottomLeftRadius: 10, padding: 10, }}>
+        <View style={{ flexDirection: "row", gap: 10, marginBottom: 10, }}>
+          <AntDesign name="user" size={22} color="gray" />
+          <Text style={{ fontSize: 16, color: "gray" }}>{data?.name}</Text>
         </View>
-      </Modal>
-    </Mainlayout>
+        <View style={{ flexDirection: "row", gap: 10 }}>
+          <Feather name="phone" size={22} color="gray" />
+          <Text style={{ fontSize: 16, color: "gray" }}>{data?.phone_number}</Text>
+        </View>
+        <View style={{ flexDirection: "row", gap: 10, marginTop: 10 }}>
+          <EvilIcons name="location" size={22} color="gray" />
+          <Text style={{ fontSize: 16, color: "gray" }}>{data?.address}</Text>
+        </View>
+      </View>
+    </View>
+    {/* products */}
+    {singleCart?.items.map((item, index) => (<SingleCart key={index} item={item} />))}
+    <View style={{ marginTop: 10 }}>
+      <View style={{ flexDirection: "row", justifyContent: "space-between", padding: 10, backgroundColor: "#222222", borderRadius: 3, }}>
+        <Text style={{ color: "white" }}>Total earnings</Text>
+      </View>
+      <View style={{ marginTop: 10, borderRadius: 10, }}>
+        <View style={{ flexDirection: "row", justifyContent: "space-between", padding: 7, }}>
+          <Text style={{ fontSize: 17, fontWeight: "600" }}>Total collection amount</Text>
+          <Text style={{ fontSize: 17, fontWeight: "600" }}>{singleCart?.reseller_to_customer_price - singleCart?.advance_from_customer} BDT</Text>
+        </View>
+        <View style={{ flexDirection: "row", justifyContent: "space-between", padding: 7, }}>
+          <Text style={{ fontSize: 15, color: "#58595B" }}>Supplier amount</Text>
+          <Text style={{ fontSize: 15, color: "#58595B" }}>(-) {singleCart?.price} BDT</Text>
+        </View>
+        {/* if discount then show  */}
+        {singleCart.coupon?.cashback_discount === "discount" && (
+          <View style={{ flexDirection: "row", justifyContent: "space-between", padding: 7, }}>
+            <Text style={{ fontSize: 15, color: "green" }}>(+) 190 BDT discount applied</Text>
+            <Text style={{ fontSize: 15, color: "red" }}>(-) {singleCart?.price - singleCart?.discount} BDT</Text>
+          </View>
+        )}
+        <View style={{ flexDirection: "row", justifyContent: "space-between", padding: 7, }}>
+          <Text style={{ fontSize: 15, color: "#58595B" }}>Proccessing Fee</Text>
+          <Text style={{ fontSize: 15, color: "#58595B" }}>(-) {processingFee} BDT</Text>
+        </View>
+        <View style={{ flexDirection: "row", justifyContent: "space-between", padding: 7, }}>
+          <Text style={{ fontSize: 15, color: "#58595B" }}>Shipping Charge</Text>
+          <Text style={{ fontSize: 15, color: "#58595B" }}>(-) {shippingFee} BDT</Text>
+        </View>
+        {/* if cashback then show */}
+        {singleCart?.coupon?.cashback_discount === "cashback" && (
+          <View style={{ flexDirection: "row", justifyContent: "space-between", padding: 7, }}>
+            <Text style={{ fontSize: 15, color: "green" }}>Cashback</Text>
+            <Text style={{ fontSize: 15, color: "green" }}>(+) {singleCart?.discount} BDT</Text>
+          </View>
+        )}
+      </View>
+    </View>
+    {/* if not coupon code */}
+    {!singleCart?.coupon_code && (
+      <View style={{ flexDirection: "row", alignSelf: "flex-end", alignItems: "center", gap: 7, marginTop: 10, }}>
+        <TextInput onChangeText={(text) => setCouponText(text)} style={{ textAlign: "center", borderColor: "#E6E7E8", borderWidth: 1, width: scale(200), height: 40, backgroundColor: "#FFFFFF", fontSize: 14, }} />
+        <TouchableOpacity onPress={applyVoucher} style={{ backgroundColor: "black", paddingHorizontal: 25, height: 40, }}>
+          <Text style={{ color: "white", alignSelf: "center", marginTop: 10, fontWeight: "500" }}>Confirm</Text>
+        </TouchableOpacity>
+      </View>
+    )}
+    {/* if coupon code */}
+    {singleCart?.coupon_code && (
+      <View style={{ alignSelf: "flex-end", flexDirection: "row", gap: 10, alignItems: "center" }}>
+        <Text style={{ fontSize: 16, fontWeight: "bold" }}>Applied Coupon:<Text style={{ fontSize: 14, fontWeight: "500", color: "black" }}>{singleCart?.coupon_code}</Text></Text>
+        <TouchableOpacity onPress={couponRemove} style={{ borderWidth: 1, padding: 2, borderRadius: 5, borderColor: "red" }}><AntDesign name="delete" size={20} color="black" /></TouchableOpacity>
+      </View>
+    )}
+    <View style={{ borderTopColor: "#DDD", borderTopWidth: 1, marginTop: 10, flexDirection: "row", justifyContent: "space-between", padding: 7, }}>
+      <Text style={{ fontSize: 15, color: "#58595B", fontWeight: "500" }}>{calculateTotal() > 0 ? "Total Profit" : "Due Amount"}</Text>
+      <Text style={{ fontSize: 15, color: calculateTotal() > 0 ? "green" : "#58595B" }}>{showTotalProfit || 0}   BDT</Text>
+    </View>
+    <View style={{ height: 100 }}></View>
+  </ScrollView>
+  <TouchableOpacity onPress={orderPlace} style={{ position: "absolute", backgroundColor: calculateTotal() > 0 ? "green" : "#be202e", width: Dimensions.get("window").width, alignSelf: "center", justifyContent: "center", alignItems: "center", height: scale(50), marginTop: Dimensions.get("window").height-scale(20), }}>
+    <Text style={{ color: "white", fontWeight: "600" }}>{calculateTotal() > 0 ? "Order Now" : "Pay BDT " + Math.abs(calculateTotal()).toFixed(2) + " and Confirm Order"}</Text>
+  </TouchableOpacity>
+  {/* modal */}
+  <Modal visible={isShopModal} animationType="slide" transparent={true}>
+    <View style={styles.modalContainer}>
+      <View style={styles.modalContent}>
+        <TouchableOpacity style={styles.closeButton} onPress={() => setIsShopModal(false)}>
+          <AntDesign style={styles.closeButtonText} name="close" size={24} color="black" />
+        </TouchableOpacity>
+        <Text style={{ fontSize: 20, fontWeight: "500", borderBottomWidth: 1, borderBottomColor: "#cccc", padding: 10, }}>Shop Information</Text>
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
+          <TouchableOpacity onPress={openImagePickerAsync} style={{ alignItems: "center", alignSelf: "center", width: 150, height: 150, justifyContent: "center", borderWidth: 1, marginVertical: 10, borderColor: "#ccc", }}>
+            {selectedImage !== null ? (
+              <Image source={{ uri: selectedImage.localUri }} style={{ width: 150, height: 150, resizeMode: "cover", }} />
+            ) : (
+              <Text>+</Text>
+            )}
+          </TouchableOpacity>
+          <TextInput onChangeText={(text) => setShopName(text)} placeholder="Enter shop name" style={styles.input} />
+          <TextInput onChangeText={(text) => setBkash(text)} placeholder="Enter bkash number" style={[styles.input, { marginTop: 20 }]} keyboardType="decimal-pad" />
+          <TouchableOpacity style={styles.submitButton} onPress={submit}>
+            <Text style={styles.submitButtonText}>Submit</Text>
+          </TouchableOpacity>
+        </KeyboardAvoidingView>
+      </View>
+    </View>
+  </Modal>
+</SafeAreaView>
+
   );
 };
 

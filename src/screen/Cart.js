@@ -25,7 +25,7 @@ import cartServices from "../services/cartServices";
 import { showMessage } from "react-native-flash-message";
 import { useMemo } from "react";
 import { setCartSize } from "../redux/reducers/cartSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const Cart = () => {
   const [loading, setLoading] = useState(false);
@@ -35,6 +35,8 @@ const Cart = () => {
   const [inputValue, setInputValue] = useState("");
   const [carts, setCarts] = useState();
   const [switchCartData, setSwitchCartData] = useState([]);
+  const { cartSize } = useSelector ((state) => state.cart);
+
   const dispatch = useDispatch();
   const handleCancel = () => {
     setUpdateCartModalVisible(false);
@@ -113,7 +115,10 @@ const Cart = () => {
     };
     let res = await cartServices.saveCart(data);
     // console.log('res save', res)
-
+// if(cartSize==0){
+//   alert("you have no cart")
+//   return
+// }
     if (res.status === 200) {
       await AsyncStorage.setItem("cart_id", cart_id);
       showMessage({
@@ -373,6 +378,7 @@ const Cart = () => {
               borderWidth: 1,
               padding: scale(8),
               borderRadius: 4,
+              width:"45%"
             }}
           >
             <Text

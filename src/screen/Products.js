@@ -72,11 +72,6 @@ const Products = ({ navigation }) => {
         setCategoryLoading(false);
       });
   };
-  useEffect(() => {
-    // fetchData();
-    fetchCollection();
-    fetchTopCategories();
-  }, [refreshing]);
 
   const fetchData = () => {
     console.log("hitting")
@@ -104,6 +99,15 @@ const Products = ({ navigation }) => {
       });
     // console.log(res.data.meta, "product apo");
   };
+  useEffect(() => {
+    fetchData();
+    fetchCollection();
+    fetchTopCategories();
+  }, [refreshing]);
+
+
+
+ 
   // const fetchData = async () => {
   //   setLoading(true);
 
@@ -197,25 +201,26 @@ const Products = ({ navigation }) => {
           >
             <SingleProductSkeleton />
             <SingleProductSkeleton />
-            
-          
+
+
           </View>
         </ScrollView>
       </View>
     );
   };
-  
-  const onCategoryPress = (slug)=>{
+
+  const onCategoryPress = (slug) => {
     // alert(slug)
-    navigation.navigate("products-filter", { data:{category_slug:slug} })
+    navigation.navigate("products-filter", { data: { category_slug: slug } })
   }
-  
+
   const Header = () => {
     return (
       <>
         <Categories onCategoryPress={onCategoryPress} title={"Top Categories"} data={categories} />
         {categoriLoading && categories.length == 0 && <CategorySkeleton />}
         {/* <CollectionSkeleton/> */}
+
 
         <View>
           <View
@@ -271,14 +276,14 @@ const Products = ({ navigation }) => {
 
         {/* <Cards name={"Tech Collection"} navigation={navigation} /> */}
         {collections.map((collection, index) => {
-          
-      return<CollectionItems
-          name={collection?.name}
+
+          return <CollectionItems
+            name={collection?.name}
 
             key={index}
             products={collection?.products}
-        
-          
+
+
             navigation={navigation}
           />
         })}
@@ -347,44 +352,46 @@ const Products = ({ navigation }) => {
   return (
     <Mainlayout navigation={navigation}>
       {/* <ScrollView showsVerticalScrollIndicator={false}> */}
-      <FlatList
-        ListHeaderComponent={Header}
-        refreshControl={
-          <RefreshControl
-            colors={["red"]}
-            tintColor="red"
-            title="Refreshing..."
-            titleColor="red"
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-          />
-        }
-        numColumns={2}
-        showsVerticalScrollIndicator={false}
-        data={data}
-        renderItem={renderItem}
-        ListFooterComponent={renderFooter}
-        keyExtractor={(item) => item.id.toString()}
-        onEndReached={fetchData}
-        onEndReachedThreshold={0.7}
-      />
-
-      {/* </ScrollView> */}
-
-      <BottomSheet
-        visible={visible}
-        //setting the visibility state of the bottom shee
-        onBackButtonPress={onBottomSheetCloose}
-        //Toggling the visibility state on the click of the back botton
-        onBackdropPress={onBottomSheetCloose}
-        //Toggling the visibility state on the clicking out side of the sheet
-      >
-        {/*Bottom Sheet inner View*/}
-        <BottomSheetCart
-          onBottomSheetClose={onBottomSheetCloose}
-          item={bottomSheetItem}
+      <View style={{}}>
+        <FlatList
+          ListHeaderComponent={Header}
+          refreshControl={
+            <RefreshControl
+              colors={["red"]}
+              tintColor="red"
+              title="Refreshing..."
+              titleColor="red"
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+            />
+          }
+          numColumns={2}
+          showsVerticalScrollIndicator={false}
+          data={data}
+          renderItem={renderItem}
+          ListFooterComponent={renderFooter}
+          keyExtractor={(item) => item.id.toString()}
+          onEndReached={fetchData}
+          onEndReachedThreshold={0.5}
         />
-      </BottomSheet>
+
+        {/* </ScrollView> */}
+
+        <BottomSheet
+          visible={visible}
+          //setting the visibility state of the bottom shee
+          onBackButtonPress={onBottomSheetCloose}
+          //Toggling the visibility state on the click of the back botton
+          onBackdropPress={onBottomSheetCloose}
+        //Toggling the visibility state on the clicking out side of the sheet
+        >
+          {/*Bottom Sheet inner View*/}
+          <BottomSheetCart
+            onBottomSheetClose={onBottomSheetCloose}
+            item={bottomSheetItem}
+          />
+        </BottomSheet>
+      </View>
     </Mainlayout>
   );
 };

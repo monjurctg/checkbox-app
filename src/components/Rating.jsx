@@ -18,6 +18,7 @@ const Rating = ({maxStars, from, defaultStars,sales,onRate}) => {
       <View style={styles.container}>
         {[...Array(maxStars)].map((_, index) => (
           <TouchableWithoutFeedback
+          style={{}}
             key={index}
             onPress={() => handleStarPress(index + 1)}>
             <Ionicons
@@ -36,7 +37,8 @@ const Rating = ({maxStars, from, defaultStars,sales,onRate}) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    marginTop: scale(5),
+    // marginTop: scale(5),
+    gap:2
   },
 });
 

@@ -1,113 +1,94 @@
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
 import React, { useEffect, useState } from "react";
+import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, } from "react-native";
 import Mainlayout from "../components/layout/Mainlayout";
 import authServices from "../services/authServices";
 import { colors } from "../theme/colors";
 import { useDispatch, useSelector } from "react-redux";
-import { setSelectDistricts, setThana as setSelectThana } from "../redux/reducers/utilsSlice";
+import { setSelectDistricts, setThana as setSelectThana, } from "../redux/reducers/utilsSlice";
 
 const SelecAdress = ({ navigation, route }) => {
   const { from } = route.params;
-  const { customerSelectedDistricts, customerSelectedThana } = useSelector(
-    (state) => state.utils
-  );
+  const { customerSelectedDistricts, customerSelectedThana } = useSelector((state) => state.utils);
   const dispatch = useDispatch();
-
   const [districts, setDistricts] = useState([]);
+  const [filterDistricts, setFilterDistricts] = useState([]);
   const [thanas, setThanas] = useState([]);
+  const [filterThans, setFilterThans] = useState([]);
+  const [text, onChangeText] = useState("");
 
   const getDistricsts = () => {
     authServices.getDistricts().then((res) => {
-      //   console.log(res.data.data, "data from country");
       setDistricts(res.data.data);
+      setFilterDistricts(res.data.data);
     });
   };
+
   const getThana = () => {
-    // console.log(res.data, "data from country");
     authServices.getThanas(customerSelectedDistricts?.id).then((res) => {
-        console.log(res.data, "data from country");
-      setThanas(res.data);
+      setThanas(res.data.data);
+      setFilterThans(res.data.data);
     });
   };
+
   useEffect(() => {
-    if (from == "Districts") {
+    if (from === "Districts") {
       getDistricsts();
-    } else if (from == "Thana") {
+    } else if (from === "Thana") {
       getThana();
     }
   }, []);
 
-  let district = districts.map((c, i) => {
-    return (
-      <TouchableOpacity
-        onPress={() => {
-          dispatch(setSelectDistricts(c));
-          navigation.goBack();
-        }}
-        key={i}
-        style={{
-          marginTop: 10,
-          paddingHorizontal: 20,
-          borderWidth: 1,
-          borderColor:
-            c == customerSelectedDistricts ? colors.primary_4 : "#Ddd",
-          padding: 10,
-          borderRadius: 5,
-        }}
-      >
-        <Text style={{ color: "black", fontSize: 16, fontWeight: "500" }}>
-          {c?.name}
-        </Text>
-      </TouchableOpacity>
-    );
-  });
+  const handleSearch = (text) => {
+    onChangeText(text);
+    if (from === "Districts") {
+      const filtered = districts.filter((district) => district?.name?.toLowerCase().includes(text?.toLowerCase()));
+      setFilterDistricts(filtered);
+    } else if (from === "Thana") {
+      const filtered = thanas.filter((thana) => thana?.name.toLowerCase().includes(text.toLowerCase()));
+      setFilterThans(filtered);
+    }
+  };
 
-  let thana = thanas?.map((t, i) => {
-    return (
-      <TouchableOpacity
-        onPress={() => {
-          dispatch(setSelectThana(t));
+  const renderDistricts = filterDistricts.map((district, i) => (
+    <TouchableOpacity key={i} onPress={() => {
+        dispatch(setSelectDistricts(district));
+        if (district.name === customerSelectedDistricts?.name) {
           navigation.goBack();
-        }}
-        key={i}
-        style={{
-          marginTop: 10,
-          paddingHorizontal: 20,
-          borderWidth: 1,
-          borderColor: t == customerSelectedThana ? colors.primary_4 : "#Ddd",
-          padding: 10,
-          borderRadius: 5,
-        }}
-      >
-        <Text style={{ color: "black", fontSize: 16, fontWeight: "500" }}>
-          {t.name}
-        </Text>
-      </TouchableOpacity>
-    );
-  });
+        } else {
+          dispatch(setSelectThana({ name: "Select country", key: "cc" }));
+          navigation.goBack();
+        }
+      }}
+      style={{ marginTop: 10, paddingHorizontal: 20, borderWidth: 1, borderColor: district?.name === customerSelectedDistricts?.name ? colors.primary_4 : "#Ddd", padding: 10, borderRadius: 5, }}>
+      <Text style={{ color: "black", fontSize: 16, fontWeight: "500" }}>{district?.name}</Text>
+    </TouchableOpacity>
+  ));
+
+  const renderThanas = filterThans?.map((thana, i) => (
+    <TouchableOpacity key={i} onPress={() => {
+        dispatch(setSelectThana(thana));
+        navigation.goBack();
+      }}
+      style={{ marginTop: 10, paddingHorizontal: 20, borderWidth: 1, borderColor: thana?.name === customerSelectedThana?.name ? colors.primary_4 : "#Ddd", padding: 10, borderRadius: 5, }}>
+      <Text style={{ color: "black", fontSize: 16, fontWeight: "500" }}>{thana.name}</Text>
+    </TouchableOpacity>
+  ));
+
   return (
     <Mainlayout>
-      <Text
-        style={{
-          marginTop: 20,
-          backgroundColor: colors.primary_4,
-          padding: 10,
-          textAlign: "center",
-          color: "#FFF",
-          borderRadius: 5,
-        }}
-      >
+      <Text style={{ marginTop: 20, padding: 10, borderRadius: 5, fontSize: 18, fontWeight: "500" }}>
         Select {from}
       </Text>
+      <View>
+        <TextInput style={{ borderWidth: 1, padding: 10 }}
+          value={text}
+          placeholder={`Search ${from}`}
+          onChangeText={handleSearch}
+        />
+      </View>
       <ScrollView showsVerticalScrollIndicator={false}>
-        {districts.length > 0 && district}
-        {thana}
+        {districts.length > 0 && renderDistricts}
+        {thanas.length > 0 && renderThanas}
         <View style={{ height: 300 }}></View>
       </ScrollView>
     </Mainlayout>

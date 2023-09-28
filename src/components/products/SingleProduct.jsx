@@ -39,30 +39,31 @@ const SingleProduct = ({
 
   return (
     <View
-      preset={["mt_20 mr_5   "]}
+      preset={["mt_5 mr_5   "]}
       style={{
         width: scale(160),
-        height:scale(310),
+        height:scale(240),
         backgroundColor:colors.white,
         // shadowColor: "rgba(0, 0, 0,0.5)",
        borderColor:"#f2e9e9",
-      //  borderWidth:1,
+       borderWidth:1,
        borderRadius:5,
-      //  elevation:2,shadowOpacity: 0.8,
-      //  shadowRadius: 5,shadowOffset: {
-      //   width: 0,
-      //   height: 1,
-      // },
+       
+       elevation:2,shadowOpacity: 0.8,
+       shadowRadius: 5,shadowOffset: {
+        width: 0,
+        height: 1,
+      },
       }}
     >
-      <CustomTouchBtn preset={[" mt_10 p_5"]} onPress={()=>onPress(id)}>
+      <CustomTouchBtn preset={["  p_5"]} onPress={()=>onPress(id)}>
         <Image
           style={{ width: scale(150), height: scale(150), resizeMode: "cover",borderRadius:5 }}
           source={{ uri: src }}
         />
         {/* <Feather name="heart" size={34} color="black" /> */}
         <View preset={["mt_5"]}>
-          <Text preset={["p3 lh_14"]}>{name?.slice(0,30)}</Text>
+          <Text preset={["p3 lh_14"]} numberOfLines={1} ellipsizeMode={"tail"}>{name}</Text>
           <Text preset={["mt_5 p3"]}>{price}</Text>
         </View>
       </CustomTouchBtn>
@@ -75,12 +76,12 @@ const SingleProduct = ({
         onRate={handleRate}
       />
       </View>
-      <CustomTouchBtn
+      {/* <CustomTouchBtn
         preset={["center row  border_1 mt_10"]}
-        // onPress={() => bottomSheetRef.current.expand()}
+       
         onPress={() => {
           toggleBottomNavigationView(item);
-          // alert("twitter");
+         
         }}
         style={styles.addtocart}
       > 
@@ -88,7 +89,7 @@ const SingleProduct = ({
 <AntDesign name="shoppingcart" size={23} style={{fontWeight:"700"}} color={colors.primary_3} />
 
         <Text preset={["p2 ml_5 bold text_primary2 radius_5 "]}>Add to Cart</Text>
-      </CustomTouchBtn>
+      </CustomTouchBtn> */}
     </View>
   );
 };

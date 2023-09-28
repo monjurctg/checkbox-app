@@ -138,7 +138,7 @@ const Slider = ({rightClic, leftClick}) => {
           <TouchableOpacity onPress={leftArrowClick}>
             <Image
               source={require("../../assets/icons/arrow-left-o.png")}
-              style={{marginRight: scale(40)}}
+              style={{marginRight: scale(20)}}
             />
           </TouchableOpacity>
 

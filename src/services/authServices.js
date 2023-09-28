@@ -98,15 +98,9 @@ authServices.nidVerify = async (data) => {
 
 authServices.getThanas = async (district_id) => {
   console.log(district_id)
+  // return []
   let url = "get-areas?district_id=" + district_id;
-  let res = await api
-    .get(url)
-    .then((res) => {
-      return res;
-    })
-    .catch((err) => {
-      return err.response;
-    });
+  let res = await api.get(url).then((res) => {return res}).catch((err) => {return err.response;});
   return res;
 };
 

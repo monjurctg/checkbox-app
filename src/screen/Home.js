@@ -64,8 +64,7 @@ const onCategoryPress = (slug)=>{
     <Mainlayout navigation={navigation}>
       <ScrollView style={{}} showsVerticalScrollIndicator={false}>
         {/* statistic */}
-        <View
-          style={{
+        <View style={{
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
@@ -130,7 +129,7 @@ const onCategoryPress = (slug)=>{
                 marginBottom: 8,
               }}
             >
-              In Progress
+              InProgress
             </Text>
             <Text
               style={{

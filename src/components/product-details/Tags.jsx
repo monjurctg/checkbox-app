@@ -31,7 +31,7 @@ const Tags = ({ variant, setVariant, variantLength, options, title }) => {
   };
 
   return (
-    <View preset={["mt_10"]}>
+    <View preset={["mt_10"]} >
       <Text preset={["fs_16 bold "]}>Select {title}</Text>
       <View preset={["row wrap"]}>
         {options?.map((option, index) => (
@@ -46,6 +46,7 @@ const Tags = ({ variant, setVariant, variantLength, options, title }) => {
               height: scale(30),
               borderRadius: 4,
               borderWidth: 1,
+              borderColor:"#ededed",
               // back
               backgroundColor: active(option, title)
                 ? colors.primary_2

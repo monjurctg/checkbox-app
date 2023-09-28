@@ -4,8 +4,9 @@ import {presset} from "./text.preset";
 import {pressetData} from "../../../utils/funtions";
 
 export default function Text({children, preset = ["default"], style,numberOfLines,ellipsizeMode}) {
+  // console.log(numberOfLines)
   const textStyle = StyleSheet.compose(pressetData(preset), style);
   return <RnText numberOfLines={numberOfLines} ellipsizeMode={ellipsizeMode} style={textStyle}>{children}</RnText>;
-}
+} 
 
 const styles = StyleSheet.create({});

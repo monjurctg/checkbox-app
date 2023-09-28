@@ -24,7 +24,7 @@ const CollectionItems = ({ navigation, name, products = [] }) => {
         borderWidth:1,
         marginEnd:10,
         padding:0,
-        marginTop:10,
+        // marginTop:10,
         borderRadius:7,
         elevation:4,
         backgroundColor:"#FFF",
@@ -48,7 +48,7 @@ const CollectionItems = ({ navigation, name, products = [] }) => {
 
   return (
     <View>
-      <View style={styles.newProducts}>
+      {/* <View style={styles.newProducts}>
         <Text preset={["p3 bold"]}>{name}</Text>
         <CustomTouchBtn
           preset={["row center"]}
@@ -61,13 +61,60 @@ const CollectionItems = ({ navigation, name, products = [] }) => {
           <Text preset={["p3 mr_5"]}>Explore all</Text>
           <Image source={require("../../../assets/icons/right-icon.png")} />
         </CustomTouchBtn>
+      </View> */}
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          marginTop: scale(20),
+          borderWidth: 1,
+          borderColor: "#E5E5E5",
+          height: scale(40),
+          alignItems: "center",
+          // paddingVertical: scale(8),
+          paddingHorizontal: scale(16),
+          borderRadius: 5,
+          borderBottomLeftRadius: 0,
+          borderBottomRightRadius: 0,
+        }}>
+        <Text preset={["p3 bold"]} style={{fontWeight: "bold"}}>
+          {name}
+        </Text>
+        <CustomTouchBtn
+          preset={["row center"]}
+          onPress={() =>
+            navigation.navigate("products-filter", {
+              data: { collection_slug: slug },
+            })
+          }
+        >
+          <Text preset={["p3 mr_5"]}>Explore all</Text>
+          <Image source={require("../../../assets/icons/right-icon.png")} />
+        </CustomTouchBtn>
+        
+      
       </View>
+
       <FlatList
         showsHorizontalScrollIndicator={false}
         horizontal={true}
         data={products}
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
+        style={{
+          borderWidth: 1,
+          borderColor: "#E5E5E5",
+          // height: scale(40),
+          // alignItems: "center",
+          // paddingVertical: scale(8),
+          paddingHorizontal: scale(5),
+          paddingVertical:10,
+          // borderRadius: 5,
+          borderBottomLeftRadius: 0,
+          borderBottomRightRadius: 0,
+          zIndex:999
+
+        }}
       />
 
       {/* <ScrollView style={styles.products} horizontal={true} showsHorizontalScrollIndicator={false}>

@@ -36,6 +36,8 @@ import ForgetPassword from './src/screen/auth/ForgetPassword';
 import UserInfo from './src/screen/auth/UserInfo';
 import SelecAdress from './src/screen/SelecAdress';
 import WebViewUrl from './src/screen/WebViewUrl';
+import AllCollection from './src/screen/AllCollection';
+import FilterIndex from './src/screen/filter/FilterIndex';
 
 export default function App() {
   // const [loaded, error] = useFonts({
@@ -115,6 +117,8 @@ export default function App() {
           <Stack.Screen name="select-address" component={SelecAdress} />
 
           <Stack.Screen name="product-details" component={ProductDetails} />
+          <Stack.Screen name="all-collection" component={AllCollection} />
+
           <Stack.Screen name="checkout" component={Checkout} />
           <Stack.Screen name="login" component={Login} />
           <Stack.Screen name="signup" component={SiginUp} />
@@ -125,6 +129,8 @@ export default function App() {
           <Stack.Screen name="products-filter" component={ProductList} />
           <Stack.Screen name="send" component={WebViewUrl} />
           <Stack.Screen name="forget_password" component={ForgetPassword} />
+          <Stack.Screen name="filter" component={FilterIndex} />
+
           <Stack.Screen name="user_info" component={UserInfo} />
         </Stack.Navigator>
 

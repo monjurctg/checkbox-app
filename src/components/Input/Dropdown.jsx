@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import Checkbox from "./Checkbox";
 
-const Dropdown = ({ title, options = [] ,checkBoxHandle}) => {
+const Dropdown = ({ title, options = [] ,checkBoxHandle,from,handelReset,filterData}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(null);
 //   console.log(options, "options");
@@ -16,6 +16,9 @@ const Dropdown = ({ title, options = [] ,checkBoxHandle}) => {
     setSelectedValue(value);
     setIsOpen(false);
   };
+  const handleResetFunc= ()=>{
+    
+  }
 
   //   const options = [
   //     { label: 'Option 1', value: 'option1' },
@@ -33,20 +36,26 @@ const Dropdown = ({ title, options = [] ,checkBoxHandle}) => {
       </TouchableOpacity>
       {isOpen && (
         <View style={styles.optionsContainer}>
+          <TouchableOpacity onPress={()=>handelReset(from)} style={{position:"absolute",right:10,top:-15,backgroundColor:"red",paddingHorizontal:10,paddingVertical:3,borderRadius:20}}>
+            <Text style={{color:"#FFF"}}>Reset</Text>
+            </TouchableOpacity>
           {options?.map((option) => {
             return (
-              <TouchableOpacity
+              <View
                 key={option?.id}
-                style={styles.checkBox}
+                style={{...styles.checkBox,}}
+                
                 // onPress={() => handleCheckboxPress(item?.id, option?.id)}
               >
                 <Checkbox
-                  onValueChange={checkBoxHandle}
+                filterData={filterData}
+                  onValueChange={()=>checkBoxHandle(option)}
                   label={option?.name}
-                  passingData={option?.id}
+                  passingData={option}
+                  from={from}
                 />
-                <Text></Text>
-              </TouchableOpacity>
+              
+              </View>
             );
           })}
         </View>
@@ -117,4 +126,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Dropdown;
+export default React.memo(Dropdown);

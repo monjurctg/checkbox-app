@@ -10,7 +10,7 @@ import {Foundation} from "@expo/vector-icons";
 import { Ionicons } from '@expo/vector-icons';
 const Filters = ({navigation,onFilterClick}) => {
   return (
-    <View preset={["mt-5"]} style={{paddingTop:20}}>
+    <View preset={["mt-5"]} style={{marginVertical:15}}>
       <View preset={["row jc_between"]}>
         {/* <View preset={["row center"]}> */}
           <CustomTouchBtn onPress={onFilterClick}>

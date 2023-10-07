@@ -209,10 +209,14 @@ const Products = ({ navigation }) => {
     );
   };
 
-  const onCategoryPress = (slug) => {
+  
+  const onCategoryPress = (slug)=>{
     // alert(slug)
-    navigation.navigate("products-filter", { data: { category_slug: slug } })
+    // navigation.navigate("products-filter", { data:{category_slug:slug} })
+   navigation.navigate("filter", { data:{category_slug:slug} })
+  
   }
+  
 
   const Header = () => {
     return (
@@ -244,6 +248,9 @@ const Products = ({ navigation }) => {
               Collection
             </Text>
             <TouchableOpacity
+          onPress={()=>{
+            navigation.navigate("all-collection",)
+          }}
               style={{
                 borderColor: "#BE202E",
                 borderWidth: 1,
@@ -276,12 +283,14 @@ const Products = ({ navigation }) => {
 
         {/* <Cards name={"Tech Collection"} navigation={navigation} /> */}
         {collections.map((collection, index) => {
+         
 
           return <CollectionItems
             name={collection?.name}
+slug={collection}
 
             key={index}
-            products={collection?.products}
+            products={collection?.products?.splice(0, 10)}
 
 
             navigation={navigation}

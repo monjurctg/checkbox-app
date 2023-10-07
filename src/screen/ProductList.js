@@ -52,19 +52,20 @@ const ProductList = ({ route, navigation }) => {
   const [lastPage, setLastPage] = useState(300);
   const [oldCategory, setOldCategory] = useState();
   let [isFiter, setIsFilter] = useState(false);
-  let [filter, setFilter] = useState({
-    page: currentPage,
-    category_slug: data?.category_slug ?? "",
-    collection_slug: data?.collection_slug ?? "",
-    brand_ids: [],
-    category_ids: [],
-    min_price: null,
-    max_price: null,
-    keyword: data?.keyword ?? "",
-    sort_by: "",
-    color_codes: [],
-    selected_attribute_values: {},
-  });
+ 
+  // let [filter, setFilter] = useState({
+  //   page: currentPage,
+  //   category_slug: data?.category_slug ?? "",
+  //   collection_slug: data?.collection_slug ?? "",
+  //   brand_ids: [],
+  //   category_ids: [],
+  //   min_price: null,
+  //   max_price: null,
+  //   keyword: data?.keyword ?? "",
+  //   sort_by: "",
+  //   color_codes: [],
+  //   selected_attribute_values: {},
+  // });
 
   const fetchData = () => {
     // let filter={
@@ -83,7 +84,7 @@ const ProductList = ({ route, navigation }) => {
     filterServices
       .search(filter)
       .then((res) => {
-        // console.log(res.data.data.products.total, "res.data");
+        console.log(res.data.data.data[0],"res");
         if (isFiter) {
           setSearchProducts([]);
           setTimeout(() => {
@@ -92,11 +93,11 @@ const ProductList = ({ route, navigation }) => {
             setIsFilter(false);
             setSearchProducts([
               ...searchProducts,
-              ...res.data.data.products.data,
+              ...res.data.data.data,
             ]);
           }, 1000);
         } else {
-          setSearchData(res.data.data);
+          setSearchData(res.data.data.data);
           setSearchProducts([
             ...searchProducts,
             ...res.data.data.products.data,
@@ -111,36 +112,27 @@ const ProductList = ({ route, navigation }) => {
   };
 
   useEffect(() => {
-    fetchData();
+    // fetchData();
   }, [isFiter]);
 
-  const handleCategoryChange = (cateId) => {
-    setIsFilter(true);
-    setFilter({ ...filter, page: 1 });
-    const isInids = filter.category_ids.find((id) => id === cateId);
-    if (!isInids) {
-      setFilter({
-        ...filter,
-        category_ids: [...filter.category_ids, cateId],
-      });
-    } else {
-      const restIds = filter.category_ids.filter((id) => id !== cateId);
-      setFilter({
-        ...filter,
-        category_ids: restIds,
-      });
-    }
-  };
-
-  // console.log(filter.category_ids)
-
-  // console.log(data, "data fromo search ");
-
-  const toggleBottomNavigationView = () => {
-    //Toggling the visibility state of the bottom sheet
-    setVisible(!visible);
-  };
-
+  // const handleCategoryChange = (cateId) => {
+  //   setIsFilter(true);
+  //   setFilter({ ...filter, page: 1 });
+  //   const isInids = filter.category_ids.find((id) => id === cateId);
+  //   if (!isInids) {
+  //     setFilter({
+  //       ...filter,
+  //       category_ids: [...filter.category_ids, cateId],
+  //     });
+  //   } else {
+  //     const restIds = filter.category_ids.filter((id) => id !== cateId);
+  //     setFilter({
+  //       ...filter,
+  //       category_ids: restIds,
+  //     });
+  //   }
+  // };
+  
   const openDrawer = () => {
     drawerRef.current.openDrawer();
   };
@@ -149,62 +141,29 @@ const ProductList = ({ route, navigation }) => {
     drawerRef.current.closeDrawer();
   };
 
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    // setLoading(true)
-    setSearchData([]);
-    setSearchProducts([]);
-    setCurrentPage(1);
+  // const onRefresh = React.useCallback(() => {
+  //   setRefreshing(true);
+  //   // setLoading(true)
+  //   setSearchData([]);
+  //   setSearchProducts([]);
+  //   setCurrentPage(1);
 
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 1000);
-    fetchData();
-  }, []);
+  //   setTimeout(() => {
+  //     setRefreshing(false);
+  //   }, 1000);
+  //   fetchData();
+  // }, []);
 
-  const onCategoryPress = (slug) => {
-    // alert(slug)
-    setSearchData([]);
-    setSearchProducts([]);
-    setSearchProducts([]);
+  // const onCategoryPress = (slug) => {
 
-    setFilter({ ...filter, category_slug: slug, page: 1 });
+  //   setSearchData([]);
+  //   setSearchProducts([]);
+  //   setSearchProducts([]);
 
-    // fetchData();
-  };
-  // const filters = filterData.map((item) => {
-  //   return (
-  //     // <View key={item?.id}>
-  //     //   <View style={styles.productType}>
-  //     //     <Text>{item?.name}</Text>
-  //     //     <View style={styles.resetContainer}>
-  //     //       <Text style={styles.smallText}>reset</Text>
-  //     //     </View>
-  //     //   </View>
-  //     //   <View style={styles.checkBoxes}>
-  //     //     {item?.options.map((option) => {
-  //     //       return (
-  //     //         <TouchableOpacity
-  //     //           key={option?.id}
-  //     //           style={styles.checkBox}
-  //     //           // onPress={() => handleCheckboxPress(item?.id, option?.id)}
-  //     //         >
-  //     //           <Checkbox
-  //     //             onValueChange={(data) => console.log(data)}
-  //     //             label={option?.name}
-  //     //           />
-  //     //           <Text></Text>
-  //     //         </TouchableOpacity>
-  //     //       );
-  //     //     })}
-  //     //     <View style={styles.viewMoreContainer}>
-  //     //       <Text style={styles.smallText}>View more</Text>
-  //     //     </View>
-  //     //   </View>
-  //     // </View>
-  //     // <Dropdown/>
-  //   );
-  // });
+  //   setFilter({ ...filter, category_slug: slug, page: 1 });
+
+  // };
+ 
   const categoriesDrop = (
     <View>
       {searchData?.search_attributes?.categories.length > 0 && (
@@ -365,7 +324,7 @@ const ProductList = ({ route, navigation }) => {
               title="Refreshing..."
               titleColor="red"
               refreshing={refreshing}
-              onRefresh={onRefresh}
+              // onRefresh={onRefresh}
             />
           }
           numColumns={2}

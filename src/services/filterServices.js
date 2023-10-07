@@ -28,15 +28,15 @@ filterServices.search = (data) => {
     params:{
       category_slug:data?.category_slug,
       page:data?.page,
-      // collection_slug:data?.collection_slug,
-      // keyword:data?.keyword,
-      // brand_ids:data?.brand_ids,
+      collection_slug:data?.collection_slug,
+      keyword:data?.keyword,
+      brand_ids:data?.brand_ids,
       category_ids:data?.category_ids,
-      // min_price:data?.min_price,
-      // max_price:data?.max_price,
+      min_price:data?.min_price,
+      max_price:data?.max_price,
       sort_by:"price_high_to_low",
-      // color_codes:data?.color_codes,
-      // selected_attribute_values:data?.selected_attribute_values
+      color_codes:data?.color_codes,
+      selected_attribute_values:data?.selected_attribute_values
       
 
     }

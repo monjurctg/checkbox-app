@@ -53,13 +53,18 @@ const DashStack = createNativeStackNavigator();
 const Dash = () => {
   const [loading, setLoading] = useState(true);
 
+  setTimeout(()=>{
+    setLoading(false)
+  },1000)
+
   if (loading) {
     return <FullScreenLoader visible={loading} />;
   }
+
   return (
     <>
       <View style={{ flex: 1, marginTop: 30 }}>
-        <WebView source={{ uri: "https://google.com" }} style={{ flex: 1 }} />
+        <WebView  source={{ uri: "https://cb-next-reseller-omega.vercel.app/?token=470|SXHoB22MKs2CCcdRxrEUNrhXAYoSfLTPhUjMgj5G" }} style={{ flex: 1 }} />
       </View>
     </>
   );

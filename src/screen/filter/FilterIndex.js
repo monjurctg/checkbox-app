@@ -1,0 +1,389 @@
+import { StyleSheet, Text, View, ScrollView, Image, DrawerLayoutAndroid, TouchableOpacity, FlatList } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
+import productServices from '../../services/productServices';
+import Mainlayout from '../../components/layout/Mainlayout';
+import { SafeAreaView } from "react-native-safe-area-context";
+import Dropdown from '../../components/Input/Dropdown';
+import AttributeDropdown from '../../components/Input/AttributeDropdown';
+// import {  } from 'react-native';
+import SingleProduct from '../../components/products/SingleProduct';
+import Categories from '../../components/products/Categories';
+import CategorySkeleton from '../../components/loader/CategorySkeleton';
+import SingleProductSkeleton from '../../components/loader/SingleProductSkeleton';
+import Filters from '../../components/products/Filters';
+import { scale } from '../../../utils/funtions';
+import { ActivityIndicator } from 'react-native';
+
+
+const FilterIndex = ({ route, navigation }) => {
+    const drawerRef = useRef(null);
+    const { data } = route.params ?? {};
+    const initialState = {
+        category_slug: null,
+        collection_slug: null,
+        keyword: null,
+        priceRange: null,
+        sortBy: null,
+        brand_ids: [],
+        color_codes: [],
+        selected_attribute_values: {},
+        searchAttributes: null,
+        products: null,
+        productsFilterLimit: null,
+        // searchResult: null
+    };
+    // state
+    const [searchAttributes, setSearchAttributes] = useState([])
+    const [loading, setLoading] = useState(false)
+    const [loaidngMore, setLoadingMore] = useState(false)
+    const [loadingAttribute, setLoadingAttribute] = useState(false)
+    const [searchProducts, setSearchProducts] = useState([]);
+    const [page, setPage] = useState(1)
+    const [toalProduct, setTotalProductsCount] = useState()
+    const [colorCode, setColorCode] = useState([])
+    const [categoryIds, setCategoryIds] = useState([])
+    const [brandIds, setBrandIds] = useState([])
+    const [categorySlug, setCategorySlug] = useState(data?.category_slug)
+
+    // console.log(searchAttributes?.colors?.length)
+
+    // funtions
+    const openDrawer = () => {
+        drawerRef.current.openDrawer();
+    };
+    const closeDrawer = () => {
+        drawerRef.current.closeDrawer();
+    };
+    let getFilterData = async () => {
+        let params = {
+            category_slug: categorySlug,
+            collection_slug: data?.collection_slug,
+            keyword: data?.keyword,
+        };
+        setLoadingAttribute(true)
+        let res = await productServices.getSearchedAttributes(params);
+        // console.log("resData", res);
+        if (res?.status === 200) {
+            setSearchAttributes(res.data.data)
+            setLoading(false)
+        }
+        else {
+            setLoadingAttribute(false)
+        }
+    };
+
+    const handleCategoryChange = (cateId) => {
+        // alert(cateId)
+    };
+
+    const handleColorChange = (color, isReset) => {
+        setPage(1)
+        if (colorCode.includes(color.code)) {
+            // console.log(color.code,"from if")
+            const resdata = colorCode.filter((c) => c !== color.code)
+            // console.log(resdata)
+            setColorCode(resdata)
+        }
+        else {
+            // console.log(color.code,"from else")
+            setColorCode([...colorCode, color.code])
+            // console.log(resdata)
+        }
+    }
+    const handleBrandChange = (brand) => {
+        setPage(1)
+
+        if (brandIds.includes(brand.id)) {
+            //  console.log(brand.code,"from if")
+            const resdata = colorCode.filter((b) => c !== color.id)
+            //  console.log(resdata)
+            setBrandIds(resdata)
+        }
+        else {
+            //  console.log(setBrandIds.code,"from else")
+            setBrandIds([...brandIds, brand.id])
+            // console.log(resdata)
+        }
+    }
+    const getSearchProducts = async () => {
+        // console.log("hitting product")
+        let paramms = {
+            category_slug: categorySlug,
+            collection_slug: data?.collection_slug,
+            keyword: data?.keyword,
+            // sort_by: sortBy,
+            // min_price: priceRange?.length > 0 ? priceRange[0] : null,
+            // max_price: priceRange?.length > 0 ? priceRange[1] : null,
+            brand_ids: brandIds,
+            color_codes: colorCode,
+            // selected_attribute_values: selected_attribute_values,
+            page: 1,
+        };
+        // console.log(para,"params")
+        setLoading(true)
+        const response = await productServices.getSearchedProduct(paramms);
+        // console.log("response", response.data.data);
+        if (response?.status === 200) {
+            setSearchProducts([...response.data.data.data])
+            // setPage(page + 1);
+            setTotalProductsCount(response.data.data?.total);
+            setLoading(false)
+
+            // console.log(response.data.data.data)
+            //   setloading(false);
+            //   setTotalProductsCount(response.data.data?.total);
+            //   setlimit(response.data?.data?.last_page);
+            //   console.log(
+            //     "response.data?.data?.last_page > page",
+            //     response.data?.data?.last_page > page
+            //   );
+
+            //   if (response.data?.data?.last_page > 1) {
+            //     sethasMore(true);
+            //   } else {
+            //     sethasMore(false);
+            //   }
+            //   dispatch(setProducts(response.data.data?.data));
+        }
+
+        else {
+            setLoading(false);
+        }
+    };
+
+    const fetchData = async () => {
+        // console.log("hitting")
+        if (loaidngMore == false) {
+
+            if(searchProducts.length>10){
+
+
+                let paramms = {
+                    category_slug: data?.category_slug,
+                    collection_slug: data?.collection_slug,
+                    keyword: data?.keyword,
+                    // sort_by: sortBy,
+                    // min_price: priceRange?.length > 0 ? priceRange[0] : null,
+                    // max_price: priceRange?.length > 0 ? priceRange[1] : null,
+                    brand_ids: brandIds,
+                    color_codes: colorCode,
+                    // selected_attribute_values: selected_attribute_values,
+                    page: page + 1,
+                };
+                setLoadingMore(true)
+                const response = await productServices.getSearchedProduct(paramms);
+        
+                // console.log("response", response?.data?.data?.data);
+                if (response?.status === 200) {
+                    // console.log(response.data.data.data)
+                    setPage(page + 1);
+                    setLoadingMore(false)
+        
+                    setSearchProducts([...searchProducts, ...response.data.data.data])
+                    // setTotalProductsCount(response.data.data?.total);
+                }
+                else {
+                    setLoadingMore(false)
+        
+                }
+            }
+
+        }
+
+       
+    }
+
+    const handelReset = (TYPE) => {
+        // console.log(TYPE)
+        if (TYPE == "colors") {
+            setColorCode([])
+        }
+        else if (TYPE == "brand") {
+            setColorCode([])
+
+        }
+
+    }
+
+
+    useEffect(() => {
+        getFilterData()
+
+
+    }, [categorySlug])
+    useEffect(() => {
+        getSearchProducts()
+    }, [colorCode, brandIds, categorySlug])
+
+    const categoriesDrop = (
+        <View>
+            {searchAttributes?.categories?.length > 0 && (
+                <Dropdown
+                    title={"Categories"}
+                    handelReset={handelReset}
+                    checkBoxHandle={handleCategoryChange}
+                    options={searchAttributes?.categories}
+                    filterData={categoryIds}
+                    from={"category"}
+                    // handleChange={handleValueChange}
+
+                    state={"category_ids"}
+                />
+            )}
+        </View>
+    );
+
+    const brandDrop = (
+        <View>
+            {searchAttributes?.brands?.length > 0 && (
+                <Dropdown
+                    checkBoxHandle={handleBrandChange}
+                    title={"Brands"}
+                    from={"brand"}
+                    handelReset={handelReset}
+                    filterData={brandIds}
+                    options={searchAttributes?.brands}
+
+                />
+            )}
+        </View>
+    );
+
+    const colorsDrop = (
+        <View>
+            {searchAttributes?.colors?.length > 0 && (
+                <Dropdown filterData={colorCode} checkBoxHandle={handleColorChange} handelReset={handelReset} from={"colors"} title={"Colors"} options={searchAttributes?.colors} />
+            )}
+        </View>
+    );
+
+    const attributesDrop = (
+        <View>
+            {searchAttributes.attributes?.length > 0 &&
+                searchAttributes?.attributes.map((item, index) => (
+                    <AttributeDropdown
+                        key={index}
+                        title={item?.name}
+                        options={item?.attribute_values}
+
+                        state={"color_codes"}
+                    />
+                ))}
+        </View>
+    );
+
+    const navigationView = (
+        <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+            <View style={{ alignItems: "center", display: "flex", marginBottom: 20 }}>
+                <Image
+                    style={{ resizeMode: "cover" }}
+                    source={require("../../../assets/logo.png")}
+                />
+            </View>
+            <ScrollView showsVerticalScrollIndicator={false}>
+                {categoriesDrop}
+                {brandDrop}
+                {colorsDrop}
+                {attributesDrop}
+                <View style={{ height: 100 }}></View>
+            </ScrollView>
+        </SafeAreaView>
+    );
+
+    const renderItem = ({ item }) => (
+        <SingleProduct
+            id={item?.id}
+            from={"product"}
+            navigation={navigation}
+            name={item?.name}
+            src={item.thumbnail_image}
+            // toggleBottomNavigationView={onBottomSheetOpen}
+            //   visible={visible}
+            price={item?.price?.main_price}
+            rate={item?.rating?.rating}
+            sales={item?.sales}
+            item={item}
+        />
+    );
+    const onCategoryPress = (slug) => {
+        setCategorySlug(slug)
+
+    }
+    const Header = () => {
+        return (
+            <>
+
+
+                {loading ?
+                    <CategorySkeleton /> : <Categories
+                        title={"Top Categories"}
+                        onCategoryPress={onCategoryPress}
+                        data={searchAttributes?.categories}
+                    />
+                }
+                {/* <CollectionSkeleton/> */}
+                <Filters navigation={navigation} onFilterClick={openDrawer} />
+            </>
+        );
+    };
+    const ListFooterComponent = () => {
+      
+            return (
+                <View style={{ height:200 }}>
+                <ScrollView>
+                    <View style={{flexDirection: "row",justifyContent: "space-around",flexWrap: "wrap",}}>
+                        <View style={{
+                            width: scale(70),
+                            height: scale(70),
+                            borderRadius: 55,
+                            backgroundColor: "#ab0f29",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            // position: "absolute",
+                        }}>
+                            <ActivityIndicator size="large" color="#fff" />
+                        </View>
+                    </View>
+                </ScrollView>
+            </View>
+            );
+
+    };
+
+
+    return (
+        <DrawerLayoutAndroid
+            ref={drawerRef}
+            drawerWidth={300}
+            drawerPosition="left"
+            renderNavigationView={() => navigationView}
+        >
+            <Mainlayout>
+                <Text>{toalProduct}</Text>
+
+
+                <FlatList
+                    ListHeaderComponent={Header}
+                  
+
+                    numColumns={2}
+                    showsVerticalScrollIndicator={false}
+                    data={searchProducts}
+                    renderItem={renderItem}
+                    //    ListFooterComponent={renderFooter}
+                    keyExtractor={(item) => item.id.toString()}
+                    onEndReached={fetchData}
+                    onEndReachedThreshold={0.5}
+                    // ListFooterComponent={renderFooter}
+                    ListFooterComponent={() => loaidngMore && <ListFooterComponent />}
+
+                />
+
+            </Mainlayout>
+        </DrawerLayoutAndroid>
+    )
+}
+
+export default FilterIndex
+
+const styles = StyleSheet.create({})

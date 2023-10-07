@@ -99,7 +99,7 @@ export const presset = {
     fontWeight: "100",
   },
   fw_325: {
-    fontWeight: "325",
+    fontWeight: "300",
   },
   fw_200: {
     fontWeight: "200",
@@ -108,10 +108,10 @@ export const presset = {
     fontWeight: " 300",
   },
   fw_325: {
-    fontWeight: "325",
+    fontWeight: "300",
   },
   fw_350: {
-    fontWeight: "350",
+    fontWeight: "400",
   },
   fw_400: {
     fontWeight: "400",

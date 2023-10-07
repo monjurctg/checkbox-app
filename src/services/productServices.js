@@ -55,6 +55,46 @@ productServices.searchProducts = async (search) => {
   return data;
 };
 
+productServices.getSearchedProduct = async ( params) => {
+  // console.log(params)
+  let url = "";
+  url = `search`;
+
+  const data = await api
+    .get(url,{
+      params:params
+    }) 
+    .then((res) => res)
+    .catch((err) => {
+      // console.log(err,"from ai")
+    return  err.response
+    });
+  return data;
+};
+
+productServices.getSearchedAttributes = async (params) => {
+  // console.log("params", params);
+  let url = "";
+  url = `search-attributes`;
+  const data = await api
+    .get(url, { params: params })
+    .then((res) => res)
+    .catch((err) => err.response);
+  return data;
+};
+
+
+productServices.allCollection = async (page,limit) => {
+  let url = `collection?page=${page}&limit=${limit}`;
+  // debugger
+  const data = await api
+    .get(url)
+    .then((res) => res)
+    .catch((err) => err.response);
+  // debugger
+  return data;
+};
+
 
 productServices.getReviews = (id, page) => {
   let url = `reviews/product/${id}?page_number=${page}`;

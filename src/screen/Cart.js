@@ -26,6 +26,7 @@ import { showMessage } from "react-native-flash-message";
 import { useMemo } from "react";
 import { setCartSize } from "../redux/reducers/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { setSelectDistricts, setThana } from "../redux/reducers/utilsSlice";
 
 const Cart = () => {
   const [loading, setLoading] = useState(false);
@@ -35,7 +36,7 @@ const Cart = () => {
   const [inputValue, setInputValue] = useState("");
   const [carts, setCarts] = useState();
   const [switchCartData, setSwitchCartData] = useState([]);
-  const { cartSize } = useSelector ((state) => state.cart);
+  const { cartSize } = useSelector((state) => state.cart);
 
   const dispatch = useDispatch();
   const handleCancel = () => {
@@ -108,39 +109,38 @@ const Cart = () => {
 
   const saveCart = async () => {
     let cart_id = activeSwichCartId;
-    let data = {
-      id: cart_id,
-      type: "save",
-      is_saved: 1,
-    };
-    let res = await cartServices.saveCart(data);
-    // console.log('res save', res)
-// if(cartSize==0){
-//   alert("you have no cart")
-//   return
-// }
-    if (res.status === 200) {
-      await AsyncStorage.setItem("cart_id", cart_id);
-      showMessage({
-        style: {
-          alignItems: "center",
-          alignContent: "center",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          gap: 15,
-        },
-        message: res?.data?.message,
-        icon: "success",
-        type: "success",
-        position: "top",
-        duration: 2500,
-        statusBarHeight: scale(40),
-      });
+    console.log(await AsyncStorage.getItem("cart_id"))
 
-      // successNotification("Cart Saved", "top-right");
-    } else {
-      // errorNotification("Cart not Saved", "top-right");
+    if (cart_id) {
+      let data = {
+        id: cart_id,
+        type: "save",
+        is_saved: 1,
+      };
+      let res = await cartServices.saveCart(data);
+
+      if (res.status === 200) {
+        await AsyncStorage.removeItem("cart_id");
+        dispatch(setCartSize(0))
+        setCarts([])
+        setActiveSwichCartId()
+        dispatch(setSelectDistricts({name:"Select Districts",key:"nD"}))
+        dispatch(setThana({name:"Select Thana",key:"nT"}))
+        
+        showMessage({
+          style: { alignItems: "center", alignContent: "center", display: "flex", flexDirection: "column", justifyContent: "center", gap: 15, },
+          message: res?.data?.message,
+          icon: "success",
+          type: "success",
+          position: "top",
+          duration: 2500,
+          statusBarHeight: scale(40),
+        });
+
+        // successNotification("Cart Saved", "top-right");
+      } 
+
+      
     }
   };
 
@@ -150,13 +150,12 @@ const Cart = () => {
     if (res.status === 200) {
       setSwitchCartData(res?.data?.data);
     } else {
-      console.error(res);
+      // console.error(res);
     }
   };
 
   useEffect(() => {
     fetchSwithcCartData();
-
     (async () => {
       let cart_id = await AsyncStorage.getItem("cart_id");
       // console.log(cart_id, "cart_id");
@@ -172,7 +171,7 @@ const Cart = () => {
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       fetchSingCart();
-      // console.log("hello world calling ");
+
     });
     return unsubscribe;
   }, [navigation]);
@@ -180,7 +179,7 @@ const Cart = () => {
   const handleSwitchCart = async (id) => {
     if (id) {
       if (id == (await AsyncStorage.getItem("billingInfo"))) {
-        console.log(id, "id match");
+        // console.log(id, "id match");
       } else {
         console.log("id remove");
         await AsyncStorage.removeItem("billingInfo ");
@@ -355,7 +354,7 @@ const Cart = () => {
               <CustomTouchBtn
                 preset={["mt_10 center"]}
                 style={styles.ViewAllCartButton}
-                // onPress={onProceedPress}
+              // onPress={onProceedPress}
               >
                 <Text style={styles.ViewAllCartButtonText}>View All Cart</Text>
               </CustomTouchBtn>
@@ -363,7 +362,7 @@ const Cart = () => {
           </View>
         </Modal>
         <View preset={["mt_10"]}>
-          {carts?.items.map((item, index) => (
+          {carts?.items?.map((item, index) => (
             <SingleCart key={index} item={item} />
           ))}
           {/*          
@@ -378,7 +377,7 @@ const Cart = () => {
               borderWidth: 1,
               padding: scale(8),
               borderRadius: 4,
-              width:"45%"
+              width: "45%"
             }}
           >
             <Text
@@ -392,7 +391,16 @@ const Cart = () => {
             </Text>
           </TouchableOpacity>
           <CustomTouchBtn
-            onPress={() => navigation.navigate("cart-information", { carts })}
+            onPress={() => {
+              if(cartSize){
+                navigation.navigate("cart-information", { carts })
+
+              }
+              else{
+
+              }
+            
+            }}
             preset={["center"]}
             style={{
               borderColor: "#BE202E",

@@ -41,7 +41,7 @@ const FilterIndex = ({ route, navigation }) => {
     const [page, setPage] = useState(1)
     const [toalProduct, setTotalProductsCount] = useState()
     const [colorCode, setColorCode] = useState([])
-    const [attributeValues, setAttributeValues] = useState([])
+    const [attributeValues, setAttributeValues] = useState({})
     const [brandIds, setBrandIds] = useState([])
     const [categorySlug, setCategorySlug] = useState(data?.category_slug)
 

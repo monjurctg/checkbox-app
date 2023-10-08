@@ -23,8 +23,19 @@ const AttributeDropdown = ({ title, options = [],handelChage,filterData ,handelR
   //     { label: 'Option 3', value: 'option3' },
   //   ];
 
+const entriesArray = Object.keys(filterData);
+// const count = entriesArray.length;
+// console.log())
   return (
     <View style={styles.container}>
+
+    {
+      entriesArray.includes(`${options[0]?.attribute_id}`) &&<View style={{height:7,width:7,backgroundColor:"red",right:5,position:"absolute",top:0,zIndex:999,borderRadius:10}}></View>
+
+
+    }
+
+     
       <TouchableOpacity onPress={toggleDropdown} style={styles.dropdown}>
         <Text style={styles.dropdownText}>
           {selectedValue ? selectedValue : title}

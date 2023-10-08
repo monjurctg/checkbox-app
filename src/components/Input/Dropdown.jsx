@@ -28,7 +28,11 @@ const Dropdown = ({ title, options = [] ,checkBoxHandle,from,handelReset,filterD
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={toggleDropdown} style={styles.dropdown}>
+     {
+      from=="brand" ?filterData.length>0 && <View style={{height:7,width:7,backgroundColor:"red",right:5,position:"absolute",top:0,zIndex:999,borderRadius:10}}></View>
+:      from=="colors" && filterData.length>0 && <View style={{height:7,width:7,backgroundColor:"red",right:5,position:"absolute",top:0,zIndex:999,borderRadius:10}}></View>
+     }
+      <TouchableOpacity onPress={toggleDropdown} style={{...styles.dropdown,}}>
         <Text style={styles.dropdownText}>
           {selectedValue ? selectedValue : title}
         </Text>

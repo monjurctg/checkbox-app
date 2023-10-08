@@ -286,6 +286,18 @@ const FilterIndex = ({ route, navigation }) => {
                         filterData={attributeValues}
                         options={item?.attribute_values}
                         handelChage = {handleAttrChange}
+                        handelReset={(id)=>{
+                            const updatedState = { ...attributeValues };
+                            // if (Object.keys(updatedState).includes(id.toString())) {
+                            //   updatedState[id] = [];
+                            // //   dispatch(set_selected_attribute_values(updatedState));
+                            // console.log(updatedState,attributeValues)
+                            // }
+                            console.log(updatedState)
+                            delete updatedState[`${id}`];
+                           setAttributeValues(updatedState)
+
+                        }}
 
                         state={"color_codes"}
                     />
@@ -301,6 +313,14 @@ const FilterIndex = ({ route, navigation }) => {
                     source={require("../../../assets/logo.png")}
                 />
             </View>
+            <TouchableOpacity onPress={()=>{
+                setAttributeValues([])
+                setBrandIds([])
+                setColorCode([])
+                setCategorySlug("")
+            }} style={{alignSelf:"flex-end",padding:10,borderWidth:1,marginRight:10,bottom:10,borderRadius:10}}>
+                <Text>Reset all Filters</Text>
+                </TouchableOpacity>
             <ScrollView showsVerticalScrollIndicator={false}>
                 {categoriesDrop}
                 {brandDrop}

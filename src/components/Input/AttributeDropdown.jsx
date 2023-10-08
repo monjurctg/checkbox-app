@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import Checkbox from "./Checkbox";
 
-const AttributeDropdown = ({ title, options = [],handelChage,filterData }) => {
+const AttributeDropdown = ({ title, options = [],handelChage,filterData ,handelReset}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(null);
 //   console.log(options, "options");
@@ -33,9 +33,14 @@ const AttributeDropdown = ({ title, options = [],handelChage,filterData }) => {
       </TouchableOpacity>
       {isOpen && (
         <View style={styles.optionsContainer}>
+          <TouchableOpacity onPress={()=>handelReset(options[0]?.attribute_id)} style={{position:"absolute",right:10,top:-15,backgroundColor:"red",paddingHorizontal:10,paddingVertical:3,borderRadius:20}}>
+            <Text style={{color:"#FFF"}}>Reset</Text>
+            </TouchableOpacity>
           {options?.map((option) => {
             // console.log(option)
             return (
+              <>
+              
               <TouchableOpacity
                 key={option?.id}
                 style={styles.checkBox}
@@ -47,8 +52,9 @@ const AttributeDropdown = ({ title, options = [],handelChage,filterData }) => {
                   passingData={option}
                   filterData={filterData}
                 />
-                <Text></Text>
+             
               </TouchableOpacity>
+              </>
             );
           })}
         </View>
@@ -102,6 +108,7 @@ const styles = StyleSheet.create({
   checkBox: {
     marginRight: 10,
     marginBottom: 10,
+    marginTop:10,
     flexDirection: "row",
   },
   viewMoreContainer: {

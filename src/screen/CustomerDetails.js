@@ -22,7 +22,7 @@ import { showMessage } from "react-native-flash-message";
 const CustomerDetails = ({ navigation, route }) => {
   const { customerSelectedDistricts, customerSelectedThana } = useSelector((state) => state.utils);
   const { carts } = route?.params;
-  console.log(carts?.id, "cartd");
+  // console.log(carts?.id, "cartd");
 
   const [name, setName] = useState("");
   const[errors,setErrors]=useState({})
@@ -48,9 +48,9 @@ const CustomerDetails = ({ navigation, route }) => {
 
   const validate = ()=>{
     let errors2 = {}
-    console.log(name)
+    // console.log(name)
     if(!name){
-      console.log("inside ! name")
+      // console.log("inside ! name")
       errors2.name="*Name is required"
     }
     if(!phoneNumber){
@@ -98,12 +98,12 @@ const CustomerDetails = ({ navigation, route }) => {
       dispatch(setSelectDistricts(selectedCustomer?.address?.district));
       dispatch(setThanaDispatch(selectedCustomer?.address.area));
     }
-    console.log(selectedCustomer?.address.area, "area");
+    // console.log(selectedCustomer?.address.area, "area");
   }, [selectedCustomer]);
 
   const handleProceed = async () => {
     const errors = validate()
-    console.log(errors,"error")
+    // console.log(errors,"error")
     if(errors){
       if(Object.keys(errors)?.length){
         return setErrors(errors)
@@ -125,7 +125,7 @@ const CustomerDetails = ({ navigation, route }) => {
     };
     let res = await cartServices.saveCart(data);
     if (res.status === 200) {
-      console.log(res.status);
+      // console.log(res.status);
 
       showMessage({
         style: { alignItems: "center", alignContent: "center", display: "flex", flexDirection: "column", justifyContent: "center", gap: 15 },
@@ -138,7 +138,7 @@ const CustomerDetails = ({ navigation, route }) => {
       });
       navigation.navigate("confirm-order", { data, carts });
     } else {
-      console.log(res, "error");
+      // console.log(res, "error");
     }
   };
 

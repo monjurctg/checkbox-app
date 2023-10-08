@@ -74,7 +74,7 @@ const Products = ({ navigation }) => {
   };
 
   const fetchData = () => {
-    console.log("hitting")
+    // console.log("hitting")
     setLoadingMore(true);
     productServices
       .productList(page, 20)

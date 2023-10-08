@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import Checkbox from "./Checkbox";
 
-const AttributeDropdown = ({ title, options = [] }) => {
+const AttributeDropdown = ({ title, options = [],handelChage,filterData }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(null);
 //   console.log(options, "options");
@@ -34,6 +34,7 @@ const AttributeDropdown = ({ title, options = [] }) => {
       {isOpen && (
         <View style={styles.optionsContainer}>
           {options?.map((option) => {
+            // console.log(option)
             return (
               <TouchableOpacity
                 key={option?.id}
@@ -41,8 +42,10 @@ const AttributeDropdown = ({ title, options = [] }) => {
                 // onPress={() => handleCheckboxPress(item?.id, option?.id)}
               >
                 <Checkbox
-                  onValueChange={(data) => console.log(data)}
+                  onValueChange={handelChage}
                   label={option?.value}
+                  passingData={option}
+                  filterData={filterData}
                 />
                 <Text></Text>
               </TouchableOpacity>

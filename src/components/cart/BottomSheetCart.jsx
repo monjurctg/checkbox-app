@@ -34,7 +34,7 @@ const BottomSheetCart = ({onBottomSheetClose,item}) => {
       <Text>Customer Rate</Text>
       <TextInput
         keyboardType="number-pad"
-        onChange={(text)=>console.log(text)}
+        // onChange={(text)=>console.log(text)}
         style={{
           borderColor: "#E6E7E8",
           borderWidth: 1,

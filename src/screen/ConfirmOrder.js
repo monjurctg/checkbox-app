@@ -84,7 +84,7 @@ const ConfirmOrder = ({ navigation, route }) => {
     // refetch();
   }, []);
   let orderPlace = () => {
-    console.log(user);
+    // console.log(user);
     if (!user?.shop) {
       setIsShopModal(true);
     } else {
@@ -157,7 +157,7 @@ const ConfirmOrder = ({ navigation, route }) => {
           processingFee +
           shippingFee);
     }
-    console.log("total", singleCart?.coupon?.discount_amount);
+    // console.log("total", singleCart?.coupon?.discount_amount);
     return total;
   };
   let placeOrder = async () => {

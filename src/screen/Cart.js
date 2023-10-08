@@ -181,7 +181,7 @@ const Cart = () => {
       if (id == (await AsyncStorage.getItem("billingInfo"))) {
         // console.log(id, "id match");
       } else {
-        console.log("id remove");
+        // console.log("id remove");
         await AsyncStorage.removeItem("billingInfo ");
       }
       setActiveSwichCartId(id);

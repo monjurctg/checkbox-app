@@ -44,7 +44,7 @@ const SingleCart = ({ item }) => {
     };
 
     let res = await cartServices.updateProductFromCart(data);
-    console.log(res.data.data,"res from api")
+    // console.log(res.data.data,"res from api")
 
     if (res?.status === 200) {
       if(type=="plus"){

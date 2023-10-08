@@ -41,7 +41,7 @@ const FilterIndex = ({ route, navigation }) => {
     const [page, setPage] = useState(1)
     const [toalProduct, setTotalProductsCount] = useState()
     const [colorCode, setColorCode] = useState([])
-    const [categoryIds, setCategoryIds] = useState([])
+    const [attributeValues, setAttributeValues] = useState([])
     const [brandIds, setBrandIds] = useState([])
     const [categorySlug, setCategorySlug] = useState(data?.category_slug)
 
@@ -75,6 +75,25 @@ const FilterIndex = ({ route, navigation }) => {
     const handleCategoryChange = (cateId) => {
         // alert(cateId)
     };
+
+
+    const handleAttrChange = (id, value) => {
+        const updatedState = { ...attributeValues };
+        if (!updatedState.hasOwnProperty(id)) {
+          updatedState[id] = [value]; // Create a new property with the id and assign an array with the value
+        } else {
+          const valueArray = updatedState[id];
+    
+          if (valueArray.includes(value)) {
+            updatedState[id] = valueArray.filter((item) => item !== value);
+          } else {
+            updatedState[id] = [...valueArray, value];
+          }
+        }
+        // dispatch(set_selected_attribute_values(updatedState));
+        // console.log(updatedState)
+        setAttributeValues(updatedState)
+      };
 
     const handleColorChange = (color, isReset) => {
         setPage(1)
@@ -116,7 +135,7 @@ const FilterIndex = ({ route, navigation }) => {
             // max_price: priceRange?.length > 0 ? priceRange[1] : null,
             brand_ids: brandIds,
             color_codes: colorCode,
-            // selected_attribute_values: selected_attribute_values,
+            selected_attribute_values: attributeValues,
             page: 1,
         };
         // console.log(para,"params")
@@ -213,7 +232,7 @@ const FilterIndex = ({ route, navigation }) => {
     }, [categorySlug])
     useEffect(() => {
         getSearchProducts()
-    }, [colorCode, brandIds, categorySlug])
+    }, [colorCode, brandIds, categorySlug,attributeValues])
 
     const categoriesDrop = (
         <View>
@@ -223,7 +242,7 @@ const FilterIndex = ({ route, navigation }) => {
                     handelReset={handelReset}
                     checkBoxHandle={handleCategoryChange}
                     options={searchAttributes?.categories}
-                    filterData={categoryIds}
+                    // filterData={categoryIds}
                     from={"category"}
                     // handleChange={handleValueChange}
 
@@ -264,7 +283,9 @@ const FilterIndex = ({ route, navigation }) => {
                     <AttributeDropdown
                         key={index}
                         title={item?.name}
+                        filterData={attributeValues}
                         options={item?.attribute_values}
+                        handelChage = {handleAttrChange}
 
                         state={"color_codes"}
                     />

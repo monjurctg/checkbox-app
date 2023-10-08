@@ -5,9 +5,9 @@ import { Image } from 'react-native';
 
 const Checkbox = ({ onValueChange, value, label, passingData, from, filterData }) => {
   const [isChecked, setIsChecked] = useState(false);
-
+// console.log(passingData,filterData,"passing data")
   const handleCheckboxPress = (data) => {
-    console.log(data,"v")
+    // console.log(data, "v")
     onValueChange(data);
     if (from === "colors") {
       if (filterData.includes(data.code)) {
@@ -20,59 +20,60 @@ const Checkbox = ({ onValueChange, value, label, passingData, from, filterData }
     }
 
   };
+  // console.log(filterData[passingData?.attribute_id]?.includes(passingData?.value),filterData[passingData?.attribute_id])
 
   let CheckboxData = ""
-  if(from=="colors"){
-    CheckboxData= <TouchableOpacity style={styles.checkboxContainer} onPress={() => handleCheckboxPress(passingData)}>
-    <View style={[styles.checkbox, filterData.includes(passingData.code) && styles.checkedCheckbox]}>
-      {filterData.includes(passingData.code) && (
-        <Ionicons name="md-checkmark" style={{ fontWeight: "bold" }} size={16} color="#FFF" />
-      )}
-    </View>
-    <Text>{label}</Text>
-   <View style={{ height: 15, width: 15, borderRadius: 10, backgroundColor: label?.toLowerCase(), marginLeft: 20, borderWidth: 1 }}></View>
-  </TouchableOpacity>
+  if (from == "colors") {
+    CheckboxData = <TouchableOpacity style={styles.checkboxContainer} onPress={() => handleCheckboxPress(passingData)}>
+      <View style={[styles.checkbox, filterData.includes(passingData.code) && styles.checkedCheckbox]}>
+        {filterData.includes(passingData.code) && (
+          <Ionicons name="md-checkmark" style={{ fontWeight: "bold" }} size={16} color="#FFF" />
+        )}
+      </View>
+      <Text>{label}</Text>
+      <View style={{ height: 15, width: 15, borderRadius: 10, backgroundColor: label?.toLowerCase(), marginLeft: 20, borderWidth: 1 }}></View>
+    </TouchableOpacity>
   }
-  else if(from=="brand"){
-    CheckboxData =  <TouchableOpacity style={styles.checkboxContainer} onPress={() => handleCheckboxPress(passingData)}>
-    <View style={[styles.checkbox, filterData.includes(passingData.id ) && styles.checkedCheckbox]}>
-      {filterData.includes(passingData.id )&& (
-        <Ionicons name="md-checkmark" style={{ fontWeight: "bold" }} size={16} color="#FFF" />
-      )}
-    </View>
-    <Text>{label}</Text>
+  else if (from == "brand") {
+    CheckboxData = <TouchableOpacity style={styles.checkboxContainer} onPress={() => handleCheckboxPress(passingData)}>
+      <View style={[styles.checkbox, filterData.includes(passingData.id) && styles.checkedCheckbox]}>
+        {filterData.includes(passingData.id) && (
+          <Ionicons name="md-checkmark" style={{ fontWeight: "bold" }} size={16} color="#FFF" />
+        )}
+      </View>
+      <Text>{label}</Text>
 
-  </TouchableOpacity>
+    </TouchableOpacity>
   }
 
-  else if(from=="category"){
-    CheckboxData =  <TouchableOpacity style={styles.checkboxContainer} onPress={() => handleCheckboxPress(passingData)}>
-    {/* <View style={[styles.radio, isChecked && styles.checkedCheckbox]}>
+  else if (from == "category") {
+    CheckboxData = <TouchableOpacity style={styles.checkboxContainer} onPress={() => handleCheckboxPress(passingData)}>
+      {/* <View style={[styles.radio, isChecked && styles.checkedCheckbox]}>
       {filterData.includes(passingData.id )&& (
         <Ionicons name="md-checkmark" style={{ fontWeight: "bold" }} size={16} color="#FFF" />
       )}
     </View> */}
-    <Image source={{uri:passingData?.icon_path}} style={{height:20,width:20}}/>
-    <Text>{label}</Text>
+      <Image source={{ uri: passingData?.icon_path }} style={{ height: 20, width: 20 }} />
+      <Text>{label}</Text>
 
-  </TouchableOpacity>
+    </TouchableOpacity>
   }
-  else{
-    CheckboxData =  <TouchableOpacity style={styles.checkboxContainer} onPress={() => handleCheckboxPress(passingData)}>
-    <View style={[styles.checkbox, isChecked && styles.checkedCheckbox]}>
-      {isChecked && (
-        <Ionicons name="md-checkmark" style={{ fontWeight: "bold" }} size={16} color="#FFF" />
-      )}
-    </View>
-    <Text>{label}</Text>
-    {from == "colors" && <View style={{ height: 15, width: 15, borderRadius: 10, backgroundColor: label?.toLowerCase(), marginLeft: 20, borderWidth: 1 }}></View>}
-  </TouchableOpacity>
+  else {
+    CheckboxData = <TouchableOpacity style={styles.checkboxContainer} onPress={() => onValueChange(passingData?.attribute_id, passingData?.value)}>
+      <View style={[styles.checkbox, filterData[passingData?.attribute_id]?.includes(passingData?.value) && styles.checkedCheckbox]}>
+        {filterData[passingData?.attribute_id]?.includes(passingData?.value) && (
+            <Ionicons name="md-checkmark" style={{ fontWeight: "bold" }} size={16} color="#FFF" />
+          )}
+      </View>
+      <Text>{label}</Text>
+      {from == "colors" && <View style={{ height: 15, width: 15, borderRadius: 10, backgroundColor: label?.toLowerCase(), marginLeft: 20, borderWidth: 1 }}></View>}
+    </TouchableOpacity>
   }
- 
+
 
   return (
     <>
-    {CheckboxData}
+      {CheckboxData}
     </>
   );
 };
@@ -82,8 +83,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 10,
-    gap:10,
-    marginLeft:20
+    gap: 10,
+    marginLeft: 20
   },
   checkbox: {
     width: 20,

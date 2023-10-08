@@ -136,7 +136,7 @@ cartServices.updateProductFromCart = (data) => {
       return res;
     })
     .catch((err) => {
-      console.log(err, "error frm");
+      // console.log(err, "error frm");
       return err.response;
     });
   return res;

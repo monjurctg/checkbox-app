@@ -84,7 +84,7 @@ const ProductList = ({ route, navigation }) => {
     filterServices
       .search(filter)
       .then((res) => {
-        console.log(res.data.data.data[0],"res");
+        // console.log(res.data.data.data[0],"res");
         if (isFiter) {
           setSearchProducts([]);
           setTimeout(() => {

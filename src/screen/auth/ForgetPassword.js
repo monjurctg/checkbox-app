@@ -50,7 +50,7 @@ const ForgetPassword = () => {
           statusBarHeight: scale(20),
           duration: 2500,
         });
-        navigation.navigate('otp_verify', { phone });
+        navigation.navigate('otp_forget_password', { phone });
       }
     }
   };

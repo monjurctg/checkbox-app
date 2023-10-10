@@ -38,6 +38,8 @@ import SelecAdress from './src/screen/SelecAdress';
 import WebViewUrl from './src/screen/WebViewUrl';
 import AllCollection from './src/screen/AllCollection';
 import FilterIndex from './src/screen/filter/FilterIndex';
+import OTPForgetPassword from './src/screen/auth/OTPForgetPassword';
+import ResetPassword from './src/screen/auth/ResetPassword';
 
 export default function App() {
   // const [loaded, error] = useFonts({
@@ -131,7 +133,12 @@ export default function App() {
           <Stack.Screen name="forget_password" component={ForgetPassword} />
           <Stack.Screen name="filter" component={FilterIndex} />
 
+          <Stack.Screen name="reset_password" component={ResetPassword} />
           <Stack.Screen name="user_info" component={UserInfo} />
+          <Stack.Screen
+            name="otp_forget_password"
+            component={OTPForgetPassword}
+          />
         </Stack.Navigator>
 
         {/* <StatusBar style="auto" /> */}

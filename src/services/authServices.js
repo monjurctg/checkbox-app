@@ -91,6 +91,17 @@ authServices.nidVerify = async (data) => {
   return await api
     .post(url, data)
     .then((res) => {
+      console.log('nidVerify res: ', res);
+      return res;
+    })
+    .catch((err) => err.response);
+};
+
+authServices.resetPassword = async (data) => {
+  let url = 'auth/password/confirm_reset';
+  return await api
+    .post(url, data)
+    .then((res) => {
       return res;
     })
     .catch((err) => err.response);

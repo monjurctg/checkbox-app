@@ -59,7 +59,7 @@ const Login = () => {
       .login(data)
       .then((res) => res)
       .catch((err) => err);
-    console.log('hello res: ', res);
+    // console.log('hello res: ', res.data.redirect);
     // console.log(res,"res",res?.data?.data?.access_token,"tokne")
 
     if (res.message) {
@@ -71,7 +71,9 @@ const Login = () => {
         duration: 2500,
         statusBarHeight: scale(20),
       });
-    } else {
+    } 
+    else {
+      console.log(res.data.redirect)
       if (res.status === 200) {
         setLoading(false);
         dispatch(setAuth(true));
@@ -90,7 +92,11 @@ const Login = () => {
       } else {
         // setAuth(false)
         //otp_verify
+      
         setLoading(false);
+        if(res.data.redirect){
+          navigation.navigate(res.data.redirect)
+        }
         if (res?.data?.data?.redirect === 'otp_verify') {
           showMessage({
             style: { alignItems: 'center' },

@@ -58,11 +58,12 @@ const Home = ({ navigation }) => {
     <Mainlayout navigation={navigation}>
       <ScrollView style={{}} showsVerticalScrollIndicator={false}>
         {/* statistic */}
-        <View style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
             paddingHorizontal: 20,
             paddingVertical: 18,
             backgroundColor: '#EDEDED',

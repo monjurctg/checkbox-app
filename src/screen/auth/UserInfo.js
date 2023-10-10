@@ -118,11 +118,12 @@ const UserInfo = ({ route, navigation }) => {
     };
 
     const res = await authServices.nidVerify(data);
+    // console.log('res: ', res);
     if (res.status === 200) {
       setLoading(false);
       dispatch(setAuth(true));
       await AsyncStorage.setItem('token', res.data?.data?.access_token);
-
+      
       showMessage({
         style: { alignItems: 'center' },
         message: res?.data?.message || 'api message changed',

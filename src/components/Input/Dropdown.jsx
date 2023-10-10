@@ -49,7 +49,7 @@ const Dropdown = ({ title, options = [] ,checkBoxHandle,from,handelReset,filterD
               >
                 <Checkbox
                 filterData={filterData}
-                  onValueChange={()=>checkBoxHandle(option)}
+                  onValueChange={checkBoxHandle}
                   label={option?.name}
                   passingData={option}
                   from={from}

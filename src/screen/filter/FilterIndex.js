@@ -72,8 +72,10 @@ const FilterIndex = ({ route, navigation }) => {
         }
     };
 
-    const handleCategoryChange = (cateId) => {
+    const handleCategoryChange = (slug) => {
         // alert(cateId)
+        console.log(slug,"slug")
+        setCategorySlug(slug)
     };
 
 
@@ -171,10 +173,11 @@ const FilterIndex = ({ route, navigation }) => {
     };
 
     const fetchData = async () => {
-        // console.log("hitting")
-        if (loaidngMore == false) {
+        console.log("hitting")
+        console.log(loaidngMore)
+        if (!loaidngMore) {
 
-            if(searchProducts.length>10){
+            if(searchProducts.length>=8){
 
 
                 let paramms = {
@@ -242,7 +245,7 @@ const FilterIndex = ({ route, navigation }) => {
                     handelReset={handelReset}
                     checkBoxHandle={handleCategoryChange}
                     options={searchAttributes?.categories}
-                    // filterData={categoryIds}
+                    filterData={categorySlug}
                     from={"category"}
                     // handleChange={handleValueChange}
 
@@ -350,21 +353,24 @@ const FilterIndex = ({ route, navigation }) => {
     const ListFooterComponent = () => {
       
             return (
-                <View style={{ height:200 }}>
+                <View >
                 <ScrollView>
                     <View style={{flexDirection: "row",justifyContent: "space-around",flexWrap: "wrap",}}>
                         <View style={{
-                            width: scale(70),
-                            height: scale(70),
-                            borderRadius: 55,
+                            width: scale(35),
+                            height: scale(35),
+                            marginTop:20,
+                            borderRadius: 25,
                             backgroundColor: "#ab0f29",
                             justifyContent: "center",
                             alignItems: "center",
                             // position: "absolute",
                         }}>
-                            <ActivityIndicator size="large" color="#fff" />
+                            <ActivityIndicator size="small" color="#fff" />
                         </View>
                     </View>
+                    <Text style={{color:"#ab0f29",textAlign:"center",fontSize:12}}>Loading...</Text>
+                    <View style={{ height:200 }}></View>
                 </ScrollView>
             </View>
             );

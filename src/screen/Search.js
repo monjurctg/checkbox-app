@@ -69,8 +69,8 @@ const Search = () => {
   };
   // console.log("searchResult", searchResult);
   useEffect(() => {
-    searchApi(debouncedSearchTerm);
-  }, [debouncedSearchTerm]);
+    searchApi(searchText);
+  }, [searchText]);
 
   return (
     <InputLayout>
@@ -105,7 +105,7 @@ const Search = () => {
             <View style={styles.content}>
               {searchResult?.keywords?.map((item, i) => (
                 <TouchableOpacity style={{padding:10}} key={i} onPress={()=>{
-                  navigation.navigate("products-filter", { data:{keyword:item} })
+                  navigation.navigate("filter", { data:{keyword:item} })
                 }}>
                   <Text
                     style={{ fontSize: 14, fontWeight: 500, textAlign: "left" }}
@@ -123,7 +123,7 @@ const Search = () => {
             headerText={"Populer Category"}
             data={searchResult?.categories}
             onPress={(item) =>
-              navigation.navigate("products-filter", { data:{category_slug:item?.slug} })
+              navigation.navigate("filter", { data:{category_slug:item?.slug} })
             }
           />
         )}

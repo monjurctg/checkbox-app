@@ -88,12 +88,17 @@ const FilterIndex = ({ route, navigation }) => {
     
           if (valueArray.includes(value)) {
             updatedState[id] = valueArray.filter((item) => item !== value);
+            // console.log(updatedState)
+            if(valueArray.length==1){
+                delete updatedState[`${id}`];
+            }
           } else {
             updatedState[id] = [...valueArray, value];
           }
         }
         // dispatch(set_selected_attribute_values(updatedState));
         // console.log(updatedState)
+     
         setAttributeValues(updatedState)
       };
 
@@ -296,7 +301,7 @@ const FilterIndex = ({ route, navigation }) => {
                             // //   dispatch(set_selected_attribute_values(updatedState));
                             // console.log(updatedState,attributeValues)
                             // }
-                            console.log(updatedState)
+                            // console.log(updatedState)
                             delete updatedState[`${id}`];
                            setAttributeValues(updatedState)
 

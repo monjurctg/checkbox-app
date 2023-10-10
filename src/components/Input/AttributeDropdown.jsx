@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import Checkbox from "./Checkbox";
 
-const AttributeDropdown = ({ title, options = [],handelChage,filterData }) => {
+const AttributeDropdown = ({ title, options = [],handelChage,filterData ,handelReset}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(null);
 //   console.log(options, "options");
@@ -23,8 +23,19 @@ const AttributeDropdown = ({ title, options = [],handelChage,filterData }) => {
   //     { label: 'Option 3', value: 'option3' },
   //   ];
 
+const entriesArray = Object.keys(filterData);
+// const count = entriesArray.length;
+// console.log())
   return (
     <View style={styles.container}>
+
+    {
+      entriesArray.includes(`${options[0]?.attribute_id}`) &&<View style={{height:7,width:7,backgroundColor:"red",right:5,position:"absolute",top:0,zIndex:999,borderRadius:10}}></View>
+
+
+    }
+
+     
       <TouchableOpacity onPress={toggleDropdown} style={styles.dropdown}>
         <Text style={styles.dropdownText}>
           {selectedValue ? selectedValue : title}
@@ -33,9 +44,14 @@ const AttributeDropdown = ({ title, options = [],handelChage,filterData }) => {
       </TouchableOpacity>
       {isOpen && (
         <View style={styles.optionsContainer}>
+          <TouchableOpacity onPress={()=>handelReset(options[0]?.attribute_id)} style={{position:"absolute",right:10,top:-15,backgroundColor:"red",paddingHorizontal:10,paddingVertical:3,borderRadius:20}}>
+            <Text style={{color:"#FFF"}}>Reset</Text>
+            </TouchableOpacity>
           {options?.map((option) => {
             // console.log(option)
             return (
+              <>
+              
               <TouchableOpacity
                 key={option?.id}
                 style={styles.checkBox}
@@ -47,8 +63,9 @@ const AttributeDropdown = ({ title, options = [],handelChage,filterData }) => {
                   passingData={option}
                   filterData={filterData}
                 />
-                <Text></Text>
+             
               </TouchableOpacity>
+              </>
             );
           })}
         </View>
@@ -102,6 +119,7 @@ const styles = StyleSheet.create({
   checkBox: {
     marginRight: 10,
     marginBottom: 10,
+    marginTop:10,
     flexDirection: "row",
   },
   viewMoreContainer: {

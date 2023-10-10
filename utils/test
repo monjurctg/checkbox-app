@@ -1,0 +1,17 @@
+ function handleExitApp() {
+    //console.log(navigation.isFocused());
+    if (navigation.isFocused()) {
+      Alert.alert(
+        "",
+        "আপনি কি সেল্ফ অ্যাপ থেকে বের হতে চাচ্ছেন?",
+        [
+          {text: "না", onPress: () => {}, style: "cancel"},
+          {text: "হ্যাঁ", onPress: () => BackHandler.exitApp()},
+        ],
+        {cancelable: false}
+      );
+      return true;
+    } else {
+      return false;
+    }
+  }

@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'react-native';
 
-const Checkbox = ({ onValueChange, value, label, passingData, from, filterData }) => {
+const Checkbox = ({ onValueChange, value, label, passingData, from, filterData ,index}) => {
   const [isChecked, setIsChecked] = useState(false);
 // console.log(passingData,filterData,"passing data")
   const handleCheckboxPress = (data) => {
@@ -35,7 +35,7 @@ const Checkbox = ({ onValueChange, value, label, passingData, from, filterData }
     </TouchableOpacity>
   }
   else if (from == "brand") {
-    CheckboxData = <TouchableOpacity style={styles.checkboxContainer} onPress={() => handleCheckboxPress(passingData)}>
+    CheckboxData = <TouchableOpacity style={{...styles.checkboxContainer,}} onPress={() => handleCheckboxPress(passingData)}>
       <View style={[styles.checkbox, filterData.includes(passingData.id) && styles.checkedCheckbox]}>
         {filterData.includes(passingData.id) && (
           <Ionicons name="md-checkmark" style={{ fontWeight: "bold" }} size={16} color="#FFF" />
@@ -47,12 +47,8 @@ const Checkbox = ({ onValueChange, value, label, passingData, from, filterData }
   }
 
   else if (from == "category") {
-    CheckboxData = <TouchableOpacity style={{...styles.checkboxContainer,borderWidth:1,padding:10,borderColor:filterData==passingData.slug?"#ef405e":"#DDD",borderRadius:5}} onPress={() => onValueChange(passingData.slug)}>
-      {/* <View style={[styles.radio, isChecked && styles.checkedCheckbox]}>
-      {filterData.includes(passingData.id )&& (
-        <Ionicons name="md-checkmark" style={{ fontWeight: "bold" }} size={16} color="#FFF" />
-      )}
-    </View> */}
+    CheckboxData = <TouchableOpacity style={{...styles.checkboxContainer,borderWidth:1,padding:10,borderColor:filterData==passingData.slug?"#ef405e":"#DDD",borderRadius:5,marginLeft:filterData==passingData.slug?10:20}} onPress={() => onValueChange(passingData.slug)}>
+    
       <Image source={{ uri: passingData?.icon_path }} style={{ height: 20, width: 20 }} />
       <Text>{label}</Text>
 

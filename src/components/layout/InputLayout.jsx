@@ -8,7 +8,7 @@ const InputLayout = ({children}) => {
     <SafeAreaView style={{flex:1,backgroundColor:"#fff"}}>
        <View style={{alignItems:"center",flexDirection:"row",justifyContent:"space-between",display:"flex"}}>
        {/* <AntDesign name="back" size={24} color="black" /> */}
-                <Image source={require("../../../assets/logo.png")}/>
+                {/* <Image source={require("../../../assets/logo.png")}/> */}
             </View>
          <View style={styles.container}>
            

@@ -3,7 +3,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
+  View,Image
 } from "react-native";
 import React, { useState, useContext } from "react";
 import InputLayout from "../../components/layout/InputLayout";
@@ -59,22 +59,24 @@ const Login = () => {
       .login(data)
       .then((res) => res)
       .catch((err) => err);
-    // console.log('hello res: ', res.data.redirect);
+    // console.log('hello res: ', res);
     // console.log(res,"res",res?.data?.data?.access_token,"tokne")
 
-    if (res.message) {
-      showMessage({
-        style: { alignItems: 'center' },
-        message: res.message ? res.message : 'Login field try again',
-        type: 'danger',
-        position: 'top',
-        duration: 2500,
-        statusBarHeight: scale(20),
-      });
-    } 
-    else {
-      console.log(res.data.redirect)
+    // if (res.message) {
+    //   if(res.data.redirect){
+    //     navigation.navigate(res.data.redirect)
+    //   }
+    //   showMessage({
+    //     style: { alignItems: 'center' },
+    //     message: res.message ? res.message : 'Login field try again',
+    //     type: 'danger',
+    //     position: 'top',
+    //     duration: 2500,
+    //     statusBarHeight: scale(20),
+    //   });
+    // } else {
       if (res.status === 200) {
+       
         setLoading(false);
         dispatch(setAuth(true));
         showMessage({
@@ -92,11 +94,9 @@ const Login = () => {
       } else {
         // setAuth(false)
         //otp_verify
-      
+
         setLoading(false);
-        if(res.data.redirect){
-          navigation.navigate(res.data.redirect)
-        }
+        
         if (res?.data?.data?.redirect === 'otp_verify') {
           showMessage({
             style: { alignItems: 'center' },
@@ -111,7 +111,7 @@ const Login = () => {
             phone,
           });
         } else {
-          console.log('res.data: ', res);
+          // console.log('res.data: ', res);
           if (res.data.redirect) {
             showMessage({
               style: { alignItems: 'center' },
@@ -121,7 +121,7 @@ const Login = () => {
               duration: 2500,
               statusBarHeight: scale(20),
             });
-            console.log('res.data.redirect', res.data.redirect);
+            // console.log('res.data.redirect', res.data.redirect);
             navigation.navigate(res.data.redirect, {
               ...res.data.user,
               phone,
@@ -138,24 +138,25 @@ const Login = () => {
           }
         }
       }
-    }
+    
   };
 
   return (
-    <InputLayout>
-      <View style={{ marginTop: scale(70) }}>
+    <View style={{alignSelf:"center",justifyContent:"center",alignItems:"center",flex:1}}> 
+ <View style={{backgroundColor:"#FFF",elevation:5,padding:10,paddingVertical:30,borderRadius:10}}>
+   <Image source={require("../../../assets/logo.png")} style={{alignSelf:"center",width:200,resizeMode:"contain"}}/>
+
         <Text
           style={{
-            fontSize: 34,
+            fontSize: 24,
             // lineHeight: 24,
-            fontWeight: "700",
+            fontWeight: "500",
             textAlign: "center",
           }}
         >
-          Log In
+          Wellcome Back
         </Text>
-      </View>
-
+ 
       <InputTestCustom
         placeholder={"Phone Nmuber"}
         label={"Phone "}
@@ -231,7 +232,8 @@ const Login = () => {
           <Text style={{ fontWeight: "600", fontSize: 14 }}> Sign Up</Text>
         </TouchableOpacity>
       </View>
-    </InputLayout>
+ </View>
+    </View>
   );
 };
 

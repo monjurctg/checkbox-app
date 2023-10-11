@@ -111,6 +111,7 @@ export default function App() {
           {/* <Stack.Screen name="search" component={Search} /> */}
           {/* I am trying to fixed the git issues */}
           {/* <Stack.Screen name="confirm-order" component={ConfirmOrder} /> */}
+          
 
           <Stack.Screen name="tab" component={TabScreen} />
           <Stack.Screen name="cart" component={Cart} />
@@ -120,11 +121,12 @@ export default function App() {
 
           <Stack.Screen name="product-details" component={ProductDetails} />
           <Stack.Screen name="all-collection" component={AllCollection} />
-
-          <Stack.Screen name="checkout" component={Checkout} />
-          <Stack.Screen name="login" component={Login} />
-          <Stack.Screen name="signup" component={SiginUp} />
           <Stack.Screen name="otp_verify" component={OTPVerification} />
+          <Stack.Screen name="login" component={Login} />
+          <Stack.Screen name="checkout" component={Checkout} />
+          {/* <Stack.Screen name="login" component={Login} /> */}
+          <Stack.Screen name="signup" component={SiginUp} />
+        
           <Stack.Screen name="nid_verify" component={NidVerify} />
           {/* <Stack.Screen name="user_info" component={SellerRegister} /> */}
           <Stack.Screen name="search" component={Search} />

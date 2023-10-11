@@ -29,6 +29,8 @@ import { Image } from "react-native";
 import authServices from "../services/authServices";
 import { setCartSize } from "../redux/reducers/cartSlice";
 import { setSelectDistricts, setThana } from "../redux/reducers/utilsSlice";
+import { showMessage } from "react-native-flash-message";
+import { setUser } from "../redux/reducers/authSlice";
 
 const ConfirmOrder = ({ navigation, route }) => {
   const { data, carts   } = route.params;
@@ -61,6 +63,15 @@ const ConfirmOrder = ({ navigation, route }) => {
   };
 
   
+
+  const getUser =async ()=>{
+    const res = await authServices.getUserinfo();
+        if (res.status == 200) {
+          dispatch(setUser(res.data.data));
+          // dispatch(setAuth(true));
+          // setLoading(false);
+        } 
+  }
   const fetchSingCart = async () => {
    
 
@@ -272,14 +283,47 @@ const ConfirmOrder = ({ navigation, route }) => {
     // console.log("monjur", bkash, shopName);
     // setloading(true);
     const res = await authServices.addShop(formdata);
-    // console.log("formdata res", res);
+    console.log("formdata res", res.data.message);
     if (res?.status === 200) {
+      getUser()
+      showMessage({
+        style: {zIndex:999, alignItems: "center", alignContent: "center", display: "flex", flexDirection: "column", justifyContent: "center", gap: 15, },
+        message: res?.data?.message,
+        icon: "success",
+        type: "success",
+        position: "top",
+        duration: 2500,
+        statusBarHeight: scale(40),
+      });
+      setIsShopModal(false)
       // setloading(false);
       // console.log(res, "after info shop");
       // alert(res?.data?.message || "api message changed", "top-right");
       // dispatch(getUserDetails());
       // setModalOpen(false);
     } else {
+      if(res.data.message==="Shop info allready added"){
+        setIsShopModal(false)
+        showMessage({
+          style: {zIndex:999, alignItems: "center", alignContent: "center", display: "flex", flexDirection: "column", justifyContent: "center", gap: 15, },
+          message: res?.data?.message,
+          icon: "danger",
+          type: "danger",
+          position: "top",
+          duration: 2500,
+          statusBarHeight: scale(40),
+        });
+
+      }   showMessage({
+        style: {zIndex:999, alignItems: "center", alignContent: "center", display: "flex", flexDirection: "column", justifyContent: "center", gap: 15, },
+        message: res?.data?.message,
+        icon: "error",
+        type: "error",
+        position: "top",
+        duration: 2500,
+        statusBarHeight: scale(40),
+      });
+   
       // setloading(false);
       // console.log(res, "after info error");
       // alert(res?.data?.message || "api message changed", "top-right");

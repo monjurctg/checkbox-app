@@ -76,7 +76,8 @@ const CustomerDetails = ({ navigation, route }) => {
     // getPreBillInfo();
     getAllCustomers();
     if(carts?.reseller_to_customer_price==0){
-      // setIsBill(true)
+      console.log("modal")
+      setIsBill(true)
     }else{
       setIsBill(false)
     }

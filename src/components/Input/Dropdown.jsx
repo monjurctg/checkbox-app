@@ -43,7 +43,7 @@ const Dropdown = ({ title, options = [] ,checkBoxHandle,from,handelReset,filterD
           <TouchableOpacity onPress={()=>handelReset(from)} style={{position:"absolute",right:10,top:-15,backgroundColor:"red",paddingHorizontal:10,paddingVertical:3,borderRadius:20}}>
             <Text style={{color:"#FFF"}}>Reset</Text>
             </TouchableOpacity>
-          {options?.map((option) => {
+          {options?.map((option,index) => {
             return (
               <View
                 key={option?.id}
@@ -52,6 +52,7 @@ const Dropdown = ({ title, options = [] ,checkBoxHandle,from,handelReset,filterD
                 // onPress={() => handleCheckboxPress(item?.id, option?.id)}
               >
                 <Checkbox
+                index={index}
                 filterData={filterData}
                   onValueChange={checkBoxHandle}
                   label={option?.name}

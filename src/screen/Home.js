@@ -43,7 +43,7 @@ const Home = ({ navigation }) => {
 
   const onCategoryPress = (slug) => {
     // alert(slug)
-    navigation.navigate('products-filter', { data: { category_slug: slug } });
+    navigation.navigate('filter', { data: { category_slug: slug } });
   };
 
   useEffect(() => {
@@ -195,7 +195,7 @@ const Home = ({ navigation }) => {
           >
             <Image source={require('../../assets/icons/customers.png')} />
             <Text preset={['p3']} style={{ marginTop: scale(10) }}>
-              My Customers
+              My Orders
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -210,7 +210,7 @@ const Home = ({ navigation }) => {
 
         {/* out service */}
 
-        <Slider />
+        {/* <Slider /> */}
         <View>
           <Image
             style={{

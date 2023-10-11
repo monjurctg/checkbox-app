@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderColor: 'hsla(0,0%,50%,.28)',
     borderWidth: 1,
-    height:scale(55),
+    height:scale(45),
     borderRadius:5,
     fontSize:16,
     marginBottom:15

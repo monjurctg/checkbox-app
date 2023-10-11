@@ -106,7 +106,20 @@ authServices.resetPassword = async (data) => {
     })
     .catch((err) => err.response);
 };
-
+authServices.addShop = async (data) => {
+  let url = "auth/add-shop-information";
+  let res = await api
+    .post(url, data)
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      return err.response
+      //  console.log("res", err.response.data);
+    });
+  
+  return res;
+};
 authServices.getThanas = async (district_id) => {
   // console.log(district_id)
   // return []

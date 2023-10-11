@@ -108,6 +108,7 @@ const UserInfo = ({ route, navigation }) => {
     // email: e.email,
 
     if (error) return;
+    console.log(phone)
     let data = {
       name: name,
       email: email,

@@ -3,7 +3,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
+  View,Image
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import InputLayout from '../../components/layout/InputLayout';
@@ -122,30 +122,24 @@ const SiginUp = () => {
   };
 
   return (
-    <InputLayout>
-      <View style={{ marginTop: scale(50), marginBottom: 20 }}>
+    <View style={{alignSelf:"center",flex:1,justifyContent:"center",alignItems:"center"}}>
+   <View  style={{backgroundColor:"#FFF",elevation:5,padding:10,borderRadius:10,paddingVertical:20}}>
+   <Image source={require("../../../assets/logo.png")} style={{alignSelf:"center",width:200,resizeMode:"contain"}}/>
+  
+       
         <Text
           style={{
             fontSize: 24,
             lineHeight: 24,
-            fontWeight: '700',
-            textAlign: 'center',
-          }}
-        >
-          Sign Up
-        </Text>
-        <Text
-          style={{
-            fontSize: 16,
-            lineHeight: 24,
             fontWeight: '400',
             textAlign: 'center',
+            marginBottom:1
           }}
         >
           {' '}
-          Create your account
+          Create your free account
         </Text>
-      </View>
+     
       <InputTestCustom
         keyboardType={'numeric'}
         placeholder={'Phone Nmuber'}
@@ -212,7 +206,8 @@ const SiginUp = () => {
           <Text style={{ fontSize: 14, fontWeight: '600' }}>Log In</Text>
         </TouchableOpacity>
       </View>
-    </InputLayout>
+   </View>
+    </View>
   );
 };
 

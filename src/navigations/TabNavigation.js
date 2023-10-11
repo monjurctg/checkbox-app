@@ -44,6 +44,7 @@ import ActiveProductSVG from "../components/svg/ActiveProductSVG";
 import ActiveHome from "../components/svg/ActiveHome";
 import authServices from "../services/authServices";
 import { useEffect } from "react";
+import { AntDesign } from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -164,17 +165,17 @@ function MyTabBar({ state, descriptors, navigation, children }) {
             bg = colors.notActive;
             icon = <DashboardSvg size={24} />;
           }
-        } else if (label === "orders") {
-          label2 = "Orders";
+        } else if (label === "carts") {
+          label2 = "Carts";
           if (isFocused) {
             // src = ordersActive;
             color = colors.primary_4;
-            icon = <OrdersSVG height={20} width={22} color={color} />;
+            icon = <AntDesign name="shoppingcart" size={24} color={color} />;
           } else {
             src = orders;
             color = colors.black;
             bg = colors.notActive;
-            icon = <OrdersSVG height={20} width={22} color={color} />;
+            icon = <AntDesign name="shoppingcart" size={24} color={color} />;
           }
         }
 
@@ -310,7 +311,7 @@ export default function TabScreen({ route }) {
         >
           <Tab.Screen name="home" component={HomeScreen} />
           <Tab.Screen name="Products" component={ProductsScreen} />
-          <Tab.Screen name="orders" component={OrderScreen} />
+          <Tab.Screen name="carts" component={OrderScreen} />
           <Tab.Screen name="dashboard" component={DashScreen} />
         </Tab.Navigator>
       )}

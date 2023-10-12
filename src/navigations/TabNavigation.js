@@ -260,7 +260,7 @@ export default function TabScreen({ route }) {
   const url = Linkings.useURL();
   if (url) {
     const { hostname, path, queryParams } = Linkings.parse(url);
-    console.log(hostname, "hostname", url);
+    // console.log(hostname, "hostname", url);
   }
 
   useEffect(() => {
@@ -276,8 +276,8 @@ export default function TabScreen({ route }) {
           // setLoading(false);
         } 
       }
-
      }catch(err){
+      
 
      }
      finally{
@@ -289,7 +289,7 @@ export default function TabScreen({ route }) {
   }, []);
 
   
-  console.log("user",loading);
+  // console.log("user",loading);
 
   return (
     <>
@@ -321,7 +321,7 @@ export default function TabScreen({ route }) {
 const styles = StyleSheet.create({
   footerWraper: {
     flexDirection: "row",
-    height: scale(60),
+    height: scale(55),
     width: "95%",
 
     // borderWidth: 1,
@@ -338,6 +338,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 2,
     elevation: 10,
+    // paddingVertical:4
   },
   container: {
     flex: 1,
@@ -352,16 +353,18 @@ const styles = StyleSheet.create({
   },
   unauthButtonBackground: {
     backgroundColor: colors.primary_1,
-    height: scale(48),
+    height: scale(55),
     marginHorizontal: scale(7),
     justifyContent: "center",
     alignItems: "center",
+    borderRadius:7
+
   },
   unauthButtonText: {
     color: colors.white,
   },
   authButtonContainer: {
-    height: scale(48),
+    height: scale(50),
     borderRadius: scale(7),
     alignItems: "center",
     justifyContent: "space-evenly",

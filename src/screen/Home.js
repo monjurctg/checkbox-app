@@ -14,12 +14,17 @@ import Text from '../components/tags/Text';
 import productServices from '../services/productServices';
 import CategorySkeleton from '../components/loader/CategorySkeleton';
 import Categories from '../components/products/Categories';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useDispatch } from 'react-redux';
+import { setAuth, setUser } from '../redux/reducers/authSlice';
+import authServices from '../services/authServices';
 
 const Home = ({ navigation }) => {
   // console.log(navigation, "home navigation");
   // navigation.navigate("")
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
+  const dispatch=useDispatch()
   // setTimeout(() => {
   //   setLoading(false);
   // }, 1000);
@@ -48,6 +53,34 @@ const Home = ({ navigation }) => {
 
   useEffect(() => {
     allCategories();
+  }, []);
+  useEffect(() => {
+    const checkToken = async () => {
+      // setLoading(true);
+     try{
+      const token = await AsyncStorage.getItem("token");
+      // console.log(token)
+      if (token) {
+        const res = await authServices.getUserinfo();
+        // console.log(res.data,"fjdjf")
+        if (res.status == 200) {
+         
+          dispatch(setUser(res.data.data));
+          dispatch(setAuth(true));
+          // setLoading(false);
+        } 
+      }
+     }catch(err){
+      console.log(err)
+      
+
+     }
+     finally{
+      setLoading(false);
+     }
+    };
+
+    checkToken();
   }, []);
 
   // if (loading) {

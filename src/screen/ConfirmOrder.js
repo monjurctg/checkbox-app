@@ -72,9 +72,8 @@ const ConfirmOrder = ({ navigation, route }) => {
           // setLoading(false);
         } 
   }
-  const fetchSingCart = async () => {
-   
 
+  const fetchSingCart = async () => {
     // console.log(cart_id,"cart id from sing")
     const res = await cartServices.getSingleCarts(carts?.id);
     // console.log(res.data.data.items[0], "response  from calling");uy
@@ -92,11 +91,12 @@ const ConfirmOrder = ({ navigation, route }) => {
     // dispatch(singlecart(localStorage.getItem("cart_id")));
     getOtherFee();
     fetchSingCart()
+    // getUser()
     // refetch();
   }, []);
   let orderPlace = () => {
-    // console.log(user);
-    if (!user?.shop) {
+    // console.log(user.shop);
+    if (!user?.shop?.name) {
       setIsShopModal(true);
     } else {
       if (user?.numb_of_orders > 0) {

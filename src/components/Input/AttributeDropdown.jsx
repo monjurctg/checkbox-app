@@ -47,13 +47,12 @@ const entriesArray = Object.keys(filterData);
           <TouchableOpacity onPress={()=>handelReset(options[0]?.attribute_id)} style={{position:"absolute",right:10,top:-15,backgroundColor:"red",paddingHorizontal:10,paddingVertical:3,borderRadius:20}}>
             <Text style={{color:"#FFF"}}>Reset</Text>
             </TouchableOpacity>
-          {options?.map((option) => {
+          {options?.map((option,index) => {
             // console.log(option)
             return (
-              <>
+              <View key={index}>
               
               <TouchableOpacity
-                key={option?.id}
                 style={styles.checkBox}
                 // onPress={() => handleCheckboxPress(item?.id, option?.id)}
               >
@@ -65,7 +64,7 @@ const entriesArray = Object.keys(filterData);
                 />
              
               </TouchableOpacity>
-              </>
+              </View>
             );
           })}
         </View>

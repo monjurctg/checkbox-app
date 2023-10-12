@@ -37,7 +37,7 @@ const UnAuth = ({navigation}) => {
           <View style={styles.header}>
             <Image
               source={require("../../../assets/img/checkbox-logo.png")}
-              style={{width: scale(200), height: scale(32)}}
+              style={{width: scale(180), height: scale(30)}}
             />
             <TouchableOpacity style={styles.loginBtn} onPress={login}>
               <Text
@@ -135,10 +135,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     display: "flex",
+    alignItems:"center",paddingVertical:5
   },
   loginBtn: {
     width: scale(100),
-    height: scale(40),
+    height: scale(30),
 
     backgroundColor: colors.primary_1,
     borderRadius: 4,

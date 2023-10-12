@@ -26,6 +26,8 @@ import cartServices from "../../services/cartServices";
 const Mainlayout = ({ children }) => {
   const [isSearchVisible, setSearchVisible] = useState(false);
   const [loading, setLoading] = useState(false);
+  const {  user } = useSelector((state) => state.auth);
+
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const handleSearchIconClick = () => {
@@ -96,10 +98,12 @@ const Mainlayout = ({ children }) => {
       });
   };
 
+  // console.log(user,"home")
+
   if (loading) {
     return <FullScreenLoader visible={loading} />;
   }
-
+// console.log(user.logo)
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
@@ -110,6 +114,7 @@ const Mainlayout = ({ children }) => {
                 <TouchableOpacity onPress={handleMenu}>
                   <Image
                     source={require("../../../assets/img/monjur3.jpg")}
+                    // source={{uri:user.logo}}
                     style={{
                       height: 48,
                       width: 48,
@@ -128,7 +133,7 @@ const Mainlayout = ({ children }) => {
                       lineHeight: 16,
                     }}
                   >
-                    Monjurul alam
+                   {user?.name}
                   </Text>
                   <TouchableOpacity style={styles.checkBlncBtn}>
                     <Text
@@ -204,20 +209,20 @@ const Mainlayout = ({ children }) => {
                   </Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.menuItem}>
+                {/* <TouchableOpacity style={styles.menuItem}>
                   <Ionicons
                     name="settings-outline"
                     size={24}
                     color={colors.primary_1}
                     style={styles.menuIcon}
                   />
-                  {/* Add your settings menu content here */}
+               
                   <Text
                     style={[styles.logoutText, { color: colors.primary_1 }]}
                   >
                     Settings
                   </Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
                 <TouchableOpacity
                   onPress={handleLogout}
@@ -319,7 +324,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#d1c5c5cf",
     top: 70,
     left: 10,
-    minHeight: 160,
+    // minHeight: 160,   
     minWidth: 200,
     zIndex: 999999,
     shadowColor: "#000",

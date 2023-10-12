@@ -16,23 +16,23 @@ import Mainlayout from "../components/layout/Mainlayout";
 
 const SavedCart = () => {
   const handleViewPress = () => {
-    console.log("View pressed");
+    // console.log("View pressed");
   };
 
   const handleEditPress = () => {
-    console.log("Edit pressed");
+    // console.log("Edit pressed");
   };
 
   const handleDeletePress = () => {
-    console.log("Delete pressed");
+    // console.log("Delete pressed");
   };
 
   const handleCopyLinkPress = () => {
-    console.log("Copy Link pressed");
+    // console.log("Copy Link pressed");
   };
 
   const handleProceedPress = () => {
-    console.log("Proceed pressed");
+    // console.log("Proceed pressed");
   };
   return (
     <Mainlayout>

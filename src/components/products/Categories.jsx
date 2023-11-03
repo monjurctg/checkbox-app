@@ -16,7 +16,7 @@ const Categories = ({ data, title, onCategoryPress }) => {
           fontSize: 18,
           lineHeight: 22,
           color: "#000000",
-          marginVertical:15
+          marginVertical:15,fontFamily:"RB"
         }}
       >
     {title}
@@ -43,7 +43,7 @@ const Categories = ({ data, title, onCategoryPress }) => {
                 resizeMode: "contain",
               }}
             />
-            <Text numberOfLines={2}style={{fontSize:11,textAlign:"center",padding:2}}>{cate?.name}</Text>
+            <Text numberOfLines={2}style={{fontSize:11,textAlign:"center",padding:2,fontFamily:"RM"}}>{cate?.name}</Text>
           </TouchableOpacity>
         ))}
       </View>

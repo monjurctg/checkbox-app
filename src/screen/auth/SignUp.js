@@ -123,7 +123,7 @@ const SiginUp = () => {
 
   return (
     <View style={{alignSelf:"center",flex:1,justifyContent:"center",alignItems:"center"}}>
-   <View  style={{backgroundColor:"#FFF",elevation:5,padding:10,borderRadius:10,paddingVertical:20}}>
+   <View  style={{backgroundColor:"#FFF",elevation:1,padding:10,borderRadius:10,paddingVertical:20,width:scale(310)}}>
    <Image source={require("../../../assets/logo.png")} style={{alignSelf:"center",width:200,resizeMode:"contain"}}/>
   
        
@@ -131,12 +131,13 @@ const SiginUp = () => {
           style={{
             fontSize: 24,
             lineHeight: 24,
-            fontWeight: '400',
+            fontWeight: '300',
             textAlign: 'center',
-            marginBottom:1
+            marginVertical:10,
+            fontFamily:"RR"
           }}
         >
-          {' '}
+      
           Create your free account
         </Text>
      
@@ -178,7 +179,7 @@ const SiginUp = () => {
           justifyContent: 'center',
           alignItems: 'center',
           marginTop: 10,
-          width: scale(320),
+          // width: scale(320),
         }}
       >
         {loading ? (
@@ -203,7 +204,7 @@ const SiginUp = () => {
       >
         <Text style={{ fontSize: 14 }}>Already have an Account?</Text>
         <TouchableOpacity onPress={() => navigation.navigate('login')}>
-          <Text style={{ fontSize: 14, fontWeight: '600' }}>Log In</Text>
+          <Text style={{ fontSize: 14, fontWeight: '600',color:"#BE202E" }}>Log In</Text>
         </TouchableOpacity>
       </View>
    </View>

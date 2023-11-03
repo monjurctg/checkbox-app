@@ -8,7 +8,8 @@ import View from "../tags/View";
 
 const CollectionItems = ({ navigation, name, products = [] ,from,slug}) => {
   // console.log(navigation, "navigation");
-  // console.log(products,"products")
+  console.log(products,"productssdsd",from)
+  
 
   const renderItem = ({ item }) => {
     let data = []
@@ -149,24 +150,6 @@ const CollectionItems = ({ navigation, name, products = [] ,from,slug}) => {
         }}
       />
 
-      {/* <ScrollView style={styles.products} horizontal={true} showsHorizontalScrollIndicator={false}>
-        {
-          collections.map((col,index)=>{
-            return  <CustomTouchBtn
-            preset={["center"]}
-            key={index}
-            style={{
-              width: scale(108),
-            }}>
-            <Image source={{uri:col?.thumbnail_image}} style={{height:scale(90),width:scale(90)}} />
-            <Text preset={["p3 lh_14 mt_5"]}>{col?.name}
-            </Text>
-          </CustomTouchBtn>
-
-          })
-        }
-      
-      </ScrollView> */}
     </View>
   );
 };

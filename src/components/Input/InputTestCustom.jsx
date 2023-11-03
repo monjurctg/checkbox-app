@@ -15,7 +15,6 @@ const InputTestCustom = ({ label, onChange,editable, value,option, placeholder, 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
-
   const handleSelectOption = (option) => {
     // console.log('option: ' ,option)
     onChange(option);
@@ -68,10 +67,9 @@ const InputTestCustom = ({ label, onChange,editable, value,option, placeholder, 
         <View style={styles.dropdownContainer}>
             {
                 option.map((op,index)=><TouchableOpacity key={index} onPress={() => handleSelectOption(op)} style={styles.option}>
-                <Text>{op}</Text>
+                <Text style={{fontFamily:"RR"}}>{op}</Text>
               </TouchableOpacity>)
             }
-          
           
         </View>
       )}
@@ -91,13 +89,14 @@ const InputTestCustom = ({ label, onChange,editable, value,option, placeholder, 
 
 const styles = StyleSheet.create({
   container: {
-    width: scale(320),
+    // width: scale(310),
     marginBottom: 8,
   },
   label: {
     fontWeight: '400',
     marginBottom: 4,
     fontSize: 16,
+    fontFamily:"RR"
   },
   inputContainer: {
     display: 'flex',
@@ -114,7 +113,7 @@ const styles = StyleSheet.create({
 
   },
   textInput: {
-    flex: 1,
+    flex: 1,fontFamily:"RR"
     
    
   },

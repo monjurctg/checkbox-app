@@ -16,6 +16,7 @@ import productServices from "../services/productServices";
 import SearchShadowBox from "../components/search/SearchShadowBox";
 import { useNavigation } from "@react-navigation/native";
 import SearchSkeleton from "../components/loader/SearchSkeleton";
+import Mainlayout from "../components/layout/Mainlayout";
 
 const Search = () => {
   const [searchText, setSearchText] = useState("");
@@ -73,7 +74,7 @@ const Search = () => {
   }, [searchText]);
 
   return (
-    <InputLayout>
+    <Mainlayout>
       <View style={styles.container}>
         <Ionicons name="search" size={24} color="#999" style={styles.icon} />
         <TextInput
@@ -139,7 +140,7 @@ const Search = () => {
         )}
         <View style={{ height: 200 }}></View>
       </ScrollView>
-    </InputLayout>
+    </Mainlayout>
   );
 };
 

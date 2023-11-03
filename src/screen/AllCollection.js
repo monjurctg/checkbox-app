@@ -52,12 +52,8 @@ const AllCollection = ({navigation}) => {
       return  <CollectionItems
       name={item?.name}
       from={"allCollection"}
-      
-
       key={index}
       products={item?.products}
-
-
       navigation={navigation}
     />
     };

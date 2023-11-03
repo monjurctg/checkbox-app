@@ -26,18 +26,20 @@ import Categories from "../components/products/Categories";
 import CategorySkeleton from "../components/loader/CategorySkeleton";
 import CollectionSkeleton from "../components/loader/CollectionSkeleton";
 import CollectionItems from "../components/products/CollectionItems";
+import Collections from "../components/Collections";
 
 const Products = ({ navigation }) => {
   // console.log(navigation, "products navigatio");
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [categoriLoading, setCategoryLoading] = useState(false);
-  const [collectionLoading, setCollectionLoading] = useState(false);
+ 
 
   const [lastPage, setLastPage] = useState();
   const [data, setData] = useState([]);
   const [categories, setCategories] = useState([]);
   const [collections, setCollections] = useState([]);
+  const [collectionLoading, setCollectionLoading] = useState(false);
   const [bottomSheetItem, setBottomSheetItem] = useState({});
   const [loadingMore, setLoadingMore] = useState(false);
   const [page, setPage] = useState(1);
@@ -45,20 +47,7 @@ const Products = ({ navigation }) => {
   const [refreshing, setRefreshing] = React.useState(false);
 
   // apis
-  const fetchCollection = () => {
-    // alert("calling")
-    setCollectionLoading(true);
-    productServices
-      .productCollection()
-      .then((res) => {
-        // console.log(res.data.data, "top Selling ");
-        setCollections(res.data.data);
-        setCollectionLoading(false);
-      })
-      .catch((err) => {
-        setCollectionLoading(false);
-      });
-  };
+
   const fetchTopCategories = () => {
     setCategoryLoading(true);
     productServices
@@ -100,8 +89,9 @@ const Products = ({ navigation }) => {
     // console.log(res.data.meta, "product apo");
   };
   useEffect(() => {
+    console.log("hello")
     fetchData();
-    fetchCollection();
+    // fetchCollection();
     fetchTopCategories();
   }, [refreshing]);
 
@@ -146,9 +136,9 @@ const Products = ({ navigation }) => {
     setData([]);
     setCategories([]);
     setCollections([]);
-    fetchCollection();
-    fetchData();
-    fetchTopCategories();
+    // fetchCollection();
+    // fetchData();
+    // fetchTopCategories();
     setPage(1);
   }, []);
   const renderItem = ({ item }) => (
@@ -274,28 +264,8 @@ const Products = ({ navigation }) => {
             </TouchableOpacity>
           </View>
         </View>
-        {collectionLoading && collections.length == 0 && (
-          <View>
-            <CollectionSkeleton />
-            <CollectionSkeleton />
-          </View>
-        )}
-
-        {/* <Cards name={"Tech Collection"} navigation={navigation} /> */}
-        {collections.map((collection, index) => {
-         
-
-          return <CollectionItems
-            name={collection?.name}
-slug={collection}
-
-            key={index}
-            products={collection?.products?.splice(0, 10)}
-
-
-            navigation={navigation}
-          />
-        })}
+      
+        <Collections refreshing={refreshing} navigation={navigation}/>
 
         <View>
           <View

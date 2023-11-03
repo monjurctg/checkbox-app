@@ -1,7 +1,8 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useFonts } from 'expo-font';
+import { useFonts, Raleway_400Regular,Raleway_500Medium,Raleway_600SemiBold,Raleway_700Bold } from '@expo-google-fonts/raleway';
+
 import { StatusBar } from 'expo-status-bar';
 import { Linking, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -26,6 +27,7 @@ import OTPVerification from './src/screen/auth/OTPVerification';
 import FlashMessage from 'react-native-flash-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Provider, useDispatch } from 'react-redux';
+
 import store from './src/redux/store';
 import { setAuth } from './src/redux/reducers/authSlice';
 import Search from './src/screen/Search';
@@ -42,34 +44,19 @@ import OTPForgetPassword from './src/screen/auth/OTPForgetPassword';
 import ResetPassword from './src/screen/auth/ResetPassword';
 
 export default function App() {
-  // const [loaded, error] = useFonts({
-  //   "Popins-Medium": require("./assets/fonts/Poppins-Medium.ttf"),
-  //   "Popins-Regular": require("./assets/fonts/Poppins-Regular.ttf"),
-  //   "Popins-Bold": require("./assets/fonts/Poppins-Bold.ttf"),
-  // });
-  // if (loaded) {
-  //   console.log(loaded, error);
-  //   return <Text preset="h1">Font Loaded...</Text>;
 
-  // async function checkForUpdates() {
-  //   const update = await Updates.checkForUpdateAsync();
-  //   if (update.isAvailable) {
-  //     // Display update prompt to user
-  //     const {downloadSize, updateSize, isUpToDate} = update.manifest;
-  //     const message = `A new update is available. Would you like to download it? (Size: ${
-  //       downloadSize / 1000000
-  //     } MB)`;
-  //     if (await confirm(message)) {
-  //       await Updates.fetchUpdateAsync();
-  //       await Updates.reloadAsync();
-  //     }
-  //   } else {
-  //     console.log("No updates available");
-  //   }
-  // }
-  // const dispatch = useDispatch()
+  const [fontsLoaded,error] = useFonts({
+    RR:Raleway_400Regular,
+   RM: Raleway_600SemiBold,
+   RB:Raleway_700Bold
+  });
+  
+  if (!fontsLoaded) {
+    return <Text>Loading..</Text>; // Or render a loading indicator
+  }
+  // console.log(fontsLoaded,error)
 
-  // console.log(setAuth,"set")
+
 
   function confirm(message) {
     return new Promise((resolve) => {

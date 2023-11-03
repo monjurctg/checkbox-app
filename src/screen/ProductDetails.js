@@ -1,4 +1,5 @@
 import {
+  FlatList,
   Image,
   ScrollView,
   StyleSheet,
@@ -36,6 +37,7 @@ import cartServices from "../services/cartServices";
 import { showMessage } from "react-native-flash-message";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { setCartSize } from "../redux/reducers/cartSlice";
+import Collections from "../components/Collections";
 const ProductDetails = ({ navigation }) => {
   let [activeColor, setActiveColor] = useState("Red");
   const [bigImg, setBigImg] = useState();
@@ -128,9 +130,11 @@ const ProductDetails = ({ navigation }) => {
       .singleProduct(productId)
       .then((res) => {
         // console.log(res.data.data.thumbnail_image,"singleproduct")
-        setBigImg(res.data.data.thumbnail_image);
+        // setBigImg(res.data.data.thumbnail_image);
+        setBigImg(res.data.data?.photos[0].path ?? res.data.data.thumbnail_image)
         setLoading(false);
         setSingleProduct(res.data.data);
+        // console.log()
       })
       .catch((err) => {
         setLoading(false);
@@ -142,16 +146,20 @@ const ProductDetails = ({ navigation }) => {
         // console.log(res,"res review")
         setReviews(res.data);
       })
-      .catch((err) => {});
-  }, []);
+      .catch((err) => { });
+  }, [productId]);
+  const renderItem = ({ item }) => {
+    return <ClientReview rating={5} review={item} />
+  }
 
+  console.log(productId)
   if (loading) {
     return <SingleProductScreenSkeleton />;
   }
   return (
     <Mainlayout>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <CustomTouchBtn
+        {/* <CustomTouchBtn
           preset={["center"]}
           style={{
             position: "absolute",
@@ -166,44 +174,50 @@ const ProductDetails = ({ navigation }) => {
               backgroundColor: colors.white,
             },
             right: scale(6),
-            top: scale(6),
+            top: scale(20),
             zIndex: 9999,
             borderRadius: 32,
             backgroundColor: "white",
           }}
         >
           <Image source={love} />
-        </CustomTouchBtn>
-        <Image
-          style={{
-            width: scale(330),
-            height: scale(500),
-            resizeMode: "contain",
-            marginBottom: scale(10),
-            alignSelf: "center",
-            borderTopLeftRadius: 10,
-            borderTopRightRadius: 10,
-            // borderRadius:10
-          }}
-          source={{ uri: bigImg }}
-        />
+        </CustomTouchBtn> */}
+        <View style={{ alignSelf: "center", elevation: 1, width: scale(330), backgroundColor: "#FFF", padding: 10, marginTop: 20, borderRadius: 10, paddingVertical: 20 }}>
 
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-          {singleProduct?.photos?.map((photo, index) => (
-            <TouchableOpacity key={index} onPress={() => setBigImg(photo?.path)}>
-              <Image
-                style={{
-                  height: scale(70),
-                  width: scale(56),
-                  marginRight: scale(5),
-                  resizeMode: "stretch",
-                }}
-                source={{ uri: photo?.path }}
-              />
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
-        {/* <View preset={[`  mt_20`]}>
+
+
+          <Image
+            style={{
+              width: scale(310),
+              height: scale(350),
+              resizeMode: "cover",
+              // marginBottom: scale(10),
+              alignSelf: "center"
+              , borderWidth: 1, borderColor: "#DDD"
+            }}
+            source={{ uri: bigImg }}
+          />
+
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+            {singleProduct?.photos?.map((photo, index) => (
+              <TouchableOpacity key={index} onPress={() => setBigImg(photo?.path)}>
+                <Image
+                  style={{
+                    height: scale(70),
+                    width: scale(70),
+                    marginRight: scale(5),
+                    resizeMode: "cover"
+                    , borderWidth: 1, borderColor: "#DDD"
+                    // borderRadius:10
+                  }}
+                  source={{ uri: photo?.path }}
+                />
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+
+
+          {/* <View preset={[`  mt_20`]}>
           <TouchableOpacity
             style={{
               position: "relative",
@@ -227,64 +241,64 @@ const ProductDetails = ({ navigation }) => {
           </TouchableOpacity>
           
         </View> */}
-        <Text preset={["fw_700 fs_20 mt_15"]}>{singleProduct?.name}</Text>
-        <View preset={["row  mt_10 "]} style={{ alignItems: "center" }}>
-          <Text preset={["fs_14  "]}>Sold by</Text>
-          <Text preset={["ml_5 fw_700 fs_16 mr_10"]}>Inter Active</Text>
-          <Entypo name="emoji-happy" size={24} color="black" />
-          <Text preset={["fs_14"]}> 92%</Text>
-        </View>
-        <Text preset={["h2 bold mt_10"]}>
-          {singleProduct?.currency_symbol}
-          {singleProduct?.price?.calculable_price}
-        </Text>
-        <View preset={[" row mt_5 "]} style={{alignItems:"center",gap:3}}>
-          {/* <Text>{singleProduct?.rating?.rating_count}</Text> */}
-          <Rating
-            from={"details"}
-            defaultStars={singleProduct?.rating?.rating}
-            maxStars={5}
-          />
-          <Text preset={["p1"]}>
-            ({singleProduct?.rating?.rating_count} stars) • 10 reviews
+          <Text preset={["fw_700 fs_20 mt_15"]}>{singleProduct?.name}</Text>
+          <View preset={["row  mt_10 "]} style={{ alignItems: "center" }}>
+            <Text preset={["fs_14  "]}>Sold by</Text>
+            <Text preset={["ml_5 fw_700 fs_16 mr_10"]}>Inter Active</Text>
+            <Entypo name="emoji-happy" size={24} color="black" />
+            <Text preset={["fs_14"]}> 92%</Text>
+          </View>
+          <Text preset={["h2 bold mt_10"]}>
+            {singleProduct?.currency_symbol}
+            {singleProduct?.price?.calculable_price}
           </Text>
-        </View>
-        <View preset={["row"]} style={styles.text}>
-          <Text preset={["p1 fs_20 "]}>M.S.R.P : </Text>
-          <Text preset={[" fs_20  text_second3"]}>{singleProduct?.msrp}</Text>
-        </View>
+          <View preset={[" row mt_5 "]} style={{ alignItems: "center", gap: 3 }}>
+            {/* <Text>{singleProduct?.rating?.rating_count}</Text> */}
+            <Rating
+              from={"details"}
+              defaultStars={singleProduct?.rating?.rating}
+              maxStars={5}
+            />
+            <Text preset={["p1"]}>
+              ({singleProduct?.rating?.rating_count} stars) • 10 reviews
+            </Text>
+          </View>
+          <View preset={["row"]} style={styles.text}>
+            <Text preset={["p1 fs_20 "]}>M.S.R.P : </Text>
+            <Text preset={[" fs_20  text_second3"]}>{singleProduct?.msrp}</Text>
+          </View>
 
-        <CustomTouchBtn
-          preset={["row mt_10 radius_5 center   border_1 "]}
-          style={{ height: scale(48), width: "100%" }}
-        >
-          <Image source={require("../../assets/icons/dload.png")} />
-          <Text preset={["p1 ml_10"]} style={{fontWeight:"300"}}>Download Product Details</Text>
-        </CustomTouchBtn>
-        <CustomTouchBtn
-          preset={["row mt_10  radius_5 center border_1 "]}
-          style={{ height: scale(48), width: "100%" }}
-        >
-          <Image source={require("../../assets/icons/facebook.png")} />
-          <Text preset={["p1 ml_10 fw_325 "]}>Post in Facebook</Text>
-        </CustomTouchBtn>
+          <CustomTouchBtn
+            preset={["row mt_10 radius_5 center   border_1 "]}
+            style={{ height: scale(48), width: "100%" }}
+          >
+            <Image source={require("../../assets/icons/dload.png")} />
+            <Text preset={["p1 ml_10"]} style={{ fontWeight: "300" }}>Download Product Details</Text>
+          </CustomTouchBtn>
+          <CustomTouchBtn
+            preset={["row mt_10  radius_5 center border_1 "]}
+            style={{ height: scale(48), width: "100%" }}
+          >
+            <Image source={require("../../assets/icons/facebook.png")} />
+            <Text preset={["p1 ml_10 fw_325 "]}>Post in Facebook</Text>
+          </CustomTouchBtn>
 
-        {/* color */}
-        {singleProduct?.variation_attributes?.map((variation, index) => (
-          <Tags
-            variant={variantDetails}
-            variantLength={index}
-            setVariant={setVariantDetails}
-            title={variation?.title}
-            options={variation?.options}
-            key={index}
-          />
-        ))}
+          {/* color */}
+          {singleProduct?.variation_attributes?.map((variation, index) => (
+            <Tags
+              variant={variantDetails}
+              variantLength={index}
+              setVariant={setVariantDetails}
+              title={variation?.title}
+              options={variation?.options}
+              key={index}
+            />
+          ))}
 
-        {/* quantity */}
-        <View preset={["mt_10"]}>
-          <Text preset={["fs_16 bold "]}>Qty</Text>
-          {/* <View preset={["row mt_5 "]} style={{}}>
+          {/* quantity */}
+          <View preset={["mt_10"]}>
+            <Text preset={["fs_16 bold "]}>Qty</Text>
+            {/* <View preset={["row mt_5 "]} style={{}}>
             <CustomTouchBtn
               onPress={() => {
                 if (quantity >= 2) {
@@ -320,35 +334,35 @@ const ProductDetails = ({ navigation }) => {
               <Text preset={["fs_16 bold "]}>+</Text>
             </CustomTouchBtn>
           </View> */}
-           <View preset={["mt_10"]} style={{flexDirection:"row"}}>
-            <TouchableOpacity onPress={()=>{
-               if (quantity >= 2) {
-                setQuantity(quantity - 1);
-              }
+            <View preset={["mt_10"]} style={{ flexDirection: "row" }}>
+              <TouchableOpacity onPress={() => {
+                if (quantity >= 2) {
+                  setQuantity(quantity - 1);
+                }
 
-            }}   style={{borderWidth:1,borderColor:"#DDD",width:scale(60),height:40,justifyContent:"center",alignItems:"center"}}><AntDesign name="minus" size={24} color="black" /></TouchableOpacity>
-            <View  style={{borderWidth:1,width:scale(60),height:40,justifyContent:"center",alignItems:"center",borderColor:"#DDD"}}>
-              <Text>{quantity}</Text>
+              }} style={{ borderWidth: 1, borderColor: "#DDD", width: scale(60), height: 40, justifyContent: "center", alignItems: "center" }}><AntDesign name="minus" size={24} color="black" /></TouchableOpacity>
+              <View style={{ borderWidth: 1, width: scale(60), height: 40, justifyContent: "center", alignItems: "center", borderColor: "#DDD" }}>
+                <Text>{quantity}</Text>
+              </View>
+
+              <TouchableOpacity onPress={() => {
+                setQuantity(quantity + 1);
+
+              }} style={{ borderWidth: 1, width: scale(60), height: 40, justifyContent: "center", alignItems: "center", borderColor: "#DDD" }}><AntDesign name="plus" size={24} color="black" /></TouchableOpacity>
+
             </View>
-           
-            <TouchableOpacity onPress={()=>{
-             setQuantity(quantity + 1);
-
-            }}   style={{borderWidth:1,width:scale(60),height:40,justifyContent:"center",alignItems:"center",borderColor:"#DDD"}}><AntDesign name="plus" size={24} color="black" /></TouchableOpacity>
-
           </View>
-        </View>
-       
 
-        {/* details */}
-        <View
-          preset={["mt_20"]}
-          style={{
-            // borderTopWidth: 1,
-            borderTopColor: colors.secoundary_3,
-          }}
-        >
-          {/* <View
+
+          {/* details */}
+          <View
+            preset={["mt_20"]}
+            style={{
+              // borderTopWidth: 1,
+              borderTopColor: colors.secoundary_3,
+            }}
+          >
+            {/* <View
             preset={[" ph_10  p_10  mt_20"]}
             style={{ backgroundColor: "#414042" }}
           >
@@ -389,100 +403,67 @@ const ProductDetails = ({ navigation }) => {
               <Text preset={["fs_16 fw_400 lh_20"]}> : 11</Text>
             </View>
           </View> */}
-        </View>
-
-        {/* client review */}
-        <View preset={[" mt_20"]}>
-          <Text preset={["fs_16 fw_700"]}>Product Reviews</Text>
-          <View preset={["mt_5"]}>
-            {reviews?.length == 0 ? (
-              <View
-                style={{
-                  height: 150,
-                  width: "100%",
-                  backgroundColor: "gray",
-                  borderRadius: 10,
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Text style={{ color: "white" }}>
-                  No review found for this product
-                </Text>
-              </View>
-            ) : (
-              reviews?.map((review, index) => (
-                <>
-                  <ClientReview rating={5} key={index} review={review} />
-                  <View
-                    preset={["row d_flex   mt_10"]}
-                    style={{ alignItems: "center" }}
-                  >
-                    <Text preset={["fs_18"]}>See More</Text>
-                    <AntDesign
-                      style={{
-                        marginLeft: scale(20),
-                        fontSize: scale(18),
-                        lineHeight: scale(30),
-                      }}
-                      name="down"
-                      size={18}
-                      color="black"
-                    />
-                  </View>
-                </>
-              ))
-            )}
           </View>
-        </View>
 
-        {/* shipping */}
-        {/* <View
-          preset={["mt_20"]}
-          style={{
-            borderTopWidth: 1,
-            borderTopColor: colors.secoundary_3,
-          }}>
-          <View preset={["row center jc_between mt_20"]}>
-            <View preset={["row center"]}>
-              <Text preset={["fs_20 fw_700"]}>Shipping</Text>
+          {/* client review */}
+          <View preset={[" mt_20"]}>
+            <Text preset={["fs_16 fw_700"]}>Product Reviews</Text>
+            <View preset={["mt_5"]}>
+              {reviews?.length == 0 ? (
+                <View
+                  style={{
+                    height: 150,
+                    width: "100%",
+                    backgroundColor: "gray",
+                    borderRadius: 10,
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Text style={{ color: "white" }}>
+                    No review found for this product
+                  </Text>
+                </View>
+              ) : (
+                // reviews?.map((review, index) => (
+                //   <View key={index}>
+                //     <ClientReview rating={5}  review={review} />
+                //     {/* <View
+                //       preset={["row d_flex   mt_10"]}
+                //       style={{ alignItems: "center" }}
+                //     >
+                //       <Text preset={["fs_18"]}>See More</Text>
+                //       <AntDesign
+                //         style={{
+                //           marginLeft: scale(20),
+                //           fontSize: scale(18),
+                //           lineHeight: scale(30),
+                //         }}
+                //         name="down"
+                //         size={18}
+                //         color="black"
+                //       />
+                //     </View> */}
+                //   </View>
+                // ))
+                <FlatList horizontal={true}
+                  // numColumns={2}
+                  showsHorizontalScrollIndicator={false}
+                  data={reviews}
+                  renderItem={renderItem}
+                  // ListFooterComponent={renderFooter}
+                  // keyExtractor={(item) => item.id.toString()}
+                  // onEndReached={fetchData}
+                  onEndReachedThreshold={0.5}
+                />
+              )}
             </View>
-            <CustomTouchBtn>
-              <Text preset={["fs_20 text_second3 mr_10"]}>+</Text>
-            </CustomTouchBtn>
           </View>
-          <Text preset={["fw_400 fs_16 mt_10"]} style={{lineHeight: scale(24)}}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            varius enim in eros elementum tristique. Duis cursus, mi quis
-            viverra ornare, eros dolor interdum nulla, ut commodo diam libero
-            vitae erat. Aenean faucibus nibh et justo cursus id rutrum lorem
-            imperdiet. Nunc ut sem vitae risus tristique posuere.
-          </Text>
-        </View> */}
+        </View>
+        <Collections  navigation={navigation}/>
 
-        {/* Returns */}
-        {/* <View
-          preset={["mt_20"]}
-          style={{
-            borderTopWidth: 1,
-            borderTopColor: colors.secoundary_3,
-          }}>
-          <View preset={["row center jc_between mt_20"]}>
-            <View preset={["row center"]}>
-              <Text preset={["fs_20 fw_700"]}>Returns </Text>
-            </View>
-            <CustomTouchBtn>
-              <Text preset={["fs_20 text_second3 mr_10"]}>+</Text>
-            </CustomTouchBtn>
-          </View>
-          <Text preset={["fw_400 fs_16 mt_10"]} style={{lineHeight: scale(24)}}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            varius enim in eros elementum tristique. Duis cursus, mi quis
-            viverra ornare, eros dolor interdum nulla, ut commodo diam libero
-            vitae erat. Aenean faucibus nibh et justo cursus id rutrum lorem
-            imperdiet. Nunc ut sem vitae risus tristique posuere.
-          </Text>
-        </View> */}
+
+
 
         <View style={{ height: scale(220) }}></View>
       </ScrollView>
@@ -542,7 +523,7 @@ const styles = StyleSheet.create({
     // alignItems: "center",
   },
   addToCart: {
-    backgroundColor: colors.primary_2,
+    backgroundColor: colors.primary_1,
     height: scale(50),
     marginBottom: scale(height <= 760 ? 115 : 100),
     width: width,

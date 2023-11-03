@@ -3,9 +3,9 @@ import React from "react";
 import {presset} from "./text.preset";
 import {pressetData} from "../../../utils/funtions";
 
-export default function Text({children, preset = ["default"], style,numberOfLines,ellipsizeMode}) {
+export default function Text({children, preset = ["default"], style,numberOfLines,ellipsizeMode,fontFamily}) {
   // console.log(numberOfLines)
-  const textStyle = StyleSheet.compose(pressetData(preset), style);
+  const textStyle = StyleSheet.compose(pressetData(preset), {...style,fontFamily:fontFamily?fontFamily:"RR"});
   return <RnText numberOfLines={numberOfLines} ellipsizeMode={ellipsizeMode} style={textStyle}>{children}</RnText>;
 } 
 

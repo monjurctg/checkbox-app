@@ -142,19 +142,12 @@ const Login = () => {
   };
 
   return (
-    <View style={{alignSelf:"center",justifyContent:"center",alignItems:"center",flex:1}}> 
- <View style={{backgroundColor:"#FFF",elevation:5,padding:10,paddingVertical:30,borderRadius:10}}>
+    <View style={{alignSelf:"center",justifyContent:"center",alignItems:"center",flex:1,width:200}}> 
+ <View style={{backgroundColor:"#FFF",elevation:1,padding:10,paddingVertical:30,borderRadius:10,width:scale(310)}}>
    <Image source={require("../../../assets/logo.png")} style={{alignSelf:"center",width:200,resizeMode:"contain"}}/>
 
-        <Text
-          style={{
-            fontSize: 24,
-            // lineHeight: 24,
-            fontWeight: "500",
-            textAlign: "center",
-          }}
-        >
-          Wellcome Back
+        <Text style={{ fontSize: 24, fontWeight: "400",textAlign: "center", fontFamily:"RR"}}>
+          Welcome Back
         </Text>
  
       <InputTestCustom
@@ -181,7 +174,7 @@ const Login = () => {
           justifyContent: "center",
           alignItems: "center",
           marginTop: 10,
-          width: scale(320),
+          // width: scale(320),
         }}
       >
         {loading ? (
@@ -191,7 +184,7 @@ const Login = () => {
             style={styles.spinner}
           />
         ) : (
-          <Text style={{ fontSize: 18, fontWeight: "400", color: "#FFFFFF" }}>
+          <Text style={{ fontSize: 18, fontWeight: "500", color: "#FFFFFF",fontFamily:"RM" }}>
             Log In
           </Text>
         )}
@@ -199,8 +192,9 @@ const Login = () => {
       <View
         style={{
           flexDirection: "row",
-          justifyContent: "flex-end",
-          marginTop: 20,
+          // justifyContent: "flex-end",
+          marginTop: 10,
+          marginBottom:20
         }}
       >
         <TouchableOpacity
@@ -208,14 +202,15 @@ const Login = () => {
         >
           <Text
             style={{
-              fontWeight: "600",
-              fontSize: 16,
-              color: "red",
-              fontWeight: 600,
+              // fontWeight: "600",
+              fontSize: 14,
+              fontFamily:"RR"
+              // color: "red",
+              // fontWeight: "500",
             }}
           >
             {" "}
-            Forget Password
+            Forget your Password?
           </Text>
         </TouchableOpacity>
       </View>
@@ -227,9 +222,9 @@ const Login = () => {
           // marginTop: 20,
         }}
       >
-        <Text style={{ fontSize: 14 }}>Don’t have an account?</Text>
+        <Text style={{ fontSize: 14,fontFamily:"RM" }}>Don’t have an account?</Text>
         <TouchableOpacity onPress={() => navigation.navigate("signup")}>
-          <Text style={{ fontWeight: "600", fontSize: 14 }}> Sign Up</Text>
+          <Text style={{  fontSize: 14,color:"#BE202E",fontFamily:"RB" }}> Sign Up</Text>
         </TouchableOpacity>
       </View>
  </View>

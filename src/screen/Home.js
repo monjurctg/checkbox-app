@@ -114,9 +114,10 @@ const Home = ({ navigation }) => {
           >
             <Text
               style={{
-                // fontFamily: "Gotham",
-                fontStyle: 'normal',
-                fontWeight: '400',
+                fontFamily: "RB",
+                // fontStyle: 'normal',
+                // fontWeight: '400',
+              
                 fontSize: 14,
                 lineHeight: 16,
                 color: '#231F20',

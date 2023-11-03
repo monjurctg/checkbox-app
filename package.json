@@ -10,6 +10,7 @@
     "apk": "eas build -p android --profile preview"
   },
   "dependencies": {
+    "@expo-google-fonts/raleway": "^0.2.3",
     "@expo/webpack-config": "^18.0.1",
     "@preact/signals-react": "^1.3.6",
     "@react-native-async-storage/async-storage": "1.17.11",

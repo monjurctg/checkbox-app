@@ -5,7 +5,7 @@ import {
   Text,
   TouchableOpacity,
   View,
-  TextInput,
+  TextInput,Image
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import InputLayout from '../../components/layout/InputLayout';
@@ -147,8 +147,10 @@ const UserInfo = ({ route, navigation }) => {
   };
 
   return (
-    <InputLayout>
-      <View style={{ marginVertical: scale(20) }}>
+    <View style={{alignSelf:"center",flex:1,justifyContent:"center",alignItems:"center"}}>
+    <View  style={{backgroundColor:"#FFF",elevation:1,padding:10,borderRadius:10,paddingVertical:20,width:scale(320)}}>
+    <Image source={require("../../../assets/logo.png")} style={{alignSelf:"center",width:200,resizeMode:"contain"}}/>
+      <View style={{ marginVertical: scale(10) }}>
         <Text
           style={{
             fontSize: 24,
@@ -240,9 +242,10 @@ const UserInfo = ({ route, navigation }) => {
             </Text>
           )}
         </TouchableOpacity>
-        <View style={{ height: scale(100) }}></View>
+        {/* <View style={{ height: scale(100) }}></View> */}
       </ScrollView>
-    </InputLayout>
+    </View>
+    </View>
   );
 };
 

@@ -176,6 +176,8 @@ const Cart = () => {
     return unsubscribe;
   }, [navigation]);
 
+  
+
   const handleSwitchCart = async (id) => {
     if (id) {
       if (id == (await AsyncStorage.getItem("billingInfo"))) {
@@ -231,7 +233,7 @@ const Cart = () => {
           </CustomTouchBtn>
         </View>
         <View preset={["mt_10 ph_10 row jc_between"]}>
-          <Text preset={["bold  fs_18"]}>{carts?.name}</Text>
+          <Text preset={["RB  fs_18"]}>{carts?.name}</Text>
           <View preset={["flex row center"]}>
             <TouchableOpacity
               style={{
@@ -244,9 +246,9 @@ const Cart = () => {
             >
               <Text
                 style={{
-                  // fontFamily: "Gotham",
+                  fontFamily: "RR",
                   fontStyle: "normal",
-                  fontWeight: 500,
+                  // fontWeight: 500,
                   fontSize: 12,
                   lineHeight: 12,
                   color: "#BE202E",
@@ -279,7 +281,7 @@ const Cart = () => {
                     color="black"
                   />
                 </TouchableOpacity>
-                <Text preset={["bold fs_14 mt_10"]}>Edit cart name</Text>
+                <Text preset={[" fs_14 mt_10 RB"]}>Edit cart name</Text>
                 <TextInput
                   style={styles.input}
                   value={inputValue}
@@ -291,12 +293,12 @@ const Cart = () => {
                     style={styles.cancelButton}
                     onPress={handleCancel}
                   >
-                    <Text preset={["fs_14"]} style={{ color: "#FFF" }}>
+                    <Text preset={["fs_14 RR"]} style={{ color: "#FFF" }}>
                       Cancel
                     </Text>
                   </TouchableOpacity>
                   <TouchableOpacity style={styles.okButton} onPress={handleOk}>
-                    <Text preset={["fs_14"]} style={styles.buttonText}>
+                    <Text preset={["fs_14 RR"]} style={styles.buttonText}>
                       OK
                     </Text>
                   </TouchableOpacity>
@@ -385,7 +387,7 @@ const Cart = () => {
                 color: "#BE202E",
                 textAlign: "center",
               }}
-              preset={["fs_12 bold"]}
+              preset={["fs_12 RM"]}
             >
               Save Cart
             </Text>
@@ -410,7 +412,7 @@ const Cart = () => {
               padding: scale(8),
             }}
           >
-            <Text style={{ color: "white" }} preset={["fs_12 bold"]}>
+            <Text style={{ color: "white" }} preset={["fs_12 RM"]}>
               Proceed to Cart Details
             </Text>
           </CustomTouchBtn>
@@ -455,6 +457,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     paddingHorizontal: 10,
     borderRadius: 7,
+    fontFamily:"RR"
   },
   buttonContainer: {
     flexDirection: "row",
@@ -492,6 +495,7 @@ const styles = StyleSheet.create({
   ViewAllCartButtonText: {
     color: "white",
     fontSize: 16,
-    fontWeight: "bold",
+    fontFamily:"RM"
+    // fontWeight: "bold",
   },
 });

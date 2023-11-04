@@ -85,7 +85,7 @@ function HomeScreen() {
   );
 }
 
-function OrderScreen() {
+function AllCartsScreen() {
   return (
     <OrdersStack.Navigator
       screenOptions={{
@@ -215,7 +215,7 @@ function MyTabBar({ state, descriptors, navigation, children }) {
                 style={styles.unauthButton}
               >
                 <View style={styles.unauthButtonBackground}>
-                  <Text preset={["p1"]} style={styles.unauthButtonText}>
+                  <Text preset={["p1 RM"]} style={styles.unauthButtonText}>
                     Signup Now
                   </Text>
                 </View>
@@ -224,7 +224,7 @@ function MyTabBar({ state, descriptors, navigation, children }) {
               <View style={[styles.authButtonContainer]}>
                 <Animated.View style={[styles.authButtonContent]}>
                   {icon}
-                  <Text preset={["fs_12 fw_500"]} style={{ color: color }}>
+                  <Text preset={["fs_12 fw_500 RR"]} style={{ color: color }}>
                     {label2}
                   </Text>
                 </Animated.View>
@@ -311,7 +311,7 @@ export default function TabScreen({ route }) {
         >
           <Tab.Screen name="home" component={HomeScreen} />
           <Tab.Screen name="Products" component={ProductsScreen} />
-          <Tab.Screen name="carts" component={OrderScreen} />
+          <Tab.Screen name="carts" component={AllCartsScreen} />
           <Tab.Screen name="dashboard" component={DashScreen} />
         </Tab.Navigator>
       )}

@@ -88,6 +88,8 @@ const Products = ({ navigation }) => {
       });
     // console.log(res.data.meta, "product apo");
   };
+
+
   useEffect(() => {
     console.log("hello")
     fetchData();
@@ -277,13 +279,14 @@ const Products = ({ navigation }) => {
               alignItems: "center",
             }}
           >
-            <Text
+            <Text 
               style={{
-                // fontFamily: "Gotham",
+                fontFamily: "RB",
                 fontStyle: "normal",
-                fontWeight: 700,
+                // fontWeight: 700,
                 fontSize: 18,
                 lineHeight: 24,
+                
               }}
             >
               All Products
@@ -303,7 +306,7 @@ const Products = ({ navigation }) => {
                 paddingHorizontal: scale(12),
               }}
             >
-              <Text preset={["fs_14  lh_14  fw_400 pl_5 center"]}>
+              <Text preset={["fs_14  lh_14 RR  fw_400 pl_5 center"]}>
                 Best sellers
               </Text>
               <AntDesign name="down" size={11} color="black" />

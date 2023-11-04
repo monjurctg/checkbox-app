@@ -22,6 +22,7 @@ export const Base_bold = {
 
 export const presset = {
   default: Base,
+  // fontFamily:"RR",
   // bold: Bold,
   h1: {
     ...Bold,
@@ -168,6 +169,17 @@ export const presset = {
   text_center: {
     textAlign: "center",
   },
+  RR:{
+    fontFamily:"RR"
+  },
+  RM:{
+    fontFamily:"RM"
+  },
+  RB:{
+    fontFamily:"RB"
+  },
+
+
   // bordercol
   border_1: {
     borderWidth: 1,
@@ -420,6 +432,9 @@ export const presset = {
 
   alignCenter: {
     alignSelf: "center",
+  },
+  ac:{
+    alignItems:"center"
   },
   center: {
     justifyContent: "center",

@@ -175,8 +175,8 @@ const SingleCart = ({ item }) => {
             // justifyContent: "space-between",
           }}
         >
-          <Text numberOfLines={2} ellipsizeMode="tail" style={{width:scale(190)}} preset={["bold lh_20  fs_14 "]}>{item?.product_name}</Text>
-          <Text preset={["mt_5 lh_20 fs_16"]}>
+          <Text numberOfLines={2} ellipsizeMode="tail" style={{width:scale(190)}} preset={["RB lh_20  fs_13 "]}>{item?.product_name}</Text>
+          <Text preset={["mt_5 lh_20 fs_14"]}>
             ৳ <Text style={{ fontWeight: "bold" }}>{item?.price}</Text>
           </Text>
           <View style={{flexDirection:"row"}}>

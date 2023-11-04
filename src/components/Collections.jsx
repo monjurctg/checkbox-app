@@ -14,7 +14,7 @@ const Collections = ({ refreshing, navigation }) => {
         productServices
             .productCollection()
             .then((res) => {
-                // console.log(res.data.data.items, "top Selling ");
+                // console.log(res.data.data[0].products, "top Selling ");
                 setCollections(res.data.data);
                 setCollectionLoading(false);
             })
@@ -38,14 +38,14 @@ const Collections = ({ refreshing, navigation }) => {
                 </View>
             )}
             {collections.map((collection, index) => {
-                // console.log(collection,"fkdfkd")
+                // console.log(collection.products,"fkdfkd")
 
                 return <CollectionItems
                     //   from={"allCollection"}
                     name={collection?.name}
                     slug={collection}
                     key={index}
-                    products={collection?.products?.splice(0, 10)}
+                    products={collection?.products}
                     navigation={navigation}
                 />
             })}

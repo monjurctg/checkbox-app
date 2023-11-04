@@ -13,12 +13,12 @@ const ClientReview = ({rating, auther, review, date}) => {
      <Image source={{uri:review?.avatar}} style={{width:50,height:50,borderRadius:25}} />
       <Rating maxStars={5} defaultStars={review?.rating} />
      </View>
-      <Text numberOfLines={3} ellipsizeMode={"tail"} preset={["lh_24 mt_5 fs_16 fw_400"]}>
+      <Text numberOfLines={3} ellipsizeMode={"tail"} preset={["lh_24 mt_5 fs_16 RR fw_400"]}>
      {review?.comment}
       </Text>
       <View preset={["row   mt_15"]}>
-        <Text preset={["fs_14 lh_24 fw_400"]}>by </Text>
-        <Text preset={["  fs_14 lh_24 fw_500 "]}> {review?.user_name} </Text>
+        <Text preset={["fs_14 lh_24 fw_400 RR"]}>by </Text>
+        <Text preset={["  fs_14 lh_24 fw_500 RM "]}> {review?.user_name} </Text>
         <Text preset={["  fs_14 fw_400 lh_24 fw_499 "]}> on {review?.time}</Text>
       </View>
     </TouchableOpacity>

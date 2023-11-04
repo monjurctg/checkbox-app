@@ -8,7 +8,7 @@ import View from "../tags/View";
 
 const CollectionItems = ({ navigation, name, products = [] ,from,slug}) => {
   // console.log(navigation, "navigation");
-  console.log(products,"productssdsd",from)
+  // console.log(products,"productssdsd",from)
   
 
   const renderItem = ({ item }) => {
@@ -56,22 +56,18 @@ const CollectionItems = ({ navigation, name, products = [] ,from,slug}) => {
           borderTopLeftRadius:7
         }}
       />
-      <Text numberOfLines={2} ellipsizeMode="tail"   style={{ }} preset={["p3 p_5  lh_14 mt_5"]}>
+      <Text numberOfLines={2} ellipsizeMode="tail"   style={{ }} preset={["p3 p_5 RR lh_14 mt_5"]}>
         {data?.name}
       </Text>
       {data?.price?.main_price && (
             <Text
-            preset={["p3   lh_14"]}
+            preset={["p3   lh_14 "]}
               color="#c4312e"
               style={{
                 // fontFamily: "Lexend",
                 fontSize: 13,
                 fontWeight: "600",
                 paddingLeft:7
-
-
-
-
 
               }}
               // className="p4"
@@ -116,7 +112,7 @@ const CollectionItems = ({ navigation, name, products = [] ,from,slug}) => {
           borderBottomRightRadius: 0,
           backgroundColor:"#FFF",
         }}>
-        <Text preset={["p3 bold"]} style={{fontWeight: "bold"}}>
+        <Text preset={["p3 RB"]} style={{}}>
           {name}
         </Text>
         <CustomTouchBtn
@@ -126,7 +122,7 @@ const CollectionItems = ({ navigation, name, products = [] ,from,slug}) => {
             navigation.navigate("filter", {data: { collection_slug: slug.slug },})
           }
         >
-          <Text style={{color:"#FFF"}} preset={["p3 mr_5"]}>View More</Text>
+          <Text style={{color:"#FFF"}} preset={["p3 mr_5 RR"]}>View More</Text>
           {/* <Image source={require("../../../assets/icons/right-icon.png")} /> */}
         </CustomTouchBtn>
         

@@ -13,9 +13,7 @@ import Text from "../components/tags/Text";
 import { colors } from "../theme/colors";
 import View from "../components/tags/View";
 import CustomTouchBtn from "../components/tags/CustomTouchBtn";
-import love from "../../assets/icons/love.png";
-import img1 from "../../assets/img/shoe-red.png";
-import img2 from "../../assets/img/camera.png";
+import { Feather } from '@expo/vector-icons';
 
 import img3 from "../../assets/img/shoe1.png";
 import { AntDesign } from "@expo/vector-icons";
@@ -159,29 +157,7 @@ const ProductDetails = ({ navigation }) => {
   return (
     <Mainlayout>
       <ScrollView showsVerticalScrollIndicator={false}>
-        {/* <CustomTouchBtn
-          preset={["center"]}
-          style={{
-            position: "absolute",
-            width: scale(44),
-            height: scale(44),
-            container: {
-              display: "flex",
-              flexDirection: "column",
-              // backgroundColor: "#211f1f",
-              height: height,
-              width: width,
-              backgroundColor: colors.white,
-            },
-            right: scale(6),
-            top: scale(20),
-            zIndex: 9999,
-            borderRadius: 32,
-            backgroundColor: "white",
-          }}
-        >
-          <Image source={love} />
-        </CustomTouchBtn> */}
+    
         <View style={{ alignSelf: "center", elevation: 1, width: scale(330), backgroundColor: "#FFF", padding: 10, marginTop: 20, borderRadius: 10, paddingVertical: 20 }}>
 
 
@@ -189,8 +165,8 @@ const ProductDetails = ({ navigation }) => {
           <Image
             style={{
               width: scale(310),
-              height: scale(350),
-              resizeMode: "cover",
+              height: scale(320),
+              resizeMode: "contain",
               // marginBottom: scale(10),
               alignSelf: "center"
               , borderWidth: 1, borderColor: "#DDD"
@@ -205,8 +181,9 @@ const ProductDetails = ({ navigation }) => {
                   style={{
                     height: scale(70),
                     width: scale(70),
-                    marginRight: scale(5),
-                    resizeMode: "cover"
+                    
+                    // marginRight: scale(5),
+                    resizeMode: "contain"
                     , borderWidth: 1, borderColor: "#DDD"
                     // borderRadius:10
                   }}
@@ -215,40 +192,16 @@ const ProductDetails = ({ navigation }) => {
               </TouchableOpacity>
             ))}
           </ScrollView>
-
-
-          {/* <View preset={[`  mt_20`]}>
-          <TouchableOpacity
-            style={{
-              position: "relative",
-              left: scale(220),
-
-              borderWidth: 1,
-              flexDirection: "row",
-              width: scale(100),
-              borderRadius: 4,
-              justifyContent: "space-around",
-              alignItems: "center",
-              paddingLeft: scale(6),
-              borderColor: colors.primary_3,
-              height: scale(25),
-            }}
-          >
-            <Text preset={["p3"]} style={{ color: colors.primary_3 }}>
-              Copy Text
-            </Text>
-            <Image source={require("../../assets/icons/copy.png")} />
-          </TouchableOpacity>
-          
-        </View> */}
-          <Text preset={["fw_700 fs_20 mt_15"]}>{singleProduct?.name}</Text>
+          <Text preset={[" fs_20 mt_15"]} style={{fontFamily:"RB"}}>{singleProduct?.name}</Text>
           <View preset={["row  mt_10 "]} style={{ alignItems: "center" }}>
-            <Text preset={["fs_14  "]}>Sold by</Text>
-            <Text preset={["ml_5 fw_700 fs_16 mr_10"]}>Inter Active</Text>
+            <Text preset={["fs_14 RM "]} style={{backgroundColor:"#4caf50",paddingHorizontal:10,paddingVertical:5,color:"#FFF"}}>Sold by</Text>
+            <Text preset={["ml_5 RB fs_16 RB  mr_10"]} style={{}}>Inter Active</Text>
+            {/* <Text preset={["ml_5 RB fs_16 mr_10"]}>Inter Active</Text> */}
+ 
             <Entypo name="emoji-happy" size={24} color="black" />
             <Text preset={["fs_14"]}> 92%</Text>
           </View>
-          <Text preset={["h2 bold mt_10"]}>
+          <Text style={{color:"#be202e"}} preset={["h2 RB bold mt_10"]}>
             {singleProduct?.currency_symbol}
             {singleProduct?.price?.calculable_price}
           </Text>
@@ -259,12 +212,12 @@ const ProductDetails = ({ navigation }) => {
               defaultStars={singleProduct?.rating?.rating}
               maxStars={5}
             />
-            <Text preset={["p1"]}>
+            <Text preset={["p1 RR"]}>
               ({singleProduct?.rating?.rating_count} stars) • 10 reviews
             </Text>
           </View>
           <View preset={["row"]} style={styles.text}>
-            <Text preset={["p1 fs_20 "]}>M.S.R.P : </Text>
+            <Text preset={["p1 fs_20 RR "]}>M.S.R.P : </Text>
             <Text preset={[" fs_20  text_second3"]}>{singleProduct?.msrp}</Text>
           </View>
 
@@ -273,14 +226,15 @@ const ProductDetails = ({ navigation }) => {
             style={{ height: scale(48), width: "100%" }}
           >
             <Image source={require("../../assets/icons/dload.png")} />
-            <Text preset={["p1 ml_10"]} style={{ fontWeight: "300" }}>Download Product Details</Text>
+            <Text preset={["p1 ml_10 RR"]} style={{ fontWeight: "300" }}>Download Product Details</Text>
           </CustomTouchBtn>
           <CustomTouchBtn
             preset={["row mt_10  radius_5 center border_1 "]}
-            style={{ height: scale(48), width: "100%" }}
+            style={{ height: scale(48), width: "100%",backgroundColor:"#bd212f" }}
           >
-            <Image source={require("../../assets/icons/facebook.png")} />
-            <Text preset={["p1 ml_10 fw_325 "]}>Post in Facebook</Text>
+            {/* <Image source={require("../../assets/icons/facebook.png")} /> */}
+            <Feather name="facebook" size={18} color="#FFF" />
+            <Text preset={["p1 ml_10 fw_325 RR "]} style={{color:"#FFF"}}>Post in Facebook</Text>
           </CustomTouchBtn>
 
           {/* color */}
@@ -297,7 +251,7 @@ const ProductDetails = ({ navigation }) => {
 
           {/* quantity */}
           <View preset={["mt_10"]}>
-            <Text preset={["fs_16 bold "]}>Qty</Text>
+            <Text preset={["fs_16 bold RB "]}>Qty</Text>
             {/* <View preset={["row mt_5 "]} style={{}}>
             <CustomTouchBtn
               onPress={() => {
@@ -407,7 +361,7 @@ const ProductDetails = ({ navigation }) => {
 
           {/* client review */}
           <View preset={[" mt_20"]}>
-            <Text preset={["fs_16 fw_700"]}>Product Reviews</Text>
+            <Text preset={["fs_16 fw_700 RB"]}>Product Reviews</Text>
             <View preset={["mt_5"]}>
               {reviews?.length == 0 ? (
                 <View
@@ -451,9 +405,6 @@ const ProductDetails = ({ navigation }) => {
                   showsHorizontalScrollIndicator={false}
                   data={reviews}
                   renderItem={renderItem}
-                  // ListFooterComponent={renderFooter}
-                  // keyExtractor={(item) => item.id.toString()}
-                  // onEndReached={fetchData}
                   onEndReachedThreshold={0.5}
                 />
               )}

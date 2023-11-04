@@ -1,5 +1,5 @@
 import {Image, ScrollView, StyleSheet, TextInput} from "react-native";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {SafeAreaView} from "react-native-safe-area-context";
 import View from "../components/tags/View";
 import Text from "../components/tags/Text";
@@ -12,12 +12,43 @@ import {Feather} from "@expo/vector-icons";
 import {AntDesign} from "@expo/vector-icons";
 import SaveSingleCart from "../components/cart/SaveSingleCart";
 import FullScreenLoader from "../components/loader/FullScreenLoader ";
+import api from "../services/api";
 
-const Orders = () => {
+const Orders = ({navigation}) => {
   const [loading, setLoading] = useState(true);
+  const [carts,setCarts]=useState([])
   setTimeout(() => {
     setLoading(false);
   }, 1000);
+ 
+
+  const fetchCarts = async ()=>{
+    try{
+      // setLoading()
+    const res = await api.get("/carts")
+    setCarts(res.data.data)
+    }
+    catch(err){
+      console.log(err)
+    }
+    finally{
+      setLoading(false)
+    }
+  
+  }
+  useEffect(()=>{
+    fetchCarts()
+  },[])
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+     fetchCarts()
+
+    });
+    return unsubscribe;
+  }, [navigation]);
+  
+
   if (loading) {
     return <FullScreenLoader visible={loading} />;
   }
@@ -31,20 +62,18 @@ const Orders = () => {
             borderBottomColor: "#DDDDDD",
             paddingBottom: scale(5),
           }}>
-          <Text preset={["bold fs_16"]}>Saved Cart (5)</Text>
+          <Text preset={["RB fs_16"]}>Saved Cart ({carts.length})</Text>
           <CustomTouchBtn>
             <AntDesign name="closecircleo" size={scale(20)} color="black" />
           </CustomTouchBtn>
         </View>
 
         <View preset={["mt_10 "]}>
-          <SaveSingleCart title={"Untitled Cart 1"} />
-          <SaveSingleCart title={"Md Ajharul Islam (01615001811)"} />
-          <SaveSingleCart title={"Untitled Cart 1"} />
-          <SaveSingleCart title={"Untitled Cart 1"} />
-          <SaveSingleCart title={"Md monjur (01615001811)"} />
-          <SaveSingleCart title={"Untitled Cart 1"} />
-          <SaveSingleCart title={"Untitled Cart 1"} />
+          {
+            carts.map((cart,index)=>  <SaveSingleCart key={index} cart={cart} title={"Untitled Cart 1"} />)
+          }
+         
+       
         </View>
 
         <View style={{height: scale(60)}}></View>

@@ -8,23 +8,12 @@ import { colors } from "../../theme/colors";
 
 const Tags = ({ variant, setVariant, variantLength, options, title }) => {
   const handleVariant = (item, name) => {
-    // console.log(item);
-    // console.log("variation item",name);
-    // debugger
-    // alert(indexOfVarient)
-
     if (title === name) {
-      // setVariant({ ...variant, [name.toLowerCase()]: item });
       setVariant({ ...variant, [variantLength]: item });
     }
-
-    // else if (title === "Size") {
-    //   setVariant({...variant, size: item});
-    // }
   };
 
   const active = (item, name) => {
-    // console.log("variation",item, title);
     if (title === name) {
       return item == variant?.[variantLength];
     }
@@ -32,7 +21,7 @@ const Tags = ({ variant, setVariant, variantLength, options, title }) => {
 
   return (
     <View preset={["mt_10"]} >
-      <Text preset={["fs_16 bold "]}>Select {title}</Text>
+      <Text preset={["fs_16 RB "]}>Select {title}</Text>
       <View preset={["row wrap"]}>
         {options?.map((option, index) => (
           <CustomTouchBtn
@@ -54,7 +43,7 @@ const Tags = ({ variant, setVariant, variantLength, options, title }) => {
             }}
           >
             <Text
-              preset={[` ${active(option, title) && "text_white "}  fs_14`]}
+              preset={[` ${active(option, title) && "text_white "} RR  fs_14`]}
             >
               {option}
             </Text>

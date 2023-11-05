@@ -13,6 +13,7 @@ import {AntDesign} from "@expo/vector-icons";
 import SaveSingleCart from "../components/cart/SaveSingleCart";
 import FullScreenLoader from "../components/loader/FullScreenLoader ";
 import api from "../services/api";
+import cartServices from "../services/cartServices";
 
 const Orders = ({navigation}) => {
   const [loading, setLoading] = useState(true);
@@ -47,6 +48,8 @@ const Orders = ({navigation}) => {
     });
     return unsubscribe;
   }, [navigation]);
+
+ 
   
 
   if (loading) {
@@ -70,7 +73,7 @@ const Orders = ({navigation}) => {
 
         <View preset={["mt_10 "]}>
           {
-            carts.map((cart,index)=>  <SaveSingleCart key={index} cart={cart} title={"Untitled Cart 1"} />)
+            carts.map((cart,index)=>  <SaveSingleCart key={index} cart={cart} refatch={fetchCarts} />)
           }
          
        

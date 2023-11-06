@@ -27,6 +27,7 @@ const Mainlayout = ({ children }) => {
   const [isSearchVisible, setSearchVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const {  user } = useSelector((state) => state.auth);
+  // console.log(user,"fdfjdkfj")
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -111,8 +112,8 @@ const Mainlayout = ({ children }) => {
           <View style={{ paddingHorizontal: scale(10) }}>
             <View style={styles.headerContainer}>
               <View style={styles.left}>
-                <TouchableOpacity onPress={handleMenu}>
-                  <Image
+                <TouchableOpacity style={{height:48,width:48,borderRadius:25,backgroundColor:"#bd212f",justifyContent:"center",alignItems:"center"}} onPress={handleMenu}>
+                  {/* <Image
                     source={require("../../../assets/img/monjur3.jpg")}
                     // source={{uri:user.logo}}
                     style={{
@@ -121,7 +122,8 @@ const Mainlayout = ({ children }) => {
                       borderRadius: 40,
                       resizeMode: "cover",
                     }}
-                  />
+                  /> */}
+                  <Text style={{textTransform:"capitalize",color:"white"}}>{user?.name.slice(0,1)}</Text>
                 </TouchableOpacity>
 
                 <View style={{ marginLeft: scale(10) }}>

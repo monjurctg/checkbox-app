@@ -126,6 +126,18 @@ cartServices.removeCart = (data) => {
     });
   return res;
 };
+// cartServices.removeCart = (data) => {
+//   let url = "carts/delete/" + data?.id;
+//   let res = axiosInstance
+//     .post(url, data)
+//     .then((res) => {
+//       return res;
+//     })
+//     .catch((err) => {
+//       return err.response;
+//     });
+//   return res;
+// };
 
 cartServices.updateProductFromCart = (data) => {
   // console.log(data?.id,"id")

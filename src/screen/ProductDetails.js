@@ -222,15 +222,15 @@ const ProductDetails = ({ navigation }) => {
           </View>
 
           <CustomTouchBtn
-            preset={["row mt_10 radius_5 center   border_1 "]}
+            preset={["row mt_10 radius_5 center   border_1 center "]}
             style={{ height: scale(48), width: "100%" }}
           >
             <Image source={require("../../assets/icons/dload.png")} />
             <Text preset={["p1 ml_10 RR"]} style={{ fontWeight: "300" }}>Download Product Details</Text>
           </CustomTouchBtn>
           <CustomTouchBtn
-            preset={["row mt_10  radius_5 center border_1 "]}
-            style={{ height: scale(48), width: "100%",backgroundColor:"#bd212f" }}
+            preset={["row mt_10  radius_5 center  "]}
+            style={{ height: scale(48), width: "100%",backgroundColor:colors.primary_2 }}
           >
             {/* <Image source={require("../../assets/icons/facebook.png")} /> */}
             <Feather name="facebook" size={18} color="#FFF" />
@@ -293,7 +293,6 @@ const ProductDetails = ({ navigation }) => {
                 if (quantity >= 2) {
                   setQuantity(quantity - 1);
                 }
-
               }} style={{ borderWidth: 1, borderColor: "#DDD", width: scale(60), height: 40, justifyContent: "center", alignItems: "center" }}><AntDesign name="minus" size={24} color="black" /></TouchableOpacity>
               <View style={{ borderWidth: 1, width: scale(60), height: 40, justifyContent: "center", alignItems: "center", borderColor: "#DDD" }}>
                 <Text>{quantity}</Text>
@@ -474,7 +473,7 @@ const styles = StyleSheet.create({
     // alignItems: "center",
   },
   addToCart: {
-    backgroundColor: colors.primary_1,
+    backgroundColor: colors.primary_3,
     height: scale(50),
     marginBottom: scale(height <= 760 ? 115 : 100),
     width: width,

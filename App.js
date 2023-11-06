@@ -1,10 +1,10 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useFonts, Raleway_400Regular,Raleway_500Medium,Raleway_600SemiBold,Raleway_700Bold } from '@expo-google-fonts/raleway';
+import { useFonts, Raleway_400Regular, Raleway_500Medium, Raleway_600SemiBold, Raleway_700Bold } from '@expo-google-fonts/raleway';
 
-import { StatusBar } from 'expo-status-bar';
-import { Linking, StyleSheet, View } from 'react-native';
+// import {  } from 'expo-status-bar';
+import { Linking, StyleSheet, View,StatusBar } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Text from './src/components/tags/Text';
 
@@ -45,12 +45,12 @@ import ResetPassword from './src/screen/auth/ResetPassword';
 
 export default function App() {
 
-  const [fontsLoaded,error] = useFonts({
-    RR:Raleway_400Regular,
-   RM: Raleway_600SemiBold,
-   RB:Raleway_700Bold
+  const [fontsLoaded, error] = useFonts({
+    RR: Raleway_400Regular,
+    RM: Raleway_600SemiBold,
+    RB: Raleway_700Bold
   });
-  
+
   if (!fontsLoaded) {
     return <Text>Loading..</Text>; // Or render a loading indicator
   }
@@ -88,6 +88,9 @@ export default function App() {
   // }
   return (
     <Provider store={store}>
+      <StatusBar backgroundColor="#ef405e" barStyle="light-content" />
+
+
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{
@@ -98,7 +101,7 @@ export default function App() {
           {/* <Stack.Screen name="search" component={Search} /> */}
           {/* I am trying to fixed the git issues */}
           {/* <Stack.Screen name="confirm-order" component={ConfirmOrder} /> */}
-          
+
 
           <Stack.Screen name="tab" component={TabScreen} />
           <Stack.Screen name="cart" component={Cart} />
@@ -113,7 +116,7 @@ export default function App() {
           <Stack.Screen name="checkout" component={Checkout} />
           {/* <Stack.Screen name="login" component={Login} /> */}
           <Stack.Screen name="signup" component={SiginUp} />
-        
+
           <Stack.Screen name="nid_verify" component={NidVerify} />
           {/* <Stack.Screen name="user_info" component={SellerRegister} /> */}
           <Stack.Screen name="search" component={Search} />

@@ -145,7 +145,7 @@ const CustomerDetails = ({ navigation, route }) => {
 
   return (
     <SafeAreaView style={{flex:1,padding:10}}>
-      <TouchableOpacity style={{marginTop:30,marginBottom:10}} onPress={()=>{
+      <TouchableOpacity style={{marginTop:10,marginBottom:10}} onPress={()=>{
         navigation.goBack()
       }}>
       <AntDesign name="arrowleft" size={27} color="black" />
@@ -154,7 +154,7 @@ const CustomerDetails = ({ navigation, route }) => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <Text style={{marginVertical:10,fontSize:18,fontWeight:"500"}}>{carts?.name}</Text>
         {!isBill ? (
-          <View style={{ paddingBottom: 180 }}>
+          <View style={{ paddingBottom: 10 }}>
             <View preset={["mt_10"]}>
               {/* <SaveSingleCart title={"Untitled Cart 1"} /> */}
             </View>

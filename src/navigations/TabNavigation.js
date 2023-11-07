@@ -53,19 +53,33 @@ const OrdersStack = createNativeStackNavigator();
 const DashStack = createNativeStackNavigator();
 const Dash = () => {
   const [loading, setLoading] = useState(true);
-
-  setTimeout(()=>{
+  const [token, setToken] = useState("")
+  const getToken = async () => {
+    let token = await AsyncStorage.getItem("token")
+    setToken(token)
     setLoading(false)
-  },1000)
 
-  if (loading) {
-    return <FullScreenLoader visible={loading} />;
+
   }
+  useEffect(() => {
+    getToken()
+  }, [])
 
+  // setTimeout(()=>{
+  //   setLoading(false)
+  // },1000)
+
+  // if (loading) {
+  //   return <FullScreenLoader visible={loading} />;
+  // }
+
+  // console.log("https://cb-next-reseller-omega.vercel.app/?token=" +token )
   return (
     <>
-      <View style={{ flex: 1, marginTop: 30 }}>
-        <WebView  source={{ uri: "https://cb-next-reseller-omega.vercel.app/?token=470|SXHoB22MKs2CCcdRxrEUNrhXAYoSfLTPhUjMgj5G" }} style={{ flex: 1 }} />
+      <View style={{ flex: 1, }}>
+        <WebView
+          renderLoading={() => <View style={{ position: "absolute", top: "50%", left: "50%" }}><FullScreenLoader visible={loading} /></View>}
+          startInLoadingState={true} source={{ uri: "https://cb-next-reseller-omega.vercel.app/?token=" + token }} style={{ flex: 1 }} />
       </View>
     </>
   );
@@ -118,8 +132,8 @@ function MyTabBar({ state, descriptors, navigation, children }) {
           options.tabBarLabel !== undefined
             ? options.tabBarLabel
             : options.title !== undefined
-            ? options.title
-            : route.name;
+              ? options.title
+              : route.name;
 
         const isFocused = state.index === index;
 
@@ -266,29 +280,29 @@ export default function TabScreen({ route }) {
   useEffect(() => {
     const checkToken = async () => {
       setLoading(true);
-     try{
-      const token = await AsyncStorage.getItem("token");
-      if (token) {
-        const res = await authServices.getUserinfo();
-        if (res.status == 200) {
-          dispatch(setUser(res.data.data));
-          dispatch(setAuth(true));
-          // setLoading(false);
-        } 
-      }
-     }catch(err){
-      
+      try {
+        const token = await AsyncStorage.getItem("token");
+        if (token) {
+          const res = await authServices.getUserinfo();
+          if (res.status == 200) {
+            dispatch(setUser(res.data.data));
+            dispatch(setAuth(true));
+            // setLoading(false);
+          }
+        }
+      } catch (err) {
 
-     }
-     finally{
-      setLoading(false);
-     }
+
+      }
+      finally {
+        setLoading(false);
+      }
     };
 
     checkToken();
   }, []);
 
-  
+
   // console.log("user",loading);
 
   return (
@@ -357,7 +371,7 @@ const styles = StyleSheet.create({
     marginHorizontal: scale(7),
     justifyContent: "center",
     alignItems: "center",
-    borderRadius:7
+    borderRadius: 7
 
   },
   unauthButtonText: {

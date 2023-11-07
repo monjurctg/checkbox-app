@@ -88,7 +88,7 @@ export default function App() {
   // }
   return (
     <Provider store={store}>
-      <StatusBar backgroundColor="#ef405e" barStyle="light-content" />
+      <StatusBar backgroundColor="#be202e" barStyle="light-content" />
 
 
       <NavigationContainer>

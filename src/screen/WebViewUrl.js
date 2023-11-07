@@ -63,7 +63,8 @@ const WebViewUrl = ({ route }) => {
     return params;
   }
 
-  const testFunc = () => {
+  const testFunc = async() => {
+   
     // console.log("clik");
     const url =
       "https://checkbox-rosy.vercel.app/cart/payment-order?amount=6490.70&currency=BDT&order_code=ORD-1695061307565&tran_id=CHK-2023091865089533e083c&store_name=Checkbox&payment_method=TRUST%20BANK,%20LTD.&time=Sep%2018,%202023%2018:21:47&sender=monjur";

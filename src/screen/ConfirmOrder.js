@@ -347,7 +347,7 @@ const ConfirmOrder = ({ navigation, route }) => {
 
   return (
     <SafeAreaView style={{flex:1,padding:10}}>
-      <TouchableOpacity style={{marginTop:scale(30),marginBottom:10}} onPress={()=>{
+      <TouchableOpacity style={{marginTop:scale(10),marginBottom:10}} onPress={()=>{
         navigation.goBack()
       }}>
       <AntDesign name="arrowleft" size={27} color="black" />
@@ -434,7 +434,7 @@ const ConfirmOrder = ({ navigation, route }) => {
     </View>
     <View style={{ height: 100 }}></View>
   </ScrollView>
-  <TouchableOpacity onPress={orderPlace} style={{ position: "absolute", backgroundColor: calculateTotal() > 0 ? "green" : "#be202e", width: Dimensions.get("window").width, alignSelf: "center", justifyContent: "center", alignItems: "center", height: scale(50), marginTop: Dimensions.get("window").height-scale(20), }}>
+  <TouchableOpacity onPress={orderPlace} style={{ position: "absolute", backgroundColor: calculateTotal() > 0 ? "green" : "#be202e", width: Dimensions.get("window").width, alignSelf: "center", justifyContent: "center", alignItems: "center", height: scale(50), marginTop: Dimensions.get("window").height-scale(50), }}>
     <Text style={{ color: "white", fontWeight: "600" }}>{calculateTotal() > 0 ? "Order Now" : "Pay BDT " + Math.abs(calculateTotal()).toFixed(2) + " and Confirm Order"}</Text>
   </TouchableOpacity>
   {/* modal */}

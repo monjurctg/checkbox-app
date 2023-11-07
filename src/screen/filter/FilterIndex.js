@@ -327,7 +327,7 @@ const FilterIndex = ({ route, navigation }) => {
                 setColorCode([])
                 setCategorySlug("")
             }} style={{alignSelf:"flex-end",padding:10,borderWidth:1,marginRight:10,bottom:10,borderRadius:10}}>
-                <Text>Reset all Filters</Text>
+                <Text style={{fontFamily:"RR"}}>Reset all Filters</Text>
                 </TouchableOpacity>
             <ScrollView showsVerticalScrollIndicator={false}>
                 {categoriesDrop}
@@ -411,7 +411,7 @@ const FilterIndex = ({ route, navigation }) => {
             renderNavigationView={() => navigationView}
         >
             <Mainlayout>
-                <Text>{toalProduct}</Text>
+                {/* <Text>{toalProduct}</Text> */}
 
 
                 <FlatList

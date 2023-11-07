@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
   },
   dropdownText: {
     flex: 1,
-    marginRight: 10,
+    marginRight: 10,fontFamily:"RR"
   },
   optionsContainer: {
     // position: 'absolute',

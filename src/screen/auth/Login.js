@@ -24,8 +24,10 @@ const Login = () => {
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
+  const[buttonLoading,setButtonLoading]=useState(false)
 
   const handleLogin = async () => {
+  
     const data = {
       phone,
       password,
@@ -54,30 +56,27 @@ const Login = () => {
       });
       return;
     }
-
-    const res = await authServices
+    try{
+      setButtonLoading(true)
+      const res = await authServices
       .login(data)
       .then((res) => res)
       .catch((err) => err);
-    // console.log('hello res: ', res);
-    // console.log(res,"res",res?.data?.data?.access_token,"tokne")
-
-    // if (res.message) {
-    //   if(res.data.redirect){
-    //     navigation.navigate(res.data.redirect)
-    //   }
-    //   showMessage({
-    //     style: { alignItems: 'center' },
-    //     message: res.message ? res.message : 'Login field try again',
-    //     type: 'danger',
-    //     position: 'top',
-    //     duration: 2500,
-    //     statusBarHeight: scale(20),
-    //   });
-    // } else {
+   
       if (res.status === 200) {
        
-        setLoading(false);
+        await AsyncStorage.setItem('token', res.data?.data?.access_token);
+        if (res.data?.data?.access_token) {
+          const res = await authServices.getUserinfo();
+          // console.log(res.data,"fjdjf")
+          if (res.status == 200) {
+           
+            dispatch(setUser(res.data.data));
+            dispatch(setAuth(true));
+            // setLoading(false);
+          } 
+        }
+        // setButtonLoading(false)
         dispatch(setAuth(true));
         showMessage({
           style: { alignItems: 'center' },
@@ -87,15 +86,14 @@ const Login = () => {
           duration: 2500,
           statusBarHeight: scale(20),
         });
-        // setAuth(true)
-
-        await AsyncStorage.setItem('token', res.data?.data?.access_token);
         navigation.navigate('home');
       } else {
         // setAuth(false)
         //otp_verify
 
         setLoading(false);
+        // setButtonLoading(false)
+
         
         if (res?.data?.data?.redirect === 'otp_verify') {
           showMessage({
@@ -112,6 +110,8 @@ const Login = () => {
           });
         } else {
           // console.log('res.data: ', res);
+        // setButtonLoading(false)
+
           if (res.data.redirect) {
             showMessage({
               style: { alignItems: 'center' },
@@ -138,6 +138,15 @@ const Login = () => {
           }
         }
       }
+    }
+    catch(err){
+      console.log(err)
+    }
+    finally{
+      setButtonLoading(false)
+    }
+
+ 
     
   };
 
@@ -177,7 +186,7 @@ const Login = () => {
           // width: scale(320),
         }}
       >
-        {loading ? (
+        {buttonLoading ? (
           <ActivityIndicator
             color="white"
             size="small"

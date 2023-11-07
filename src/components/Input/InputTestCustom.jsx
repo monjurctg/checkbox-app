@@ -67,7 +67,7 @@ const InputTestCustom = ({ label, onChange,editable, value,option, placeholder, 
         <View style={styles.dropdownContainer}>
             {
                 option.map((op,index)=><TouchableOpacity key={index} onPress={() => handleSelectOption(op)} style={styles.option}>
-                <Text style={{fontFamily:"RR"}}>{op}</Text>
+                <Text style={{}}>{op}</Text>
               </TouchableOpacity>)
             }
           
@@ -111,9 +111,9 @@ const styles = StyleSheet.create({
     fontSize:16,
     marginBottom:15
 
-  },
+},
   textInput: {
-    flex: 1,fontFamily:"RR"
+    flex: 1,
     
    
   },

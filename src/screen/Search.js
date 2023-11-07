@@ -149,11 +149,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     width: "100%",
+    marginTop:15,
     borderWidth: 1,
     borderColor: "#999",
     // borderRadius: 5,
     paddingVertical: 5,
     paddingHorizontal: 10,
+    borderRadius:5
   },
   icon: {
     marginRight: 5,

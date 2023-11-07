@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useFonts, Raleway_400Regular, Raleway_500Medium, Raleway_600SemiBold, Raleway_700Bold } from '@expo-google-fonts/raleway';
 
 // import {  } from 'expo-status-bar';
-import { Linking, StyleSheet, View,StatusBar } from 'react-native';
+import { Linking, StyleSheet,StatusBar, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Text from './src/components/tags/Text';
 
@@ -87,10 +87,10 @@ export default function App() {
   };
   // }
   return (
-    <Provider store={store}>
-      <StatusBar backgroundColor="#bd212fbarStyle" barStyle="light-content" />
+    <Provider store={store} >
+     
 
-
+     <StatusBar backgroundColor={"#f2f2f2"} />
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{
@@ -137,7 +137,7 @@ export default function App() {
       </NavigationContainer>
 
       <FlashMessage position={'bottom'} />
-      <StatusBar style="auto" />
+      
     </Provider>
   );
 }

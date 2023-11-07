@@ -273,8 +273,10 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     height: scale(55),
+    // width:"100%",
     borderBottomColor: colors.border,
     // borderBottomWidth: 1,
+    // backgroundColor:"#fff"
   },
   left: {
     // width: 100,

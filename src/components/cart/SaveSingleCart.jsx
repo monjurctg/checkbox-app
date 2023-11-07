@@ -119,14 +119,14 @@ const SaveSingleCart = ({title,cart,refatch}) => {
         <Text preset={["fs_13 ph_10 "]} style={{paddingVertical:5, backgroundColor:"#ff9800",marginTop:10,color:"#FFF",borderRadius:5}}>৳{cart?.price}</Text>
 
       </View>
-      <Text preset={[" RR mt_10 lh_14 fs_11"]} style={{color: "#58595B"}}>
+      <Text preset={["  mt_10 lh_14 fs_11"]} style={{color: "#58595B"}}>
         {date}  at {time}
       </Text>
       <View style={{flexDirection:"row",gap:10,alignItems:"center",marginTop:10}}>
         <TouchableOpacity style={{backgroundColor:"#DDD",padding:7,borderRadius:10}}>
           <Text style={{fontSize:14}}>Copy Cart Link</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{backgroundColor:"#be202e",justifyContent:"center",alignItems:"center",padding:7,borderRadius:10}}>
+        <TouchableOpacity onPress={()=>navigation.navigate("cart-information", { carts:cart})} style={{backgroundColor:"#be202e",justifyContent:"center",alignItems:"center",padding:7,borderRadius:10}}>
           <Text preset={["fs_13"]} style={{color:"#FFF"}}>Proceed to Customer Details</Text>
         </TouchableOpacity>
       </View>

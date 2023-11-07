@@ -101,7 +101,7 @@ const WebViewUrl = ({ route }) => {
           style={{ flex: 1 }}
         />
       ) : (
-        <Mainlayout>
+        // <Mainlayout>
           <ScrollView>
             <View style={{ justifyContent: "center", alignItems: "center" }}>
               <View style={{ marginTop: 50, alignItems: "center" }}>
@@ -121,7 +121,7 @@ const WebViewUrl = ({ route }) => {
                 >
                   Your payment has been successfully processed
                 </Text>
-                <TouchableOpacity
+                {/* <TouchableOpacity
                   onPress={testFunc}
                   style={{
                     paddingVertical: 15,
@@ -132,7 +132,7 @@ const WebViewUrl = ({ route }) => {
                   }}
                 >
                   <Text style={{ color: "white" }}>Buy Again</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
               </View>
               <View
                 style={{
@@ -236,7 +236,7 @@ const WebViewUrl = ({ route }) => {
               </View>
             </View>
           </ScrollView>
-        </Mainlayout>
+        // </Mainlayout>
       )}
     </>
   );

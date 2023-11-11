@@ -235,7 +235,8 @@ const ProductList = ({ route, navigation }) => {
     return (
       <>
         <Categories
-          title={"Top Categories"}
+          title={"Product  Categories"}
+          TYPE={"scroll"}
           onCategoryPress={onCategoryPress}
           data={searchData?.search_attributes?.categories}
         />

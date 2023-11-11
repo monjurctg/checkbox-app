@@ -27,14 +27,19 @@ import CategorySkeleton from "../components/loader/CategorySkeleton";
 import CollectionSkeleton from "../components/loader/CollectionSkeleton";
 import CollectionItems from "../components/products/CollectionItems";
 import Collections from "../components/Collections";
+import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import { setTabShow } from "../redux/reducers/utilsSlice";
+let scroll = 0
 
-const Products = ({ navigation }) => {
+const Products = (props) => {
   // console.log(navigation, "products navigatio");
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
+  const navigation = useNavigation()
   const [categoriLoading, setCategoryLoading] = useState(false);
  
-
+const dispatch=useDispatch()
   const [lastPage, setLastPage] = useState();
   const [data, setData] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -46,6 +51,11 @@ const Products = ({ navigation }) => {
   const flatListRef = useRef(null);
   const [refreshing, setRefreshing] = React.useState(false);
 
+
+
+  // const[offset,setOffset]=useState(0)
+  
+// console.log(viewPosition)
   // apis
 
   const fetchTopCategories = () => {
@@ -119,6 +129,33 @@ const Products = ({ navigation }) => {
   //     setLoading(false);
   //   }
   // };
+  const onScroll = (event) => {
+ 
+    let scroll2 =0
+    const currentOffset = event.nativeEvent.contentOffset.y;
+    const dif = currentOffset - scroll;  
+    const dif2 = currentOffset-scroll2
+    
+    // console.log(dif2)
+    if(dif2<=3){
+      // console.log(dif2)
+      dispatch(setTabShow(true))
+    }
+    else if (dif <= 0) {
+      dispatch(setTabShow(true))
+    } 
+    else {
+      dispatch(setTabShow(false))
+
+
+
+      
+    }
+    //console.log('dif=',dif);
+
+    // setOffset(currentOffset)
+    scroll=currentOffset
+  }      
 
   const onBottomSheetOpen = (item) => {
     setVisible(true);
@@ -213,26 +250,17 @@ const Products = ({ navigation }) => {
   const Header = () => {
     return (
       <>
-        <Categories onCategoryPress={onCategoryPress} title={"Top Categories"} data={categories} />
+        <Categories onCategoryPress={onCategoryPress} title={"Product  Categories"} TYPE={"scroll"} data={categories} />
         {categoriLoading && categories.length == 0 && <CategorySkeleton />}
         {/* <CollectionSkeleton/> */}
 
 
         <View>
-          <View
-            style={{
-              marginTop: 40,
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Text
-              style={{
-                // fontFamily: "Gotham",
+          <View style={{marginTop: 40,display: "flex", flexDirection: "row",justifyContent: "space-between",alignItems: "center",}}>
+            <Text style={{
+                fontFamily: "RB",
                 fontStyle: "normal",
-                fontWeight: 700,
+           
                 fontSize: 20,
                 lineHeight: 24,
               }}
@@ -252,9 +280,9 @@ const Products = ({ navigation }) => {
             >
               <Text
                 style={{
-                  // fontFamily: "Gotham",
+                  fontFamily: "RR",
                   fontStyle: "normal",
-                  fontWeight: 500,
+                 
                   fontSize: 12,
                   lineHeight: 12,
                   color: "#BE202E",
@@ -336,6 +364,7 @@ const Products = ({ navigation }) => {
       {/* <ScrollView showsVerticalScrollIndicator={false}> */}
       <View style={{}}>
         <FlatList
+        onScroll={onScroll}
           ListHeaderComponent={Header}
           refreshControl={
             <RefreshControl

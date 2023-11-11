@@ -232,81 +232,83 @@ const Cart = () => {
             />
           </CustomTouchBtn>
         </View>
-        <View preset={["mt_10 ph_10 row jc_between"]}>
-          <Text preset={["RB  fs_18"]}>{carts?.name}</Text>
-          <View preset={["flex row center"]}>
-            <TouchableOpacity
-              style={{
-                borderColor: "#BE202E",
-                borderWidth: 1,
-                padding: 8,
-                borderRadius: 10,
-                marginRight: 10,
-              }}
-            >
-              <Text
-                style={{
-                  fontFamily: "RR",
-                  fontStyle: "normal",
-                  // fontWeight: 500,
-                  fontSize: 12,
-                  lineHeight: 12,
-                  color: "#BE202E",
-                  textAlign: "center",
-                }}
-              >
-                Copy Cart Link
-              </Text>
-            </TouchableOpacity>
-            <CustomTouchBtn onPress={() => setUpdateCartModalVisible(true)}>
-              <Feather name="edit" size={scale(20)} color="black" />
-            </CustomTouchBtn>
-          </View>
-          <Modal
-            visible={updateCartModalVisible}
-            animationType="slide"
-            transparent={true}
-            onRequestClose={() => setUpdateCartModalVisible(false)}
+     {
+      carts?.items?.length>0 &&    <View preset={["mt_10 ph_10 row jc_between"]}>
+      <Text preset={["RB  fs_18"]}>{carts?.name}</Text>
+      <View preset={["flex row center"]}>
+        <TouchableOpacity
+          style={{
+            borderColor: "#BE202E",
+            borderWidth: 1,
+            padding: 8,
+            borderRadius: 10,
+            marginRight: 10,
+          }}
+        >
+          <Text
+            style={{
+              fontFamily: "RR",
+              fontStyle: "normal",
+              // fontWeight: 500,
+              fontSize: 12,
+              lineHeight: 12,
+              color: "#BE202E",
+              textAlign: "center",
+            }}
           >
-            <View style={styles.modalContainer}>
-              <View style={styles.modalContent}>
-                <TouchableOpacity
-                  style={styles.closeButton}
-                  onPress={() => setUpdateCartModalVisible(false)}
-                >
-                  <AntDesign
-                    style={styles.closeButtonText}
-                    name="close"
-                    size={24}
-                    color="black"
-                  />
-                </TouchableOpacity>
-                <Text preset={[" fs_14 mt_10 RB"]}>Edit cart name</Text>
-                <TextInput
-                  style={styles.input}
-                  value={inputValue}
-                  onChangeText={(text) => setInputValue(text)}
-                  placeholder="Add cart name"
-                />
-                <View style={styles.buttonContainer}>
-                  <TouchableOpacity
-                    style={styles.cancelButton}
-                    onPress={handleCancel}
-                  >
-                    <Text preset={["fs_14 RR"]} style={{ color: "#FFF" }}>
-                      Cancel
-                    </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.okButton} onPress={handleOk}>
-                    <Text preset={["fs_14 RR"]} style={styles.buttonText}>
-                      OK
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
+            Copy Cart Link
+          </Text>
+        </TouchableOpacity>
+        <CustomTouchBtn onPress={() => setUpdateCartModalVisible(true)}>
+          <Feather name="edit" size={scale(20)} color="black" />
+        </CustomTouchBtn>
+      </View>
+      <Modal
+        visible={updateCartModalVisible}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={() => setUpdateCartModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={() => setUpdateCartModalVisible(false)}
+            >
+              <AntDesign
+                style={styles.closeButtonText}
+                name="close"
+                size={24}
+                color="black"
+              />
+            </TouchableOpacity>
+            <Text preset={[" fs_14 mt_10 RB"]}>Edit cart name</Text>
+            <TextInput
+              style={styles.input}
+              value={inputValue}
+              onChangeText={(text) => setInputValue(text)}
+              placeholder="Add cart name"
+            />
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity
+                style={styles.cancelButton}
+                onPress={handleCancel}
+              >
+                <Text preset={["fs_14 RR"]} style={{ color: "#FFF" }}>
+                  Cancel
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.okButton} onPress={handleOk}>
+                <Text preset={["fs_14 RR"]} style={styles.buttonText}>
+                  OK
+                </Text>
+              </TouchableOpacity>
             </View>
-          </Modal>
+          </View>
         </View>
+      </Modal>
+    </View>
+     }
         <TouchableOpacity onPress={() => setSwitchCartModalVisible(true)}>
           <View
             preset={["mt_10 border_1 row center"]}
@@ -337,13 +339,7 @@ const Cart = () => {
                 />
               </TouchableOpacity>
               <View style={{ marginTop: 10 }}>
-                {/* <TouchableOpacity>
-                  <Text style={styles.cartName}>My Favourite Products</Text>
-                </TouchableOpacity>
-            
-                <TouchableOpacity>
-                  <Text style={styles.cartName}>Cloth Collection</Text>
-                </TouchableOpacity> */}
+               
                 {switchCartData?.map((cart, index) => (
                   <TouchableOpacity
                     key={index}
@@ -371,52 +367,54 @@ const Cart = () => {
           <SingleCart item={item} />
           <SingleCart item={item} /> */}
         </View>
-        <View preset={["mt_35 p_5 flex row jc_between"]}>
-          <TouchableOpacity
-            onPress={saveCart}
+      {
+        carts?.items?.length>0 &&   <View preset={["mt_35 p_5 flex row jc_between"]}>
+        <TouchableOpacity
+          onPress={saveCart}
+          style={{
+            borderColor: "#BE202E",
+            borderWidth: 1,
+            padding: scale(8),
+            borderRadius: 4,
+            width: "45%"
+          }}
+        >
+          <Text
             style={{
-              borderColor: "#BE202E",
-              borderWidth: 1,
-              padding: scale(8),
-              borderRadius: 4,
-              width: "45%"
+              color: "#BE202E",
+              textAlign: "center",
             }}
+            preset={["fs_12 RM"]}
           >
-            <Text
-              style={{
-                color: "#BE202E",
-                textAlign: "center",
-              }}
-              preset={["fs_12 RM"]}
-            >
-              Save Cart
-            </Text>
-          </TouchableOpacity>
-          <CustomTouchBtn
-            onPress={() => {
-              if(cartSize){
-                navigation.navigate("cart-information", { carts })
+            Save Cart
+          </Text>
+        </TouchableOpacity>
+        <CustomTouchBtn
+          onPress={() => {
+            if(cartSize){
+              navigation.navigate("cart-information", { carts })
 
-              }
-              else{
+            }
+            else{
 
-              }
-            
-            }}
-            preset={["center"]}
-            style={{
-              borderColor: "#BE202E",
-              borderWidth: 1,
-              backgroundColor: "#BE202E",
-              borderRadius: 4,
-              padding: scale(8),
-            }}
-          >
-            <Text style={{ color: "white" }} preset={["fs_12 RM"]}>
-              Proceed to Cart Details
-            </Text>
-          </CustomTouchBtn>
-        </View>
+            }
+          
+          }}
+          preset={["center"]}
+          style={{
+            borderColor: "#BE202E",
+            borderWidth: 1,
+            backgroundColor: "#BE202E",
+            borderRadius: 4,
+            padding: scale(8),
+          }}
+        >
+          <Text style={{ color: "white" }} preset={["fs_12 RM"]}>
+            Proceed to Cart Details
+          </Text>
+        </CustomTouchBtn>
+      </View>
+      }
         <View style={{ height: scale(20) }}></View>
       </ScrollView>
     </SafeAreaView>

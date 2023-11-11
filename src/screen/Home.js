@@ -220,7 +220,7 @@ const Home = ({ navigation }) => {
           >
             <Image source={require('../../assets/icons/product.png')} />
             <Text preset={['p3']} style={{ marginTop: scale(10) }}>
-              My Products
+            Frequently Ordered
             </Text>
           </TouchableOpacity>
 
@@ -441,28 +441,14 @@ const Home = ({ navigation }) => {
           
         </View> */}
         {loading && <CategorySkeleton />}
-        {/* <View style={styles.products}>
-          {
-            categories.map((cate,index)=>{
-              return<TouchableOpacity key={index} style={styles.product}>
-              <Image
-                source={require("../../assets/img/shoe1.png")}
-                style={{ width: "100%", height: scale(100) }}
-              />
-              <Text preset={["p3 lh_14"]}>{cate.name}</Text>
-            </TouchableOpacity>
-            })
-          }
-          
        
-         
-        </View> */}
         <Categories
+        // TYPE={"scroll"}
           title={'Categories'}
           onCategoryPress={onCategoryPress}
           data={categories}
         />
-        <View style={{ height: scale(300) }}></View>
+        {/* <View style={{ height: scale(300) }}></View> */}
       </ScrollView>
     </Mainlayout>
   );

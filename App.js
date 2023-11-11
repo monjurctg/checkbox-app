@@ -110,7 +110,7 @@ export default function App() {
           <Stack.Screen name="select-address" component={SelecAdress} />
 
           <Stack.Screen name="product-details" component={ProductDetails} />
-          <Stack.Screen name="all-collection" component={AllCollection} />
+         
           <Stack.Screen name="otp_verify" component={OTPVerification} />
           <Stack.Screen name="login" component={Login} />
           <Stack.Screen name="checkout" component={Checkout} />
@@ -123,7 +123,7 @@ export default function App() {
           <Stack.Screen name="products-filter" component={ProductList} />
           <Stack.Screen name="send" component={WebViewUrl} />
           <Stack.Screen name="forget_password" component={ForgetPassword} />
-          <Stack.Screen name="filter" component={FilterIndex} />
+       
 
           <Stack.Screen name="reset_password" component={ResetPassword} />
           <Stack.Screen name="user_info" component={UserInfo} />

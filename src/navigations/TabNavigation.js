@@ -45,6 +45,8 @@ import ActiveHome from "../components/svg/ActiveHome";
 import authServices from "../services/authServices";
 import { useEffect } from "react";
 import { AntDesign } from '@expo/vector-icons';
+import AllCollection from "../screen/AllCollection";
+import FilterIndex from "../screen/filter/FilterIndex";
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -126,8 +128,11 @@ function DashScreen() {
 }
 
 function MyTabBar({ state, descriptors, navigation, children }) {
+  const { tabShow } = useSelector((state) => state.utils);
+// alert(tabShow)
+
   return (
-    <View style={styles.footerWraper}>
+    <View style={{...styles.footerWraper,display:tabShow?"flex":"none"}}>
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         const label =
@@ -264,9 +269,25 @@ function ProductsScreen({ route, navigation }) {
         name="/"
         component={Products}
       />
+       
+         <ProductsStack.Screen
+        initialParams={route.params}
+        name="all-collection"
+        component={AllCollection}
+      />
+        <ProductsStack.Screen
+        initialParams={route.params}
+        name="filter"
+        component={FilterIndex}
+      />
+     
+     
     </ProductsStack.Navigator>
   );
 }
+
+
+
 const Stack = createNativeStackNavigator();
 
 export default function TabScreen({ route }) {
@@ -311,8 +332,13 @@ export default function TabScreen({ route }) {
     <>
       {!auth ? (
         <Tab.Navigator
+        
+
+        
           screenOptions={{
             headerShown: false,
+        
+          
           }}
           tabBar={(props) => <MyTabBar {...props} />}
         >
@@ -325,7 +351,7 @@ export default function TabScreen({ route }) {
           }}
           tabBar={(props) => <MyTabBar {...props} />}
         >
-          <Tab.Screen name="home" component={HomeScreen} />
+          <Tab.Screen  name="home" component={HomeScreen} />
           <Tab.Screen name="Products" component={ProductsScreen} />
           <Tab.Screen name="carts" component={AllCartsScreen} />
           <Tab.Screen name="dashboard" component={DashScreen} />

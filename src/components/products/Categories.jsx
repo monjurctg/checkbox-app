@@ -1,10 +1,10 @@
-import { Image, StyleSheet,Text, TouchableOpacity, View } from "react-native";
+import { Image, ScrollView, StyleSheet,Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { scale } from "../../../utils/funtions";
 // import Text from "../tags/Text";
 
 
-const Categories = ({ data, title, onCategoryPress }) => {
+const Categories = ({ data, title, onCategoryPress,TYPE }) => {
   // console.log(data)
   return (
     <View>
@@ -21,7 +21,37 @@ const Categories = ({ data, title, onCategoryPress }) => {
       >
     {title}
       </Text>
-      <View style={styles.products}>
+      {
+        TYPE=="scroll" ?<ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+           {data?.map((cate, index) => (
+          <TouchableOpacity
+          onPress={()=>onCategoryPress(cate?.slug)}
+            key={index}
+            style={{
+              alignItems: "center",
+              marginLeft:10,
+              width: scale(100),
+              backgroundColor:"#FFFFFF",
+              borderRadius:5,
+              padding:2
+              // marginRight: scale(12),
+            }}
+          >
+            <Image
+              source={{uri:cate?.icon_path}}
+              style={{
+                width: "95%",
+                marginTop:10,
+                height: scale(80),
+                resizeMode: "contain",
+              }}
+            />
+            <Text numberOfLines={2}style={{fontSize:11,textAlign:"center",padding:2,fontFamily:"RM"}}>{cate?.name}</Text>
+          </TouchableOpacity>
+        ))}
+
+        </ScrollView>
+        :<View style={styles.products}>
         {data?.map((cate, index) => (
           <TouchableOpacity
           onPress={()=>onCategoryPress(cate?.slug)}
@@ -47,6 +77,8 @@ const Categories = ({ data, title, onCategoryPress }) => {
           </TouchableOpacity>
         ))}
       </View>
+      }
+      
     </View>
   );
 };

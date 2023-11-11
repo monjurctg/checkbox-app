@@ -13,8 +13,10 @@ import SingleProductSkeleton from '../../components/loader/SingleProductSkeleton
 import Filters from '../../components/products/Filters';
 import { scale } from '../../../utils/funtions';
 import { ActivityIndicator } from 'react-native';
+import { setTabShow } from '../../redux/reducers/utilsSlice';
+import { useDispatch } from 'react-redux';
 
-
+let scroll = 0
 const FilterIndex = ({ route, navigation }) => {
     const drawerRef = useRef(null);
     const { data } = route.params ?? {};
@@ -44,7 +46,7 @@ const FilterIndex = ({ route, navigation }) => {
     const [attributeValues, setAttributeValues] = useState({})
     const [brandIds, setBrandIds] = useState([])
     const [categorySlug, setCategorySlug] = useState(data?.category_slug)
-
+    const dispatch = useDispatch()
     // console.log(searchAttributes?.colors?.length)
 
     // funtions
@@ -74,7 +76,7 @@ const FilterIndex = ({ route, navigation }) => {
 
     const handleCategoryChange = (slug) => {
         // alert(cateId)
-        console.log(slug,"slug")
+        console.log(slug, "slug")
         setCategorySlug(slug)
     };
 
@@ -82,25 +84,25 @@ const FilterIndex = ({ route, navigation }) => {
     const handleAttrChange = (id, value) => {
         const updatedState = { ...attributeValues };
         if (!updatedState.hasOwnProperty(id)) {
-          updatedState[id] = [value]; // Create a new property with the id and assign an array with the value
+            updatedState[id] = [value]; // Create a new property with the id and assign an array with the value
         } else {
-          const valueArray = updatedState[id];
-    
-          if (valueArray.includes(value)) {
-            updatedState[id] = valueArray.filter((item) => item !== value);
-            // console.log(updatedState)
-            if(valueArray.length==1){
-                delete updatedState[`${id}`];
+            const valueArray = updatedState[id];
+
+            if (valueArray.includes(value)) {
+                updatedState[id] = valueArray.filter((item) => item !== value);
+                // console.log(updatedState)
+                if (valueArray.length == 1) {
+                    delete updatedState[`${id}`];
+                }
+            } else {
+                updatedState[id] = [...valueArray, value];
             }
-          } else {
-            updatedState[id] = [...valueArray, value];
-          }
         }
         // dispatch(set_selected_attribute_values(updatedState));
         // console.log(updatedState)
-     
+
         setAttributeValues(updatedState)
-      };
+    };
 
     const handleColorChange = (color, isReset) => {
         setPage(1)
@@ -182,7 +184,7 @@ const FilterIndex = ({ route, navigation }) => {
         console.log(loaidngMore)
         if (!loaidngMore) {
 
-            if(searchProducts.length>=8){
+            if (searchProducts.length >= 8) {
 
 
                 let paramms = {
@@ -199,25 +201,25 @@ const FilterIndex = ({ route, navigation }) => {
                 };
                 setLoadingMore(true)
                 const response = await productServices.getSearchedProduct(paramms);
-        
+
                 // console.log("response", response?.data?.data?.data);
                 if (response?.status === 200) {
                     // console.log(response.data.data.data)
                     setPage(page + 1);
                     setLoadingMore(false)
-        
+
                     setSearchProducts([...searchProducts, ...response.data.data.data])
                     // setTotalProductsCount(response.data.data?.total);
                 }
                 else {
                     setLoadingMore(false)
-        
+
                 }
             }
 
         }
 
-       
+
     }
 
     const handelReset = (TYPE) => {
@@ -240,7 +242,37 @@ const FilterIndex = ({ route, navigation }) => {
     }, [categorySlug])
     useEffect(() => {
         getSearchProducts()
-    }, [colorCode, brandIds, categorySlug,attributeValues])
+    }, [colorCode, brandIds, categorySlug, attributeValues])
+
+
+    const onScroll = (event) => {
+
+        let scroll2 = 0
+        const currentOffset = event.nativeEvent.contentOffset.y;
+        const dif = currentOffset - scroll;
+        const dif2 = currentOffset - scroll2
+
+        // console.log(dif2)
+        if (dif2 <= 3) {
+            // console.log(dif2)
+            dispatch(setTabShow(true))
+        }
+        else if (dif <= 0) {
+            dispatch(setTabShow(true))
+        }
+        else {
+            dispatch(setTabShow(false))
+
+
+
+
+        }
+        //console.log('dif=',dif);
+
+        // setOffset(currentOffset)
+        scroll = currentOffset
+    }
+
 
     const categoriesDrop = (
         <View>
@@ -293,8 +325,8 @@ const FilterIndex = ({ route, navigation }) => {
                         title={item?.name}
                         filterData={attributeValues}
                         options={item?.attribute_values}
-                        handelChage = {handleAttrChange}
-                        handelReset={(id)=>{
+                        handelChage={handleAttrChange}
+                        handelReset={(id) => {
                             const updatedState = { ...attributeValues };
                             // if (Object.keys(updatedState).includes(id.toString())) {
                             //   updatedState[id] = [];
@@ -303,7 +335,7 @@ const FilterIndex = ({ route, navigation }) => {
                             // }
                             // console.log(updatedState)
                             delete updatedState[`${id}`];
-                           setAttributeValues(updatedState)
+                            setAttributeValues(updatedState)
 
                         }}
 
@@ -321,14 +353,14 @@ const FilterIndex = ({ route, navigation }) => {
                     source={require("../../../assets/logo.png")}
                 />
             </View>
-            <TouchableOpacity onPress={()=>{
+            <TouchableOpacity onPress={() => {
                 setAttributeValues([])
                 setBrandIds([])
                 setColorCode([])
                 setCategorySlug("")
-            }} style={{alignSelf:"flex-end",padding:10,borderWidth:1,marginRight:10,bottom:10,borderRadius:10}}>
-                <Text style={{fontFamily:"RR"}}>Reset all Filters</Text>
-                </TouchableOpacity>
+            }} style={{ alignSelf: "flex-end", padding: 10, borderWidth: 1, marginRight: 10, bottom: 10, borderRadius: 10 }}>
+                <Text style={{ fontFamily: "RR" }}>Reset all Filters</Text>
+            </TouchableOpacity>
             <ScrollView showsVerticalScrollIndicator={false}>
                 {categoriesDrop}
                 {brandDrop}
@@ -356,35 +388,33 @@ const FilterIndex = ({ route, navigation }) => {
     );
     const onCategoryPress = (slug) => {
         setCategorySlug(slug)
-
     }
     const Header = () => {
         return (
             <>
-
-
                 {loading ?
                     <CategorySkeleton /> : <Categories
-                        title={"Top Categories"}
+                    TYPE={"scroll"}
+                        title={"Product Categories"}
                         onCategoryPress={onCategoryPress}
                         data={searchAttributes?.categories}
                     />
                 }
-                {/* <CollectionSkeleton/> */}
+              
                 <Filters navigation={navigation} onFilterClick={openDrawer} />
             </>
         );
     };
     const ListFooterComponent = () => {
-      
-            return (
-                <View >
+
+        return (
+            <View >
                 <ScrollView>
-                    <View style={{flexDirection: "row",justifyContent: "space-around",flexWrap: "wrap",}}>
+                    <View style={{ flexDirection: "row", justifyContent: "space-around", flexWrap: "wrap", }}>
                         <View style={{
                             width: scale(35),
                             height: scale(35),
-                            marginTop:20,
+                            marginTop: 20,
                             borderRadius: 25,
                             backgroundColor: "#ab0f29",
                             justifyContent: "center",
@@ -394,11 +424,11 @@ const FilterIndex = ({ route, navigation }) => {
                             <ActivityIndicator size="small" color="#fff" />
                         </View>
                     </View>
-                    <Text style={{color:"#ab0f29",textAlign:"center",fontSize:12}}>Loading...</Text>
-                    <View style={{ height:200 }}></View>
+                    <Text style={{ color: "#ab0f29", textAlign: "center", fontSize: 12 }}>Loading...</Text>
+                    <View style={{ height: 200 }}></View>
                 </ScrollView>
             </View>
-            );
+        );
 
     };
 
@@ -416,7 +446,8 @@ const FilterIndex = ({ route, navigation }) => {
 
                 <FlatList
                     ListHeaderComponent={Header}
-                  
+                    onScroll={onScroll}
+
 
                     numColumns={2}
                     showsVerticalScrollIndicator={false}

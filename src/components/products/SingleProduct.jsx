@@ -41,7 +41,7 @@ const SingleProduct = ({
     <View
       preset={["mt_5 mr_5   "]}
       style={{
-        width: scale(160),
+        width: scale(from=="home"?157:160),
         height:scale(230),
         backgroundColor:colors.white,
         // shadowColor: "rgba(0, 0, 0,0.5)",
@@ -76,20 +76,7 @@ const SingleProduct = ({
         onRate={handleRate}
       />
       </View>
-      {/* <CustomTouchBtn
-        preset={["center row  border_1 mt_10"]}
-       
-        onPress={() => {
-          toggleBottomNavigationView(item);
-         
-        }}
-        style={styles.addtocart}
-      > 
-
-<AntDesign name="shoppingcart" size={23} style={{fontWeight:"700"}} color={colors.primary_3} />
-
-        <Text preset={["p2 ml_5 bold text_primary2 radius_5 "]}>Add to Cart</Text>
-      </CustomTouchBtn> */}
+     
     </View>
   );
 };

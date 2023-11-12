@@ -30,7 +30,7 @@ const Categories = ({ data, title, onCategoryPress,TYPE }) => {
             style={{
               alignItems: "center",
               marginLeft:10,
-              width: scale(100),
+              width: scale(85),
               backgroundColor:"#FFFFFF",
               borderRadius:5,
               padding:2
@@ -46,7 +46,7 @@ const Categories = ({ data, title, onCategoryPress,TYPE }) => {
                 resizeMode: "contain",
               }}
             />
-            <Text numberOfLines={2}style={{fontSize:11,textAlign:"center",padding:2,fontFamily:"RM"}}>{cate?.name}</Text>
+            <Text numberOfLines={2}style={{fontSize:10,textAlign:"center",padding:2,fontFamily:"RM"}}>{cate?.name}</Text>
           </TouchableOpacity>
         ))}
 

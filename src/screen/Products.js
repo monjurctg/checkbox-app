@@ -61,7 +61,7 @@ const dispatch=useDispatch()
   const fetchTopCategories = () => {
     setCategoryLoading(true);
     productServices
-      .topCategories()
+      .getAllCategories()
       .then((res) => {
         // console.log(res.data,"categories")
         setCategories(res.data.data);

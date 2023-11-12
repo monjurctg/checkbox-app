@@ -152,7 +152,7 @@ const ProductDetails = ({ navigation }) => {
     return <ClientReview rating={5} review={item} />
   }
 
-  console.log(productId)
+  // console.log(productId)
   if (loading) {
     return <SingleProductScreenSkeleton />;
   }

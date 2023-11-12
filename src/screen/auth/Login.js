@@ -160,7 +160,7 @@ const Login = () => {
         </Text>
  
       <InputTestCustom
-        placeholder={"Phone Nmuber"}
+        placeholder={"Phone Number"}
         label={"Phone "}
         value={phone}
         keyboardType={"numeric"}

@@ -234,6 +234,16 @@ const FilterIndex = ({ route, navigation }) => {
 
     }
 
+    useEffect(() => {
+        const unsubscribe = navigation.addListener("focus", () => {
+          // fetchSingCart();
+        dispatch(setTabShow(true))
+    
+    
+        });
+        return unsubscribe;
+      }, [navigation]);
+
 
     useEffect(() => {
         getFilterData()

@@ -94,6 +94,18 @@ const fecthTopProducts = async()=>{
     checkToken();
   }, []);
 
+  
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      // fetchSingCart();
+    dispatch(setTabShow(true))
+
+
+    });
+    return unsubscribe;
+  }, [navigation]);
+
+
   // if (loading) {
   //   return <CategorySkeleton/>;
   // }

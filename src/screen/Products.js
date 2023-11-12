@@ -107,6 +107,16 @@ const dispatch=useDispatch()
     fetchTopCategories();
   }, [refreshing]);
 
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      // fetchSingCart();
+    dispatch(setTabShow(true))
+
+
+    });
+    return unsubscribe;
+  }, [navigation]);
+
 
 
  

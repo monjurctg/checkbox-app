@@ -423,6 +423,7 @@ const fecthTopProducts = async()=>{
       {
           topProducts.map((item,i)=>{
             return <SingleProduct
+            key={i}
             id={item?.id}
             from={"home"}
             navigation={navigation}

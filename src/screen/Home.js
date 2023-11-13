@@ -30,13 +30,21 @@ const Home = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
   const dispatch=useDispatch()
   const [topProducts,setTopProducts]=useState([])
+  const[summary,setSummary]=useState([])
   // setTimeout(() => {
   //   setLoading(false);
   // }, 1000);
 const fecthTopProducts = async()=>{
   const res =await api.get("product-listing-page/products/best-seller")
   setTopProducts(res.data.data)
-  console.log(res.data.data)
+  // console.log(res.data.data)
+}
+
+
+const fetchDashSummary = async()=>{
+  const res = await api.get("/reseller/dashboard/summary")
+  console.log(res.data.data,"dfdkjfk")
+  setSummary(res.data.data)
 }
   const allCategories = () => {
     productServices
@@ -64,6 +72,7 @@ const fecthTopProducts = async()=>{
     allCategories();
     fecthTopProducts()
     dispatch(setTabShow(true))
+    fetchDashSummary()
   }, []);
   useEffect(() => {
     const checkToken = async () => {
@@ -90,7 +99,6 @@ const fecthTopProducts = async()=>{
       setLoading(false);
      }
     };
-
     checkToken();
   }, []);
 
@@ -113,18 +121,174 @@ const fecthTopProducts = async()=>{
   return (
     <Mainlayout navigation={navigation}>
       <ScrollView style={{}} showsVerticalScrollIndicator={false}>
-
-        
       <View
           style={{
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
+            flexWrap:"wrap",
+            gap:10,
+           
+            // backgroundColor: '#EDEDED',
+            // borderColor: '#C7C7C7',
+            borderRadius: 8,marginTop:10
+          }}
+        >
+         
+       {
+        summary.map((sum,i)=>{
+          return   <View key={i}
+            style={{
+              flexDirection:"row",
+              justifyContent: "space-around",
+              alignItems: 'center',
+              width: "48%",
+            backgroundColor: '#fff',
             paddingHorizontal: 20,
             paddingVertical: 18,
-            backgroundColor: '#EDEDED',
-            borderColor: '#C7C7C7',
+            height:100,
+            borderRadius:10
+            // gap:10
+
+            }}
+          >
+            <Text
+              style={{
+                // fontFamily: "Gotham",
+                fontStyle: 'normal',
+                fontWeight: '400',
+                fontSize: 14,
+                lineHeight: 16,
+                color: '#231F20',
+                marginBottom: 8,
+                width:100
+              }}
+            >
+              Current Balance
+            </Text>
+            <Text
+              style={{
+                // fontFamily: "Gotham",
+                fontStyle: 'normal',
+                fontWeight: '700',
+                fontSize: 24,
+                lineHeight: 28,
+                color: '#BE202E',
+              }}
+            >
+              500
+            </Text>
+          </View>
+        })
+       }
+        </View>
+
+        {/* <View
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          
+            // backgroundColor: '#EDEDED',
+            // borderColor: '#C7C7C7',
+            borderRadius: 8,marginTop:10
+          }}
+        >
+         
+          <View
+            style={{
+              display: 'flex',
+              flexDirection:"row",
+              
+              justifyContent: "space-between",
+              alignItems: 'center',
+              width: "48%",
+              height:100,
+            backgroundColor: '#fff',
+            paddingHorizontal: 20,
+            paddingVertical: 18,
+            borderRadius:10
+            }}
+          >
+            <Text
+              style={{
+                // fontFamily: "Gotham",
+                fontStyle: 'normal',
+                fontWeight: '400',
+                fontSize: 14,
+                lineHeight: 16,
+                color: '#231F20',
+                marginBottom: 8,
+                width:100
+              }}
+            >
+              Last Payment Amount
+            </Text>
+            <Text
+              style={{
+                // fontFamily: "Gotham",
+                fontStyle: 'normal',
+                fontWeight: '700',
+                fontSize: 24,
+                lineHeight: 28,
+                color: '#BE202E',
+              }}
+            >
+              4433
+            </Text>
+          </View>
+          <View
+            style={{
+              display: 'flex',
+              flexDirection:"row",
+              
+              justifyContent: "space-between",
+              alignItems: 'center',
+              width: "48%",
+              height:100,
+            backgroundColor: '#fff',
+            paddingHorizontal: 20,
+            paddingVertical: 18,
+            borderRadius:10
+            }}
+          >
+            <Text
+              style={{
+                // fontFamily: "Gotham",
+                fontStyle: 'normal',
+                fontWeight: '400',
+                fontSize: 14,
+                lineHeight: 16,
+                color: '#231F20',
+                marginBottom: 8,
+              }}
+            >
+              Delivered Orders
+            </Text>
+            <Text
+              style={{
+                // fontFamily: "Gotham",
+                fontStyle: 'normal',
+                fontWeight: '700',
+                fontSize: 24,
+                lineHeight: 28,
+                color: '#BE202E',
+              }}
+            >
+              0
+            </Text>
+          </View>
+        </View>
+
+      <View
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+           
             borderRadius: 8,
             marginTop:20
           }}
@@ -132,9 +296,16 @@ const fecthTopProducts = async()=>{
           <View
             style={{
               display: 'flex',
-              justifyContent: 'center',
+              flexDirection:"row",
+              
+              justifyContent: "space-between",
               alignItems: 'center',
-              width: "45%",
+              width: "48%",
+              height:100,
+            backgroundColor: '#fff',
+            paddingHorizontal: 20,
+            paddingVertical: 18,
+            borderRadius:10
             }}
           >
             <Text
@@ -168,9 +339,16 @@ const fecthTopProducts = async()=>{
           <View
             style={{
               display: 'flex',
-              justifyContent: 'center',
+              flexDirection:"row",
+              
+              justifyContent: "space-between",
               alignItems: 'center',
-              width: "45%",
+              width: "48%",
+              height:100,
+            backgroundColor: '#fff',
+            paddingHorizontal: 20,
+            paddingVertical: 18,
+            borderRadius:10
             }}
           >
             <Text
@@ -199,174 +377,10 @@ const fecthTopProducts = async()=>{
               0
             </Text>
           </View>
-        </View>
+        </View> */}
         {/* statistic */}
-        <View
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            paddingHorizontal: 20,
-            paddingVertical: 18,
-            backgroundColor: '#EDEDED',
-            borderColor: '#C7C7C7',
-            borderRadius: 8,marginTop:10
-          }}
-        >
-         
-          <View
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              width: "45%",
-            }}
-          >
-            <Text
-              style={{
-                // fontFamily: "Gotham",
-                fontStyle: 'normal',
-                fontWeight: '400',
-                fontSize: 14,
-                lineHeight: 16,
-                color: '#231F20',
-                marginBottom: 8,
-              }}
-            >
-              Total Orders
-            </Text>
-            <Text
-              style={{
-                // fontFamily: "Gotham",
-                fontStyle: 'normal',
-                fontWeight: '700',
-                fontSize: 24,
-                lineHeight: 28,
-                color: '#BE202E',
-              }}
-            >
-              4
-            </Text>
-          </View>
-          <View
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              width: "45%",
-            }}
-          >
-            <Text
-              style={{
-                // fontFamily: "Gotham",
-                fontStyle: 'normal',
-                fontWeight: '400',
-                fontSize: 14,
-                lineHeight: 16,
-                color: '#231F20',
-                marginBottom: 8,
-              }}
-            >
-              Current Balance
-            </Text>
-            <Text
-              style={{
-                // fontFamily: "Gotham",
-                fontStyle: 'normal',
-                fontWeight: '700',
-                fontSize: 24,
-                lineHeight: 28,
-                color: '#BE202E',
-              }}
-            >
-              500
-            </Text>
-          </View>
-        </View>
-        <View
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            paddingHorizontal: 20,
-            paddingVertical: 18,
-            backgroundColor: '#EDEDED',
-            borderColor: '#C7C7C7',
-            borderRadius: 8,marginTop:10
-          }}
-        >
-         
-          <View
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              width: "45%",
-            }}
-          >
-            <Text
-              style={{
-                // fontFamily: "Gotham",
-                fontStyle: 'normal',
-                fontWeight: '400',
-                fontSize: 14,
-                lineHeight: 16,
-                color: '#231F20',
-                marginBottom: 8,
-              }}
-            >
-              Last Payment Amount
-            </Text>
-            <Text
-              style={{
-                // fontFamily: "Gotham",
-                fontStyle: 'normal',
-                fontWeight: '700',
-                fontSize: 24,
-                lineHeight: 28,
-                color: '#BE202E',
-              }}
-            >
-              4433
-            </Text>
-          </View>
-          <View
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              width: "45%",
-            }}
-          >
-            <Text
-              style={{
-                // fontFamily: "Gotham",
-                fontStyle: 'normal',
-                fontWeight: '400',
-                fontSize: 14,
-                lineHeight: 16,
-                color: '#231F20',
-                marginBottom: 8,
-              }}
-            >
-              Delivered Orders
-            </Text>
-            <Text
-              style={{
-                // fontFamily: "Gotham",
-                fontStyle: 'normal',
-                fontWeight: '700',
-                fontSize: 24,
-                lineHeight: 28,
-                color: '#BE202E',
-              }}
-            >
-              0
-            </Text>
-          </View>
-        </View>
+       
+     
 
         <View
           style={{

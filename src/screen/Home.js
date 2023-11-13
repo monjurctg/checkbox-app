@@ -10,7 +10,6 @@ import Mainlayout from '../components/layout/Mainlayout';
 import { height, scale } from '../../utils/funtions';
 import Slider from '../components/Slider';
 import Text from '../components/tags/Text';
-
 import productServices from '../services/productServices';
 import CategorySkeleton from '../components/loader/CategorySkeleton';
 import Categories from '../components/products/Categories';
@@ -31,6 +30,9 @@ const Home = ({ navigation }) => {
   const dispatch=useDispatch()
   const [topProducts,setTopProducts]=useState([])
   const[summary,setSummary]=useState([])
+ 
+
+  
   // setTimeout(() => {
   //   setLoading(false);
   // }, 1000);
@@ -117,6 +119,7 @@ const fetchDashSummary = async()=>{
   // if (loading) {
   //   return <CategorySkeleton/>;
   // }
+  console.log(summary[0].all_orders_count )
 
   return (
     <Mainlayout navigation={navigation}>
@@ -135,8 +138,10 @@ const fetchDashSummary = async()=>{
             borderRadius: 8,marginTop:10
           }}
         >
+          
+          
          
-       {
+       {/* {
         summary.map((sum,i)=>{
           return   <View key={i}
             style={{
@@ -181,10 +186,9 @@ const fetchDashSummary = async()=>{
             </Text>
           </View>
         })
-       }
+       } */}
         </View>
-
-        {/* <View
+        <View
           style={{
             display: 'flex',
             flexDirection: 'row',
@@ -224,6 +228,106 @@ const fetchDashSummary = async()=>{
                 width:100
               }}
             >
+              Total Orders
+            </Text>
+            <Text
+              style={{
+                // fontFamily: "Gotham",
+                fontStyle: 'normal',
+                fontWeight: '700',
+                fontSize: 20,
+                lineHeight: 28,
+                color: '#BE202E',
+              }}
+            >
+         {  summary[0]?.all_orders_count}
+            </Text>
+          </View>
+          <View
+            style={{
+              display: 'flex',
+              flexDirection:"row",
+              
+              justifyContent: "space-between",
+              alignItems: 'center',
+              width: "48%",
+              height:100,
+            backgroundColor: '#fff',
+            paddingHorizontal: 20,
+            paddingVertical: 18,
+            borderRadius:10
+            }}
+          >
+            <Text
+              style={{
+                // fontFamily: "Gotham",
+                fontStyle: 'normal',
+                fontWeight: '400',
+                width:100,
+                fontSize: 14,
+                // lineHeight: 16,
+                color: '#231F20',
+                marginBottom: 8,
+              }}
+            >
+              Current Balance
+            </Text>
+            <Text
+              style={{
+                // fontFamily: "Gotham",
+                fontStyle: 'normal',
+                fontWeight: '700',
+                fontSize: 20,
+                lineHeight: 28,
+                color: '#BE202E',
+              }}
+            >
+         {  summary[1]?.current_balance}
+            </Text>
+          </View>
+        </View>
+
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          
+            // backgroundColor: '#EDEDED',
+            // borderColor: '#C7C7C7',
+            borderRadius: 8,marginTop:10
+          }}
+        >
+         
+          <View
+            style={{
+              display: 'flex',
+              flexDirection:"row",
+              
+              justifyContent: "space-between",
+              alignItems: 'center',
+              width: "48%",
+              height:100,
+            backgroundColor: '#fff',
+            paddingHorizontal: 20,
+            paddingVertical: 18,
+            borderRadius:10
+            }}
+          >
+            <Text
+              style={{
+                // fontFamily: "Gotham",
+                fontStyle: 'normal',
+                fontWeight: '400',
+                fontSize: 14,
+                lineHeight: 16,
+                color: '#231F20',
+                marginBottom: 8,
+                width:100
+              }}
+            >
+              
               Last Payment Amount
             </Text>
             <Text
@@ -236,7 +340,7 @@ const fetchDashSummary = async()=>{
                 color: '#BE202E',
               }}
             >
-              4433
+            {  summary[2]?.last_payment_amount}
             </Text>
           </View>
           <View
@@ -277,7 +381,7 @@ const fetchDashSummary = async()=>{
                 color: '#BE202E',
               }}
             >
-              0
+              {  summary[3]?.delivered_orders}
             </Text>
           </View>
         </View>
@@ -332,7 +436,7 @@ const fetchDashSummary = async()=>{
                 color: '#BE202E',
               }}
             >
-              0
+             {  summary[4]?.in_transit_orders}
             </Text>
           </View>
          
@@ -374,10 +478,11 @@ const fetchDashSummary = async()=>{
                 color: '#BE202E',
               }}
             >
-              0
+             {  summary[5]?.returned_orders}
+              
             </Text>
           </View>
-        </View> */}
+        </View>
         {/* statistic */}
        
      

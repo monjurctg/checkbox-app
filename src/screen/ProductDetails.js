@@ -26,7 +26,7 @@ import { setDetailsBottomSheet } from "../redux/reducers/utilsSlice";
 import { useRoute } from "@react-navigation/native";
 import productServices from "../services/productServices";
 import SingleProductScreenSkeleton from "../components/loader/SingleProductScreenSkeleton";
-
+import RenderHtml from 'react-native-render-html';
 // import { AntDesign } from '@expo/vector-icons';
 import { Entypo } from "@expo/vector-icons";
 import Rating from "../components/Rating";
@@ -246,29 +246,14 @@ const ProductDetails = ({ navigation }) => {
             originWhitelist={['*']}
             source={{ html:"<meta name= viewport content= width=device-width>" +singleProduct?.description }}
           />
-       
+       reseller_instructions
           </View> */}
+          {
+            singleProduct?.description  &&  <RenderHtml contentWidth={350} source={{ html: singleProduct?.description }} />
+          
+          }
 
-    
-
-          <CustomTouchBtn
-            preset={["row mt_10 radius_5 center   border_1 center "]}
-            style={{ height: scale(48), width: "100%" }}
-          >
-            <Image source={require("../../assets/icons/dload.png")} />
-            <Text preset={["p1 ml_10 RR"]} style={{ fontWeight: "300" }}>Download Product Details</Text>
-          </CustomTouchBtn>
-          <CustomTouchBtn
-            preset={["row mt_10  radius_5 center  "]}
-            style={{ height: scale(48), width: "100%", backgroundColor: colors.primary_2 }}
-          >
-            {/* <Image source={require("../../assets/icons/facebook.png")} /> */}
-            <Feather name="facebook" size={18} color="#FFF" />
-            <Text preset={["p1 ml_10 fw_325 RR "]} style={{ color: "#FFF" }}>Post in Facebook</Text>
-          </CustomTouchBtn>
-
-          {/* color */}
-          {singleProduct?.variation_attributes?.map((variation, index) => (
+          {singleProduct?.variation_attributes?.length>0 && singleProduct?.variation_attributes?.map((variation, index) => (
             <Tags
               variant={variantDetails}
               variantLength={index}
@@ -279,95 +264,73 @@ const ProductDetails = ({ navigation }) => {
             />
           ))}
 
+
+          <CustomTouchBtn
+            preset={["row mt_10 radius_5 center   border_1 center "]}
+            style={{ height: scale(48), width: "100%" ,alignItems:"center"}}
+          >
+            <Image source={require("../../assets/icons/dload.png")} />
+            <Text preset={[" ml_10 RR"]} style={{ fontWeight: "300" }}>Download Product Details</Text>
+          </CustomTouchBtn>
+          <CustomTouchBtn
+            preset={["row mt_10  radius_5 center  "]}
+            style={{ height: scale(48), width: "100%", backgroundColor: colors.primary_2 }}
+          >
+            {/* <Image source={require("../../assets/icons/facebook.png")} /> */}
+            <Feather name="facebook" size={18} color="#FFF" />
+            <Text preset={[" ml_10 fw_325 RR "]} style={{ color: "#FFF" }}>Post in Facebook</Text>
+          </CustomTouchBtn>
+         
+
+
+
+          {/* color */}
+        
+
           {/* quantity */}
           <View preset={["mt_10"]}>
-            <Text preset={["fs_16 bold RB "]}>Qty</Text>
-            {/* <View preset={["row mt_5 "]} style={{}}>
-            <CustomTouchBtn
-              onPress={() => {
-                if (quantity >= 2) {
-                  setQuantity(quantity - 1);
-                }
-              }}
-              preset={[""]}
-              style={{
-                height: scale(30),
-                width: scale(30),
-                borderWidth: 2,
-                borderColor: "gray",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Text preset={[" bold fs_20"]}>-</Text>
-            </CustomTouchBtn>
-            <Text preset={["m_5 fs_16 bold"]}>{quantity}</Text>
-            <CustomTouchBtn
-              onPress={() => {
-                setQuantity(quantity + 1);
-              }}
-              style={{
-                height: scale(30),
-                width: scale(30),
-                borderWidth: 2,
-                borderColor: "gray",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Text preset={["fs_16 bold "]}>+</Text>
-            </CustomTouchBtn>
-          </View> */}
-            <View preset={["mt_10"]} style={{ flexDirection: "row" }}>
+            {/* <Text preset={["fs_16 bold RB "]}>Qty</Text> */}
+        
+            <View preset={[""]} style={{ flexDirection: "row" ,alignSelf:"center"}}>
               <TouchableOpacity onPress={() => {
                 if (quantity >= 2) {
                   setQuantity(quantity - 1);
                 }
-              }} style={{ borderWidth: 1, borderColor: "#DDD", width: scale(60), height: 40, justifyContent: "center", alignItems: "center" }}><AntDesign name="minus" size={24} color="black" /></TouchableOpacity>
-              <View style={{ borderWidth: 1, width: scale(60), height: 40, justifyContent: "center", alignItems: "center", borderColor: "#DDD" }}>
+              }} style={{ borderWidth: 1, borderColor: "#DDD", width: scale(95), height: 46, justifyContent: "center", alignItems: "center" }}><AntDesign name="minus" size={24} color="black" /></TouchableOpacity>
+              <View style={{ borderWidth: 1, width: scale(120), height: 46, justifyContent: "center", alignItems: "center", borderColor: "#DDD" }}>
                 <Text>{quantity}</Text>
               </View>
 
               <TouchableOpacity onPress={() => {
                 setQuantity(quantity + 1);
 
-              }} style={{ borderWidth: 1, width: scale(60), height: 40, justifyContent: "center", alignItems: "center", borderColor: "#DDD" }}><AntDesign name="plus" size={24} color="black" /></TouchableOpacity>
+              }} style={{ borderWidth: 1, width: scale(95), height: 46, justifyContent: "center", alignItems: "center", borderColor: "#DDD" }}><AntDesign name="plus" size={24} color="black" /></TouchableOpacity>
 
             </View>
           </View>
+          {
+            singleProduct?.reseller_instructions &&   <View style={{marginTop:10}}>
 
+            <Text style={{fontSize:22,fontFamily:"RB"}}>Reseller Instruction</Text>
+
+
+          <RenderHtml contentWidth={350} source={{ html: singleProduct?.reseller_instructions }} />
+
+
+          </View>
+          }
+
+        
 
           {/* details */}
           <View
             preset={["mt_20"]}
             style={{
-              // borderTopWidth: 1,
+            
               borderTopColor: colors.secoundary_3,
             }}
           >
-         
-          {/* <View preset={["mt_10"]}>
-            <View preset={["row lh_20"]}>
-              <Text preset={["fs_16 fw_500"]}>Fabric</Text>
-              <Text preset={["fs_16 fw_400 lh_20"]}> : Cotton Blend</Text>
-            </View>
-            <View preset={["row lh_20"]}>
-              <Text preset={["fs_16 fw_500"]}>Sleeve Length</Text>
-              <Text preset={["fs_16 fw_400 lh_20"]}> : Long Sleeves</Text>
-            </View>
-            <View preset={["row lh_20"]}>
-              <Text preset={["fs_16 fw_500"]}>Pattern</Text>
-              <Text preset={["fs_16 fw_400 lh_20"]}> : Striped</Text>
-            </View>
-            <View preset={["row lh_20"]}>
-              <Text preset={["fs_16 fw_500"]}>Net Quantity (N)</Text>
-              <Text preset={["fs_16 fw_400 lh_20"]}> : 1</Text>
-            </View>
-            <View preset={["row lh_20"]}>
-              <Text preset={["fs_16 fw_500"]}>Sizes</Text>
-              <Text preset={["fs_16 fw_400 lh_20"]}> : 11</Text>
-            </View>
-          </View> */}
+
           </View>
 
           {/* client review */}
@@ -390,27 +353,7 @@ const ProductDetails = ({ navigation }) => {
                   </Text>
                 </View>
               ) : (
-                // reviews?.map((review, index) => (
-                //   <View key={index}>
-                //     <ClientReview rating={5}  review={review} />
-                //     {/* <View
-                //       preset={["row d_flex   mt_10"]}
-                //       style={{ alignItems: "center" }}
-                //     >
-                //       <Text preset={["fs_18"]}>See More</Text>
-                //       <AntDesign
-                //         style={{
-                //           marginLeft: scale(20),
-                //           fontSize: scale(18),
-                //           lineHeight: scale(30),
-                //         }}
-                //         name="down"
-                //         size={18}
-                //         color="black"
-                //       />
-                //     </View> */}
-                //   </View>
-                // ))
+                
                 <FlatList horizontal={true}
                   // numColumns={2}
                   showsHorizontalScrollIndicator={false}

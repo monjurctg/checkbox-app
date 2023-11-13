@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useFonts, Raleway_400Regular, Raleway_500Medium, Raleway_600SemiBold, Raleway_700Bold } from '@expo-google-fonts/raleway';
 
 // import {  } from 'expo-status-bar';
-import { Linking, StyleSheet, View,StatusBar } from 'react-native';
+import { Linking, StyleSheet,StatusBar, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Text from './src/components/tags/Text';
 
@@ -87,10 +87,10 @@ export default function App() {
   };
   // }
   return (
-    <Provider store={store}>
-      <StatusBar backgroundColor="#be202e" barStyle="light-content" />
+    <Provider store={store} >
+     
 
-
+     <StatusBar backgroundColor={"#f2f2f2"} />
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{
@@ -110,7 +110,7 @@ export default function App() {
           <Stack.Screen name="select-address" component={SelecAdress} />
 
           <Stack.Screen name="product-details" component={ProductDetails} />
-          <Stack.Screen name="all-collection" component={AllCollection} />
+         
           <Stack.Screen name="otp_verify" component={OTPVerification} />
           <Stack.Screen name="login" component={Login} />
           <Stack.Screen name="checkout" component={Checkout} />
@@ -123,7 +123,7 @@ export default function App() {
           <Stack.Screen name="products-filter" component={ProductList} />
           <Stack.Screen name="send" component={WebViewUrl} />
           <Stack.Screen name="forget_password" component={ForgetPassword} />
-          <Stack.Screen name="filter" component={FilterIndex} />
+       
 
           <Stack.Screen name="reset_password" component={ResetPassword} />
           <Stack.Screen name="user_info" component={UserInfo} />
@@ -137,7 +137,7 @@ export default function App() {
       </NavigationContainer>
 
       <FlashMessage position={'bottom'} />
-      <StatusBar style="auto" />
+      
     </Provider>
   );
 }

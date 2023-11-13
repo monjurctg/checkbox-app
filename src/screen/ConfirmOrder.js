@@ -47,6 +47,7 @@ const ConfirmOrder = ({ navigation, route }) => {
   const [bkash, setBkash] = useState("");
   const[couponText,setCouponText]=useState("")
   const[singleCart,setSingCart]=useState(carts)
+  const[modalError,setModalError]=useState("")
   const dispatch = useDispatch()
 
   // console.log(data, "data from confirm order");
@@ -283,7 +284,7 @@ const ConfirmOrder = ({ navigation, route }) => {
     // console.log("monjur", bkash, shopName);
     // setloading(true);
     const res = await authServices.addShop(formdata);
-    console.log("formdata res", res.data.message);
+    // console.log("formdata res", res.data.message);
     if (res?.status === 200) {
       getUser()
       showMessage({
@@ -301,7 +302,11 @@ const ConfirmOrder = ({ navigation, route }) => {
       // alert(res?.data?.message || "api message changed", "top-right");
       // dispatch(getUserDetails());
       // setModalOpen(false);
-    } else {
+    } 
+    else if(res.data.message=="The bkash has already been taken."){
+      setModalError(res.data.message)
+    }
+    else {
       if(res.data.message==="Shop info allready added"){
         setIsShopModal(false)
         showMessage({
@@ -314,7 +319,7 @@ const ConfirmOrder = ({ navigation, route }) => {
           statusBarHeight: scale(40),
         });
 
-      }   showMessage({
+      }  showMessage({
         style: {zIndex:999, alignItems: "center", alignContent: "center", display: "flex", flexDirection: "column", justifyContent: "center", gap: 15, },
         message: res?.data?.message,
         icon: "error",
@@ -441,7 +446,10 @@ const ConfirmOrder = ({ navigation, route }) => {
   <Modal visible={isShopModal} animationType="slide" transparent={true}>
     <View style={styles.modalContainer}>
       <View style={styles.modalContent}>
-        <TouchableOpacity style={styles.closeButton} onPress={() => setIsShopModal(false)}>
+        <TouchableOpacity style={styles.closeButton} onPress={() => {
+          setIsShopModal(false)
+          setModalError(null)
+        }}>
           <AntDesign style={styles.closeButtonText} name="close" size={24} color="black" />
         </TouchableOpacity>
         <Text style={{ fontSize: 20, fontWeight: "500", borderBottomWidth: 1, borderBottomColor: "#cccc", padding: 10, }}>Shop Information</Text>
@@ -455,6 +463,10 @@ const ConfirmOrder = ({ navigation, route }) => {
           </TouchableOpacity>
           <TextInput onChangeText={(text) => setShopName(text)} placeholder="Enter shop name" style={styles.input} />
           <TextInput onChangeText={(text) => setBkash(text)} placeholder="Enter bkash number" style={[styles.input, { marginTop: 20 }]} keyboardType="decimal-pad" />
+          
+       {
+        modalError &&    <Text style={{color:"red",padding:10}}>{modalError}</Text>
+       }
           <TouchableOpacity style={styles.submitButton} onPress={submit}>
             <Text style={styles.submitButtonText}>Submit</Text>
           </TouchableOpacity>

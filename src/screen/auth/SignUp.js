@@ -143,7 +143,7 @@ const SiginUp = () => {
      
       <InputTestCustom
         keyboardType={'numeric'}
-        placeholder={'Phone Nmuber'}
+        placeholder={'Phone Number'}
         label={'Phone Number'}
         value={phone}
         onChange={(text) => setPhone(text)}

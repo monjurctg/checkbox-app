@@ -122,17 +122,17 @@ const UserInfo = ({ route, navigation }) => {
     // console.log('res: ', res);
     if (res.status === 200) {
       setLoading(false);
-      dispatch(setAuth(true));
-      await AsyncStorage.setItem('token', res.data?.data?.access_token);
+      // dispatch(setAuth(true));
+      // await AsyncStorage.setItem('token', res.data?.data?.access_token);
       
       showMessage({
         style: { alignItems: 'center' },
-        message: res?.data?.message || 'api message changed',
+        message: res?.data?.message || 'Please Login Now',
         type: 'success',
         position: 'top',
         statusBarHeight: scale(20),
       });
-      navigation.navigate('home');
+      navigation.navigate('login');
     } else {
       setLoading(false);
 

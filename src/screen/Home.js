@@ -18,6 +18,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch } from 'react-redux';
 import { setAuth, setUser } from '../redux/reducers/authSlice';
 import authServices from '../services/authServices';
+import axios from 'axios';
+import api from '../services/api';
+import SingleProduct from '../components/products/SingleProduct';
+import { setTabShow } from '../redux/reducers/utilsSlice';
 
 const Home = ({ navigation }) => {
   // console.log(navigation, "home navigation");
@@ -25,10 +29,23 @@ const Home = ({ navigation }) => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const dispatch=useDispatch()
+  const [topProducts,setTopProducts]=useState([])
+  const[summary,setSummary]=useState([])
   // setTimeout(() => {
   //   setLoading(false);
   // }, 1000);
+const fecthTopProducts = async()=>{
+  const res =await api.get("product-listing-page/products/best-seller")
+  setTopProducts(res.data.data)
+  // console.log(res.data.data)
+}
 
+
+const fetchDashSummary = async()=>{
+  const res = await api.get("/reseller/dashboard/summary")
+  console.log(res.data.data,"dfdkjfk")
+  setSummary(res.data.data)
+}
   const allCategories = () => {
     productServices
       .getAllCategories()
@@ -53,6 +70,9 @@ const Home = ({ navigation }) => {
 
   useEffect(() => {
     allCategories();
+    fecthTopProducts()
+    dispatch(setTabShow(true))
+    fetchDashSummary()
   }, []);
   useEffect(() => {
     const checkToken = async () => {
@@ -79,9 +99,20 @@ const Home = ({ navigation }) => {
       setLoading(false);
      }
     };
-
     checkToken();
   }, []);
+
+  
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      // fetchSingCart();
+    dispatch(setTabShow(true))
+
+
+    });
+    return unsubscribe;
+  }, [navigation]);
+
 
   // if (loading) {
   //   return <CategorySkeleton/>;
@@ -90,41 +121,51 @@ const Home = ({ navigation }) => {
   return (
     <Mainlayout navigation={navigation}>
       <ScrollView style={{}} showsVerticalScrollIndicator={false}>
-        {/* statistic */}
-        <View
+      <View
           style={{
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-            paddingHorizontal: 20,
-            paddingVertical: 18,
-            backgroundColor: '#EDEDED',
-            borderColor: '#C7C7C7',
-            borderRadius: 8,
+            flexWrap:"wrap",
+            gap:10,
+           
+            // backgroundColor: '#EDEDED',
+            // borderColor: '#C7C7C7',
+            borderRadius: 8,marginTop:10
           }}
         >
-          <View
+         
+       {
+        summary.map((sum,i)=>{
+          return   <View key={i}
             style={{
-              display: 'flex',
-              justifyContent: 'center',
+              flexDirection:"row",
+              justifyContent: "space-around",
               alignItems: 'center',
-              width: 80,
+              width: "48%",
+            backgroundColor: '#fff',
+            paddingHorizontal: 20,
+            paddingVertical: 18,
+            height:100,
+            borderRadius:10
+            // gap:10
+
             }}
           >
             <Text
               style={{
-                fontFamily: "RB",
-                // fontStyle: 'normal',
-                // fontWeight: '400',
-              
+                // fontFamily: "Gotham",
+                fontStyle: 'normal',
+                fontWeight: '400',
                 fontSize: 14,
                 lineHeight: 16,
                 color: '#231F20',
                 marginBottom: 8,
+                width:100
               }}
             >
-              Delivered
+              Current Balance
             </Text>
             <Text
               style={{
@@ -139,12 +180,78 @@ const Home = ({ navigation }) => {
               500
             </Text>
           </View>
+        })
+       }
+        </View>
+
+        {/* <View
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          
+            // backgroundColor: '#EDEDED',
+            // borderColor: '#C7C7C7',
+            borderRadius: 8,marginTop:10
+          }}
+        >
+         
           <View
             style={{
               display: 'flex',
-              justifyContent: 'center',
+              flexDirection:"row",
+              
+              justifyContent: "space-between",
               alignItems: 'center',
-              width: 80,
+              width: "48%",
+              height:100,
+            backgroundColor: '#fff',
+            paddingHorizontal: 20,
+            paddingVertical: 18,
+            borderRadius:10
+            }}
+          >
+            <Text
+              style={{
+                // fontFamily: "Gotham",
+                fontStyle: 'normal',
+                fontWeight: '400',
+                fontSize: 14,
+                lineHeight: 16,
+                color: '#231F20',
+                marginBottom: 8,
+                width:100
+              }}
+            >
+              Last Payment Amount
+            </Text>
+            <Text
+              style={{
+                // fontFamily: "Gotham",
+                fontStyle: 'normal',
+                fontWeight: '700',
+                fontSize: 24,
+                lineHeight: 28,
+                color: '#BE202E',
+              }}
+            >
+              4433
+            </Text>
+          </View>
+          <View
+            style={{
+              display: 'flex',
+              flexDirection:"row",
+              
+              justifyContent: "space-between",
+              alignItems: 'center',
+              width: "48%",
+              height:100,
+            backgroundColor: '#fff',
+            paddingHorizontal: 20,
+            paddingVertical: 18,
+            borderRadius:10
             }}
           >
             <Text
@@ -158,7 +265,7 @@ const Home = ({ navigation }) => {
                 marginBottom: 8,
               }}
             >
-              InProgress
+              Delivered Orders
             </Text>
             <Text
               style={{
@@ -170,15 +277,78 @@ const Home = ({ navigation }) => {
                 color: '#BE202E',
               }}
             >
-              432
+              0
             </Text>
           </View>
+        </View>
+
+      <View
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+           
+            borderRadius: 8,
+            marginTop:20
+          }}
+        >
           <View
             style={{
               display: 'flex',
-              justifyContent: 'center',
+              flexDirection:"row",
+              
+              justifyContent: "space-between",
               alignItems: 'center',
-              width: 80,
+              width: "48%",
+              height:100,
+            backgroundColor: '#fff',
+            paddingHorizontal: 20,
+            paddingVertical: 18,
+            borderRadius:10
+            }}
+          >
+            <Text
+              style={{
+                fontFamily: "RB",
+                // fontStyle: 'normal',
+                // fontWeight: '400',
+              
+                fontSize: 14,
+                lineHeight: 16,
+                color: '#231F20',
+                marginBottom: 8,
+              }}
+            >
+              In-transit
+            </Text>
+            <Text
+              style={{
+                // fontFamily: "Gotham",
+                fontStyle: 'normal',
+                fontWeight: '700',
+                fontSize: 24,
+                lineHeight: 28,
+                color: '#BE202E',
+              }}
+            >
+              0
+            </Text>
+          </View>
+         
+          <View
+            style={{
+              display: 'flex',
+              flexDirection:"row",
+              
+              justifyContent: "space-between",
+              alignItems: 'center',
+              width: "48%",
+              height:100,
+            backgroundColor: '#fff',
+            paddingHorizontal: 20,
+            paddingVertical: 18,
+            borderRadius:10
             }}
           >
             <Text
@@ -204,10 +374,14 @@ const Home = ({ navigation }) => {
                 color: '#BE202E',
               }}
             >
-              500
+              0
             </Text>
           </View>
-        </View>
+        </View> */}
+        {/* statistic */}
+       
+     
+
         <View
           style={{
             flexDirection: 'row',
@@ -220,7 +394,7 @@ const Home = ({ navigation }) => {
           >
             <Image source={require('../../assets/icons/product.png')} />
             <Text preset={['p3']} style={{ marginTop: scale(10) }}>
-              My Products
+            Frequently Ordered
             </Text>
           </TouchableOpacity>
 
@@ -242,7 +416,7 @@ const Home = ({ navigation }) => {
           </TouchableOpacity>
         </View>
 
-        {/* out service */}
+ 
 
         {/* <Slider /> */}
         <View>
@@ -254,215 +428,39 @@ const Home = ({ navigation }) => {
             }}
             source={require('../../assets/img/banner_2.png')}
           />
-          {/* <View
-          style={{
-            flexDirection: "row",
-            marginTop: scale(20),
-
-            justifyContent: "flex-start",
-          }}
-        >
-          <Image
-            source={require("../../assets/img/fifty.png")}
-            style={{
-              marginRight: scale(10),
-              width: scale(100),
-              resizeMode: "contain",
-            }}
-          />
-          <Image
-            source={require("../../assets/img/special.png")}
-            style={{
-              marginRight: scale(10),
-              width: scale(100),
-              resizeMode: "contain",
-            }}
-          />
-          <Image
-            source={require("../../assets/img/mega.png")}
-            style={{
-              marginRight: scale(10),
-              width: scale(100),
-              resizeMode: "contain",
-            }}
-          />
-        </View> */}
-        </View>
-        {/* new product */}
-        {/* <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            marginTop: scale(20),
-            borderWidth: 1,
-            borderColor: "#E5E5E5",
-            height: scale(40),
-            alignItems: "center",
-            // paddingVertical: scale(8),
-            paddingHorizontal: scale(16),
-            borderRadius: 5,
-            borderBottomLeftRadius: 0,
-            borderBottomRightRadius: 0,
-          }}
-        >
-          <Text preset={["p2 bold"]}>New Collections</Text>
-
-          <TouchableOpacity
-            style={{
-              flexDirection: "row",
-            }}
-          >
-            <Text preset={["p3 "]}>View all</Text>
-            <Image
-              source={require("../../assets/icons/arrow-right-o.png")}
-              style={{ marginLeft: scale(10) }}
-            />
-          </TouchableOpacity>
-        </View>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          style={{
-            borderWidth: 1,
-            borderColor: "#E5E5E5",
-            padding: scale(12),
-            borderTopWidth: 0,
-
-            // marginTop: scale(15),
-          }}
-        >
-          <View
-            style={{
-              alignItems: "center",
-              marginRight: scale(20),
-            }}
-          >
-            <Image
-              source={require("../../assets/img/camera.png")}
-              style={{
-                width: scale(70),
-                height: scale(70),
-                resizeMode: "contain",
-              }}
-            />
-            <Text preset={["p3"]}>Camera</Text>
-          </View>
-          <View
-            style={{
-              alignItems: "center",
-              marginRight: scale(20),
-            }}
-          >
-            <Image
-              source={require("../../assets/img/headphone.png")}
-              style={{
-                width: scale(70),
-                height: scale(70),
-                resizeMode: "contain",
-              }}
-            />
-            <Text preset={["p3"]}>Head phone</Text>
-          </View>
-          <View
-            style={{
-              alignItems: "center",
-              marginRight: scale(20),
-              width: scale(70),
-              height: scale(70),
-            }}
-          >
-            <Image
-              source={require("../../assets/img/sunglass.png")}
-              style={{
-                width: scale(70),
-                height: scale(70),
-                resizeMode: "contain",
-              }}
-            />
-            <Text preset={["p3"]}>Sun Glass</Text>
-          </View>
-          <View
-            style={{
-              alignItems: "center",
-              marginRight: scale(20),
-              width: scale(70),
-              height: scale(70),
-            }}
-          >
-            <Image
-              source={require("../../assets/img/redShoe.png")}
-              style={{
-                width: scale(70),
-                height: scale(70),
-                resizeMode: "contain",
-              }}
-            />
-            <Text preset={["p3"]}>Red shoe</Text>
-          </View>
-          <View
-            style={{
-              alignItems: "center",
-              marginRight: scale(20),
-              width: scale(70),
-              height: scale(70),
-            }}
-          >
-            <Image
-              source={require("../../assets/img/shoe1.png")}
-              style={{
-                width: scale(70),
-                height: scale(70),
-                resizeMode: "contain",
-              }}
-            />
-            <Text preset={["p3"]}> shoe</Text>
-          </View>
-        </ScrollView> */}
-
-        {/* explore all  */}
-        {/* <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            marginTop: scale(20),
-            borderWidth: 1,
-            borderColor: "#E5E5E5",
-            height: scale(40),
-            alignItems: "center",
-            // paddingVertical: scale(8),
-            paddingHorizontal: scale(16),
-            borderRadius: 5,
-            borderBottomLeftRadius: 0,
-            borderBottomRightRadius: 0,
-          }}
-        >
-          <Text preset={["p2 bold"]}>Categories</Text>
-
-          
-        </View> */}
-        {loading && <CategorySkeleton />}
-        {/* <View style={styles.products}>
-          {
-            categories.map((cate,index)=>{
-              return<TouchableOpacity key={index} style={styles.product}>
-              <Image
-                source={require("../../assets/img/shoe1.png")}
-                style={{ width: "100%", height: scale(100) }}
-              />
-              <Text preset={["p3 lh_14"]}>{cate.name}</Text>
-            </TouchableOpacity>
-            })
-          }
-          
-       
          
-        </View> */}
-        <Categories
-          title={'Categories'}
-          onCategoryPress={onCategoryPress}
-          data={categories}
-        />
-        <View style={{ height: scale(300) }}></View>
+        </View>
+        
+        <Text style={{marginTop:10}}>Top Products</Text>
+      <View style={{flexDirection:"row",flexWrap:"wrap",alignSelf:"center",alignItems:"center",justifyContent:"center"}}>
+
+      {
+          topProducts.map((item,i)=>{
+            return <SingleProduct
+            key={i}
+            id={item?.id}
+            from={"home"}
+            navigation={navigation}
+            name={item?.name}
+            src={item.thumbnail_image}
+            // toggleBottomNavigationView={onBottomSheetOpen}
+            // visible={visible}
+            price={item?.price?.main_price}
+            rate={item?.rating?.rating}
+            sales={item?.sales}
+            item={item}
+          />
+          })
+        }
+      </View>
+      
+
+       
+       
+      
+       
+        
+        <View style={{ height: scale(200) }}></View>
       </ScrollView>
     </Mainlayout>
   );

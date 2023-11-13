@@ -22,11 +22,12 @@ import FullScreenLoader from "../loader/FullScreenLoader ";
 import { useDispatch, useSelector } from "react-redux";
 import { setCartSize } from "../../redux/reducers/cartSlice";
 import cartServices from "../../services/cartServices";
+import { setAuth, setUser } from "../../redux/reducers/authSlice";
 
 const Mainlayout = ({ children }) => {
   const [isSearchVisible, setSearchVisible] = useState(false);
   const [loading, setLoading] = useState(false);
-  const {  user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
   // console.log(user,"fdfjdkfj")
 
   const navigation = useNavigation();
@@ -81,22 +82,23 @@ const Mainlayout = ({ children }) => {
     setIsMenu(!isMenu);
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     setLoading(true);
 
-    AsyncStorage.clear()
-      .then((abc) => {
-        // console.log(abc, "abc from logout clear");
-        // setLoading(false);
-        // navigation.navigate("login")
-        setTimeout(() => {
-          DevSettings.reload();
-        }, 3000);
-      })
-      .catch((err) => {
-        // console.log(err, "err from logout");
-        // setLoading(false);
-      });
+    try {
+      await AsyncStorage.clear()
+      dispatch(setAuth(false))
+      dispatch(setUser({}))
+      
+    } catch (err) {
+      console.log(err)
+    } finally {
+      // DevSettings.reload();
+      setLoading(false)
+
+    }
+
+
   };
 
   // console.log(user,"home")
@@ -104,7 +106,7 @@ const Mainlayout = ({ children }) => {
   if (loading) {
     return <FullScreenLoader visible={loading} />;
   }
-// console.log(user.logo)
+  // console.log(user.logo)
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
@@ -112,7 +114,7 @@ const Mainlayout = ({ children }) => {
           <View style={{ paddingHorizontal: scale(10) }}>
             <View style={styles.headerContainer}>
               <View style={styles.left}>
-                <TouchableOpacity style={{height:48,width:48,borderRadius:25,backgroundColor:"#bd212f",justifyContent:"center",alignItems:"center"}} onPress={handleMenu}>
+                <TouchableOpacity style={{ height: 48, width: 48, borderRadius: 25, backgroundColor: "#bd212f", justifyContent: "center", alignItems: "center" }} onPress={handleMenu}>
                   {/* <Image
                     source={require("../../../assets/img/monjur3.jpg")}
                     // source={{uri:user.logo}}
@@ -123,7 +125,7 @@ const Mainlayout = ({ children }) => {
                       resizeMode: "cover",
                     }}
                   /> */}
-                  <Text style={{textTransform:"capitalize",color:"white"}}>{user?.name.slice(0,1)}</Text>
+                  <Text style={{ textTransform: "capitalize", color: "white" }}>{user?.name?.slice(0, 1)}</Text>
                 </TouchableOpacity>
 
                 <View style={{ marginLeft: scale(10) }}>
@@ -133,11 +135,12 @@ const Mainlayout = ({ children }) => {
                       marginBottom: scale(5),
                       fontSize: 14,
                       lineHeight: 16,
+                      textTransform: "capitalize", fontWeight: "500", fontFamily: "RM"
                     }}
                   >
-                   {user?.name}
+                    {user?.name}
                   </Text>
-                  <TouchableOpacity style={styles.checkBlncBtn}>
+                  {/* <TouchableOpacity style={styles.checkBlncBtn}>
                     <Text
                       // preset={[""]}
                       style={{
@@ -148,7 +151,7 @@ const Mainlayout = ({ children }) => {
                     >
                       Check Balance
                     </Text>
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
                 </View>
               </View>
               <View style={styles.right}>
@@ -200,12 +203,12 @@ const Mainlayout = ({ children }) => {
                   <Ionicons
                     name="person-outline"
                     size={24}
-                    color={colors.primary_1}
+                    color="#000"
                     style={styles.menuIcon}
                   />
                   {/* Add your profile menu content here */}
                   <Text
-                    style={[styles.logoutText, { color: colors.primary_1 }]}
+                    style={styles.logoutText}
                   >
                     Profile
                   </Text>
@@ -233,7 +236,7 @@ const Mainlayout = ({ children }) => {
                   <Ionicons
                     name="log-out-outline"
                     size={24}
-                    color="#FFF"
+                    color="#000"
                     style={styles.menuIcon}
                   />
                   <Text style={styles.logoutText}>Logout</Text>
@@ -269,14 +272,17 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    height: scale(50),
+    height: scale(55),
+    // width:"100%",
     borderBottomColor: colors.border,
     // borderBottomWidth: 1,
+    // backgroundColor:"#fff"
   },
   left: {
     // width: 100,
     flexDirection: "row",
     width: width / 2,
+    alignItems: "center"
     // backgroundColor: "green",
   },
   checkBlncBtn: {
@@ -294,6 +300,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     alignItems: "center",
     gap: 20,
+
     // backgroundColor: "blue",
   },
   notificationBadge: {
@@ -323,8 +330,11 @@ const styles = StyleSheet.create({
   },
   menuContainer: {
     position: "absolute",
-    backgroundColor: "#d1c5c5cf",
-    top: 70,
+    // backgroundColor: "#d1c5c5cf",
+    backgroundColor: "#fff",
+    borderRadius: 10,
+
+    top: 60,
     left: 10,
     // minHeight: 160,   
     minWidth: 200,
@@ -343,8 +353,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 10,
     paddingHorizontal: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: "#be202e",
+    // borderBottomWidth: 1,
+    // borderBottomColor: "#be202e",
   },
   menuIcon: {
     marginRight: 10,
@@ -353,14 +363,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     // justifyContent: 'center',
-    backgroundColor: "#be202e",
+    // backgroundColor: "#be202e",
     paddingVertical: 10,
     paddingHorizontal: 20,
-    marginTop: 10,
+    // marginTop: 10,
   },
   logoutText: {
-    color: "#fff",
-    fontSize: 14,
-    fontWeight: "600",
+    // color: "#fff",
+    fontSize: 16,
+    fontFamily: "RM"
+    // fontWeight: "600",
   },
 });

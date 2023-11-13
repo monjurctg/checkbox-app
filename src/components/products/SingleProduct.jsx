@@ -41,12 +41,12 @@ const SingleProduct = ({
     <View
       preset={["mt_5 mr_5   "]}
       style={{
-        width: scale(160),
-        height:scale(240),
+        width: scale(from=="home"?157:160),
+        height:scale(230),
         backgroundColor:colors.white,
         // shadowColor: "rgba(0, 0, 0,0.5)",
-       borderColor:"#f2e9e9",
-       borderWidth:1,
+      //  borderColor:"#f2e9e9",
+      //  borderWidth:1,
        borderRadius:5,
        
        elevation:2,shadowOpacity: 0.8,
@@ -64,10 +64,10 @@ const SingleProduct = ({
         {/* <Feather name="heart" size={34} color="black" /> */}
         <View preset={["mt_5"]}>
           <Text preset={["p3 lh_14 RR"]} numberOfLines={1} ellipsizeMode={"tail"}>{name}</Text>
-          <Text preset={["mt_5 p3"]}>{price}</Text>
+          <Text style={{color:"green"}} preset={["mt_5 p3"]}>{price}</Text>
         </View>
       </CustomTouchBtn>
-      <View preset={["p_5"]}>
+      <View preset={["ph_5"]}>
       <Rating
         sales={sales}
         from={from}
@@ -76,20 +76,7 @@ const SingleProduct = ({
         onRate={handleRate}
       />
       </View>
-      {/* <CustomTouchBtn
-        preset={["center row  border_1 mt_10"]}
-       
-        onPress={() => {
-          toggleBottomNavigationView(item);
-         
-        }}
-        style={styles.addtocart}
-      > 
-
-<AntDesign name="shoppingcart" size={23} style={{fontWeight:"700"}} color={colors.primary_3} />
-
-        <Text preset={["p2 ml_5 bold text_primary2 radius_5 "]}>Add to Cart</Text>
-      </CustomTouchBtn> */}
+     
     </View>
   );
 };

@@ -41,7 +41,7 @@ const Dropdown = ({ title, options = [] ,checkBoxHandle,from,handelReset,filterD
       {isOpen && (
         <View style={styles.optionsContainer}>
           <TouchableOpacity onPress={()=>handelReset(from)} style={{position:"absolute",right:10,top:-15,backgroundColor:"red",paddingHorizontal:10,paddingVertical:3,borderRadius:20}}>
-            <Text style={{color:"#FFF"}}>Reset</Text>
+            <Text style={{color:"#FFF",fontFamily:"RR"}}>Reset</Text>
             </TouchableOpacity>
           {options?.map((option,index) => {
             return (
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   },
   dropdownText: {
     flex: 1,
-    marginRight: 10,
+    marginRight: 10,fontFamily:"RR"
   },
   optionsContainer: {
     // position: 'absolute',
@@ -124,6 +124,7 @@ const styles = StyleSheet.create({
   smallText: {
     fontSize: 12,
     marginLeft: 20,
+    // fontFamily:"RR"
   },
   icon: {
     width: 12,

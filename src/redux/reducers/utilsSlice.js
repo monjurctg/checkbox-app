@@ -8,6 +8,7 @@ const authSlice = createSlice({
 
     customerSelectedThana: {},
     customerRoad: "",
+    tabShow:true
   },
   reducers: {
     setDetailsBottomSheet: (state, { payload }) => {
@@ -20,9 +21,12 @@ const authSlice = createSlice({
     setThana: (state, { payload }) => {
       state.customerSelectedThana = payload;
     },
+    setTabShow:(state,{payload})=>{
+      state.tabShow=payload
+    }
   },
 });
 
-export const { setDetailsBottomSheet, setSelectDistricts, setThana } =
+export const { setDetailsBottomSheet, setSelectDistricts, setThana,setTabShow } =
   authSlice.actions;
 export default authSlice.reducer;

@@ -15,7 +15,7 @@ import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 
-const SingleCart = ({ item }) => {
+const SingleCart = ({ item,from }) => {
   // console.log(item, "item");
   const navigation = useNavigation();
   const [customerRate, setCustomerRate] = useState(
@@ -23,18 +23,12 @@ const SingleCart = ({ item }) => {
   );
   const [quantity, setQuantity] = useState(item?.quantity);
 
-  // const debouncedCustomrate = useDebounce(customerRate, 400);
-  // const debouncedQuantity = useDebounce(quantity, 600);
 
   const handleCustomRate = (text) => {
     setCustomerRate(text);
   };
 
   let updateQuantity = async (type) => {
-    // if (previousQuality !== null) {
-
-    // }
-    // if (!debouncedQuantity?.trim()) return;
    
     let data = {
       id: item?.id,
@@ -63,14 +57,11 @@ const SingleCart = ({ item }) => {
         duration: 2500,
         statusBarHeight: scale(20),
       });
-      // dispatch(singlecart(res?.data?.data?.cart_id));
-      // setpreviousQuality(null);
+   
     } else {
-      // setpreviousQuality(null);
-      // errorNotification(res?.data?.message, "top-right");
+     
     }
-    // console.log('data res', res)
-    // console.log('data', data)
+   
   };
   let updateCustomerRate = async () => {
     // if (previousrate !== null) {
@@ -82,34 +73,18 @@ const SingleCart = ({ item }) => {
       type: "customer_rate ",
       customer_rate: debouncedCustomrate,
     };
-    // console.log(data);
+ 
     try {
       let res = await cartServices.updateProductFromCart(data);
       if (res?.status === 200) {
-        // dispatch(singlecart(res?.data?.data?.cart_id));
-        // successNotification(res?.data?.message, "top-righ");
+     
       } else {
-        // setCustomerRate(item?.customer_rate);
+
       }
     } catch (err) {
       console.error(err, "error from catch");
     }
   };
-
-
-  // useEffect(() => {
-  //   updateQuantity(debouncedQuantity);
-
-  //   // }
-  // }, []);
-
-  // useEffect(() => {
-
-  //   updateCustomerRate(customerRate);
-  //   // }
-  // }, [ debouncedCustomrate]);
-
-  // console.log(customerRate,"customer rate")
   return (
     <View
       style={{
@@ -124,7 +99,7 @@ const SingleCart = ({ item }) => {
       }}
     >
       <View preset={["row"]}>
-        <View style={{ width: scale(110) }}>
+        <View style={{ width: scale(80) }}>
           <CustomTouchBtn
             onPress={() => {
               const isConfirm = Alert.prompt("Are sure?");
@@ -153,16 +128,13 @@ const SingleCart = ({ item }) => {
 
           <Image
             style={{
-              width: scale(110),
-              height: scale(110),
-              // borderColor: "#231F20",
-              // borderWidth: 1,
+              width: scale(80),
+              height: scale(90),
               borderRadius:10
 
             }}
             source={{ uri: item?.product_thumbnail_image }}
-            // source={require(`${item?.image}`)}
-            // source={require("../../../assets/img/redShoe.png")}
+         
           />
         </View>
 
@@ -183,90 +155,21 @@ const SingleCart = ({ item }) => {
             <TouchableOpacity onPress={()=>{
               updateQuantity("minus")
 
-            }}   style={{borderWidth:1,borderColor:"#DDD",width:scale(60),height:40,justifyContent:"center",alignItems:"center"}}><AntDesign name="minus" size={24} color="black" /></TouchableOpacity>
-            <View  style={{borderWidth:1,width:scale(60),height:40,justifyContent:"center",alignItems:"center",borderColor:"#DDD"}}>
+            }}   style={{borderWidth:1,borderColor:"#DDD",width:scale(60),height:35,justifyContent:"center",alignItems:"center"}}><AntDesign name="minus" size={24} color="black" /></TouchableOpacity>
+            <View  style={{borderWidth:1,width:scale(60),height:35,justifyContent:"center",alignItems:"center",borderColor:"#DDD"}}>
               <Text>{quantity}</Text>
             </View>
            
             <TouchableOpacity onPress={()=>{
               updateQuantity("plus")
 
-            }}   style={{borderWidth:1,width:scale(60),height:40,justifyContent:"center",alignItems:"center",borderColor:"#DDD"}}><AntDesign name="plus" size={24} color="black" /></TouchableOpacity>
+            }}   style={{borderWidth:1,width:scale(60),height:35,justifyContent:"center",alignItems:"center",borderColor:"#DDD"}}><AntDesign name="plus" size={24} color="black" /></TouchableOpacity>
 
           </View>
-          {/* <Text style={{ color: "#58595B" }} preset={["fs_11"]}>
-            Color{"  "}
-            <Text
-              preset={["fs_11"]}
-              style={{ fontWeight: "bold", color: "#000" }}
-            >
-              {item?.color}
-            </Text>
-            {"     "}
-            Size{"  "}
-            <Text
-              preset={["fs_11"]}
-              style={{ fontWeight: "bold", color: "#000" }}
-            >
-              {item?.size}
-            </Text>
-          </Text> */}
-          {/* <Text style={{ color: "#58595B" }} preset={["fs_11"]}>
-            Type{"  "}
-            <Text
-              preset={["fs_11"]}
-              style={{ fontWeight: "bold", color: "#000" }}
-            >
-              {item?.type}
-            </Text>
-            {"     "}
-            Origin{"  "}
-            <Text
-              preset={["fs_11"]}
-              style={{ fontWeight: "bold", color: "#000" }}
-            >
-              {item?.origin}
-            </Text>
-          </Text> */}
+
         </View>
       </View>
-      {/* <View preset={["mt_10 row"]} style={{ justifyContent: "space-between" }}>
-        <Text style={{ color: "#231F20" }} preset={["lh_20 fs_11"]}>
-          Quantity
-        </Text>
-        <TextInput
-          value={quantity}
-          onChangeText={(text) => setQuantity(text)}
-          keyboardType="decimal-pad"
-          style={{
-            textAlign: "center",
-            borderColor: "#E6E7E8",
-            borderWidth: 1,
-            width: scale(50),
-            backgroundColor: "#FFFFFF",
-            fontSize: 14,
-          }}
-        />
-        <Text style={{ color: "#231F20" }} preset={["lh_20 fs_11"]}>
-          x Customer Rate
-        </Text>
-        <TextInput
-          keyboardType="numeric"
-          // value={item?.customer_rate}
-          editable={false}
-          onChangeText={handleCustomRate}
-          value={customerRate}
-          style={{
-            borderColor: "#E6E7E8",
-            borderWidth: 1,
-            marginLeft: scale(5),
-            width: scale(100),
-            backgroundColor: "#FFFFFF",
-            textAlign: "center",
-            fontSize: 14,
-          }}
-        />
-      </View> */}
+  
     </View>
   );
 };

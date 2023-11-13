@@ -35,7 +35,7 @@ const SearchSkeleton = ({}) => {
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
-            backgroundColor: "#FFFFFF",
+            // backgroundColor: "#FFFFFF",
             padding: 10,
             // columnGap:10
           }}
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     paddingVertical:10,
     width: "50%",
     // height: 140,
-    backgroundColor: '#FFFFFF',
+    // backgroundColor: '#FFFFFF',
     borderColor: "#F2E9E9",
     borderRadius: 5,
   },
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 30,
     marginTop: 5,
-    backgroundColor: "#E0E0E0",
+    backgroundColor: "#e2e2e2",
     borderRadius: 5,
     alignSelf: "center",
   },

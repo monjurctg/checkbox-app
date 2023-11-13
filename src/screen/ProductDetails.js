@@ -36,6 +36,8 @@ import { showMessage } from "react-native-flash-message";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { setCartSize } from "../redux/reducers/cartSlice";
 import Collections from "../components/Collections";
+import { Dimensions } from "react-native";
+import WebView from "react-native-webview";
 const ProductDetails = ({ navigation }) => {
   let [activeColor, setActiveColor] = useState("Red");
   const [bigImg, setBigImg] = useState();
@@ -121,7 +123,7 @@ const ProductDetails = ({ navigation }) => {
       // errorNotification(res?.data?.message, "top-right");
     }
   };
-
+  // console.log(singleProduct)
   useEffect(() => {
     setLoading(true);
     productServices
@@ -150,14 +152,14 @@ const ProductDetails = ({ navigation }) => {
     return <ClientReview rating={5} review={item} />
   }
 
-  console.log(productId)
+  // console.log(productId)
   if (loading) {
     return <SingleProductScreenSkeleton />;
   }
   return (
     <Mainlayout>
       <ScrollView showsVerticalScrollIndicator={false}>
-    
+
         <View style={{ alignSelf: "center", elevation: 1, width: scale(330), backgroundColor: "#FFF", padding: 10, marginTop: 20, borderRadius: 10, paddingVertical: 20 }}>
 
 
@@ -181,7 +183,7 @@ const ProductDetails = ({ navigation }) => {
                   style={{
                     height: scale(70),
                     width: scale(70),
-                    
+
                     // marginRight: scale(5),
                     resizeMode: "contain"
                     , borderWidth: 1, borderColor: "#DDD"
@@ -192,16 +194,16 @@ const ProductDetails = ({ navigation }) => {
               </TouchableOpacity>
             ))}
           </ScrollView>
-          <Text preset={[" fs_20 mt_15"]} style={{fontFamily:"RB"}}>{singleProduct?.name}</Text>
+          <Text preset={[" fs_20 mt_15"]} style={{ fontFamily: "RB" }}>{singleProduct?.name}</Text>
           <View preset={["row  mt_10 "]} style={{ alignItems: "center" }}>
-            <Text preset={["fs_14 RM "]} style={{backgroundColor:"#4caf50",paddingHorizontal:10,paddingVertical:5,color:"#FFF"}}>Sold by</Text>
+            <Text preset={["fs_14 RM "]} style={{ backgroundColor: "#4caf50", paddingHorizontal: 10, paddingVertical: 5, color: "#FFF" }}>Sold by</Text>
             <Text preset={["ml_5 RB fs_16 RB  mr_10"]} style={{}}>Inter Active</Text>
             {/* <Text preset={["ml_5 RB fs_16 mr_10"]}>Inter Active</Text> */}
- 
+
             <Entypo name="emoji-happy" size={24} color="black" />
             <Text preset={["fs_14"]}> 92%</Text>
           </View>
-          <Text style={{color:"#be202e"}} preset={["h2 RB bold mt_10"]}>
+          <Text style={{ color: "#be202e" }} preset={["h2 RB bold mt_10"]}>
             {singleProduct?.currency_symbol}
             {singleProduct?.price?.calculable_price}
           </Text>
@@ -213,13 +215,41 @@ const ProductDetails = ({ navigation }) => {
               maxStars={5}
             />
             <Text preset={["p1 RR"]}>
-              ({singleProduct?.rating?.rating_count} stars) • 10 reviews
+              ({singleProduct?.rating?.rating} stars) • {singleProduct?.rating?.rating_count} reviews
             </Text>
           </View>
           <View preset={["row"]} style={styles.text}>
             <Text preset={["p1 fs_20 RR "]}>M.S.R.P : </Text>
             <Text preset={[" fs_20  text_second3"]}>{singleProduct?.msrp}</Text>
           </View>
+          {/* <View
+            preset={[" ph_10  p_10  mt_20"]}
+            style={{ backgroundColor: "#414042" }}
+          >
+            <View preset={["d_flex row jc_between  "]}>
+              <Text preset={[" text_white fs_16 RB"]}>Details</Text>
+
+              <CustomTouchBtn
+                preset={["row center ml_10 border_1 radius_5 "]}
+                style={{ padding: 5 }}
+              >
+                <Text preset={["text_white RR fs_11 mr_10"]}>
+                  Copy Product Details
+                </Text>
+              
+              </CustomTouchBtn>
+            </View>
+          
+            <WebView
+          style={{flex:1,height:300}}
+          
+            originWhitelist={['*']}
+            source={{ html:"<meta name= viewport content= width=device-width>" +singleProduct?.description }}
+          />
+       
+          </View> */}
+
+    
 
           <CustomTouchBtn
             preset={["row mt_10 radius_5 center   border_1 center "]}
@@ -230,11 +260,11 @@ const ProductDetails = ({ navigation }) => {
           </CustomTouchBtn>
           <CustomTouchBtn
             preset={["row mt_10  radius_5 center  "]}
-            style={{ height: scale(48), width: "100%",backgroundColor:colors.primary_2 }}
+            style={{ height: scale(48), width: "100%", backgroundColor: colors.primary_2 }}
           >
             {/* <Image source={require("../../assets/icons/facebook.png")} /> */}
             <Feather name="facebook" size={18} color="#FFF" />
-            <Text preset={["p1 ml_10 fw_325 RR "]} style={{color:"#FFF"}}>Post in Facebook</Text>
+            <Text preset={["p1 ml_10 fw_325 RR "]} style={{ color: "#FFF" }}>Post in Facebook</Text>
           </CustomTouchBtn>
 
           {/* color */}
@@ -315,26 +345,8 @@ const ProductDetails = ({ navigation }) => {
               borderTopColor: colors.secoundary_3,
             }}
           >
-            {/* <View
-            preset={[" ph_10  p_10  mt_20"]}
-            style={{ backgroundColor: "#414042" }}
-          >
-            <View preset={["d_flex row jc_between  "]}>
-              <Text preset={[" text_white fs_20 fw_700"]}>Details</Text>
-
-              <CustomTouchBtn
-                preset={["row center ml_10 border_1 radius_5 "]}
-                style={{ padding: 5 }}
-              >
-                <Text preset={["text_white fs_11 mr_10"]}>
-                  Copy Product Details
-                </Text>
-              
-              </CustomTouchBtn>
-            </View>
-       
-          </View>
-          <View preset={["mt_10"]}>
+         
+          {/* <View preset={["mt_10"]}>
             <View preset={["row lh_20"]}>
               <Text preset={["fs_16 fw_500"]}>Fabric</Text>
               <Text preset={["fs_16 fw_400 lh_20"]}> : Cotton Blend</Text>
@@ -410,15 +422,12 @@ const ProductDetails = ({ navigation }) => {
             </View>
           </View>
         </View>
-        <Collections  navigation={navigation}/>
-
+        <Collections navigation={navigation} />
 
 
 
         <View style={{ height: scale(220) }}></View>
       </ScrollView>
-
-      <View style={styles.container}></View>
 
       <TouchableOpacity onPress={() => addingToCart()} style={styles.addToCart}>
         <View
@@ -446,6 +455,10 @@ const ProductDetails = ({ navigation }) => {
           </Text>
         </View>
       </TouchableOpacity>
+
+
+      {/* <View style={styles.container}></View> */}
+
     </Mainlayout>
   );
 };
@@ -474,11 +487,12 @@ const styles = StyleSheet.create({
   },
   addToCart: {
     backgroundColor: colors.primary_3,
-    height: scale(50),
-    marginBottom: scale(height <= 760 ? 115 : 100),
+    height: scale(45),
+    // marginBottom: scale(height <= 760 ? 125 : 110),
     width: width,
     position: "absolute",
-    bottom: 0,
+    // bottom: 100,
+    marginTop: Dimensions.get("window").height - scale(45),
     display: "flex",
     alignItems: "center",
     justifyContent: "center",

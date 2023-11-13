@@ -30,7 +30,7 @@ const Checkbox = ({ onValueChange, value, label, passingData, from, filterData ,
           <Ionicons name="md-checkmark" style={{ fontWeight: "bold" }} size={16} color="#FFF" />
         )}
       </View>
-      <Text>{label}</Text>
+      <Text style={{fontFamily:"RR"}}>{label}</Text>
       <View style={{ height: 15, width: 15, borderRadius: 10, backgroundColor: label?.toLowerCase(), marginLeft: 20, borderWidth: 1 }}></View>
     </TouchableOpacity>
   }
@@ -41,7 +41,7 @@ const Checkbox = ({ onValueChange, value, label, passingData, from, filterData ,
           <Ionicons name="md-checkmark" style={{ fontWeight: "bold" }} size={16} color="#FFF" />
         )}
       </View>
-      <Text>{label}</Text>
+      <Text style={{fontFamily:"RR"}}>{label}</Text>
 
     </TouchableOpacity>
   }
@@ -50,7 +50,7 @@ const Checkbox = ({ onValueChange, value, label, passingData, from, filterData ,
     CheckboxData = <TouchableOpacity style={{...styles.checkboxContainer,borderWidth:1,padding:10,borderColor:filterData==passingData.slug?"#ef405e":"#DDD",borderRadius:5,marginLeft:filterData==passingData.slug?10:20}} onPress={() => onValueChange(passingData.slug)}>
     
       <Image source={{ uri: passingData?.icon_path }} style={{ height: 20, width: 20 }} />
-      <Text>{label}</Text>
+      <Text style={{fontFamily:"RR"}}>{label}</Text>
 
     </TouchableOpacity>
   }
@@ -61,7 +61,7 @@ const Checkbox = ({ onValueChange, value, label, passingData, from, filterData ,
             <Ionicons name="md-checkmark" style={{ fontWeight: "bold" }} size={16} color="#FFF" />
           )}
       </View>
-      <Text>{label}</Text>
+      <Text style={{fontFamily:"RR"}}>{label}</Text>
       {from == "colors" && <View style={{ height: 15, width: 15, borderRadius: 10, backgroundColor: label?.toLowerCase(), marginLeft: 20, borderWidth: 1 }}></View>}
     </TouchableOpacity>
   }

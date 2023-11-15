@@ -7,6 +7,7 @@ import { scale } from "../../../utils/funtions";
 import { colors } from "../../theme/colors";
 
 const Tags = ({ variant, setVariant, variantLength, options, title }) => {
+  // console.log(title)
   const handleVariant = (item, name) => {
     if (title === name) {
       setVariant({ ...variant, [variantLength]: item });

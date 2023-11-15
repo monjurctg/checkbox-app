@@ -7,7 +7,79 @@ const CustomerBillingInfo = ({ carts, setIsBill }) => {
   const [billFromCustomer, setBillFromCustomer] = useState(carts?.reseller_to_customer_price?.toString());
   const [adVance, setAdvance] = useState(carts?.advance_from_customer?.toString());
 
+  
+  let saveBillingInfo2 = async () => {
+    const min = singlecartData?.cart_min_selling_price;
+    const max = singlecartData?.cart_max_selling_price;
+    if (!singlecartData?.id) {
+      errorNotification("Please add product to cart");
+      router.push("/product-list");
+    } else {
+
+      // console.log('reseller_to_customer_price',  reseller_to_customer_price <= min)
+      if (
+        reseller_to_customer_price < min ||
+        reseller_to_customer_price > max
+      ) {
+        errorNotification(
+          "Please enter a value between " + min + " and " + max,
+          "top-right"
+        );
+      } 
+      
+      else {
+        let data = {
+          cart_id: singlecartData?.id,
+          type: "bill_info ",
+          reseller_to_customer_price: reseller_to_customer_price,
+          advance_from_customer: advance_from_customer,
+        };
+        if (reseller_to_customer_price - advance_from_customer == 0) {
+          errorNotification(
+            "Total Collection Amount can not be 0",
+            "top-right"
+          );
+        }
+        
+        else {
+          let res = await cartServices.updateCartBilling(data);
+          if (res.status === 200) {
+            successNotification(res?.data?.message, "top-right");
+            setadvance_from_customer(res?.data?.data?.advance_from_customer);
+            setreseller_to_customer_price(
+              res?.data?.data?.reseller_to_customer_price
+            );
+            setdisabled(true);
+            setshowUpdateBtn(true);
+            changeDisable({
+              billing: 0,
+              shipping: 1,
+            });
+
+            dispatch(shippingChange(0));
+
+            showUpdateBtnLocal({
+              billing: 1,
+              shipping: 0,
+            });
+
+            // setactive(false);
+          }
+        }
+      }
+    }
+  };
+
   const saveBillingInfo = async () => {
+    const min = carts?.cart_min_selling_price;
+    const max = carts?.cart_max_selling_price;
+    if (billFromCustomer < min ||billFromCustomer > max) {
+      alert("Please enter a value between " + min + " and " + max);
+      return
+
+    } 
+
+
     let data = {
       cart_id: carts?.id,
       type: "bill_info",
@@ -17,6 +89,7 @@ const CustomerBillingInfo = ({ carts, setIsBill }) => {
     
     if (billFromCustomer - adVance === 0) {
       alert("Total Collection Amount can not be 0");
+      return
     } else {
       let res = await cartServices.updateCartBilling(data);
       if (res.status === 200) {

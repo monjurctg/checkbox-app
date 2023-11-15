@@ -27,6 +27,7 @@ import { useMemo } from "react";
 import { setCartSize } from "../redux/reducers/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectDistricts, setThana } from "../redux/reducers/utilsSlice";
+import Toast from "react-native-toast-message";
 
 const Cart = () => {
   const [loading, setLoading] = useState(false);
@@ -63,21 +64,31 @@ const Cart = () => {
       setUpdateCartModalVisible(false);
       fetchSingCart();
       setInputValue("");
-      showMessage({
-        style: {
-          alignItems: "center",
-          alignContent: "center",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          gap: 15,
-        },
-        message: "Added to Cart",
-        icon: "success",
+      // showMessage({
+      //   style: {
+      //     alignItems: "center",
+      //     alignContent: "center",
+      //     display: "flex",
+      //     flexDirection: "column",
+      //     justifyContent: "center",
+      //     gap: 15,
+      //   },
+      //   message: "Added to Cart",
+      //   icon: "success",
+      //   type: "success",
+      //   position: "top",
+      //   duration: 2500,
+      //   statusBarHeight: scale(40),
+      // });
+      Toast.show({
         type: "success",
-        position: "top",
-        duration: 2500,
-        statusBarHeight: scale(40),
+        text1: "Successfull",
+        text2: "Successfully Save Cart",
+        visibilityTime: 4000,
+        autoHide: true,
+        bottomOffset: 280,
+        onShow: () => { },
+        onHide: () => { },
       });
       fetchSwithcCartData();
       //   setisModalOpen(false);
@@ -100,7 +111,6 @@ const Cart = () => {
     if (res.status === 200) {
       setCarts(res.data.data);
       setSwitchCartModalVisible(false);
-
       dispatch(setCartSize(res.data.data.items.length));
       setInputValue(res?.data?.data.name);
       setSwichCartIdInLocal(activeSwichCartId ? activeSwichCartId : cart_id);
@@ -127,14 +137,25 @@ const Cart = () => {
         dispatch(setSelectDistricts({name:"Select Districts",key:"nD"}))
         dispatch(setThana({name:"Select Thana",key:"nT"}))
         
-        showMessage({
-          style: { alignItems: "center", alignContent: "center", display: "flex", flexDirection: "column", justifyContent: "center", gap: 15, },
-          message: res?.data?.message,
-          icon: "success",
+        
+        // showMessage({
+        //   style: { alignItems: "center", alignContent: "center", display: "flex", flexDirection: "column", justifyContent: "center", gap: 15, },
+        //   message: res?.data?.message,
+        //   icon: "success",
+        //   type: "success",
+        //   position: "top",
+        //   duration: 2500,
+        //   statusBarHeight: scale(40),
+        // });
+        Toast.show({
           type: "success",
-          position: "top",
-          duration: 2500,
-          statusBarHeight: scale(40),
+          text1: "Successfull",
+          text2: res?.data?.message,
+          visibilityTime: 4000,
+          autoHide: true,
+          bottomOffset: 280,
+          onShow: () => { },
+          onHide: () => { },
         });
 
         // successNotification("Cart Saved", "top-right");

@@ -119,7 +119,7 @@ const fetchDashSummary = async()=>{
   // if (loading) {
   //   return <CategorySkeleton/>;
   // }
-  console.log(summary[0].all_orders_count )
+  // console.log(summary[0]?.all_orders_count )
 
   return (
     <Mainlayout navigation={navigation}>

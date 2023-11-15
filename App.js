@@ -225,7 +225,7 @@ const toastConfig = {
 			<View style={{
 				height: 60,
 				width: 60,
-				backgroundColor: '#F54118',
+				backgroundColor: '#be202e',
 				borderWidth: 5,
 				borderColor: '#fff',
 				borderRadius: 50,
@@ -242,14 +242,14 @@ const toastConfig = {
 			</View>
 			<View style={{ width: '100%', padding: 10, marginTop: 20, alignItems: 'center' }}>
 				<View style={{ borderBottomColor: '#eee', borderBottomWidth: 1, width: '100%', alignItems: 'center' }}>
-					<Text style={{ flex: 1, fontSize: 24, color: '#F54118', fontWeight: '700' }}>{text1}</Text>
+					<Text style={{ flex: 1, fontSize: 24, color: '#be202e', fontWeight: '700' }}>{text1}</Text>
 				</View>
 				<Text style={{ color: '#000', fontSize: 16, fontWeight: '600', paddingHorizontal: 10, paddingVertical: 15, textAlign: 'center' }}>{text2}</Text>
 			</View>
 
 			<TouchableOpacity
 				style={{
-					backgroundColor: '#F54118',
+					backgroundColor: '#be202e',
 					width: '95%',
 					flexDirection: 'row',
 					justifyContent: 'center',

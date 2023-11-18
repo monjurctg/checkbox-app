@@ -126,7 +126,7 @@ const SaveSingleCart = ({title,cart,refatch}) => {
         <TouchableOpacity style={{backgroundColor:"#DDD",padding:7,borderRadius:10}}>
           <Text style={{fontSize:14}}>Copy Cart Link</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={()=>navigation.navigate("cart-information", { carts:cart})} style={{backgroundColor:"#be202e",justifyContent:"center",alignItems:"center",padding:7,borderRadius:10}}>
+        <TouchableOpacity onPress={()=>navigation.navigate("cart-information", { carts:cart  })} style={{backgroundColor:"#be202e",justifyContent:"center",alignItems:"center",padding:7,borderRadius:10}}>
           <Text preset={["fs_13"]} style={{color:"#FFF"}}>Proceed to Customer Details</Text>
         </TouchableOpacity>
       </View>

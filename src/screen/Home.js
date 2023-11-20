@@ -30,9 +30,9 @@ const Home = ({ navigation }) => {
   const dispatch=useDispatch()
   const [topProducts,setTopProducts]=useState([])
   const[summary,setSummary]=useState([])
- 
 
-  
+
+
   // setTimeout(() => {
   //   setLoading(false);
   // }, 1000);
@@ -86,15 +86,15 @@ const fetchDashSummary = async()=>{
         const res = await authServices.getUserinfo();
         // console.log(res.data,"fjdjf")
         if (res.status == 200) {
-         
+
           dispatch(setUser(res.data.data));
           dispatch(setAuth(true));
           // setLoading(false);
-        } 
+        }
       }
      }catch(err){
       console.log(err)
-      
+
 
      }
      finally{
@@ -104,7 +104,7 @@ const fetchDashSummary = async()=>{
     checkToken();
   }, []);
 
-  
+
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       // fetchSingCart();
@@ -119,7 +119,7 @@ const fetchDashSummary = async()=>{
   // if (loading) {
   //   return <CategorySkeleton/>;
   // }
-  console.log(summary[0].all_orders_count )
+  console.log(summary[0]?.all_orders_count )
 
   return (
     <Mainlayout navigation={navigation}>
@@ -132,15 +132,15 @@ const fetchDashSummary = async()=>{
             alignItems: 'center',
             flexWrap:"wrap",
             gap:10,
-           
+
             // backgroundColor: '#EDEDED',
             // borderColor: '#C7C7C7',
             borderRadius: 8,marginTop:10
           }}
         >
-          
-          
-         
+
+
+
        {/* {
         summary.map((sum,i)=>{
           return   <View key={i}
@@ -194,18 +194,18 @@ const fetchDashSummary = async()=>{
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-          
+
             // backgroundColor: '#EDEDED',
             // borderColor: '#C7C7C7',
             borderRadius: 8,marginTop:10
           }}
         >
-         
+
           <View
             style={{
               display: 'flex',
               flexDirection:"row",
-              
+
               justifyContent: "space-between",
               alignItems: 'center',
               width: "48%",
@@ -247,7 +247,7 @@ const fetchDashSummary = async()=>{
             style={{
               display: 'flex',
               flexDirection:"row",
-              
+
               justifyContent: "space-between",
               alignItems: 'center',
               width: "48%",
@@ -293,18 +293,18 @@ const fetchDashSummary = async()=>{
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-          
+
             // backgroundColor: '#EDEDED',
             // borderColor: '#C7C7C7',
             borderRadius: 8,marginTop:10
           }}
         >
-         
+
           <View
             style={{
               display: 'flex',
               flexDirection:"row",
-              
+
               justifyContent: "space-between",
               alignItems: 'center',
               width: "48%",
@@ -327,7 +327,7 @@ const fetchDashSummary = async()=>{
                 width:100
               }}
             >
-              
+
               Last Payment Amount
             </Text>
             <Text
@@ -347,7 +347,7 @@ const fetchDashSummary = async()=>{
             style={{
               display: 'flex',
               flexDirection:"row",
-              
+
               justifyContent: "space-between",
               alignItems: 'center',
               width: "48%",
@@ -392,7 +392,7 @@ const fetchDashSummary = async()=>{
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-           
+
             borderRadius: 8,
             marginTop:20
           }}
@@ -401,7 +401,7 @@ const fetchDashSummary = async()=>{
             style={{
               display: 'flex',
               flexDirection:"row",
-              
+
               justifyContent: "space-between",
               alignItems: 'center',
               width: "48%",
@@ -417,7 +417,7 @@ const fetchDashSummary = async()=>{
                 fontFamily: "RB",
                 // fontStyle: 'normal',
                 // fontWeight: '400',
-              
+
                 fontSize: 14,
                 lineHeight: 16,
                 color: '#231F20',
@@ -439,12 +439,12 @@ const fetchDashSummary = async()=>{
              {  summary[4]?.in_transit_orders}
             </Text>
           </View>
-         
+
           <View
             style={{
               display: 'flex',
               flexDirection:"row",
-              
+
               justifyContent: "space-between",
               alignItems: 'center',
               width: "48%",
@@ -479,13 +479,13 @@ const fetchDashSummary = async()=>{
               }}
             >
              {  summary[5]?.returned_orders}
-              
+
             </Text>
           </View>
         </View>
         {/* statistic */}
-       
-     
+
+
 
         <View
           style={{
@@ -521,7 +521,7 @@ const fetchDashSummary = async()=>{
           </TouchableOpacity>
         </View>
 
- 
+
 
         {/* <Slider /> */}
         <View>
@@ -533,9 +533,9 @@ const fetchDashSummary = async()=>{
             }}
             source={require('../../assets/img/banner_2.png')}
           />
-         
+
         </View>
-        
+
         <Text style={{marginTop:10}}>Top Products</Text>
       <View style={{flexDirection:"row",flexWrap:"wrap",alignSelf:"center",alignItems:"center",justifyContent:"center"}}>
 
@@ -558,13 +558,13 @@ const fetchDashSummary = async()=>{
           })
         }
       </View>
-      
 
-       
-       
-      
-       
-        
+
+
+
+
+
+
         <View style={{ height: scale(200) }}></View>
       </ScrollView>
     </Mainlayout>

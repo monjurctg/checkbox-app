@@ -38,6 +38,7 @@ import { setCartSize } from "../redux/reducers/cartSlice";
 import Collections from "../components/Collections";
 import { Dimensions } from "react-native";
 import WebView from "react-native-webview";
+import { FileDownload } from "../components/FileDownload";
 const ProductDetails = ({ navigation }) => {
   let [activeColor, setActiveColor] = useState("Red");
   const [bigImg, setBigImg] = useState();
@@ -148,6 +149,34 @@ const ProductDetails = ({ navigation }) => {
       })
       .catch((err) => { });
   }, [productId]);
+
+
+
+  const downloadProductDetails = async () => {
+    // alert("fdjkfjk")
+    // setdLoader(true);
+    let res = await productServices.downloadProductDetails(productId);
+    // console.log('res.data.paths', res.data.paths)
+    if (res.status === 200) {
+      let paths =res.data.paths
+      if(paths?.length > 0){
+        paths.forEach(async(path)=>{
+          // console.log(path)
+          FileDownload(path)
+          // let res = await productServices.downloadProductImages(productId,path)
+          // if(res.status ===200){
+          //   downloadImage(res?.data?.base64,res?.data?.fileName,res?.data?.mimeType)
+          // }
+          // console.log("res",res)
+      })
+      }
+
+    } else {
+      // setdLoader(false);
+      // errorNotification("Couldn't Download", "top-right");
+    }
+  };
+
   const renderItem = ({ item }) => {
     return <ClientReview rating={5} review={item} />
   }
@@ -236,13 +265,13 @@ const ProductDetails = ({ navigation }) => {
                 <Text preset={["text_white RR fs_11 mr_10"]}>
                   Copy Product Details
                 </Text>
-              
+
               </CustomTouchBtn>
             </View>
-          
+
             <WebView
           style={{flex:1,height:300}}
-          
+
             originWhitelist={['*']}
             source={{ html:"<meta name= viewport content= width=device-width>" +singleProduct?.description }}
           />
@@ -250,7 +279,7 @@ const ProductDetails = ({ navigation }) => {
           </View> */}
           {
             singleProduct?.description  &&  <RenderHtml contentWidth={350} source={{ html: singleProduct?.description }} />
-          
+
           }
 
           {singleProduct?.variation_attributes?.length>0 && singleProduct?.variation_attributes?.map((variation, index) => (
@@ -266,6 +295,7 @@ const ProductDetails = ({ navigation }) => {
 
 
           <CustomTouchBtn
+          onPress={downloadProductDetails}
             preset={["row mt_10 radius_5 center   border_1 center "]}
             style={{ height: scale(48), width: "100%" ,alignItems:"center"}}
           >
@@ -280,17 +310,17 @@ const ProductDetails = ({ navigation }) => {
             <Feather name="facebook" size={18} color="#FFF" />
             <Text preset={[" ml_10 fw_325 RR "]} style={{ color: "#FFF" }}>Post in Facebook</Text>
           </CustomTouchBtn>
-         
+
 
 
 
           {/* color */}
-        
+
 
           {/* quantity */}
           <View preset={["mt_10"]}>
             {/* <Text preset={["fs_16 bold RB "]}>Qty</Text> */}
-        
+
             <View preset={[""]} style={{ flexDirection: "row" ,alignSelf:"center"}}>
               <TouchableOpacity onPress={() => {
                 if (quantity >= 2) {
@@ -320,13 +350,13 @@ const ProductDetails = ({ navigation }) => {
           </View>
           }
 
-        
+
 
           {/* details */}
           <View
             preset={["mt_20"]}
             style={{
-            
+
               borderTopColor: colors.secoundary_3,
             }}
           >
@@ -353,7 +383,7 @@ const ProductDetails = ({ navigation }) => {
                   </Text>
                 </View>
               ) : (
-                
+
                 <FlatList horizontal={true}
                   // numColumns={2}
                   showsHorizontalScrollIndicator={false}

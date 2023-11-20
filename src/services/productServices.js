@@ -63,7 +63,7 @@ productServices.getSearchedProduct = async ( params) => {
   const data = await api
     .get(url,{
       params:params
-    }) 
+    })
     .then((res) => res)
     .catch((err) => {
       // console.log(err,"from ai")
@@ -103,6 +103,32 @@ productServices.getReviews = (id, page) => {
     .then((res) => res.data)
     .catch((err) => err);
   return data;
+};
+
+productServices.downloadProductDetails = async (id) => {
+  let res = await api
+    .get(
+      `products/download/${id}`
+      //  {
+      //   responseType: "blob",
+      // }
+    )
+    .then((res) => res)
+    .catch((err) => err.response);
+  return res;
+};
+
+productServices.downloadProductImages = async (id, path) => {
+  let res = await api
+    .get(`get-photo`, {
+      params: {
+        product_id: id,
+        url: path,
+      },
+    })
+    .then((res) => res)
+    .catch((err) => err.response);
+  return res;
 };
 
 export default productServices;

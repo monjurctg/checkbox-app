@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  Clipboard
 } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import Mainlayout from "../components/layout/Mainlayout";
@@ -158,6 +159,12 @@ const ProductDetails = ({ navigation }) => {
 
 
 
+  const fetchCopiedText = async (text2) => {
+    // const text = await Clipboard.setString(text2);
+    // setCopiedText(text);al
+    // alert(text)
+
+  };
   const downloadProductDetails = async () => {
     // alert("fdjkfjk")
     // setdLoader(true);
@@ -458,10 +465,21 @@ const ProductDetails = ({ navigation }) => {
           />
        reseller_instructions
           </View> */}
+
           {
-            singleProduct?.description && <RenderHtml contentWidth={350} source={{ html: singleProduct?.description }} />
+            singleProduct?.description &&      <View   style={{flexDirection:"row",borderWidth:1,borderColor:"#DDD",padding:10}}>
+            <RenderHtml contentWidth={350} source={{ html: singleProduct?.description }} />
+            <TouchableOpacity style={{position:"absolute",top:5,right:5}} onPress={()=>fetchCopiedText(singleProduct?.description )}>
+              {/* <Text style={{fontSize:14}}>Copy description</Text>
+               */}
+               <Feather name="copy" size={24} color="black" />
+            </TouchableOpacity>
+            </View>
 
           }
+
+
+
 
           {singleProduct?.variation_attributes?.length > 0 && singleProduct?.variation_attributes?.map((variation, index) => (
             <Tags

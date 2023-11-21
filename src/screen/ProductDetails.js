@@ -13,7 +13,7 @@ import Text from "../components/tags/Text";
 import { colors } from "../theme/colors";
 import View from "../components/tags/View";
 import CustomTouchBtn from "../components/tags/CustomTouchBtn";
-import { Feather } from '@expo/vector-icons';
+import { Feather, FontAwesome } from '@expo/vector-icons';
 
 import img3 from "../../assets/img/shoe1.png";
 import { AntDesign } from "@expo/vector-icons";
@@ -55,7 +55,10 @@ const ProductDetails = ({ navigation }) => {
   const [variantDetails, setVariantDetails] = useState([]);
   const [quantity, setQuantity] = useState(1);
 
+
+
   let addingToCart = async () => {
+
     // setLoading(true);
     const cart_id = await AsyncStorage.getItem("cart_id");
     let d = {
@@ -67,38 +70,25 @@ const ProductDetails = ({ navigation }) => {
 
     let res = await cartServices.addProductToCart(d);
     if (res.status === 200) {
-      // showMessage({
-      //   style: {
-      //     alignItems: "center",
-      //     alignContent: "center",
-      //     display: "flex",
-      //     flexDirection: "column",
-      //     justifyContent: "center",
-      //     gap: 15,
-      //   },
-      //   message: "Added to Cart",
-      //   icon: "success",
-      //   type: "success",
-      //   position: "top",
-      //   duration: 2500,
-      //   statusBarHeight: scale(40),
-      // });
-      Toast.show({
-        type: "success",
-        text1: "Successfull",
-        text2: "Added to Cart",
-        visibilityTime: 4000,
-        autoHide: true,
-        bottomOffset: 280,
-        onShow: () => { },
-        onHide: () => { },
-      });
+
+
       dispatch(setCartSize(cartSize + 1));
+      console.log(res.data.data)
 
       await AsyncStorage.setItem(
         "cart_id",
         JSON.stringify(res.data?.data?.items[0]?.cart_id)
       );
+      Toast.show({
+        type: "cartSuccess",
+        text1: "Successfull",
+        text2: "Added to Cart",
+        visibilityTime:4000 ,
+        autoHide: true,
+        bottomOffset: 280,
+        onShow: () => { },
+        onHide: () => { },
+      });
 
     } else {
       setLoading(false);
@@ -166,6 +156,179 @@ const ProductDetails = ({ navigation }) => {
   }, [productId]);
   const renderItem = ({ item }) => {
     return <ClientReview rating={5} review={item} />
+  }
+
+  const toastConfig = {
+    wellcome: () => {
+
+    }, success: () => { },
+
+    error: ({ text1, text2, props }) => (
+      <View style={{
+        minHeight: 200,
+        width: '80%',
+        backgroundColor: '#fff',
+        borderRadius: 10,
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 6,
+        },
+        top: 200,
+        shadowOpacity: 2.22,
+        shadowRadius: 2.22,
+        elevation: 15,
+        //marginTop: height_center - 140,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 15,
+        flex: 1
+      }}>
+        <View style={{
+          height: 60,
+          width: 60,
+          backgroundColor: '#be202e',
+          borderWidth: 5,
+          borderColor: '#fff',
+          borderRadius: 50,
+          shadowColor: "#000",
+
+          position: 'absolute',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: 10,
+          top: -30,
+          alignSelf: 'center'
+        }}>
+          <FontAwesome name="close" size={24} color="#fff" />
+        </View>
+        <View style={{ width: '100%', padding: 10, marginTop: 20, alignItems: 'center' }}>
+          <View style={{ borderBottomColor: '#eee', borderBottomWidth: 1, width: '100%', alignItems: 'center' }}>
+            <Text style={{ flex: 1, fontSize: 24, color: '#be202e', fontWeight: '700' }}>{text1}</Text>
+          </View>
+          <Text style={{ color: '#000', fontSize: 16, fontWeight: '600', paddingHorizontal: 10, paddingVertical: 15, textAlign: 'center' }}>{text2}</Text>
+        </View>
+
+        <TouchableOpacity
+          style={{
+            backgroundColor: '#be202e',
+            width: '95%',
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 7,
+            paddingVertical: 10,
+            paddingHorizontal: 20
+          }}
+          onPress={() => {
+            Toast.hide({
+              onHide: () => { }
+            })
+          }}
+        >
+
+          <Text style={{ fontWeight: '700', fontSize: 16, color: '#FFF' }}>CLOSE</Text>
+        </TouchableOpacity>
+
+      </View>
+    ),
+
+    cartSuccess: ({ text1, text2, props }) => (
+
+      <View style={{
+        minHeight: 200,
+        width: '80%',
+        backgroundColor: '#fff',
+        borderRadius: 10,
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 6,
+        },
+        top: 200,
+        shadowOpacity: 2.22,
+        shadowRadius: 2.22,
+        elevation: 15,
+        //marginTop: height_center - 140,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 15,
+        flex: 1,
+        borderColor: 'rgba(0, 0, 0, 0.1)',
+      }}>
+        <View style={{
+          height: 60,
+          width: 60,
+          backgroundColor: '#28E687',
+          borderWidth: 5,
+          borderColor: '#fff',
+          borderRadius: 50,
+          shadowColor: "#000",
+
+          position: 'absolute',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: 10,
+          top: -30,
+          alignSelf: 'center'
+        }}>
+          <FontAwesome name="check" size={24} color="#fff" />
+        </View>
+        <View style={{ width: '100%', padding: 10, marginTop: 20, alignItems: 'center' }}>
+          <View style={{ borderBottomColor: '#eee', borderBottomWidth: 1, width: '100%', alignItems: 'center' }}>
+            <Text style={{ flex: 1, fontSize: 24, color: '#28E687', fontWeight: '700' }}>{text1}</Text>
+          </View>
+          <Text style={{ color: '#000', fontSize: 16, fontWeight: '600', paddingHorizontal: 10, paddingVertical: 15, textAlign: 'center' }}>{text2}</Text>
+        </View>
+        <View style={{ flexDirection: "row", gap: 10 }}>
+
+          <TouchableOpacity
+            style={{
+              backgroundColor: '#28E687',
+              width: '45%',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderRadius: 7,
+              paddingVertical: 10,
+              paddingHorizontal: 20
+            }}
+            onPress={() => {
+              Toast.hide({
+                onHide: () => { }
+              })
+            }}
+          >
+
+            <Text style={{ fontWeight: '700', fontSize: 16, color: '#FFF' }}>OK</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={{
+              backgroundColor: '#28E687',
+              width: '45%',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderRadius: 7,
+              paddingVertical: 10,
+              paddingHorizontal: 20
+            }}
+            onPress={() => {
+              navigation.navigate("cart")
+            }}
+          >
+
+            <Text style={{ fontWeight: '700', fontSize: 16, color: '#FFF' }}>Cart Details</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+
+
+
+    ),
+
   }
 
   // console.log(productId)
@@ -254,13 +417,13 @@ const ProductDetails = ({ navigation }) => {
                 <Text preset={["text_white RR fs_11 mr_10"]}>
                   Copy Product Details
                 </Text>
-              
+
               </CustomTouchBtn>
             </View>
-          
+
             <WebView
           style={{flex:1,height:300}}
-          
+
             originWhitelist={['*']}
             source={{ html:"<meta name= viewport content= width=device-width>" +singleProduct?.description }}
           />
@@ -417,6 +580,7 @@ const ProductDetails = ({ navigation }) => {
         </View>
       </TouchableOpacity>
 
+      <Toast style={{ zIndex: 1000000 }} config={toastConfig} type="wellcome" visibilityTime={1000} autoHide={true} hide />
 
       {/* <View style={styles.container}></View> */}
 

@@ -38,11 +38,8 @@ import { setCartSize } from "../redux/reducers/cartSlice";
 import Collections from "../components/Collections";
 import { Dimensions } from "react-native";
 import WebView from "react-native-webview";
-<<<<<<< HEAD
-import { FileDownload } from "../components/FileDownload";
-=======
 import Toast from "react-native-toast-message";
->>>>>>> 79fc3e271d638b8910c418f2e6f76766e1be73d3
+import { FileDownload } from "../components/FileDownload";
 const ProductDetails = ({ navigation }) => {
   let [activeColor, setActiveColor] = useState("Red");
   const [bigImg, setBigImg] = useState();
@@ -299,11 +296,7 @@ const ProductDetails = ({ navigation }) => {
        reseller_instructions
           </View> */}
           {
-<<<<<<< HEAD
-            singleProduct?.description  &&  <RenderHtml contentWidth={350} source={{ html: singleProduct?.description }} />
-=======
             singleProduct?.description && <RenderHtml contentWidth={350} source={{ html: singleProduct?.description }} />
->>>>>>> 79fc3e271d638b8910c418f2e6f76766e1be73d3
 
           }
 
@@ -346,11 +339,7 @@ const ProductDetails = ({ navigation }) => {
           <View preset={["mt_10"]}>
             {/* <Text preset={["fs_16 bold RB "]}>Qty</Text> */}
 
-<<<<<<< HEAD
-            <View preset={[""]} style={{ flexDirection: "row" ,alignSelf:"center"}}>
-=======
             <View preset={[""]} style={{ flexDirection: "row", alignSelf: "center" }}>
->>>>>>> 79fc3e271d638b8910c418f2e6f76766e1be73d3
               <TouchableOpacity onPress={() => {
                 if (quantity >= 2) {
                   setQuantity(quantity - 1);

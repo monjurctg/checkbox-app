@@ -9,4 +9,6 @@ export default function Text({children, preset = ["default"], style,numberOfLine
   return <RnText numberOfLines={numberOfLines} ellipsizeMode={ellipsizeMode} style={textStyle}>{children}</RnText>;
 } 
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+
+});

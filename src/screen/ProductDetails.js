@@ -38,7 +38,11 @@ import { setCartSize } from "../redux/reducers/cartSlice";
 import Collections from "../components/Collections";
 import { Dimensions } from "react-native";
 import WebView from "react-native-webview";
+<<<<<<< HEAD
 import { FileDownload } from "../components/FileDownload";
+=======
+import Toast from "react-native-toast-message";
+>>>>>>> 79fc3e271d638b8910c418f2e6f76766e1be73d3
 const ProductDetails = ({ navigation }) => {
   let [activeColor, setActiveColor] = useState("Red");
   const [bigImg, setBigImg] = useState();
@@ -67,36 +71,39 @@ const ProductDetails = ({ navigation }) => {
 
     let res = await cartServices.addProductToCart(d);
     if (res.status === 200) {
-      showMessage({
-        style: {
-          alignItems: "center",
-          alignContent: "center",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          gap: 15,
-        },
-        message: "Added to Cart",
-        icon: "success",
+      // showMessage({
+      //   style: {
+      //     alignItems: "center",
+      //     alignContent: "center",
+      //     display: "flex",
+      //     flexDirection: "column",
+      //     justifyContent: "center",
+      //     gap: 15,
+      //   },
+      //   message: "Added to Cart",
+      //   icon: "success",
+      //   type: "success",
+      //   position: "top",
+      //   duration: 2500,
+      //   statusBarHeight: scale(40),
+      // });
+      Toast.show({
         type: "success",
-        position: "top",
-        duration: 2500,
-        statusBarHeight: scale(40),
+        text1: "Successfull",
+        text2: "Added to Cart",
+        visibilityTime: 4000,
+        autoHide: true,
+        bottomOffset: 280,
+        onShow: () => { },
+        onHide: () => { },
       });
-
       dispatch(setCartSize(cartSize + 1));
 
       await AsyncStorage.setItem(
         "cart_id",
         JSON.stringify(res.data?.data?.items[0]?.cart_id)
       );
-      // successNotification("Added to Cart", "top-right");
-      // localStorage.setItem(
-      //   "cart_id",
-      //   JSON.stringify(res.data?.data?.items[0]?.cart_id)
-      // );
-      // dispatch(singlecart(res.data?.data?.items[0]?.cart_id));
-      // dispatch(cartNumberChanged());
+
     } else {
       setLoading(false);
       if (res?.data?.message === "User is not logged in") {
@@ -105,20 +112,32 @@ const ProductDetails = ({ navigation }) => {
       } else if (res.data.message == "Cart is assigned to an order") {
         await AsyncStorage.removeItem("cart_id");
       }
-      showMessage({
-        style: {
-          alignItems: "center",
-          justifyContent: "center",
-          flexDirection: "column",
-          gap: 15,
-        },
-        message: res?.data?.message,
-        type: "danger",
-        position: "top",
-        duration: 2500,
-        icon: "danger",
 
-        statusBarHeight: scale(40),
+      // showMessage({
+      //   style: {
+      //     alignItems: "center",
+      //     justifyContent: "center",
+      //     flexDirection: "column",
+      //     gap: 15,
+      //   },
+      //   message: res?.data?.message,
+      //   type: "danger",
+      //   position: "top",
+      //   duration: 2500,
+      //   icon: "danger",
+
+      //   statusBarHeight: scale(40),
+      // });
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: res?.data?.message,
+        visibilityTime: 4000,
+        autoHide: true,
+
+        bottomOffset: 280,
+        onShow: () => { },
+        onHide: () => { },
       });
 
       // errorNotification(res?.data?.message, "top-right");
@@ -248,8 +267,10 @@ const ProductDetails = ({ navigation }) => {
             </Text>
           </View>
           <View preset={["row"]} style={styles.text}>
-            <Text preset={["p1 fs_20 RR "]}>M.S.R.P : </Text>
-            <Text preset={[" fs_20  text_second3"]}>{singleProduct?.msrp}</Text>
+            <Text style={{ fontSize: 16, fontWeight: "500", fontFamily: "RM" }}>
+              Min Selling Price:<Text> {singleProduct?.min_selling_price}, </Text>
+              Max Selling Price:<Text> {singleProduct?.max_selling_price}</Text>
+            </Text>
           </View>
           {/* <View
             preset={[" ph_10  p_10  mt_20"]}
@@ -278,11 +299,15 @@ const ProductDetails = ({ navigation }) => {
        reseller_instructions
           </View> */}
           {
+<<<<<<< HEAD
             singleProduct?.description  &&  <RenderHtml contentWidth={350} source={{ html: singleProduct?.description }} />
+=======
+            singleProduct?.description && <RenderHtml contentWidth={350} source={{ html: singleProduct?.description }} />
+>>>>>>> 79fc3e271d638b8910c418f2e6f76766e1be73d3
 
           }
 
-          {singleProduct?.variation_attributes?.length>0 && singleProduct?.variation_attributes?.map((variation, index) => (
+          {singleProduct?.variation_attributes?.length > 0 && singleProduct?.variation_attributes?.map((variation, index) => (
             <Tags
               variant={variantDetails}
               variantLength={index}
@@ -297,7 +322,7 @@ const ProductDetails = ({ navigation }) => {
           <CustomTouchBtn
           onPress={downloadProductDetails}
             preset={["row mt_10 radius_5 center   border_1 center "]}
-            style={{ height: scale(48), width: "100%" ,alignItems:"center"}}
+            style={{ height: scale(48), width: "100%", alignItems: "center" }}
           >
             <Image source={require("../../assets/icons/dload.png")} />
             <Text preset={[" ml_10 RR"]} style={{ fontWeight: "300" }}>Download Product Details</Text>
@@ -321,7 +346,11 @@ const ProductDetails = ({ navigation }) => {
           <View preset={["mt_10"]}>
             {/* <Text preset={["fs_16 bold RB "]}>Qty</Text> */}
 
+<<<<<<< HEAD
             <View preset={[""]} style={{ flexDirection: "row" ,alignSelf:"center"}}>
+=======
+            <View preset={[""]} style={{ flexDirection: "row", alignSelf: "center" }}>
+>>>>>>> 79fc3e271d638b8910c418f2e6f76766e1be73d3
               <TouchableOpacity onPress={() => {
                 if (quantity >= 2) {
                   setQuantity(quantity - 1);
@@ -339,15 +368,15 @@ const ProductDetails = ({ navigation }) => {
             </View>
           </View>
           {
-            singleProduct?.reseller_instructions &&   <View style={{marginTop:10}}>
+            singleProduct?.reseller_instructions && <View style={{ marginTop: 10 }}>
 
-            <Text style={{fontSize:22,fontFamily:"RB"}}>Reseller Instruction</Text>
-
-
-          <RenderHtml contentWidth={350} source={{ html: singleProduct?.reseller_instructions }} />
+              <Text style={{ fontSize: 22, fontFamily: "RB" }}>Reseller Instruction</Text>
 
 
-          </View>
+              <RenderHtml contentWidth={350} source={{ html: singleProduct?.reseller_instructions }} />
+
+
+            </View>
           }
 
 

@@ -266,7 +266,7 @@ const styles = StyleSheet.create({
     // backgroundColor: colors.white,
 
     // paddingTop: scale(10),
-  },
+  },  
 
   headerContainer: {
     flexDirection: "row",
@@ -279,7 +279,7 @@ const styles = StyleSheet.create({
     // backgroundColor:"#fff"
   },
   left: {
-    // width: 100,
+    // width: 100, 
     flexDirection: "row",
     width: width / 2,
     alignItems: "center"

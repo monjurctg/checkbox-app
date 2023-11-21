@@ -4,7 +4,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useFonts, Raleway_400Regular, Raleway_500Medium, Raleway_600SemiBold, Raleway_700Bold } from '@expo-google-fonts/raleway';
 
 // import {  } from 'expo-status-bar';
-import { Linking, StyleSheet,StatusBar, View } from 'react-native';
+// import { Text, View, LogBox, Dimensions, TouchableOpacity, Alert, BackHandler } from 'react-native';
+
+import { Linking, StyleSheet,StatusBar, View, LogBox, Dimensions, TouchableOpacity, Alert, BackHandler  } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Text from './src/components/tags/Text';
 
@@ -27,6 +29,9 @@ import OTPVerification from './src/screen/auth/OTPVerification';
 import FlashMessage from 'react-native-flash-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Provider, useDispatch } from 'react-redux';
+import { FontAwesome } from '@expo/vector-icons';
+import Toast from 'react-native-toast-message';
+
 
 import store from './src/redux/store';
 import { setAuth } from './src/redux/reducers/authSlice';
@@ -42,6 +47,390 @@ import AllCollection from './src/screen/AllCollection';
 import FilterIndex from './src/screen/filter/FilterIndex';
 import OTPForgetPassword from './src/screen/auth/OTPForgetPassword';
 import ResetPassword from './src/screen/auth/ResetPassword';
+
+
+
+const { height } = Dimensions.get("screen");
+const height_center = height / 2;
+const toastConfig = {
+	wellcome: () => (
+
+		<View style={{
+			minHeight: 200,
+			width: '80%',
+			backgroundColor: '#fff',
+			borderRadius: 10,
+			shadowColor: "#000",
+			shadowOffset: {
+				width: 0,
+				height: 6,
+			},
+			top: 200,
+			shadowOpacity: 2.22,
+			shadowRadius: 2.22,
+			elevation: 15,
+			marginTop: height_center - 140,
+			justifyContent: 'center',
+			alignItems: 'center',
+			padding: 15,
+			flex: 1,
+			borderColor: 'rgba(0, 0, 0, 0.1)',
+		}}>
+			<View style={{
+				height: 60,
+				width: 60,
+				backgroundColor: '#154CCB',
+				borderWidth: 5,
+				borderColor: '#fff',
+				borderRadius: 50,
+				shadowColor: "#000",
+
+				position: 'absolute',
+				justifyContent: 'center',
+				alignItems: 'center',
+				padding: 10,
+				top: -30,
+				alignSelf: 'center'
+			}}>
+				<FontAwesome name="check" size={24} color="#fff" />
+			</View>
+			<View style={{ width: '100%', padding: 10, alignItems: 'center' }}>
+				<View style={{ borderBottomColor: '#eee', borderBottomWidth: 1, width: '100%', alignItems: 'center' }}>
+					<Text style={{ color: '#000', fontSize: 16, fontWeight: '600', paddingHorizontal: 10, paddingVertical: 15, textAlign: 'justify' }}>WELLCOME TO</Text>
+				</View>
+				<Text style={{ flex: 1, fontSize: 22, color: '#154CCB', fontWeight: '700', textAlign: 'center' }}>SELFTECH FAMILY</Text>
+			</View>
+
+			<TouchableOpacity
+				style={{
+					backgroundColor: '#154CCB',
+					width: '95%',
+					flexDirection: 'row',
+					justifyContent: 'center',
+					alignItems: 'center',
+					borderRadius: 7,
+					paddingVertical: 10,
+					paddingHorizontal: 20
+				}}
+				onPress={() => {
+					Toast.hide({
+						onHide: () => { }
+					})
+				}}
+			>
+
+				<Text style={{ fontWeight: '700', fontSize: 16, color: '#FFF' }}>OK</Text>
+			</TouchableOpacity>
+		</View>
+
+
+
+
+	),
+	success: ({ text1, text2, props }) => (
+
+		<View style={{
+			minHeight: 200,
+			width: '80%',
+			backgroundColor: '#fff',
+			borderRadius: 10,
+			shadowColor: "#000",
+			shadowOffset: {
+				width: 0,
+				height: 6,
+			},
+			top: 200,
+			shadowOpacity: 2.22,
+			shadowRadius: 2.22,
+			elevation: 15,
+			//marginTop: height_center - 140,
+			justifyContent: 'center',
+			alignItems: 'center',
+			padding: 15,
+			flex: 1,
+			borderColor: 'rgba(0, 0, 0, 0.1)',
+		}}>
+			<View style={{
+				height: 60,
+				width: 60,
+				backgroundColor: '#28E687',
+				borderWidth: 5,
+				borderColor: '#fff',
+				borderRadius: 50,
+				shadowColor: "#000",
+
+				position: 'absolute',
+				justifyContent: 'center',
+				alignItems: 'center',
+				padding: 10,
+				top: -30,
+				alignSelf: 'center'
+			}}>
+				<FontAwesome name="check" size={24} color="#fff" />
+			</View>
+			<View style={{ width: '100%', padding: 10, marginTop: 20, alignItems: 'center' }}>
+				<View style={{ borderBottomColor: '#eee', borderBottomWidth: 1, width: '100%', alignItems: 'center' }}>
+					<Text style={{ flex: 1, fontSize: 24, color: '#28E687', fontWeight: '700' }}>{text1}</Text>
+				</View>
+				<Text style={{ color: '#000', fontSize: 16, fontWeight: '600', paddingHorizontal: 10, paddingVertical: 15, textAlign: 'center' }}>{text2}</Text>
+			</View>
+
+			<TouchableOpacity
+				style={{
+					backgroundColor: '#28E687',
+					width: '95%',
+					flexDirection: 'row',
+					justifyContent: 'center',
+					alignItems: 'center',
+					borderRadius: 7,
+					paddingVertical: 10,
+					paddingHorizontal: 20
+				}}
+				onPress={() => {
+					Toast.hide({
+						onHide: () => { }
+					})
+				}}
+			>
+
+				<Text style={{ fontWeight: '700', fontSize: 16, color: '#FFF' }}>OK</Text>
+			</TouchableOpacity>
+		</View>
+
+
+
+
+	),
+	error: ({ text1, text2, props }) => (
+		<View style={{
+			minHeight: 200,
+			width: '80%',
+			backgroundColor: '#fff',
+			borderRadius: 10,
+			shadowColor: "#000",
+			shadowOffset: {
+				width: 0,
+				height: 6,
+			},
+			top: 200,
+			shadowOpacity: 2.22,
+			shadowRadius: 2.22,
+			elevation: 15,
+			//marginTop: height_center - 140,
+			justifyContent: 'center',
+			alignItems: 'center',
+			padding: 15,
+			flex: 1
+		}}>
+			<View style={{
+				height: 60,
+				width: 60,
+				backgroundColor: '#be202e',
+				borderWidth: 5,
+				borderColor: '#fff',
+				borderRadius: 50,
+				shadowColor: "#000",
+
+				position: 'absolute',
+				justifyContent: 'center',
+				alignItems: 'center',
+				padding: 10,
+				top: -30,
+				alignSelf: 'center'
+			}}>
+				<FontAwesome name="close" size={24} color="#fff" />
+			</View>
+			<View style={{ width: '100%', padding: 10, marginTop: 20, alignItems: 'center' }}>
+				<View style={{ borderBottomColor: '#eee', borderBottomWidth: 1, width: '100%', alignItems: 'center' }}>
+					<Text style={{ flex: 1, fontSize: 24, color: '#be202e', fontWeight: '700' }}>{text1}</Text>
+				</View>
+				<Text style={{ color: '#000', fontSize: 16, fontWeight: '600', paddingHorizontal: 10, paddingVertical: 15, textAlign: 'center' }}>{text2}</Text>
+			</View>
+
+			<TouchableOpacity
+				style={{
+					backgroundColor: '#be202e',
+					width: '95%',
+					flexDirection: 'row',
+					justifyContent: 'center',
+					alignItems: 'center',
+					borderRadius: 7,
+					paddingVertical: 10,
+					paddingHorizontal: 20
+				}}
+				onPress={() => {
+					Toast.hide({
+						onHide: () => { }
+					})
+				}}
+			>
+
+				<Text style={{ fontWeight: '700', fontSize: 16, color: '#FFF' }}>CLOSE</Text>
+			</TouchableOpacity>
+
+		</View>
+	),
+	info: ({ text1, text2, props }) => (
+		<View style={{
+			minHeight: 200,
+			width: '80%',
+			backgroundColor: '#fff',
+			borderRadius: 10,
+			shadowColor: "#000",
+			shadowOffset: {
+				width: 0,
+				height: 6,
+			},
+			top: 200,
+			shadowOpacity: 2.22,
+			shadowRadius: 2.22,
+			elevation: 15,
+			//marginTop: height_center - 140,
+			justifyContent: 'center',
+			alignItems: 'center',
+			padding: 15,
+			flex: 1
+		}}>
+			<View style={{
+				height: 60,
+				width: 60,
+				backgroundColor: '#FEC800',
+				borderWidth: 5,
+				borderColor: '#fff',
+				borderRadius: 50,
+				shadowColor: "#000",
+
+				position: 'absolute',
+				justifyContent: 'center',
+				alignItems: 'center',
+				padding: 10,
+				top: -30,
+				alignSelf: 'center'
+			}}>
+				<FontAwesome name="info" size={26} color="#fff" />
+			</View>
+			<View style={{ width: '100%', padding: 10, marginTop: 20, alignItems: 'center' }}>
+				<View style={{ borderBottomColor: '#eee', borderBottomWidth: 1, width: '100%', alignItems: 'center' }}>
+					<Text style={{ flex: 1, fontSize: 24, color: '#FEC800', fontWeight: '700' }}>{text1}</Text>
+				</View>
+				<Text style={{ color: '#000', fontSize: 16, fontWeight: '600', paddingHorizontal: 10, paddingVertical: 15, textAlign: 'center' }}>{text2}</Text>
+			</View>
+
+			<TouchableOpacity
+				style={{
+					backgroundColor: '#FEC800',
+					width: '95%',
+					flexDirection: 'row',
+					justifyContent: 'center',
+					alignItems: 'center',
+					borderRadius: 7,
+					paddingVertical: 10,
+					paddingHorizontal: 20
+				}}
+				onPress={() => {
+					Toast.hide({
+						onHide: () => { }
+					})
+				}}
+			>
+
+				<Text style={{ fontWeight: '700', fontSize: 16, color: '#FFF' }}>CLOSE</Text>
+			</TouchableOpacity>
+
+		</View>
+	),
+	confirm: ({ text1, text2, props }) => (
+		<View style={{
+			minHeight: 200,
+			width: '80%',
+			backgroundColor: '#fff',
+			borderRadius: 10,
+			shadowColor: "#000",
+			shadowOffset: {
+				width: 0,
+				height: 6,
+			},
+			top: 200,
+			shadowOpacity: 2.22,
+			shadowRadius: 2.22,
+			elevation: 15,
+			//marginTop: height_center - 140,
+			justifyContent: 'center',
+			alignItems: 'center',
+			padding: 15,
+			flex: 1
+		}}>
+			<View style={{
+				height: 60,
+				width: 60,
+				backgroundColor: '#FEC800',
+				borderWidth: 5,
+				borderColor: '#fff',
+				borderRadius: 50,
+				shadowColor: "#000",
+
+				position: 'absolute',
+				justifyContent: 'center',
+				alignItems: 'center',
+				padding: 10,
+				top: -30,
+				alignSelf: 'center'
+			}}>
+				<FontAwesome name="info" size={26} color="#fff" />
+			</View>
+			<View style={{ width: '100%', padding: 10, marginTop: 20, alignItems: 'center' }}>
+				<View style={{ borderBottomColor: '#eee', borderBottomWidth: 1, width: '100%', alignItems: 'center' }}>
+					<Text style={{ flex: 1, fontSize: 24, color: '#FEC800', fontWeight: '700' }}>{text1}</Text>
+				</View>
+				<Text style={{ fontSize: 16, fontWeight: '600', paddingHorizontal: 10, paddingVertical: 15, textAlign: 'center' }}>{text2}</Text>
+			</View>
+
+			<View>
+				<TouchableOpacity
+					style={{
+						backgroundColor: '#FEC800',
+						width: '95%',
+						flexDirection: 'row',
+						justifyContent: 'center',
+						alignItems: 'center',
+						borderRadius: 7,
+						paddingVertical: 10,
+						paddingHorizontal: 20
+					}}
+					onPress={() => {
+						Toast.hide({
+							onHide: () => { }
+						})
+					}}
+				>
+
+					<Text style={{ fontWeight: '700', fontSize: 16, color: '#FFF' }}>CLOSE</Text>
+				</TouchableOpacity>
+				<TouchableOpacity
+					style={{
+						backgroundColor: '#28E687',
+						width: '95%',
+						flexDirection: 'row',
+						justifyContent: 'center',
+						alignItems: 'center',
+						borderRadius: 7,
+						paddingVertical: 10,
+						paddingHorizontal: 20
+					}}
+					onPress={() => {
+
+					}}
+				>
+
+					<Text style={{ fontWeight: '700', fontSize: 16, color: '#FFF' }}>OK</Text>
+				</TouchableOpacity>
+			</View>
+
+
+		</View>
+	)
+};
+
 
 export default function App() {
 
@@ -137,6 +526,8 @@ export default function App() {
       </NavigationContainer>
 
       <FlashMessage position={'bottom'} />
+      <Toast style={{ zIndex: 1000000 }} config={toastConfig} type="wellcome" visibilityTime={1000} autoHide={true}  hide />
+
       
     </Provider>
   );

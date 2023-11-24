@@ -21,7 +21,7 @@ const Orders = ({navigation}) => {
   setTimeout(() => {
     setLoading(false);
   }, 1000);
- 
+
 
   const fetchCarts = async ()=>{
     try{
@@ -35,7 +35,7 @@ const Orders = ({navigation}) => {
     finally{
       setLoading(false)
     }
-  
+
   }
   useEffect(()=>{
     fetchCarts()
@@ -49,8 +49,8 @@ const Orders = ({navigation}) => {
     return unsubscribe;
   }, [navigation]);
 
- 
-  
+
+
 
   if (loading) {
     return <FullScreenLoader visible={loading} />;
@@ -66,7 +66,7 @@ const Orders = ({navigation}) => {
             paddingBottom: scale(5),
           }}>
           <Text preset={["RB fs_16"]}>Saved Cart ({carts.length})</Text>
-          <CustomTouchBtn>
+          <CustomTouchBtn onPress={()=>navigation.goBack()}>
             <AntDesign name="closecircleo" size={scale(20)} color="black" />
           </CustomTouchBtn>
         </View>
@@ -75,8 +75,8 @@ const Orders = ({navigation}) => {
           {
             carts.map((cart,index)=>  <SaveSingleCart key={index} cart={cart} refatch={fetchCarts} />)
           }
-         
-       
+
+
         </View>
 
         <View style={{height: scale(60)}}></View>

@@ -41,7 +41,7 @@ const Search = () => {
 
   // console.log(navigation)
   // const [searchTerm, setSearchTerm] = useState("");
-  
+
   let searchApi = async (data) => {
     setLoading(true);
 
@@ -72,6 +72,8 @@ const Search = () => {
   useEffect(() => {
     searchApi(searchText);
   }, [searchText]);
+
+  console.log(searchResult)
 
   return (
     <Mainlayout>
@@ -106,7 +108,7 @@ const Search = () => {
             <View style={styles.content}>
               {searchResult?.keywords?.map((item, i) => (
                 <TouchableOpacity style={{padding:10}} key={i} onPress={()=>{
-                  navigation.navigate("filter", { data:{keyword:item} })
+                  navigation.navigate("filter", { data:{keyword:item},from:item })
                 }}>
                   <Text
                     style={{ fontSize: 14, fontWeight: 500, textAlign: "left" }}
@@ -124,7 +126,25 @@ const Search = () => {
             headerText={"Populer Category"}
             data={searchResult?.categories}
             onPress={(item) =>
-              navigation.navigate("filter", { data:{category_slug:item?.slug} })
+              navigation.navigate("filter", { data:{category_slug:item?.slug},from:item?.name })
+            }
+          />
+        )}
+        {searchResult?.collections?.length > 0 && (
+          <SearchShadowBox
+            headerText={"Populer Colection"}
+            data={searchResult?.collections}
+            onPress={(item) =>
+              navigation.navigate("filter", { data:{collection_slug:item?.slug},from:item?.name })
+            }
+          />
+        )}
+         {searchResult?.collections?.length > 0 && (
+          <SearchShadowBox
+            headerText={"Populer Colection"}
+            data={searchResult?.collections}
+            onPress={(item) =>
+              navigation.navigate("filter", { data:{collection_slug:item?.slug},from:item?.name })
             }
           />
         )}

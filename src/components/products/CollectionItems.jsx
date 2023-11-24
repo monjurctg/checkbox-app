@@ -9,7 +9,7 @@ import View from "../tags/View";
 const CollectionItems = ({ navigation, name, products = [] ,from,slug}) => {
   // console.log(navigation, "navigation");
   // console.log(products,"productssdsd",from)
-  
+
 
   const renderItem = ({ item }) => {
     let data = []
@@ -22,7 +22,7 @@ const CollectionItems = ({ navigation, name, products = [] ,from,slug}) => {
     // console.log(data)
 
   //  console.log(data.thumbnail_image)
-    
+
     return <CustomTouchBtn
     onPress={()=>{
       navigation.navigate("product-details",{productId:data?.id});
@@ -51,7 +51,7 @@ const CollectionItems = ({ navigation, name, products = [] ,from,slug}) => {
           resizeMode: "cover",
           // borderRadius: 7,
           alignSelf:"center",
-          
+
           borderTopRightRadius:7,
           borderTopLeftRadius:7
         }}
@@ -119,14 +119,14 @@ const CollectionItems = ({ navigation, name, products = [] ,from,slug}) => {
           preset={["row center"]}
           style={{backgroundColor:"#c4312e",paddingHorizontal:8,paddingVertical:4,borderRadius:7}}
           onPress={() =>
-            navigation.navigate("filter", {data: { collection_slug: slug.slug },})
+            navigation.navigate("filter", {data: { collection_slug: slug.slug },from:name})
           }
         >
           <Text style={{color:"#FFF"}} preset={["p3 mr_5 RR"]}>View More</Text>
           {/* <Image source={require("../../../assets/icons/right-icon.png")} /> */}
         </CustomTouchBtn>
-        
-      
+
+
       </View>
 
       <FlatList

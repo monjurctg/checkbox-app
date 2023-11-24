@@ -55,7 +55,7 @@ const SelecAdress = ({ navigation, route }) => {
         if (district.name === customerSelectedDistricts?.name) {
           navigation.goBack();
         } else {
-          dispatch(setSelectThana({ name: "Select country", key: "cc" }));
+          dispatch(setSelectThana({ name: "Select Thana", key: "cc" }));
           navigation.goBack();
         }
       }}

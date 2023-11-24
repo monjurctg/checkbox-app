@@ -38,7 +38,7 @@ const Products = (props) => {
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation()
   const [categoriLoading, setCategoryLoading] = useState(false);
- 
+
 const dispatch=useDispatch()
   const [lastPage, setLastPage] = useState();
   const [data, setData] = useState([]);
@@ -54,7 +54,7 @@ const dispatch=useDispatch()
 
 
   // const[offset,setOffset]=useState(0)
-  
+
 // console.log(viewPosition)
   // apis
 
@@ -119,7 +119,7 @@ const dispatch=useDispatch()
 
 
 
- 
+
   // const fetchData = async () => {
   //   setLoading(true);
 
@@ -140,12 +140,12 @@ const dispatch=useDispatch()
   //   }
   // };
   const onScroll = (event) => {
- 
+
     let scroll2 =0
     const currentOffset = event.nativeEvent.contentOffset.y;
-    const dif = currentOffset - scroll;  
+    const dif = currentOffset - scroll;
     const dif2 = currentOffset-scroll2
-    
+
     // console.log(dif2)
     if(dif2<=3){
       // console.log(dif2)
@@ -153,19 +153,19 @@ const dispatch=useDispatch()
     }
     else if (dif <= 0) {
       dispatch(setTabShow(true))
-    } 
+    }
     else {
       dispatch(setTabShow(false))
 
 
 
-      
+
     }
     //console.log('dif=',dif);
 
     // setOffset(currentOffset)
     scroll=currentOffset
-  }      
+  }
 
   const onBottomSheetOpen = (item) => {
     setVisible(true);
@@ -248,19 +248,34 @@ const dispatch=useDispatch()
     );
   };
 
-  
-  const onCategoryPress = (slug)=>{
+
+  const onCategoryPress = (slug,name)=>{
     // alert(slug)
     // navigation.navigate("products-filter", { data:{category_slug:slug} })
-   navigation.navigate("filter", { data:{category_slug:slug} })
-  
+   navigation.navigate("filter", { data:{category_slug:slug},from:name})
+
   }
-  
+
 
   const Header = () => {
     return (
       <>
-        <Categories onCategoryPress={onCategoryPress} title={"Product  Categories"} TYPE={"scroll"} data={categories} />
+
+         <Text
+        style={{
+          // fontFamily: "Gotham",
+          fontStyle: "normal",
+          fontWeight: "500",
+          fontSize: 18,
+          lineHeight: 22,
+          color: "#000000",
+          marginVertical:15,fontFamily:"RB"
+        }}
+      >
+   Product  Categories
+      </Text>
+
+        <Categories onCategoryPress={onCategoryPress} TYPE={"scroll"} data={categories} />
         {categoriLoading && categories.length == 0 && <CategorySkeleton />}
         {/* <CollectionSkeleton/> */}
 
@@ -270,7 +285,7 @@ const dispatch=useDispatch()
             <Text style={{
                 fontFamily: "RB",
                 fontStyle: "normal",
-           
+
                 fontSize: 20,
                 lineHeight: 24,
               }}
@@ -292,7 +307,7 @@ const dispatch=useDispatch()
                 style={{
                   fontFamily: "RR",
                   fontStyle: "normal",
-                 
+
                   fontSize: 12,
                   lineHeight: 12,
                   color: "#BE202E",
@@ -304,7 +319,7 @@ const dispatch=useDispatch()
             </TouchableOpacity>
           </View>
         </View>
-      
+
         <Collections refreshing={refreshing} navigation={navigation}/>
 
         <View>
@@ -317,14 +332,14 @@ const dispatch=useDispatch()
               alignItems: "center",
             }}
           >
-            <Text 
+            <Text
               style={{
                 fontFamily: "RB",
                 fontStyle: "normal",
                 // fontWeight: 700,
                 fontSize: 18,
                 lineHeight: 24,
-                
+
               }}
             >
               All Products

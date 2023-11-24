@@ -8,24 +8,12 @@ const Categories = ({ data, title, onCategoryPress,TYPE }) => {
   // console.log(data)
   return (
     <View>
-      <Text
-        style={{
-          // fontFamily: "Gotham",
-          fontStyle: "normal",
-          fontWeight: "500",
-          fontSize: 18,
-          lineHeight: 22,
-          color: "#000000",
-          marginVertical:15,fontFamily:"RB"
-        }}
-      >
-    {title}
-      </Text>
+
       {
         TYPE=="scroll" ?<ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
            {data?.map((cate, index) => (
           <TouchableOpacity
-          onPress={()=>onCategoryPress(cate?.slug)}
+          onPress={()=>onCategoryPress(cate?.slug,cate?.name)}
             key={index}
             style={{
               alignItems: "center",
@@ -78,7 +66,7 @@ const Categories = ({ data, title, onCategoryPress,TYPE }) => {
         ))}
       </View>
       }
-      
+
     </View>
   );
 };
@@ -92,7 +80,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     columnGap:7,
     rowGap:7
-  
+
     // justifyContent: "space-between",
   },
 });

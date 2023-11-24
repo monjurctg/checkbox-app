@@ -21,7 +21,8 @@ import { showMessage } from "react-native-flash-message";
 
 const CustomerDetails = ({ navigation, route }) => {
   const { customerSelectedDistricts, customerSelectedThana } = useSelector((state) => state.utils);
-  const { carts } = route?.params;
+  const { carts:ca ,fetchData} = route?.params??{};
+  const[carts,setCarts]=useState()
   // console.log(carts?.id, "cartd");
 
   const [name, setName] = useState("");
@@ -45,6 +46,21 @@ const CustomerDetails = ({ navigation, route }) => {
   //     setIsBill(false);
   //   }
   // };
+  const fetchSingCart = async () => {
+
+    const res = await cartServices.getSingleCarts(ca?.id);
+    // console.log(res.data.data.items[0], "response  from calling");uy
+    if (res.status === 200) {
+      setCarts(res.data.data);
+      if(res.data.data?.reseller_to_customer_price==0){
+        console.log("modal")
+        setIsBill(true)
+      }else{
+        setIsBill(false)
+      }
+
+    }
+  };
 
   const validate = ()=>{
     let errors2 = {}
@@ -59,14 +75,22 @@ const CustomerDetails = ({ navigation, route }) => {
     if(!address){
       errors2.address="*Address is required"
     }
+    if(!customerSelectedDistricts?.name){
+      errors2.district="*District is required"
+    }
+    if(!customerSelectedThana?.name || customerSelectedThana.name=="Select Thana"){
+      errors2.thana="*Thana is required"
+    }
     // console.log(errors2,"errors2")
     return  errors2
   }
 
   const getAllCustomers = async () => {
+
     const res = await cartServices.getCustomer();
     if (res.status === 200) {
       setAllCustomer(res.data.data);
+
     } else {
       // console.log(res.data);
     }
@@ -74,13 +98,11 @@ const CustomerDetails = ({ navigation, route }) => {
 
   useEffect(() => {
     // getPreBillInfo();
+    // fetchData()
+    fetchSingCart()
     getAllCustomers();
-    if(carts?.reseller_to_customer_price==0){
-      console.log("modal")
-      setIsBill(true)
-    }else{
-      setIsBill(false)
-    }
+    // console.log(carts?.reseller_to_customer_price,"cjdfkjdkj")
+
   }, []);
 
   useEffect(() => {
@@ -112,8 +134,6 @@ const CustomerDetails = ({ navigation, route }) => {
 
     }
     // return
-   
-
     let data = {
       id: carts?.id,
       name: name,
@@ -176,7 +196,7 @@ const CustomerDetails = ({ navigation, route }) => {
                 <Text style={styles.sectionTitle}>Personal Information</Text>
                 <CustomerInput setValue={setName} title="Name" placeholder="eg. Chawkbazar" value={name} />
                 <Text style={{fontSize:12,fontWeight:"500",color:"red",bottom:10}}>{errors?.name?errors?.name:null}</Text>
-                
+
               <CustomerInput setValue={setPhoneNumber} title="Phone Number" placeholder="eg. +880 12343453" value={phoneNumber} />
               <Text style={{fontSize:12,fontWeight:"500",color:"red",bottom:10}}>{errors?.phoneNumber?errors?.phoneNumber:null}</Text>
 
@@ -184,11 +204,22 @@ const CustomerDetails = ({ navigation, route }) => {
               <View style={styles.sectionContainer}>
                 <Text style={styles.sectionTitle}>Delivery Address</Text>
                 <TouchableOpacity onPress={() => navigation.navigate("select-address", { from: "Districts" })}>
-                  <CustomerInput editable={false} title="Districts" placeholder="Dhaka" value={customerSelectedDistricts?.name} />
+                  <CustomerInput editable={false} title="Districts" placeholder="eg:Chattagram" value={customerSelectedDistricts?.name} />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate("select-address", { from: "Thana" })}>
+                <Text style={{fontSize:12,fontWeight:"500",color:"red",bottom:10}}>{errors?.district?errors?.district:null}</Text>
+
+                <TouchableOpacity onPress={() =>{
+                  if(customerSelectedDistricts?.name){
+                    navigation.navigate("select-address", { from: "Thana" })
+
+                  }
+
+                }}>
                   <CustomerInput title="Thana" placeholder="eg. Raozan" editable={false} value={customerSelectedThana?.name} />
                 </TouchableOpacity>
+
+                <Text style={{fontSize:12,fontWeight:"500",color:"red",bottom:10}}>{errors?.thana?errors?.thana:null}</Text>
+
                 <CustomerInput setValue={setAddress} title="Address" placeholder="eg. Chawkbazar" value={address} editable={true} />
                 <Text style={{fontSize:12,fontWeight:"500",color:"red",bottom:10}}>{errors?.address?errors?.address:null}</Text>
               </View>
@@ -198,7 +229,7 @@ const CustomerDetails = ({ navigation, route }) => {
             </View>
           </View>
         ) : (
-          <CustomerBillingInfo carts={carts} setIsBill={setIsBill} />
+          <CustomerBillingInfo carts={carts} refatch={fetchSingCart} setIsBill={setIsBill} />
         )}
         <Modal visible={searchPreCustomer} animationType="slide" transparent={true} onRequestClose={() => setSearchPreCustomer(false)}>
           <View style={styles.modalContainer}>

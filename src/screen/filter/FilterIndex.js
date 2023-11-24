@@ -19,7 +19,7 @@ import { useDispatch } from 'react-redux';
 let scroll = 0
 const FilterIndex = ({ route, navigation }) => {
     const drawerRef = useRef(null);
-    const { data } = route.params ?? {};
+    const { data, from } = route.params ?? {};
     const initialState = {
         category_slug: null,
         collection_slug: null,
@@ -236,13 +236,13 @@ const FilterIndex = ({ route, navigation }) => {
 
     useEffect(() => {
         const unsubscribe = navigation.addListener("focus", () => {
-          // fetchSingCart();
-        dispatch(setTabShow(true))
-    
-    
+            // fetchSingCart();
+            dispatch(setTabShow(true))
+
+
         });
         return unsubscribe;
-      }, [navigation]);
+    }, [navigation]);
 
 
     useEffect(() => {
@@ -402,15 +402,28 @@ const FilterIndex = ({ route, navigation }) => {
     const Header = () => {
         return (
             <>
+                <Text
+                    style={{
+
+                        fontStyle: "normal",
+                        fontWeight: "500",
+                        fontSize: 18,
+                        lineHeight: 22,
+                        color: "#000000",
+                        marginVertical: 15, fontFamily: "RB"
+                    }}
+                >
+                   {from}
+                </Text>
                 {loading ?
                     <CategorySkeleton /> : <Categories
-                    TYPE={"scroll"}
-                        title={"Product Categories"}
+                        TYPE={"scroll"}
+                        // title={"Product Categories"}
                         onCategoryPress={onCategoryPress}
                         data={searchAttributes?.categories}
                     />
                 }
-              
+
                 <Filters navigation={navigation} onFilterClick={openDrawer} />
             </>
         );

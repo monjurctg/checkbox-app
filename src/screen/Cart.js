@@ -64,22 +64,7 @@ const Cart = () => {
       setUpdateCartModalVisible(false);
       fetchSingCart();
       setInputValue("");
-      // showMessage({
-      //   style: {
-      //     alignItems: "center",
-      //     alignContent: "center",
-      //     display: "flex",
-      //     flexDirection: "column",
-      //     justifyContent: "center",
-      //     gap: 15,
-      //   },
-      //   message: "Added to Cart",
-      //   icon: "success",
-      //   type: "success",
-      //   position: "top",
-      //   duration: 2500,
-      //   statusBarHeight: scale(40),
-      // });
+
       Toast.show({
         type: "success",
         text1: "Successfull",
@@ -136,8 +121,8 @@ const Cart = () => {
         setActiveSwichCartId()
         dispatch(setSelectDistricts({name:"Select Districts",key:"nD"}))
         dispatch(setThana({name:"Select Thana",key:"nT"}))
-        
-        
+
+
         // showMessage({
         //   style: { alignItems: "center", alignContent: "center", display: "flex", flexDirection: "column", justifyContent: "center", gap: 15, },
         //   message: res?.data?.message,
@@ -159,9 +144,9 @@ const Cart = () => {
         });
 
         // successNotification("Cart Saved", "top-right");
-      } 
+      }
 
-      
+
     }
   };
 
@@ -197,7 +182,7 @@ const Cart = () => {
     return unsubscribe;
   }, [navigation]);
 
-  
+
 
   const handleSwitchCart = async (id) => {
     if (id) {
@@ -240,7 +225,7 @@ const Cart = () => {
           {/* <Text preset={["bold fs_16"]}>Cart{"(5)"}</Text> */}
           <CustomTouchBtn onPress={() => navigation?.navigate("home")}>
             {/* <Entypo
-             
+
               name="cross"
               size={24}
               color="black"
@@ -360,7 +345,7 @@ const Cart = () => {
                 />
               </TouchableOpacity>
               <View style={{ marginTop: 10 }}>
-               
+
                 {switchCartData?.map((cart, index) => (
                   <TouchableOpacity
                     key={index}
@@ -384,7 +369,7 @@ const Cart = () => {
           {carts?.items?.map((item, index) => (
             <SingleCart key={index} item={item} />
           ))}
-          {/*          
+          {/*
           <SingleCart item={item} />
           <SingleCart item={item} /> */}
         </View>
@@ -419,7 +404,7 @@ const Cart = () => {
             else{
 
             }
-          
+
           }}
           preset={["center"]}
           style={{

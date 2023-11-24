@@ -4,11 +4,12 @@ import cartServices from "../services/cartServices";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from "react-native-toast-message";
 
-const CustomerBillingInfo = ({ carts, setIsBill }) => {
+const CustomerBillingInfo = ({ carts, setIsBill,refatch }) => {
   const [billFromCustomer, setBillFromCustomer] = useState(carts?.reseller_to_customer_price?.toString());
   const [adVance, setAdvance] = useState(carts?.advance_from_customer?.toString());
+  const [errorMessage,setErroMessage]=useState("")
 
-  
+
   let saveBillingInfo2 = async () => {
     const min = singlecartData?.cart_min_selling_price;
     const max = singlecartData?.cart_max_selling_price;
@@ -26,8 +27,8 @@ const CustomerBillingInfo = ({ carts, setIsBill }) => {
           "Please enter a value between " + min + " and " + max,
           "top-right"
         );
-      } 
-      
+      }
+
       else {
         let data = {
           cart_id: singlecartData?.id,
@@ -41,7 +42,7 @@ const CustomerBillingInfo = ({ carts, setIsBill }) => {
             "top-right"
           );
         }
-        
+
         else {
           let res = await cartServices.updateCartBilling(data);
           if (res.status === 200) {
@@ -75,21 +76,11 @@ const CustomerBillingInfo = ({ carts, setIsBill }) => {
     const min = carts?.cart_min_selling_price;
     const max = carts?.cart_max_selling_price;
     if (billFromCustomer < min ||billFromCustomer > max) {
-      Toast.show({
-        type: "error",
-        text1: "Error",
-        text2: "Please enter a value between " + min + " and " + max,
-        visibilityTime: 4000,
-        autoHide: true,
-         
-        bottomOffset: 280,
-        onShow: () => { },
-        onHide: () => { },
-      });
-      // alert();
+      setErroMessage("Please enter a value between " + min + " and " + max)
+
       return
 
-    } 
+    }
 
 
     let data = {
@@ -98,25 +89,18 @@ const CustomerBillingInfo = ({ carts, setIsBill }) => {
       reseller_to_customer_price: billFromCustomer,
       advance_from_customer: adVance,
     };
-    
+
     if (billFromCustomer - adVance === 0) {
-      Toast.show({
-        type: "error",
-        text1: "Error",
-        text2: 'Total Collection Amount can not be 0.',
-        visibilityTime: 4000,
-        autoHide: true,
-         
-        bottomOffset: 280,
-        onShow: () => { },
-        onHide: () => { },
-      });
+      setErroMessage('Total Collection Amount can not be 0.')
+
       // alert("Total Collection Amount can not be 0");
       return
     } else {
+      console.log(data)
       let res = await cartServices.updateCartBilling(data);
       if (res.status === 200) {
         // alert(res?.data?.message, "top-right");
+        refatch()
         Toast.show({
           type: "success",
           text1: "Successfull",
@@ -153,7 +137,10 @@ const CustomerBillingInfo = ({ carts, setIsBill }) => {
           <TextInput
             placeholder=""
             value={billFromCustomer}
-            onChangeText={(text) => setBillFromCustomer(text)}
+            onChangeText={(text) => {
+              setBillFromCustomer(text)
+              setErroMessage("")
+            }}
             keyboardType="numeric"
             style={{ minWidth: 120, padding: 6, borderWidth: 1, borderColor: "hsla(0,0%,50%,.329)", position: "relative" }}
           />
@@ -175,6 +162,9 @@ const CustomerBillingInfo = ({ carts, setIsBill }) => {
           </View>
         </View>
       </View>
+      {
+        errorMessage.trim() && <Text style={{color:"red",fontSize:12,padding:5}}>{errorMessage}</Text>
+      }
       <TouchableOpacity onPress={saveBillingInfo} style={{ backgroundColor: "black", marginTop: 10, justifyContent: "center", padding: 10 }}>
         <Text style={{ color: "white", textAlign: "center", fontSize: 16 }}>Proceed to shipping information</Text>
       </TouchableOpacity>

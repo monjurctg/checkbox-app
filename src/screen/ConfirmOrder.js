@@ -63,7 +63,7 @@ const ConfirmOrder = ({ navigation, route }) => {
     }
   };
 
-  
+
 
   const getUser =async ()=>{
     const res = await authServices.getUserinfo();
@@ -71,7 +71,7 @@ const ConfirmOrder = ({ navigation, route }) => {
           dispatch(setUser(res.data.data));
           // dispatch(setAuth(true));
           // setLoading(false);
-        } 
+        }
   }
 
   const fetchSingCart = async () => {
@@ -217,7 +217,7 @@ const ConfirmOrder = ({ navigation, route }) => {
         navigation.navigate("Products")
 
       }
-      
+
     }
   };
   let applyVoucher = async () => {
@@ -241,7 +241,7 @@ const ConfirmOrder = ({ navigation, route }) => {
     let data = {
       cart_id: carts?.id,
     };
-    
+
     let res = await cartServices.couponRemove(data);
     if (res.status === 200) {
       alert(res.data.message, "top-right");
@@ -302,7 +302,7 @@ const ConfirmOrder = ({ navigation, route }) => {
       // alert(res?.data?.message || "api message changed", "top-right");
       // dispatch(getUserDetails());
       // setModalOpen(false);
-    } 
+    }
     else if(res.data.message=="The bkash has already been taken."){
       setModalError(res.data.message)
     }
@@ -328,7 +328,7 @@ const ConfirmOrder = ({ navigation, route }) => {
         duration: 2500,
         statusBarHeight: scale(40),
       });
-   
+
       // setloading(false);
       // console.log(res, "after info error");
       // alert(res?.data?.message || "api message changed", "top-right");
@@ -379,7 +379,7 @@ const ConfirmOrder = ({ navigation, route }) => {
       </View>
     </View>
     {/* products */}
-    {singleCart?.items.map((item, index) => (<SingleCart key={index} item={item} />))}
+    {singleCart?.items.map((item, index) => (<SingleCart key={index} item={item} from={"ConfirmOrder"} />))}
     <View style={{ marginTop: 10 }}>
       <View style={{ flexDirection: "row", justifyContent: "space-between", padding: 10, backgroundColor: "#222222", borderRadius: 3, }}>
         <Text style={{ color: "white" }}>Total earnings</Text>
@@ -463,7 +463,7 @@ const ConfirmOrder = ({ navigation, route }) => {
           </TouchableOpacity>
           <TextInput onChangeText={(text) => setShopName(text)} placeholder="Enter shop name" style={styles.input} />
           <TextInput onChangeText={(text) => setBkash(text)} placeholder="Enter bkash number" style={[styles.input, { marginTop: 20 }]} keyboardType="decimal-pad" />
-          
+
        {
         modalError &&    <Text style={{color:"red",padding:10}}>{modalError}</Text>
        }

@@ -269,7 +269,7 @@ function ProductsScreen({ route, navigation }) {
         name="/"
         component={Products}
       />
-       
+
          <ProductsStack.Screen
         initialParams={route.params}
         name="all-collection"
@@ -280,8 +280,8 @@ function ProductsScreen({ route, navigation }) {
         name="filter"
         component={FilterIndex}
       />
-     
-     
+
+
     </ProductsStack.Navigator>
   );
 }
@@ -332,13 +332,13 @@ export default function TabScreen({ route }) {
     <>
       {!auth ? (
         <Tab.Navigator
-        
 
-        
+
+
           screenOptions={{
             headerShown: false,
-        
-          
+
+
           }}
           tabBar={(props) => <MyTabBar {...props} />}
         >

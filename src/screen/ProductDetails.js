@@ -5,7 +5,7 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  Clipboard
+
 } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import Mainlayout from "../components/layout/Mainlayout";
@@ -19,6 +19,7 @@ import { Feather, FontAwesome } from '@expo/vector-icons';
 import img3 from "../../assets/img/shoe1.png";
 import { AntDesign } from "@expo/vector-icons";
 import ClientReview from "../components/product-details/ClientReview";
+import * as Clipboard from 'expo-clipboard';
 import { BottomSheet } from "react-native-btr";
 import SingleCart from "../components/cart/SingleCart";
 import { CheckboxContext } from "../context/CheckboxProvider";
@@ -57,6 +58,12 @@ const ProductDetails = ({ navigation }) => {
   const [variantDetails, setVariantDetails] = useState([]);
   const [quantity, setQuantity] = useState(1);
 
+
+
+
+  const copyToClipboard = async () => {
+    await Clipboard.setStringAsync('hello world');
+  };
 
 
   let addingToCart = async () => {
@@ -160,6 +167,8 @@ const ProductDetails = ({ navigation }) => {
 
 
   const fetchCopiedText = async (text2) => {
+    await Clipboard.setStringAsync(text2);
+
     // const text = await Clipboard.setString(text2);
     // setCopiedText(text);al
     // alert(text)

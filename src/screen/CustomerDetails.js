@@ -242,7 +242,7 @@ const CustomerDetails = ({ navigation, route }) => {
                 <TextInput style={styles.input} placeholder="Search Customer" />
                 <ScrollView>
                   {allCustomer.map((customer, index) => {
-                    console.log(customer)
+                    // console.log(customer)
                     return (
                       <TouchableOpacity onPress={() => { setselectedCustomer(customer); setSearchPreCustomer(false); }} key={index} style={{ marginTop: 1, backgroundColor: "#EEEEEE", minHeight: 120, marginTop: 10, borderRadius: 10, padding: 10 }}>
                         <View style={{ flexDirection: "row", gap: 10, marginBottom: 10 }}>

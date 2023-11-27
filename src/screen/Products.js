@@ -12,7 +12,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Mainlayout from "../components/layout/Mainlayout";
 
 
-import { scale } from "../../utils/funtions";
+import { filterCategories, scale } from "../../utils/funtions";
 
 import { AntDesign } from "@expo/vector-icons";
 import SingleProduct from "../components/products/SingleProduct";
@@ -252,6 +252,8 @@ const dispatch=useDispatch()
   const onCategoryPress = (slug,name)=>{
     // alert(slug)
     // navigation.navigate("products-filter", { data:{category_slug:slug} })
+    filterCategories.push(slug)
+
    navigation.navigate("filter", { data:{category_slug:slug},from:name})
 
   }

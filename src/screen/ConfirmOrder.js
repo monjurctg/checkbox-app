@@ -379,7 +379,21 @@ const ConfirmOrder = ({ navigation, route }) => {
       </View>
     </View>
     {/* products */}
-    {singleCart?.items.map((item, index) => (<SingleCart key={index} item={item} from={"ConfirmOrder"} />))}
+    {singleCart?.items.map((item, index) => (<View key={index} style={{ borderWidth:1,height:80,marginTop:20,borderColor:"#DDD"}}>
+      <View style={{flexDirection:"row",gap:20}}>
+        {/* <Text>dfdjkjfk</Text> */}
+        <Image style={{height:70,width:90,resizeMode:"contain"}} source={{uri:item?.product_thumbnail_image}}/>
+        <View>
+
+        <Text numberOfLines={2} ellipsizeMode="tail" style={{width:scale(190)}} preset={["RB lh_20  fs_13 "]}>{item?.product_name}</Text>
+        <Text preset={["mt_5 lh_20 fs_14"]}>
+            ৳ <Text style={{ fontWeight: "bold" }}>{item?.price}</Text>
+          </Text>
+
+        </View>
+      </View>
+
+    </View>))}
     <View style={{ marginTop: 10 }}>
       <View style={{ flexDirection: "row", justifyContent: "space-between", padding: 10, backgroundColor: "#222222", borderRadius: 3, }}>
         <Text style={{ color: "white" }}>Total earnings</Text>

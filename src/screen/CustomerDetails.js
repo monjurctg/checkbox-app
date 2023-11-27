@@ -148,15 +148,15 @@ const CustomerDetails = ({ navigation, route }) => {
     if (res.status === 200) {
       // console.log(res.status);
 
-      showMessage({
-        style: { alignItems: "center", alignContent: "center", display: "flex", flexDirection: "column", justifyContent: "center", gap: 15 },
-        message: "Added to Cart",
-        icon: "success",
-        type: "success",
-        position: "top",
-        duration: 2500,
-        statusBarHeight: scale(40),
-      });
+      // showMessage({
+      //   style: { alignItems: "center", alignContent: "center", display: "flex", flexDirection: "column", justifyContent: "center", gap: 15 },
+      //   message: "Added to Cart",
+      //   icon: "success",
+      //   type: "success",
+      //   position: "top",
+      //   duration: 2500,
+      //   statusBarHeight: scale(40),
+      // });
       navigation.navigate("confirm-order", { data, carts });
     } else {
       // console.log(res, "error");

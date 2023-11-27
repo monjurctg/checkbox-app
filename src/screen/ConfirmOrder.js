@@ -80,11 +80,7 @@ const ConfirmOrder = ({ navigation, route }) => {
     // console.log(res.data.data.items[0], "response  from calling");uy
     if (res.status === 200) {
       setSingCart(res.data.data);
-      // setSwitchCartModalVisible(false);
 
-      // dispatch(setCartSize(res.data.data.items.length));
-      // setInputValue(res?.data?.data.name);
-      // setSwichCartIdInLocal(activeSwichCartId ? activeSwichCartId : cart_id);
     }
   };
 
@@ -379,6 +375,7 @@ const ConfirmOrder = ({ navigation, route }) => {
       </View>
     </View>
     {/* products */}
+    <Text style={{marginTop:10,textAlign:"left",marginLeft:10,fontWeight:"bold",fontSize:16}}>Cart Products</Text>
     {singleCart?.items.map((item, index) => (<View key={index} style={{ borderWidth:1,height:80,marginTop:20,borderColor:"#DDD"}}>
       <View style={{flexDirection:"row",gap:20}}>
         {/* <Text>dfdjkjfk</Text> */}

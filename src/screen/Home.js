@@ -27,27 +27,27 @@ const Home = ({ navigation }) => {
   // navigation.navigate("")
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
-  const dispatch=useDispatch()
-  const [topProducts,setTopProducts]=useState([])
-  const[summary,setSummary]=useState([])
+  const dispatch = useDispatch()
+  const [topProducts, setTopProducts] = useState([])
+  const [summary, setSummary] = useState([])
 
 
 
   // setTimeout(() => {
   //   setLoading(false);
   // }, 1000);
-const fecthTopProducts = async()=>{
-  const res =await api.get("product-listing-page/products/best-seller")
-  setTopProducts(res.data.data)
-  // console.log(res.data.data)
-}
+  const fecthTopProducts = async () => {
+    const res = await api.get("product-listing-page/products/best-seller")
+    setTopProducts(res.data.data)
+    // console.log(res.data.data)
+  }
 
 
-const fetchDashSummary = async()=>{
-  const res = await api.get("/reseller/dashboard/summary")
-  console.log(res.data.data,"dfdkjfk")
-  setSummary(res.data.data)
-}
+  const fetchDashSummary = async () => {
+    const res = await api.get("/reseller/dashboard/summary")
+    console.log(res.data.data, "dfdkjfk")
+    setSummary(res.data.data)
+  }
   const allCategories = () => {
     productServices
       .getAllCategories()
@@ -79,33 +79,33 @@ const fetchDashSummary = async()=>{
   useEffect(() => {
     const checkToken = async () => {
       // setLoading(true);
-     try{
-      const token = await AsyncStorage.getItem("token");
-      // console.log(token)
-      if (token) {
-        const res = await authServices.getUserinfo();
-        // console.log(res.data,"fjdjf")
-        if (res.status == 200) {
+      try {
+        const token = await AsyncStorage.getItem("token");
+        // console.log(token)
+        if (token) {
+          const res = await authServices.getUserinfo();
+          // console.log(res.data,"fjdjf")
+          if (res.status == 200) {
 
-          dispatch(setUser(res.data.data));
-          dispatch(setAuth(true));
-          // setLoading(false);
-        }
-        else{
-          dispatch(setAuth(false));
+            dispatch(setUser(res.data.data));
+            dispatch(setAuth(true));
+            // setLoading(false);
+          }
+          else {
+            dispatch(setAuth(false));
 
+          }
         }
+      } catch (err) {
+        console.log(err)
+        dispatch(setAuth(false));
+
+
+
       }
-     }catch(err){
-      console.log(err)
-      dispatch(setAuth(false));
-
-
-
-     }
-     finally{
-      setLoading(false);
-     }
+      finally {
+        setLoading(false);
+      }
     };
     checkToken();
   }, []);
@@ -114,7 +114,7 @@ const fetchDashSummary = async()=>{
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       // fetchSingCart();
-    dispatch(setTabShow(true))
+      dispatch(setTabShow(true))
 
 
     });
@@ -130,24 +130,24 @@ const fetchDashSummary = async()=>{
   return (
     <Mainlayout navigation={navigation}>
       <ScrollView style={{}} showsVerticalScrollIndicator={false}>
-      <View
+        <View
           style={{
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-            flexWrap:"wrap",
-            gap:10,
+            flexWrap: "wrap",
+            gap: 10,
 
             // backgroundColor: '#EDEDED',
             // borderColor: '#C7C7C7',
-            borderRadius: 8,marginTop:10
+            borderRadius: 8, marginTop: 10
           }}
         >
 
 
 
-       {/* {
+          {/* {
         summary.map((sum,i)=>{
           return   <View key={i}
             style={{
@@ -158,7 +158,7 @@ const fetchDashSummary = async()=>{
             backgroundColor: '#fff',
             paddingHorizontal: 20,
             paddingVertical: 18,
-            height:100,
+            height:90,
             borderRadius:10
             // gap:10
 
@@ -200,26 +200,20 @@ const fetchDashSummary = async()=>{
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-
-            // backgroundColor: '#EDEDED',
-            // borderColor: '#C7C7C7',
-            borderRadius: 8,marginTop:10
+            borderRadius: 8, marginTop: 10
           }}
         >
 
           <View
             style={{
-              display: 'flex',
-              flexDirection:"row",
 
-              justifyContent: "space-between",
               alignItems: 'center',
+              justifyContent: "center",
               width: "48%",
-              height:100,
-            backgroundColor: '#fff',
-            paddingHorizontal: 20,
-            paddingVertical: 18,
-            borderRadius:10
+              height: 90,
+              backgroundColor: '#fff',
+
+              borderRadius: 10
             }}
           >
             <Text
@@ -228,10 +222,10 @@ const fetchDashSummary = async()=>{
                 fontStyle: 'normal',
                 fontWeight: '400',
                 fontSize: 14,
-                lineHeight: 16,
+                // lineHeight: 16,
                 color: '#231F20',
-                marginBottom: 8,
-                width:100
+                // marginBottom: 8,
+                // width:100
               }}
             >
               Total Orders
@@ -246,22 +240,18 @@ const fetchDashSummary = async()=>{
                 color: '#BE202E',
               }}
             >
-         {  summary[0]?.all_orders_count}
+              {summary[0]?.all_orders_count}
             </Text>
           </View>
           <View
             style={{
-              display: 'flex',
-              flexDirection:"row",
 
-              justifyContent: "space-between",
               alignItems: 'center',
+              justifyContent: "center",
               width: "48%",
-              height:100,
-            backgroundColor: '#fff',
-            paddingHorizontal: 20,
-            paddingVertical: 18,
-            borderRadius:10
+              height: 90,
+              backgroundColor: '#fff',
+              borderRadius: 10
             }}
           >
             <Text
@@ -269,7 +259,7 @@ const fetchDashSummary = async()=>{
                 // fontFamily: "Gotham",
                 fontStyle: 'normal',
                 fontWeight: '400',
-                width:100,
+                // width:100,
                 fontSize: 14,
                 // lineHeight: 16,
                 color: '#231F20',
@@ -288,7 +278,7 @@ const fetchDashSummary = async()=>{
                 color: '#BE202E',
               }}
             >
-         {  summary[1]?.current_balance}
+              {summary[1]?.current_balance}
             </Text>
           </View>
         </View>
@@ -299,25 +289,19 @@ const fetchDashSummary = async()=>{
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-
-            // backgroundColor: '#EDEDED',
-            // borderColor: '#C7C7C7',
-            borderRadius: 8,marginTop:10
+            borderRadius: 8, marginTop: 10
           }}
         >
 
           <View
             style={{
-              display: 'flex',
-              flexDirection:"row",
 
-              justifyContent: "space-between",
               alignItems: 'center',
+              justifyContent:"center",
               width: "48%",
-              height:100,
+              height:90,
             backgroundColor: '#fff',
-            paddingHorizontal: 20,
-            paddingVertical: 18,
+
             borderRadius:10
             }}
           >
@@ -330,7 +314,7 @@ const fetchDashSummary = async()=>{
                 lineHeight: 16,
                 color: '#231F20',
                 marginBottom: 8,
-                width:100
+                // width: 100
               }}
             >
 
@@ -346,21 +330,18 @@ const fetchDashSummary = async()=>{
                 color: '#BE202E',
               }}
             >
-            {  summary[2]?.last_payment_amount}
+              {summary[2]?.last_payment_amount}
             </Text>
           </View>
           <View
             style={{
-              display: 'flex',
-              flexDirection:"row",
 
-              justifyContent: "space-between",
               alignItems: 'center',
+              justifyContent:"center",
               width: "48%",
-              height:100,
+              height:90,
             backgroundColor: '#fff',
-            paddingHorizontal: 20,
-            paddingVertical: 18,
+
             borderRadius:10
             }}
           >
@@ -387,12 +368,12 @@ const fetchDashSummary = async()=>{
                 color: '#BE202E',
               }}
             >
-              {  summary[3]?.delivered_orders}
+              {summary[3]?.delivered_orders}
             </Text>
           </View>
         </View>
 
-      <View
+        <View
           style={{
             display: 'flex',
             flexDirection: 'row',
@@ -400,21 +381,18 @@ const fetchDashSummary = async()=>{
             alignItems: 'center',
 
             borderRadius: 8,
-            marginTop:20
+            marginTop: 20
           }}
         >
           <View
             style={{
-              display: 'flex',
-              flexDirection:"row",
 
-              justifyContent: "space-between",
               alignItems: 'center',
+              justifyContent:"center",
               width: "48%",
-              height:100,
+              height:90,
             backgroundColor: '#fff',
-            paddingHorizontal: 20,
-            paddingVertical: 18,
+
             borderRadius:10
             }}
           >
@@ -442,22 +420,19 @@ const fetchDashSummary = async()=>{
                 color: '#BE202E',
               }}
             >
-             {  summary[4]?.in_transit_orders}
+              {summary[4]?.in_transit_orders}
             </Text>
           </View>
 
           <View
             style={{
-              display: 'flex',
-              flexDirection:"row",
 
-              justifyContent: "space-between",
               alignItems: 'center',
+              justifyContent:"center",
               width: "48%",
-              height:100,
+              height:90,
             backgroundColor: '#fff',
-            paddingHorizontal: 20,
-            paddingVertical: 18,
+
             borderRadius:10
             }}
           >
@@ -484,7 +459,7 @@ const fetchDashSummary = async()=>{
                 color: '#BE202E',
               }}
             >
-             {  summary[5]?.returned_orders}
+              {summary[5]?.returned_orders}
 
             </Text>
           </View>
@@ -492,8 +467,9 @@ const fetchDashSummary = async()=>{
         {/* statistic */}
 
 
+<View style={{backgroundColor:"#FFF",marginTop:20,padding:10,borderRadius:10}}>
 
-        <View
+<View
           style={{
             flexDirection: 'row',
             justifyContent: 'space-around',
@@ -504,8 +480,48 @@ const fetchDashSummary = async()=>{
             style={{ justifyContent: 'center', alignItems: 'center' }}
           >
             <Image source={require('../../assets/icons/product.png')} />
-            <Text preset={['p3']} style={{ marginTop: scale(10) }}>
-            Frequently Ordered
+            <Text preset={['p3']} style={{ marginTop: scale(10),textAlign:"center" }}>
+              Announcement
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{ justifyContent: 'center', alignItems: 'center' }}
+          >
+            <Image source={require('../../assets/icons/product.png')} />
+            <Text preset={['p3']} style={{ marginTop: scale(10),textAlign:"center" }}>
+              Frequently Ordered
+            </Text>
+          </TouchableOpacity>
+          {/* <TouchableOpacity
+            style={{ justifyContent: 'center', alignItems: 'center' }}
+          >
+            <Image source={require('../../assets/icons/customers.png')} />
+            <Text preset={['p3']} style={{ marginTop: scale(10),textAlign:"center" }}>
+            Payment
+            </Text>
+          </TouchableOpacity> */}
+          <TouchableOpacity
+            style={{ justifyContent: 'center', alignItems: 'center' }}
+          >
+            <Image source={require('../../assets/icons/earning.png')} />
+            <Text preset={['p3']} style={{ marginTop: scale(10),textAlign:"center" }}>
+            Profile
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+            marginTop: scale(25),
+          }}
+        >
+          <TouchableOpacity
+            style={{ justifyContent: 'center', alignItems: 'center' }}
+          >
+            <Image source={require('../../assets/icons/product.png')} />
+            <Text preset={['p3']} style={{ marginTop: scale(10),width:80,textAlign:"center" }}>
+              Payment
             </Text>
           </TouchableOpacity>
 
@@ -513,57 +529,97 @@ const fetchDashSummary = async()=>{
             style={{ justifyContent: 'center', alignItems: 'center' }}
           >
             <Image source={require('../../assets/icons/customers.png')} />
-            <Text preset={['p3']} style={{ marginTop: scale(10) }}>
-              My Orders
+            <Text preset={['p3']} style={{ marginTop: scale(10),textAlign:"center" }}>
+              Review
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={{ justifyContent: 'center', alignItems: 'center' }}
           >
             <Image source={require('../../assets/icons/earning.png')} />
-            <Text preset={['p3']} style={{ marginTop: scale(10) }}>
-              My Earnings
+            <Text preset={['p3']} style={{ marginTop: scale(10),textAlign:"center" }}>
+              Ticket
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{ justifyContent: 'center', alignItems: 'center' }}
+          >
+            <Image source={require('../../assets/icons/earning.png')} />
+            <Text preset={['p3']} style={{ marginTop: scale(10),textAlign:"center" }}>
+              Orders
             </Text>
           </TouchableOpacity>
         </View>
 
 
+</View>
+
+
+
 
         {/* <Slider /> */}
-        <View>
+        <ScrollView  horizontal={true} showsHorizontalScrollIndicator={false}>
           <Image
             style={{
               marginTop: 32,
-              width: '100%',
-              height: 80,
+              width: 300,
+              height: 100,
+              borderRadius:10,
+              resizeMode:"contain",
+              borderWidth:1,borderColor:"#DDD"
+            }}
+            source={require('../../assets/img/banner_2.png')}
+          />
+           <Image
+            style={{
+              marginTop: 32,
+              width: 300,
+              height: 100,
+              borderRadius:10,
+              resizeMode:"contain",
+              borderWidth:1,borderColor:"#DDD",
+              marginLeft:10
+            }}
+            source={require('../../assets/img/banner_2.png')}
+          />
+           <Image
+            style={{
+              marginTop: 32,
+              width: 300,
+              height: 100,
+              borderRadius:10,
+              resizeMode:"contain",
+              marginLeft:10,
+
+              borderWidth:1,borderColor:"#DDD"
             }}
             source={require('../../assets/img/banner_2.png')}
           />
 
+        </ScrollView>
+
+        <Text style={{ marginVertical: 20,fontFamily:"RB"}}> Weekly Top Selling</Text>
+        <View style={{ flexDirection: "row", flexWrap: "wrap", alignSelf: "center", alignItems: "center", justifyContent: "center" }}>
+
+          {
+            topProducts.map((item, i) => {
+              return <SingleProduct
+                key={i}
+                id={item?.id}
+                from={"home"}
+                navigation={navigation}
+                name={item?.name}
+                src={item.thumbnail_image}
+                // toggleBottomNavigationView={onBottomSheetOpen}
+                // visible={visible}
+                price={item?.price?.main_price}
+                rate={item?.rating?.rating}
+                sales={item?.sales}
+                item={item}
+              />
+            })
+          }
         </View>
-
-        <Text style={{marginTop:10}}>Top Products</Text>
-      <View style={{flexDirection:"row",flexWrap:"wrap",alignSelf:"center",alignItems:"center",justifyContent:"center"}}>
-
-      {
-          topProducts.map((item,i)=>{
-            return <SingleProduct
-            key={i}
-            id={item?.id}
-            from={"home"}
-            navigation={navigation}
-            name={item?.name}
-            src={item.thumbnail_image}
-            // toggleBottomNavigationView={onBottomSheetOpen}
-            // visible={visible}
-            price={item?.price?.main_price}
-            rate={item?.rating?.rating}
-            sales={item?.sales}
-            item={item}
-          />
-          })
-        }
-      </View>
 
 
 

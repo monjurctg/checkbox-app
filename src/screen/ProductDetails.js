@@ -54,9 +54,10 @@ const ProductDetails = ({ navigation }) => {
   const { productId } = route.params ?? {};
   const { cartSize } = useSelector((state) => state.cart);
   const { detailsBottomSheet } = useSelector((state) => state.utils);
-  const [variant, setVariant] = useState({});
+  const [variants, setVariants] = useState({});
   const [variantDetails, setVariantDetails] = useState([]);
   const [quantity, setQuantity] = useState(1);
+  const[prices,setPrices]=useState()
 
 
 
@@ -138,6 +139,18 @@ const ProductDetails = ({ navigation }) => {
       // errorNotification(res?.data?.message, "top-right");
     }
   };
+  function findVariantPrice(defaultVariant) {
+    // Object.values(variantDetails).join("-")
+    let variant = Object.values(variantDetails).join("-")
+    // console.log(variant)
+    if(variants.length>0){
+      const foundVariant = variants.find(v => v?.variant === variant);
+      console.log(foundVariant)
+    if (foundVariant) {
+      setPrices(foundVariant) ;
+    }
+    }
+  }
   // console.log(singleProduct)
   useEffect(() => {
     setLoading(true);
@@ -148,6 +161,8 @@ const ProductDetails = ({ navigation }) => {
         // setBigImg(res.data.data.thumbnail_image);
         setBigImg(res.data.data?.photos[0].path ?? res.data.data.thumbnail_image)
         setLoading(false);
+        // console.log(res.data.data?.variant_info)
+        setVariants(res.data.data.variant_info)
         setSingleProduct(res.data.data);
         // console.log()
       })
@@ -164,32 +179,26 @@ const ProductDetails = ({ navigation }) => {
       .catch((err) => { });
   }, [productId]);
 
+  useEffect(()=>{
+//     let variant= Object?.values(variantDetails).join("-")
+
+// console.log(variant)
+findVariantPrice()
+  },[variantDetails])
 
 
   const fetchCopiedText = async (text2) => {
     await Clipboard.setStringAsync(text2);
 
-    // const text = await Clipboard.setString(text2);
-    // setCopiedText(text);al
-    // alert(text)
-
   };
   const downloadProductDetails = async () => {
-    // alert("fdjkfjk")
-    // setdLoader(true);
+
     let res = await productServices.downloadProductDetails(productId);
-    // console.log('res.data.paths', res.data.paths)
     if (res.status === 200) {
       let paths =res.data.paths
       if(paths?.length > 0){
         paths.forEach(async(path)=>{
-          // console.log(path)
           FileDownload(path)
-          // let res = await productServices.downloadProductImages(productId,path)
-          // if(res.status ===200){
-          //   downloadImage(res?.data?.base64,res?.data?.fileName,res?.data?.mimeType)
-          // }
-          // console.log("res",res)
       })
       }
 
@@ -385,9 +394,6 @@ const ProductDetails = ({ navigation }) => {
       <ScrollView showsVerticalScrollIndicator={false}>
 
         <View style={{ alignSelf: "center", elevation: 1, width: scale(330), backgroundColor: "#FFF", padding: 10, marginTop: 20, borderRadius: 10, paddingVertical: 20 }}>
-
-
-
           <Image
             style={{
               width: scale(310),
@@ -429,7 +435,7 @@ const ProductDetails = ({ navigation }) => {
           </View>
           <Text style={{ color: "#be202e" }} preset={["h2 RB bold mt_10"]}>
             {singleProduct?.currency_symbol}
-            {singleProduct?.price?.calculable_price}
+            {prices?prices.price: singleProduct?.price?.calculable_price}
           </Text>
           <View preset={[" row mt_5 "]} style={{ alignItems: "center", gap: 3 }}>
             {/* <Text>{singleProduct?.rating?.rating_count}</Text> */}
@@ -444,8 +450,8 @@ const ProductDetails = ({ navigation }) => {
           </View>
           <View preset={["row"]} style={styles.text}>
             <Text style={{ fontSize: 16, fontWeight: "500", fontFamily: "RM" }}>
-              Min Selling Price:<Text> {singleProduct?.min_selling_price}, </Text>
-              Max Selling Price:<Text> {singleProduct?.max_selling_price}</Text>
+              Min Selling Price:<Text> {prices?prices?.min_selling_price:singleProduct?.min_selling_price}, </Text>
+              Max Selling Price:<Text> {prices?prices?.max_selling_price:singleProduct?.max_selling_price}</Text>
             </Text>
           </View>
           {/* <View
@@ -476,7 +482,7 @@ const ProductDetails = ({ navigation }) => {
           </View> */}
 
           {
-            singleProduct?.description &&      <View   style={{flexDirection:"row",borderWidth:1,borderColor:"#DDD",padding:10}}>
+            singleProduct?.description &&      <View   style={{flexDirection:"row",borderWidth:1,borderColor:"#DDD",padding:10,marginTop:20}}>
             <RenderHtml contentWidth={350} source={{ html: singleProduct?.description }} />
             <TouchableOpacity style={{position:"absolute",top:5,right:5}} onPress={()=>fetchCopiedText(singleProduct?.description )}>
               {/* <Text style={{fontSize:14}}>Copy description</Text>

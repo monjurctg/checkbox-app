@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView, Image, DrawerLayoutAndroid, TouchableOpacity, FlatList } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, Image, DrawerLayoutAndroid, TouchableOpacity, FlatList, BackHandler } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import productServices from '../../services/productServices';
 import Mainlayout from '../../components/layout/Mainlayout';
@@ -11,15 +11,18 @@ import Categories from '../../components/products/Categories';
 import CategorySkeleton from '../../components/loader/CategorySkeleton';
 import SingleProductSkeleton from '../../components/loader/SingleProductSkeleton';
 import Filters from '../../components/products/Filters';
-import { scale } from '../../../utils/funtions';
+import { filterCategories, scale } from '../../../utils/funtions';
 import { ActivityIndicator } from 'react-native';
 import { setTabShow } from '../../redux/reducers/utilsSlice';
 import { useDispatch } from 'react-redux';
 
 let scroll = 0
+let clickCount = 0;
+
 const FilterIndex = ({ route, navigation }) => {
     const drawerRef = useRef(null);
     const { data, from } = route.params ?? {};
+
     const initialState = {
         category_slug: null,
         collection_slug: null,
@@ -47,9 +50,7 @@ const FilterIndex = ({ route, navigation }) => {
     const [brandIds, setBrandIds] = useState([])
     const [categorySlug, setCategorySlug] = useState(data?.category_slug)
     const dispatch = useDispatch()
-    // console.log(searchAttributes?.colors?.length)
-
-    // funtions
+    console.log(filterCategories)
     const openDrawer = () => {
         drawerRef.current.openDrawer();
     };
@@ -76,7 +77,7 @@ const FilterIndex = ({ route, navigation }) => {
 
     const handleCategoryChange = (slug) => {
         // alert(cateId)
-        console.log(slug, "slug")
+        // console.log(slug, "slug")
         setCategorySlug(slug)
     };
 
@@ -234,6 +235,7 @@ const FilterIndex = ({ route, navigation }) => {
 
     }
 
+
     useEffect(() => {
         const unsubscribe = navigation.addListener("focus", () => {
             // fetchSingCart();
@@ -243,6 +245,46 @@ const FilterIndex = ({ route, navigation }) => {
         });
         return unsubscribe;
     }, [navigation]);
+
+
+    useEffect(() => {
+console.log(categorySlug)
+        const unsubscribe = navigation.addListener("beforeRemove", (e) => {
+            if (filterCategories.length > 0
+            ) {
+
+                e.preventDefault();
+                if (clickCount === 0 && filterCategories.length>1) {
+                    // On the first click, pop two elements
+                    filterCategories.pop()
+                    const a = filterCategories.pop()
+                    console.log(a)
+                    setCategorySlug(a)
+
+                } else   {
+                    const a = filterCategories.pop()
+
+                    setCategorySlug(a)
+                    console.log(a)
+
+                }
+
+                clickCount++;
+
+                //
+            }
+            else {
+                // filterCategories.pop()
+                clickCount = 0
+
+
+            }
+
+
+        });
+
+        return unsubscribe;
+    }, []);
 
 
     useEffect(() => {
@@ -272,9 +314,6 @@ const FilterIndex = ({ route, navigation }) => {
         }
         else {
             dispatch(setTabShow(false))
-
-
-
 
         }
         //console.log('dif=',dif);
@@ -396,7 +435,10 @@ const FilterIndex = ({ route, navigation }) => {
             item={item}
         />
     );
+
+
     const onCategoryPress = (slug) => {
+        filterCategories.push(slug)
         setCategorySlug(slug)
     }
     const Header = () => {
@@ -413,14 +455,14 @@ const FilterIndex = ({ route, navigation }) => {
                         marginVertical: 15, fontFamily: "RB"
                     }}
                 >
-                   {from}
+                    {from}
                 </Text>
                 {loading ?
                     <CategorySkeleton /> : <Categories
                         TYPE={"scroll"}
                         // title={"Product Categories"}
                         onCategoryPress={onCategoryPress}
-                        data={searchAttributes?.categories}
+                        data={searchAttributes?.categories?.slice(1)}
                     />
                 }
 

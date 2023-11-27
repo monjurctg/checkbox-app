@@ -29,39 +29,42 @@ const SingleCart = ({ item,from }) => {
   };
 
   let updateQuantity = async (type) => {
-   
-    let data = {
-      id: item?.id,
-      cart_id: item?.cart_id,
-      type: "quantity",
-      quantity: type=="plus"?item?.quantity+1:item?.quantity-1,
-    };
+    if(item.quantity>0){
 
-    let res = await cartServices.updateProductFromCart(data);
-    // console.log(res.data.data,"res from api")
+      console.log(item)
+      let data = {
+        id: item?.id,
+        cart_id: item?.cart_id,
+        type: "quantity",
+        quantity: type=="plus"?item?.quantity+1:item?.quantity-1,
+      };
 
-    if (res?.status === 200) {
-      if(type=="plus"){
-        setQuantity(quantity+1)
+      let res = await cartServices.updateProductFromCart(data);
+      if (res?.status === 200) {
+        if(type=="plus"){
+          setQuantity(quantity+1)
+        }
+        else if(type=="minus"){
+          setQuantity(quantity-1)
+
+        }
+
+        showMessage({
+          style: { alignItems: "center" },
+          message: res.data.message,
+          type: "success",
+          position: "top",
+          duration: 2500,
+          statusBarHeight: scale(20),
+        });
+
+      } else {
+
       }
-      else if(type=="minus"){
-        setQuantity(quantity-1)
-  
-      }
 
-      showMessage({
-        style: { alignItems: "center" },
-        message: res.data.message,
-        type: "success",
-        position: "top",
-        duration: 2500,
-        statusBarHeight: scale(20),
-      });
-   
-    } else {
-     
     }
-   
+
+
   };
   let updateCustomerRate = async () => {
     // if (previousrate !== null) {
@@ -73,11 +76,11 @@ const SingleCart = ({ item,from }) => {
       type: "customer_rate ",
       customer_rate: debouncedCustomrate,
     };
- 
+
     try {
       let res = await cartServices.updateProductFromCart(data);
       if (res?.status === 200) {
-     
+
       } else {
 
       }
@@ -134,7 +137,7 @@ const SingleCart = ({ item,from }) => {
 
             }}
             source={{ uri: item?.product_thumbnail_image }}
-         
+
           />
         </View>
 
@@ -151,25 +154,28 @@ const SingleCart = ({ item,from }) => {
           <Text preset={["mt_5 lh_20 fs_14"]}>
             ৳ <Text style={{ fontWeight: "bold" }}>{item?.price}</Text>
           </Text>
-          <View style={{flexDirection:"row"}}>
-            <TouchableOpacity onPress={()=>{
+          {
+            from !="ConfirmOrder" && <View style={{flexDirection:"row"}}>
+            <TouchableOpacity disabled={quantity<=1?true:false} onPress={()=>{
               updateQuantity("minus")
 
-            }}   style={{borderWidth:1,borderColor:"#DDD",width:scale(60),height:35,justifyContent:"center",alignItems:"center"}}><AntDesign name="minus" size={24} color="black" /></TouchableOpacity>
+            }}   style={{borderWidth:1,borderColor:"#DDD",width:scale(60),height:35,justifyContent:"center",alignItems:"center",backgroundColor:quantity<=1?"#DDD":"#FFF"}}><AntDesign name="minus" size={24} color="black" /></TouchableOpacity>
             <View  style={{borderWidth:1,width:scale(60),height:35,justifyContent:"center",alignItems:"center",borderColor:"#DDD"}}>
               <Text>{quantity}</Text>
             </View>
-           
+
             <TouchableOpacity onPress={()=>{
               updateQuantity("plus")
 
             }}   style={{borderWidth:1,width:scale(60),height:35,justifyContent:"center",alignItems:"center",borderColor:"#DDD"}}><AntDesign name="plus" size={24} color="black" /></TouchableOpacity>
 
           </View>
+          }
+
 
         </View>
       </View>
-  
+
     </View>
   );
 };

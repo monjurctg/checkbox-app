@@ -127,13 +127,13 @@ const CustomerBillingInfo = ({ carts, setIsBill,refatch }) => {
       </View>
       <View style={{ marginTop: 10, borderColor: "#e6e7e8", backgroundColor: "#FFFFFF", padding: 16 }}>
         <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", borderBottomColor: "#e6e7e8", borderBottomWidth: 1, paddingBottom: 10 }}>
-          <Text>Total Supplier Rate</Text>
+          <Text>Total Product Cost</Text>
           <View style={{ minWidth: 120, padding: 10, borderWidth: 1, borderColor: "hsla(0,0%,50%,.329)", position: "relative" }}>
             <Text>{carts?.customerRate} BDT</Text>
           </View>
         </View>
         <View style={{ display: "flex", marginTop: 20, flexDirection: "row", justifyContent: "space-between", alignItems: "center", borderBottomColor: "#e6e7e8", borderBottomWidth: 1, paddingBottom: 10 }}>
-          <Text>Bill from Customer</Text>
+          <Text> Total selling price</Text>
           <TextInput
             placeholder=""
             value={billFromCustomer}
@@ -146,7 +146,7 @@ const CustomerBillingInfo = ({ carts, setIsBill,refatch }) => {
           />
         </View>
         <View style={{ display: "flex", marginTop: 20, flexDirection: "row", justifyContent: "space-between", alignItems: "center", borderBottomColor: "#e6e7e8", borderBottomWidth: 1, paddingBottom: 10 }}>
-          <Text>Advance Amount</Text>
+          <Text>Advance From Customer</Text>
           <TextInput
             placeholder=""
             keyboardType="numeric"
@@ -156,7 +156,7 @@ const CustomerBillingInfo = ({ carts, setIsBill,refatch }) => {
           />
         </View>
         <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginTop: 16, borderBottomColor: "#e6e7e8", borderBottomWidth: 1, paddingBottom: 10 }}>
-          <Text>Total Collection Amount</Text>
+          <Text> To be collected from customer</Text>
           <View style={{ minWidth: 120, padding: 10, borderWidth: 1, borderColor: "hsla(0,0%,50%,.329)", position: "relative" }}>
             <Text>{billFromCustomer - adVance} BDT</Text>
           </View>

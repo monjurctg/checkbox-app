@@ -242,6 +242,7 @@ const CustomerDetails = ({ navigation, route }) => {
                 <TextInput style={styles.input} placeholder="Search Customer" />
                 <ScrollView>
                   {allCustomer.map((customer, index) => {
+                    // console.log(customer)
                     return (
                       <TouchableOpacity onPress={() => { setselectedCustomer(customer); setSearchPreCustomer(false); }} key={index} style={{ marginTop: 1, backgroundColor: "#EEEEEE", minHeight: 120, marginTop: 10, borderRadius: 10, padding: 10 }}>
                         <View style={{ flexDirection: "row", gap: 10, marginBottom: 10 }}>
@@ -254,7 +255,7 @@ const CustomerDetails = ({ navigation, route }) => {
                         </View>
                         <View style={{ flexDirection: "row", gap: 10, marginTop: 10 }}>
                           <EvilIcons name="location" size={22} color="gray" />
-                          <Text style={{ fontSize: 16, color: "gray" }}>{customer?.address?.address}</Text>
+                          <Text style={{ fontSize: 16, color: "gray",width:"90%" }}>{customer?.address?.address},{customer?.address?.area?.name},{customer?.address.district?.name}</Text>
                         </View>
                       </TouchableOpacity>
                     );

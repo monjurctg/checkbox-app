@@ -532,26 +532,7 @@ findVariantPrice()
 
 
           {/* quantity */}
-          <View preset={["mt_10"]}>
-            {/* <Text preset={["fs_16 bold RB "]}>Qty</Text> */}
 
-            <View preset={[""]} style={{ flexDirection: "row", alignSelf: "center" }}>
-              <TouchableOpacity onPress={() => {
-                if (quantity >= 2) {
-                  setQuantity(quantity - 1);
-                }
-              }} style={{ borderWidth: 1, borderColor: "#DDD", width: scale(95), height: 46, justifyContent: "center", alignItems: "center" }}><AntDesign name="minus" size={24} color="black" /></TouchableOpacity>
-              <View style={{ borderWidth: 1, width: scale(120), height: 46, justifyContent: "center", alignItems: "center", borderColor: "#DDD" }}>
-                <Text>{quantity}</Text>
-              </View>
-
-              <TouchableOpacity onPress={() => {
-                setQuantity(quantity + 1);
-
-              }} style={{ borderWidth: 1, width: scale(95), height: 46, justifyContent: "center", alignItems: "center", borderColor: "#DDD" }}><AntDesign name="plus" size={24} color="black" /></TouchableOpacity>
-
-            </View>
-          </View>
           {
             singleProduct?.reseller_instructions && <View style={{ marginTop: 10 }}>
 
@@ -616,7 +597,28 @@ findVariantPrice()
         <View style={{ height: scale(220) }}></View>
       </ScrollView>
 
-      <TouchableOpacity onPress={() => addingToCart()} style={styles.addToCart}>
+      <View  style={styles.addToCart}>
+      <View preset={[]}>
+            {/* <Text preset={["fs_16 bold RB "]}>Qty</Text> */}
+
+            <View preset={[""]} style={{ flexDirection: "row", alignSelf: "center" ,}}>
+              <TouchableOpacity onPress={() => {
+                if (quantity >= 2) {
+                  setQuantity(quantity - 1);
+                }
+              }} style={{  backgroundColor: "#fff", width: scale(45), height: 46, justifyContent: "center", alignItems: "center" }}><AntDesign name="minus" size={24} color={colors.primary_2} /></TouchableOpacity>
+              <View style={{backgroundColor:"#FFF", width: scale(50), height: 46, justifyContent: "center", alignItems: "center", borderColor: "#DDD" }}>
+                <Text style={{color:colors.primary_2}}>{quantity}</Text>
+              </View>
+
+              <TouchableOpacity onPress={() => {
+                setQuantity(quantity + 1);
+
+              }} style={{backgroundColor:"#FFF", width: scale(45), height: 46, justifyContent: "center", alignItems: "center", borderColor: "#DDD" }}><AntDesign name="plus" size={24} color={colors.primary_2} /></TouchableOpacity>
+
+            </View>
+          </View>
+        <TouchableOpacity style={{backgroundColor:colors.primary_2,height:45,justifyContent:"center",paddingHorizontal:20}} onPress={() => addingToCart()}>
         <View
           style={{
             flexDirection: "row",
@@ -641,7 +643,10 @@ findVariantPrice()
             Add To Cart
           </Text>
         </View>
-      </TouchableOpacity>
+
+        </TouchableOpacity>
+
+      </View>
 
       <Toast style={{ zIndex: 1000000 }} config={toastConfig} type="wellcome" visibilityTime={1000} autoHide={true} hide />
 
@@ -674,15 +679,22 @@ const styles = StyleSheet.create({
     // alignItems: "center",
   },
   addToCart: {
-    backgroundColor: colors.primary_3,
-    height: scale(45),
+    backgroundColor:"#d2d2d2",
+    elevation:5,
+    justifyContent:"center",alignItems:"center",
+    // bottom:20,
+    height: scale(60),
     // marginBottom: scale(height <= 760 ? 125 : 110),
     width: width,
     position: "absolute",
+    flexDirection:"row",
+    gap:20,
     // bottom: 100,
-    marginTop: Dimensions.get("window").height - scale(45),
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
+    marginTop: Dimensions.get("window").height - scale(60),
+
+    // display: "flex",
+    // bottom:10,
+    // alignItems: "center",
+    // justifyContent: "center",
   },
 });

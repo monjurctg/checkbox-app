@@ -139,7 +139,7 @@ const Search = () => {
             }
           />
         )}
-         {searchResult?.collections?.length > 0 && (
+         {/* {searchResult?.collections?.length > 0 && (
           <SearchShadowBox
             headerText={"Populer Colection"}
             data={searchResult?.collections}
@@ -147,7 +147,7 @@ const Search = () => {
               navigation.navigate("filter", { data:{collection_slug:item?.slug},from:item?.name })
             }
           />
-        )}
+        )} */}
         {/* pr */}
         {searchResult?.products?.length > 0 && (
           <SearchShadowBox

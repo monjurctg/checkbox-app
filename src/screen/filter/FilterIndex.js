@@ -254,14 +254,14 @@ console.log(categorySlug)
             ) {
 
                 e.preventDefault();
-                if (clickCount === 0) {
+                if (clickCount === 0 && filterCategories.length>1) {
                     // On the first click, pop two elements
                     filterCategories.pop()
                     const a = filterCategories.pop()
                     console.log(a)
                     setCategorySlug(a)
 
-                } else if (clickCount > 0) {
+                } else   {
                     const a = filterCategories.pop()
 
                     setCategorySlug(a)

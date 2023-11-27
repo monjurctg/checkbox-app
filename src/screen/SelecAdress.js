@@ -15,10 +15,12 @@ const SelecAdress = ({ navigation, route }) => {
   const [thanas, setThanas] = useState([]);
   const [filterThans, setFilterThans] = useState([]);
   const [text, onChangeText] = useState("");
+  const[loading,setLoading]=useState(true)
 
   const getDistricsts = () => {
     authServices.getDistricts().then((res) => {
       setDistricts(res.data.data);
+      setLoading(false)
       setFilterDistricts(res.data.data);
     });
   };
@@ -27,6 +29,7 @@ const SelecAdress = ({ navigation, route }) => {
     authServices.getThanas(customerSelectedDistricts?.id).then((res) => {
       setThanas(res.data.data);
       setFilterThans(res.data.data);
+      setLoading(false)
     });
   };
 
@@ -87,6 +90,12 @@ const SelecAdress = ({ navigation, route }) => {
         />
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
+        {
+          loading && <View style={{marginTop:100,justifyContent:"center",alignItems:"center"}}>
+
+            <Text style={{color:colors.primary_1}}>Loading...</Text>
+          </View>
+        }
         {districts.length > 0 && renderDistricts}
         {thanas.length > 0 && renderThanas}
         <View style={{ height: 300 }}></View>

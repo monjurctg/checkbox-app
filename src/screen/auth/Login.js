@@ -3,7 +3,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,Image
+  View, Image
 } from "react-native";
 import React, { useState, useContext } from "react";
 import InputLayout from "../../components/layout/InputLayout";
@@ -24,10 +24,10 @@ const Login = () => {
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
-  const[buttonLoading,setButtonLoading]=useState(false)
+  const [buttonLoading, setButtonLoading] = useState(false)
 
   const handleLogin = async () => {
-  
+
     const data = {
       phone,
       password,
@@ -56,25 +56,25 @@ const Login = () => {
       });
       return;
     }
-    try{
+    try {
       setButtonLoading(true)
       const res = await authServices
-      .login(data)
-      .then((res) => res)
-      .catch((err) => err);
-   
+        .login(data)
+        .then((res) => res)
+        .catch((err) => err);
+
       if (res.status === 200) {
-       
+
         await AsyncStorage.setItem('token', res.data?.data?.access_token);
         if (res.data?.data?.access_token) {
           const res = await authServices.getUserinfo();
           // console.log(res.data,"fjdjf")
           if (res.status == 200) {
-           
+
             dispatch(setUser(res.data.data));
             dispatch(setAuth(true));
             // setLoading(false);
-          } 
+          }
         }
         // setButtonLoading(false)
         dispatch(setAuth(true));
@@ -90,11 +90,13 @@ const Login = () => {
       } else {
         // setAuth(false)
         //otp_verify
+        dispatch(setAuth(false));
+
 
         setLoading(false);
         // setButtonLoading(false)
 
-        
+
         if (res?.data?.data?.redirect === 'otp_verify') {
           showMessage({
             style: { alignItems: 'center' },
@@ -110,7 +112,7 @@ const Login = () => {
           });
         } else {
           // console.log('res.data: ', res);
-        // setButtonLoading(false)
+          // setButtonLoading(false)
 
           if (res.data.redirect) {
             showMessage({
@@ -127,6 +129,8 @@ const Login = () => {
               phone,
             });
           } else if (res?.message === 'User not found') {
+            dispatch(setAuth(true));
+
             showMessage({
               style: { alignItems: 'center' },
               message: res?.message ? res?.message : 'Login field try again',
@@ -139,104 +143,106 @@ const Login = () => {
         }
       }
     }
-    catch(err){
+    catch (err) {
       console.log(err)
+      dispatch(setAuth(true));
+
     }
-    finally{
+    finally {
       setButtonLoading(false)
     }
 
- 
-    
+
+
   };
 
   return (
-    <View style={{alignSelf:"center",justifyContent:"center",alignItems:"center",flex:1,width:200}}> 
- <View style={{backgroundColor:"#FFF",elevation:1,padding:10,paddingVertical:30,borderRadius:10,width:scale(310)}}>
-   <Image source={require("../../../assets/logo.png")} style={{alignSelf:"center",width:200,resizeMode:"contain"}}/>
+    <View style={{ alignSelf: "center", justifyContent: "center", alignItems: "center", flex: 1, width: 200 }}>
+      <View style={{ backgroundColor: "#FFF", elevation: 1, padding: 10, paddingVertical: 30, borderRadius: 10, width: scale(310) }}>
+        <Image source={require("../../../assets/logo.png")} style={{ alignSelf: "center", width: 200, resizeMode: "contain" }} />
 
-        <Text style={{ fontSize: 24, fontWeight: "400",textAlign: "center", fontFamily:"RR"}}>
+        <Text style={{ fontSize: 24, fontWeight: "400", textAlign: "center", fontFamily: "RR" }}>
           Welcome Back
         </Text>
- 
-      <InputTestCustom
-        placeholder={"Phone Number"}
-        label={"Phone "}
-        value={phone}
-        keyboardType={"numeric"}
-        onChange={(text) => setPhone(text)}
-      />
 
-      <InputTestCustom
-        type={"password"}
-        placeholder={"Password"}
-        label={"Password "}
-        value={password}
-        onChange={(text) => setPassword(text)}
-      />
+        <InputTestCustom
+          placeholder={"Phone Number"}
+          label={"Phone "}
+          value={phone}
+          keyboardType={"numeric"}
+          onChange={(text) => setPhone(text)}
+        />
 
-      <TouchableOpacity
-        onPress={handleLogin}
-        style={{
-          backgroundColor: "#BE202E",
-          height: scale(45),
-          justifyContent: "center",
-          alignItems: "center",
-          marginTop: 10,
-          // width: scale(320),
-        }}
-      >
-        {buttonLoading ? (
-          <ActivityIndicator
-            color="white"
-            size="small"
-            style={styles.spinner}
-          />
-        ) : (
-          <Text style={{ fontSize: 18, fontWeight: "500", color: "#FFFFFF",fontFamily:"RM" }}>
-            Log In
-          </Text>
-        )}
-      </TouchableOpacity>
-      <View
-        style={{
-          flexDirection: "row",
-          // justifyContent: "flex-end",
-          marginTop: 10,
-          marginBottom:20
-        }}
-      >
+        <InputTestCustom
+          type={"password"}
+          placeholder={"Password"}
+          label={"Password "}
+          value={password}
+          onChange={(text) => setPassword(text)}
+        />
+
         <TouchableOpacity
-          onPress={() => navigation.navigate("forget_password")}
+          onPress={handleLogin}
+          style={{
+            backgroundColor: "#BE202E",
+            height: scale(45),
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: 10,
+            // width: scale(320),
+          }}
         >
-          <Text
-            style={{
-              // fontWeight: "600",
-              fontSize: 14,
-              fontFamily:"RR"
-              // color: "red",
-              // fontWeight: "500",
-            }}
+          {buttonLoading ? (
+            <ActivityIndicator
+              color="white"
+              size="small"
+              style={styles.spinner}
+            />
+          ) : (
+            <Text style={{ fontSize: 18, fontWeight: "500", color: "#FFFFFF", fontFamily: "RM" }}>
+              Log In
+            </Text>
+          )}
+        </TouchableOpacity>
+        <View
+          style={{
+            flexDirection: "row",
+            // justifyContent: "flex-end",
+            marginTop: 10,
+            marginBottom: 20
+          }}
+        >
+          <TouchableOpacity
+            onPress={() => navigation.navigate("forget_password")}
           >
-            {" "}
-            Forget your Password?
-          </Text>
-        </TouchableOpacity>
-      </View>
+            <Text
+              style={{
+                // fontWeight: "600",
+                fontSize: 14,
+                fontFamily: "RR"
+                // color: "red",
+                // fontWeight: "500",
+              }}
+            >
+              {" "}
+              Forget your Password?
+            </Text>
+          </TouchableOpacity>
+        </View>
 
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "center",
-          // marginTop: 20,
-        }}
-      >
-        <Text style={{ fontSize: 14,fontFamily:"RM" }}>Don’t have an account?</Text>
-        <TouchableOpacity onPress={() => navigation.navigate("signup")}>
-          <Text style={{  fontSize: 14,color:"#BE202E",fontFamily:"RB" }}> Sign Up</Text>
-        </TouchableOpacity>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "center",
+            // marginTop: 20,
+          }}
+        >
+          <Text style={{ fontSize: 14, fontFamily: "RM" }}>Don’t have an account?</Text>
+          <TouchableOpacity onPress={() => navigation.navigate("signup")}>
+            <Text style={{ fontSize: 14, color: "#BE202E", fontFamily: "RB" }}> Sign Up</Text>
+          </TouchableOpacity>
+        </View>
       </View>
- </View>
     </View>
   );
 };

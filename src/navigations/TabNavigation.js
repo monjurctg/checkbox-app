@@ -129,10 +129,10 @@ function DashScreen() {
 
 function MyTabBar({ state, descriptors, navigation, children }) {
   const { tabShow } = useSelector((state) => state.utils);
-// alert(tabShow)
+  // alert(tabShow)
 
   return (
-    <View style={{...styles.footerWraper,display:tabShow?"flex":"none"}}>
+    <View style={{ ...styles.footerWraper, display: tabShow ? "flex" : "none" }}>
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         const label =
@@ -270,12 +270,12 @@ function ProductsScreen({ route, navigation }) {
         component={Products}
       />
 
-         <ProductsStack.Screen
+      <ProductsStack.Screen
         initialParams={route.params}
         name="all-collection"
         component={AllCollection}
       />
-        <ProductsStack.Screen
+      <ProductsStack.Screen
         initialParams={route.params}
         name="filter"
         component={FilterIndex}
@@ -312,8 +312,18 @@ export default function TabScreen({ route }) {
             dispatch(setAuth(true));
             // setLoading(false);
           }
+          else {
+            dispatch(setAuth(false));
+
+
+          }
+        }
+        else{
+          dispatch(setAuth(false))
         }
       } catch (err) {
+        dispatch(setAuth(false));
+
 
 
       }
@@ -327,6 +337,11 @@ export default function TabScreen({ route }) {
 
 
   // console.log("user",loading);
+
+  if(auth==null){
+
+    return <FullScreenLoader/>
+  }
 
   return (
     <>
@@ -351,7 +366,7 @@ export default function TabScreen({ route }) {
           }}
           tabBar={(props) => <MyTabBar {...props} />}
         >
-          <Tab.Screen  name="home" component={HomeScreen} />
+          <Tab.Screen name="home" component={HomeScreen} />
           <Tab.Screen name="Products" component={ProductsScreen} />
           <Tab.Screen name="carts" component={AllCartsScreen} />
           <Tab.Screen name="dashboard" component={DashScreen} />

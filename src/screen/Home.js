@@ -91,9 +91,15 @@ const fetchDashSummary = async()=>{
           dispatch(setAuth(true));
           // setLoading(false);
         }
+        else{
+          dispatch(setAuth(false));
+
+        }
       }
      }catch(err){
       console.log(err)
+      dispatch(setAuth(false));
+
 
 
      }

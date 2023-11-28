@@ -159,6 +159,7 @@ const ProductDetails = ({ navigation }) => {
       .then((res) => {
         // console.log(res.data.data.thumbnail_image,"singleproduct")
         // setBigImg(res.data.data.thumbnail_image);
+        console.log(res.data.data)
         setBigImg(res.data.data?.photos[0].path ?? res.data.data.thumbnail_image)
         setLoading(false);
         // console.log(res.data.data?.variant_info)

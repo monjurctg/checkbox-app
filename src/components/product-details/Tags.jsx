@@ -22,7 +22,9 @@ const Tags = ({ variant, setVariant, variantLength, options, title }) => {
 
   return (
     <View preset={["mt_10"]} >
-      <Text preset={["fs_16 RB "]}>Select {title}</Text>
+     {
+      options.length>0 &&  <Text preset={["fs_16 RB "]}>Select {title}</Text>
+     }
       <View preset={["row wrap"]}>
         {options?.map((option, index) => (
           <CustomTouchBtn

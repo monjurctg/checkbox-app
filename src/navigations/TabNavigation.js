@@ -76,12 +76,47 @@ const Dash = () => {
   // }
 
   // console.log("https://cb-next-reseller-omega.vercel.app/?token=" +token )
+  let url = "https://checkbox-rosy.vercel.app/test_facebok/product-list/5182"
+  // let url = "https://cb-next-reseller-omega.vercel.app/?token=" + token
+  const handleNavigationStateChange = (navState) => {
+    console.log('Current URL:', navState.url);
+
+    // Check if the URL contains a specific string indicating the Facebook popup
+    if (navState.url.includes('facebook-popup-url')) {
+      // setPopupUrl(navState.url);
+    }
+
+    // setLoading(navState.loading);
+  };
   return (
     <>
       <View style={{ flex: 1, }}>
-        <WebView
+      <WebView
+
+      javaScriptEnabled={true}
+      source={{ uri: 'https://checkbox-rosy.vercel.app/test_facebok/product-list/5182' }}
+      onNavigationStateChange={handleNavigationStateChange}
+      onShouldStartLoadWithRequest={(event) => {
+        console.log(event.url);
+        return true;
+      }}
+      javaScriptCanOpenWindowsAutomatically={true}
+      renderLoading={() => (
+        <View style={{ position: 'absolute', top: '50%', left: '50%' }}>
+          {/* You might want to customize or replace FullScreenLoader */}
+          <FullScreenLoader visible={loading} />
+        </View>
+      )}
+      startInLoadingState={true}
+      style={{ flex: 1 }}
+      // Set the custom WebView engine for Android
+      //androidHardwareAccelerationDisabled={true} // Disable hardware acceleration to use Chrome
+      //androidLayerType="software" // Use software rendering for better compatibility
+    />
+
+        {/* <WebView
           renderLoading={() => <View style={{ position: "absolute", top: "50%", left: "50%" }}><FullScreenLoader visible={loading} /></View>}
-          startInLoadingState={true} source={{ uri: "https://cb-next-reseller-omega.vercel.app/?token=" + token }} style={{ flex: 1 }} />
+          startInLoadingState={true} source={{ uri: "https://checkbox-rosy.vercel.app/test_facebok/product-list/5182" }} style={{ flex: 1 }} /> */}
       </View>
     </>
   );
@@ -318,7 +353,7 @@ export default function TabScreen({ route }) {
 
           }
         }
-        else{
+        else {
           dispatch(setAuth(false))
         }
       } catch (err) {
@@ -338,9 +373,9 @@ export default function TabScreen({ route }) {
 
   // console.log("user",loading);
 
-  if(auth==null){
+  if (auth == null) {
 
-    return <FullScreenLoader/>
+    return <FullScreenLoader />
   }
 
   return (

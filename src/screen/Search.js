@@ -50,7 +50,9 @@ const Search = () => {
       setLoading(false);
       if (
         res?.data?.data?.keywords?.length == 0 &&
-        res?.data?.data?.categories?.length == 0
+        res?.data?.data?.categories?.length == 0 &&
+        res?.data?.data?.collections?.length == 0 &&
+        res?.data?.data?.products?.length == 0
       ) {
         setsearchResult([]);
         setNoItem("No item found");

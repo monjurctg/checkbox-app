@@ -119,7 +119,7 @@ const CollectionItems = ({ navigation, name, products = [] ,from,slug}) => {
           preset={["row center"]}
           style={{backgroundColor:"#c4312e",paddingHorizontal:8,paddingVertical:4,borderRadius:7}}
           onPress={() =>
-            navigation.navigate("filter", {data: { collection_slug: slug.slug },from:name})
+            navigation.navigate("filter", {data: { collection_slug: slug.slug },from:name,nFrom:"collection"})
           }
         >
           <Text style={{color:"#FFF"}} preset={["p3 mr_5 RR"]}>View More</Text>

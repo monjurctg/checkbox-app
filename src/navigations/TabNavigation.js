@@ -76,17 +76,13 @@ const Dash = () => {
   // }
 
   // console.log("https://cb-next-reseller-omega.vercel.app/?token=" +token )
-  let url = "https://checkbox-rosy.vercel.app/test_facebok/product-list/5182"
-  // let url = "https://cb-next-reseller-omega.vercel.app/?token=" + token
+  // let url = "https://checkbox-rosy.vercel.app/test_facebok/product-list/5182"
+  let url = "https://cb-next-reseller-omega.vercel.app/?token=" + token
   const handleNavigationStateChange = (navState) => {
-    console.log('Current URL:', navState.url);
+    console.log(navState)
 
-    // Check if the URL contains a specific string indicating the Facebook popup
-    if (navState.url.includes('facebook-popup-url')) {
-      // setPopupUrl(navState.url);
-    }
 
-    // setLoading(navState.loading);
+
   };
   return (
     <>
@@ -94,7 +90,7 @@ const Dash = () => {
       <WebView
 
       javaScriptEnabled={true}
-      source={{ uri: 'https://checkbox-rosy.vercel.app/test_facebok/product-list/5182' }}
+      source={{ uri: url }}
       onNavigationStateChange={handleNavigationStateChange}
       onShouldStartLoadWithRequest={(event) => {
         console.log(event.url);

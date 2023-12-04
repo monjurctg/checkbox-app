@@ -15,13 +15,15 @@ import { filterCategories, scale } from '../../../utils/funtions';
 import { ActivityIndicator } from 'react-native';
 import { setTabShow } from '../../redux/reducers/utilsSlice';
 import { useDispatch } from 'react-redux';
+import { AntDesign,Feather } from '@expo/vector-icons';
 
 let scroll = 0
 let clickCount = 0;
 
 const FilterIndex = ({ route, navigation }) => {
     const drawerRef = useRef(null);
-    const { data, from } = route.params ?? {};
+    const { data, from ,nFrom} = route.params ?? {};
+    console.log(from)
 
     const initialState = {
         category_slug: null,
@@ -444,19 +446,55 @@ console.log(categorySlug)
     const Header = () => {
         return (
             <>
+               {
+                nFrom=="collection"?<View style={{flexDirection:"row",justifyContent:'space-around',alignItems:'center',height:80,borderRadius:4,borderWidth:1,borderColor:"#DDD",marginTop:20}}>
+                <View style={{flexDirection:"row",alignItems:"center"}}>
                 <Text
-                    style={{
+                  numberOfLines={1}
+                       style={{
 
-                        fontStyle: "normal",
-                        fontWeight: "500",
-                        fontSize: 18,
-                        lineHeight: 22,
-                        color: "#000000",
-                        marginVertical: 15, fontFamily: "RB"
-                    }}
-                >
-                    {from}
-                </Text>
+                           fontStyle: "normal",
+                           fontWeight: "500",
+                           fontSize: 18,
+                           lineHeight: 22,
+                           color: "#000000",
+                           width:100,
+                           marginVertical: 15, fontFamily: "RB"
+                       }}
+                   >
+                       {from}
+                   </Text>
+                   <Text>({searchProducts?.length})</Text>
+                </View>
+                <TouchableOpacity>
+                <AntDesign name="downcircleo" size={24} color="black" />
+                </TouchableOpacity>
+                <TouchableOpacity>
+                <AntDesign name="download" size={24} color="black" />
+                </TouchableOpacity>
+                <TouchableOpacity>
+                <Feather name="facebook" size={24} color="black" />
+                </TouchableOpacity>
+                  </View>:<View style={{flexDirection:"row",alignItems:"center"}}>
+                <Text
+                  numberOfLines={1}
+                       style={{
+
+                           fontStyle: "normal",
+                           fontWeight: "500",
+                           fontSize: 18,
+                           lineHeight: 22,
+                           color: "#000000",
+
+
+                           marginVertical: 15, fontFamily: "RB"
+                       }}
+                   >
+                       {from}
+                   </Text>
+                   <Text>({searchProducts?.length})</Text>
+                </View>
+               }
                 {loading ?
                     <CategorySkeleton /> : <Categories
                         TYPE={"scroll"}

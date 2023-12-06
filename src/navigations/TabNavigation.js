@@ -53,33 +53,45 @@ const HomeStack = createNativeStackNavigator();
 const ProductsStack = createNativeStackNavigator();
 const OrdersStack = createNativeStackNavigator();
 const DashStack = createNativeStackNavigator();
-const Dash = () => {
+
+
+const Dash = ({navigation}) => {
   const [loading, setLoading] = useState(true);
   const [token, setToken] = useState("")
+
+  const resetFun = (e) => {
+    e.preventDefault();
+    console.log("hello calling");
+    // Reset the navigation stack to the home screen
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "home" }], // Replace 'Home' with the name of your home screen
+    });
+    navigation.navigate("home");
+  };
   const getToken = async () => {
     let token = await AsyncStorage.getItem("token")
     setToken(token)
     setLoading(false)
-
-
   }
   useEffect(() => {
     getToken()
   }, [])
 
-  // setTimeout(()=>{
-  //   setLoading(false)
-  // },1000)
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("beforeRemove", (e) => {
 
-  // if (loading) {
-  //   return <FullScreenLoader visible={loading} />;
-  // }
+      e.preventDefault();
+      resetFun(e);
+    });
 
-  // console.log("https://cb-next-reseller-omega.vercel.app/?token=" +token )
+    return unsubscribe;
+  }, [navigation]);
+
   // let url = "https://checkbox-rosy.vercel.app/test_facebok/product-list/5182"
   let url = "https://cb-next-reseller-omega.vercel.app/?token=" + token
   const handleNavigationStateChange = (navState) => {
-    console.log(navState)
+    // console.log(navState)
 
 
 
@@ -93,7 +105,7 @@ const Dash = () => {
       source={{ uri: url }}
       onNavigationStateChange={handleNavigationStateChange}
       onShouldStartLoadWithRequest={(event) => {
-        console.log(event.url);
+        // console.log(event.url);
         return true;
       }}
       javaScriptCanOpenWindowsAutomatically={true}
@@ -105,14 +117,7 @@ const Dash = () => {
       )}
       startInLoadingState={true}
       style={{ flex: 1 }}
-      // Set the custom WebView engine for Android
-      //androidHardwareAccelerationDisabled={true} // Disable hardware acceleration to use Chrome
-      //androidLayerType="software" // Use software rendering for better compatibility
     />
-
-        {/* <WebView
-          renderLoading={() => <View style={{ position: "absolute", top: "50%", left: "50%" }}><FullScreenLoader visible={loading} /></View>}
-          startInLoadingState={true} source={{ uri: "https://checkbox-rosy.vercel.app/test_facebok/product-list/5182" }} style={{ flex: 1 }} /> */}
       </View>
     </>
   );

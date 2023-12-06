@@ -190,6 +190,7 @@ findVariantPrice()
 
   const fetchCopiedText = async (text2) => {
     await Clipboard.setStringAsync(text2);
+    alert("Copied")
 
   };
   const downloadProductDetails = async () => {
@@ -385,6 +386,7 @@ findVariantPrice()
     ),
 
   }
+  // console.log(singleProduct)
 
   // console.log(productId)
   if (loading) {
@@ -485,7 +487,7 @@ findVariantPrice()
           {
             singleProduct?.description &&      <View   style={{flexDirection:"row",borderWidth:1,borderColor:"#DDD",padding:10,marginTop:20}}>
             <RenderHtml contentWidth={350} source={{ html: singleProduct?.description }} />
-            <TouchableOpacity style={{position:"absolute",top:5,right:5}} onPress={()=>fetchCopiedText(singleProduct?.description )}>
+            <TouchableOpacity style={{position:"absolute",top:5,right:5}} onPress={()=>fetchCopiedText(singleProduct?.plain_description )}>
               {/* <Text style={{fontSize:14}}>Copy description</Text>
                */}
                <Feather name="copy" size={24} color="black" />

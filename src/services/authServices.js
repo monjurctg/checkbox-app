@@ -91,7 +91,7 @@ authServices.nidVerify = async (data) => {
   return await api
     .post(url, data)
     .then((res) => {
-      console.log('nidVerify res: ', res);
+      // console.log('nidVerify res: ', res);
       return res;
     })
     .catch((err) => err.response);
@@ -117,7 +117,7 @@ authServices.addShop = async (data) => {
       return err.response
       //  console.log("res", err.response.data);
     });
-  
+
   return res;
 };
 authServices.getThanas = async (district_id) => {

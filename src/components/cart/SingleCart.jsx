@@ -31,7 +31,7 @@ const SingleCart = ({ item,from }) => {
   let updateQuantity = async (type) => {
     if(item.quantity>0){
 
-      console.log(item)
+      // console.log(item)
       let data = {
         id: item?.id,
         cart_id: item?.cart_id,
@@ -106,7 +106,7 @@ const SingleCart = ({ item,from }) => {
           <CustomTouchBtn
             onPress={() => {
               const isConfirm = Alert.prompt("Are sure?");
-              console.log(isConfirm);
+              // console.log(isConfirm);
             }}
             style={{
               backgroundColor: "white",

@@ -81,7 +81,7 @@ const OTPVerification = ({ route }) => {
   };
 
   const handleResend = async () => {
-    console.log('res send');
+    // console.log('res send');
     setdisabledResend(true);
     setSecondsRemaining(60);
     const data = {

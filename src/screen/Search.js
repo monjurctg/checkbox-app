@@ -75,7 +75,7 @@ const Search = () => {
     searchApi(searchText);
   }, [searchText]);
 
-  console.log(searchResult)
+  // console.log(searchResult)
 
   return (
     <Mainlayout>

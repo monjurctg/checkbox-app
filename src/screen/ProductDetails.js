@@ -57,7 +57,8 @@ const ProductDetails = ({ navigation }) => {
   const [variants, setVariants] = useState({});
   const [variantDetails, setVariantDetails] = useState([]);
   const [quantity, setQuantity] = useState(1);
-  const[prices,setPrices]=useState()
+  const [prices, setPrices] = useState()
+  const [isVideo, setIsVideo] = useState(false)
 
 
 
@@ -83,7 +84,7 @@ const ProductDetails = ({ navigation }) => {
 
 
       dispatch(setCartSize(cartSize + 1));
-      console.log(res.data.data)
+      // console.log(res.data.data)
 
       await AsyncStorage.setItem(
         "cart_id",
@@ -93,7 +94,7 @@ const ProductDetails = ({ navigation }) => {
         type: "cartSuccess",
         text1: "Successfull",
         text2: "Added to Cart",
-        visibilityTime:4000 ,
+        visibilityTime: 4000,
         autoHide: true,
         bottomOffset: 280,
         onShow: () => { },
@@ -143,12 +144,12 @@ const ProductDetails = ({ navigation }) => {
     // Object.values(variantDetails).join("-")
     let variant = Object.values(variantDetails).join("-")
     // console.log(variant)
-    if(variants.length>0){
+    if (variants.length > 0) {
       const foundVariant = variants.find(v => v?.variant === variant);
-      console.log(foundVariant)
-    if (foundVariant) {
-      setPrices(foundVariant) ;
-    }
+      // console.log(foundVariant)
+      if (foundVariant) {
+        setPrices(foundVariant);
+      }
     }
   }
   // console.log(singleProduct)
@@ -157,15 +158,10 @@ const ProductDetails = ({ navigation }) => {
     productServices
       .singleProduct(productId)
       .then((res) => {
-        // console.log(res.data.data.thumbnail_image,"singleproduct")
-        // setBigImg(res.data.data.thumbnail_image);
-        // console.log(res.data.data)
         setBigImg(res.data.data?.photos[0].path ?? res.data.data.thumbnail_image)
         setLoading(false);
-        // console.log(res.data.data?.variant_info)
         setVariants(res.data.data.variant_info)
         setSingleProduct(res.data.data);
-        // console.log()
       })
       .catch((err) => {
         setLoading(false);
@@ -180,12 +176,9 @@ const ProductDetails = ({ navigation }) => {
       .catch((err) => { });
   }, [productId]);
 
-  useEffect(()=>{
-//     let variant= Object?.values(variantDetails).join("-")
-
-// console.log(variant)
-findVariantPrice()
-  },[variantDetails])
+  useEffect(() => {
+    findVariantPrice()
+  }, [variantDetails])
 
 
   const fetchCopiedText = async (text2) => {
@@ -197,11 +190,11 @@ findVariantPrice()
 
     let res = await productServices.downloadProductDetails(productId);
     if (res.status === 200) {
-      let paths =res.data.paths
-      if(paths?.length > 0){
-        paths.forEach(async(path)=>{
+      let paths = res.data.paths
+      if (paths?.length > 0) {
+        paths.forEach(async (path) => {
           FileDownload(path)
-      })
+        })
       }
 
     } else {
@@ -386,9 +379,8 @@ findVariantPrice()
     ),
 
   }
-  // console.log(singleProduct)
+  // console.log(singleProduct.video)
 
-  // console.log(productId)
   if (loading) {
     return <SingleProductScreenSkeleton />;
   }
@@ -397,21 +389,63 @@ findVariantPrice()
       <ScrollView showsVerticalScrollIndicator={false}>
 
         <View style={{ alignSelf: "center", elevation: 1, width: scale(330), backgroundColor: "#FFF", padding: 10, marginTop: 20, borderRadius: 10, paddingVertical: 20 }}>
-          <Image
-            style={{
-              width: scale(310),
-              height: scale(320),
-              resizeMode: "contain",
-              // marginBottom: scale(10),
-              alignSelf: "center"
-              , borderWidth: 1, borderColor: "#DDD"
-            }}
-            source={{ uri: bigImg }}
-          />
+
+          {
+            isVideo ? <View style={{}}>
+              <WebView
+                allowsInlineMediaPlayback
+                originWhitelist={['*']}
+                mediaPlaybackRequiresUserAction={false}
+                source={{ uri: singleProduct?.video?.iframe_url }} // Replace with your YouTube video URL
+                style={{
+                  alignSelf: 'stretch',
+                  height: 300,
+                }}
+              />
+            </View> : <Image
+              style={{
+                width: scale(310),
+                height: scale(320),
+                resizeMode: "contain",
+                // marginBottom: scale(10),
+                alignSelf: "center"
+                , borderWidth: 1, borderColor: "#DDD"
+              }}
+              source={{ uri: bigImg }}
+            />
+
+          }
+
+
 
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+          {
+          singleProduct?.video?.thumbnail &&
+        <TouchableOpacity
+              style={{
+                // minWidth: 90,
+                cursor: "pointer",
+                alignItems: "center",
+              }}
+
+              className="small-img"
+              // key={index}
+              onPress={() => setIsVideo(true)}
+            >
+             <Image
+             style={{height:100,width:100}}
+                // onMouseEnter={() => setSelectedImg(photo?.path)}
+                // src={product?.data?.video?.thumbnail}
+                source={{uri:singleProduct?.video?.thumbnail}}
+
+              />
+            </TouchableOpacity>
+        }
             {singleProduct?.photos?.map((photo, index) => (
-              <TouchableOpacity key={index} onPress={() => setBigImg(photo?.path)}>
+              <TouchableOpacity key={index} onPress={() => {
+                setBigImg(photo?.path)
+                setIsVideo(false)
+              }}>
                 <Image
                   style={{
                     height: scale(70),
@@ -438,7 +472,7 @@ findVariantPrice()
           </View>
           <Text style={{ color: "#be202e" }} preset={["h2 RB bold mt_10"]}>
             {singleProduct?.currency_symbol}
-            {prices?prices.price: singleProduct?.price?.calculable_price}
+            {prices ? prices.price : singleProduct?.price?.calculable_price}
           </Text>
           <View preset={[" row mt_5 "]} style={{ alignItems: "center", gap: 3 }}>
             {/* <Text>{singleProduct?.rating?.rating_count}</Text> */}
@@ -452,9 +486,9 @@ findVariantPrice()
             </Text>
           </View>
           <View preset={["row"]} style={styles.text}>
-            <Text style={{ fontSize: 16, fontWeight: "500", fontFamily: "RM" }}>
-              Min Selling Price:<Text> {prices?prices?.min_selling_price:singleProduct?.min_selling_price}, </Text>
-              Max Selling Price:<Text> {prices?prices?.max_selling_price:singleProduct?.max_selling_price}</Text>
+            <Text style={{ fontSize: 16, fontWeight: "500", fontFamily: "RM", fontSize: 14 }}>
+              Min Selling Price:<Text style={{ fontFamily: "normal", fontSize: 14 }}> {prices ? prices?.min_selling_price : singleProduct?.min_selling_price}, </Text>
+              Max Selling Price:<Text style={{ fontFamily: "normal", fontSize: 14 }}> {prices ? prices?.max_selling_price : singleProduct?.max_selling_price}</Text>
             </Text>
           </View>
           {/* <View
@@ -485,13 +519,13 @@ findVariantPrice()
           </View> */}
 
           {
-            singleProduct?.description &&      <View   style={{flexDirection:"row",borderWidth:1,borderColor:"#DDD",padding:10,marginTop:20}}>
-            <RenderHtml contentWidth={350} source={{ html: singleProduct?.description }} />
-            <TouchableOpacity style={{position:"absolute",top:5,right:5}} onPress={()=>fetchCopiedText(singleProduct?.plain_description )}>
-              {/* <Text style={{fontSize:14}}>Copy description</Text>
+            singleProduct?.description && <View style={{ flexDirection: "row", borderWidth: 1, borderColor: "#DDD", padding: 10, marginTop: 20 }}>
+              <RenderHtml contentWidth={350} source={{ html: singleProduct?.description }} />
+              <TouchableOpacity style={{ position: "absolute", top: 5, right: 5 }} onPress={() => fetchCopiedText(singleProduct?.plain_description)}>
+                {/* <Text style={{fontSize:14}}>Copy description</Text>
                */}
-               <Feather name="copy" size={24} color="black" />
-            </TouchableOpacity>
+                <Feather name="copy" size={24} color="black" />
+              </TouchableOpacity>
             </View>
 
           }
@@ -512,7 +546,7 @@ findVariantPrice()
 
 
           <CustomTouchBtn
-          onPress={downloadProductDetails}
+            onPress={downloadProductDetails}
             preset={["row mt_10 radius_5 center   border_1 center "]}
             style={{ height: scale(48), width: "100%", alignItems: "center" }}
           >
@@ -600,52 +634,52 @@ findVariantPrice()
         <View style={{ height: scale(220) }}></View>
       </ScrollView>
 
-      <View  style={styles.addToCart}>
-      <View preset={[]}>
-            {/* <Text preset={["fs_16 bold RB "]}>Qty</Text> */}
+      <View style={styles.addToCart}>
+        <View preset={[]}>
+          {/* <Text preset={["fs_16 bold RB "]}>Qty</Text> */}
 
-            <View preset={[""]} style={{ flexDirection: "row", alignSelf: "center" ,}}>
-              <TouchableOpacity onPress={() => {
-                if (quantity >= 2) {
-                  setQuantity(quantity - 1);
-                }
-              }} style={{  backgroundColor: "#fff", width: scale(45), height: 46, justifyContent: "center", alignItems: "center" }}><AntDesign name="minus" size={24} color={colors.primary_2} /></TouchableOpacity>
-              <View style={{backgroundColor:"#FFF", width: scale(50), height: 46, justifyContent: "center", alignItems: "center", borderColor: "#DDD" }}>
-                <Text style={{color:colors.primary_2}}>{quantity}</Text>
-              </View>
-
-              <TouchableOpacity onPress={() => {
-                setQuantity(quantity + 1);
-
-              }} style={{backgroundColor:"#FFF", width: scale(45), height: 46, justifyContent: "center", alignItems: "center", borderColor: "#DDD" }}><AntDesign name="plus" size={24} color={colors.primary_2} /></TouchableOpacity>
-
+          <View preset={[""]} style={{ flexDirection: "row", alignSelf: "center", }}>
+            <TouchableOpacity onPress={() => {
+              if (quantity >= 2) {
+                setQuantity(quantity - 1);
+              }
+            }} style={{ backgroundColor: "#fff", width: scale(45), height: 46, justifyContent: "center", alignItems: "center" }}><AntDesign name="minus" size={24} color={colors.primary_2} /></TouchableOpacity>
+            <View style={{ backgroundColor: "#FFF", width: scale(50), height: 46, justifyContent: "center", alignItems: "center", borderColor: "#DDD" }}>
+              <Text style={{ color: colors.primary_2 }}>{quantity}</Text>
             </View>
+
+            <TouchableOpacity onPress={() => {
+              setQuantity(quantity + 1);
+
+            }} style={{ backgroundColor: "#FFF", width: scale(45), height: 46, justifyContent: "center", alignItems: "center", borderColor: "#DDD" }}><AntDesign name="plus" size={24} color={colors.primary_2} /></TouchableOpacity>
+
           </View>
-        <TouchableOpacity style={{backgroundColor:colors.primary_2,height:45,justifyContent:"center",paddingHorizontal:20}} onPress={() => addingToCart()}>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "center",
-            gap: 10,
-            // paddingTop: scale(10),
-          }}
-        >
-          <AntDesign
-            name="shoppingcart"
-            size={22}
-            style={{ fontWeight: "bold" }}
-            color="white"
-          />
-          <Text
+        </View>
+        <TouchableOpacity style={{ backgroundColor: colors.primary_2, height: 45, justifyContent: "center", paddingHorizontal: 20 }} onPress={() => addingToCart()}>
+          <View
             style={{
-              color: colors.white,
-              fontWeight: "500",
-              fontSize: scale(14),
+              flexDirection: "row",
+              justifyContent: "center",
+              gap: 10,
+              // paddingTop: scale(10),
             }}
           >
-            Add To Cart
-          </Text>
-        </View>
+            <AntDesign
+              name="shoppingcart"
+              size={22}
+              style={{ fontWeight: "bold" }}
+              color="white"
+            />
+            <Text
+              style={{
+                color: colors.white,
+                fontWeight: "500",
+                fontSize: scale(14),
+              }}
+            >
+              Add To Cart
+            </Text>
+          </View>
 
         </TouchableOpacity>
 
@@ -682,16 +716,16 @@ const styles = StyleSheet.create({
     // alignItems: "center",
   },
   addToCart: {
-    backgroundColor:"#d2d2d2",
-    elevation:5,
-    justifyContent:"center",alignItems:"center",
+    backgroundColor: "#d2d2d2",
+    elevation: 5,
+    justifyContent: "center", alignItems: "center",
     // bottom:20,
     height: scale(60),
     // marginBottom: scale(height <= 760 ? 125 : 110),
     width: width,
     position: "absolute",
-    flexDirection:"row",
-    gap:20,
+    flexDirection: "row",
+    gap: 20,
     // bottom: 100,
     marginTop: Dimensions.get("window").height - scale(60),
 

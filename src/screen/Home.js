@@ -21,6 +21,7 @@ import axios from 'axios';
 import api from '../services/api';
 import SingleProduct from '../components/products/SingleProduct';
 import { setTabShow } from '../redux/reducers/utilsSlice';
+import SummuryCard from '../components/SummaryCard';
 
 const Home = ({ navigation }) => {
   // console.log(navigation, "home navigation");
@@ -45,7 +46,7 @@ const Home = ({ navigation }) => {
 
   const fetchDashSummary = async () => {
     const res = await api.get("/reseller/dashboard/summary")
-    console.log(res.data.data, "dfdkjfk")
+    // console.log(res.data.data, "dfdkjfk")
     setSummary(res.data.data)
   }
   const allCategories = () => {
@@ -97,7 +98,7 @@ const Home = ({ navigation }) => {
           }
         }
       } catch (err) {
-        console.log(err)
+        // console.log(err)
         dispatch(setAuth(false));
 
 
@@ -194,7 +195,7 @@ const Home = ({ navigation }) => {
         })
        } */}
         </View>
-        <View
+        {/* <View
           style={{
             display: 'flex',
             flexDirection: 'row',
@@ -281,9 +282,19 @@ const Home = ({ navigation }) => {
               {summary[1]?.current_balance}
             </Text>
           </View>
+        </View> */}
+        <View style={{
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          justifyContent: 'space-between',
+          padding: 5,
+        }}>
+          {summary.map((card, index) => (
+            <SummuryCard card={card} key={index} />
+          ))}
         </View>
 
-        <View
+        {/* <View
           style={{
             display: 'flex',
             flexDirection: 'row',
@@ -297,12 +308,12 @@ const Home = ({ navigation }) => {
             style={{
 
               alignItems: 'center',
-              justifyContent:"center",
+              justifyContent: "center",
               width: "48%",
-              height:90,
-            backgroundColor: '#fff',
+              height: 90,
+              backgroundColor: '#fff',
 
-            borderRadius:10
+              borderRadius: 10
             }}
           >
             <Text
@@ -337,12 +348,12 @@ const Home = ({ navigation }) => {
             style={{
 
               alignItems: 'center',
-              justifyContent:"center",
+              justifyContent: "center",
               width: "48%",
-              height:90,
-            backgroundColor: '#fff',
+              height: 90,
+              backgroundColor: '#fff',
 
-            borderRadius:10
+              borderRadius: 10
             }}
           >
             <Text
@@ -371,9 +382,9 @@ const Home = ({ navigation }) => {
               {summary[3]?.delivered_orders}
             </Text>
           </View>
-        </View>
+        </View> */}
 
-        <View
+        {/* <View
           style={{
             display: 'flex',
             flexDirection: 'row',
@@ -388,12 +399,12 @@ const Home = ({ navigation }) => {
             style={{
 
               alignItems: 'center',
-              justifyContent:"center",
+              justifyContent: "center",
               width: "48%",
-              height:90,
-            backgroundColor: '#fff',
+              height: 90,
+              backgroundColor: '#fff',
 
-            borderRadius:10
+              borderRadius: 10
             }}
           >
             <Text
@@ -428,12 +439,12 @@ const Home = ({ navigation }) => {
             style={{
 
               alignItems: 'center',
-              justifyContent:"center",
+              justifyContent: "center",
               width: "48%",
-              height:90,
-            backgroundColor: '#fff',
+              height: 90,
+              backgroundColor: '#fff',
 
-            borderRadius:10
+              borderRadius: 10
             }}
           >
             <Text
@@ -463,36 +474,36 @@ const Home = ({ navigation }) => {
 
             </Text>
           </View>
-        </View>
+        </View> */}
         {/* statistic */}
 
 
-<View style={{backgroundColor:"#FFF",marginTop:20,padding:10,borderRadius:10}}>
+        <View style={{ backgroundColor: "#FFF", marginTop: 20, padding: 10, borderRadius: 10 }}>
 
-<View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-around',
-            marginTop: scale(15),
-          }}
-        >
-          <TouchableOpacity
-            style={{ justifyContent: 'center', alignItems: 'center' }}
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+              marginTop: scale(15),
+            }}
           >
-            <Image source={require('../../assets/icons/product.png')} />
-            <Text preset={['p3']} style={{ marginTop: scale(10),textAlign:"center" }}>
-              Announcement
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{ justifyContent: 'center', alignItems: 'center' }}
-          >
-            <Image source={require('../../assets/icons/product.png')} />
-            <Text preset={['p3']} style={{ marginTop: scale(10),textAlign:"center" }}>
-              Frequently Ordered
-            </Text>
-          </TouchableOpacity>
-          {/* <TouchableOpacity
+            <TouchableOpacity
+              style={{ justifyContent: 'center', alignItems: 'center' }}
+            >
+              <Image source={require('../../assets/icons/product.png')} />
+              <Text preset={['p3']} style={{ marginTop: scale(10), textAlign: "center" }}>
+                Announcement
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{ justifyContent: 'center', alignItems: 'center' }}
+            >
+              <Image source={require('../../assets/icons/product.png')} />
+              <Text preset={['p3']} style={{ marginTop: scale(10), textAlign: "center" }}>
+                Frequently Ordered
+              </Text>
+            </TouchableOpacity>
+            {/* <TouchableOpacity
             style={{ justifyContent: 'center', alignItems: 'center' }}
           >
             <Image source={require('../../assets/icons/customers.png')} />
@@ -500,105 +511,105 @@ const Home = ({ navigation }) => {
             Payment
             </Text>
           </TouchableOpacity> */}
-          <TouchableOpacity
-            style={{ justifyContent: 'center', alignItems: 'center' }}
+            <TouchableOpacity
+              style={{ justifyContent: 'center', alignItems: 'center' }}
+            >
+              <Image source={require('../../assets/icons/earning.png')} />
+              <Text preset={['p3']} style={{ marginTop: scale(10), textAlign: "center" }}>
+                Profile
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+              marginTop: scale(25),
+            }}
           >
-            <Image source={require('../../assets/icons/earning.png')} />
-            <Text preset={['p3']} style={{ marginTop: scale(10),textAlign:"center" }}>
-            Profile
-            </Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={{ justifyContent: 'center', alignItems: 'center' }}
+            >
+              <Image source={require('../../assets/icons/product.png')} />
+              <Text preset={['p3']} style={{ marginTop: scale(10), width: 80, textAlign: "center" }}>
+                Payment
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={{ justifyContent: 'center', alignItems: 'center' }}
+            >
+              <Image source={require('../../assets/icons/customers.png')} />
+              <Text preset={['p3']} style={{ marginTop: scale(10), textAlign: "center" }}>
+                Review
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{ justifyContent: 'center', alignItems: 'center' }}
+            >
+              <Image source={require('../../assets/icons/earning.png')} />
+              <Text preset={['p3']} style={{ marginTop: scale(10), textAlign: "center" }}>
+                Ticket
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{ justifyContent: 'center', alignItems: 'center' }}
+            >
+              <Image source={require('../../assets/icons/earning.png')} />
+              <Text preset={['p3']} style={{ marginTop: scale(10), textAlign: "center" }}>
+                Orders
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+
         </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-around',
-            marginTop: scale(25),
-          }}
-        >
-          <TouchableOpacity
-            style={{ justifyContent: 'center', alignItems: 'center' }}
-          >
-            <Image source={require('../../assets/icons/product.png')} />
-            <Text preset={['p3']} style={{ marginTop: scale(10),width:80,textAlign:"center" }}>
-              Payment
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={{ justifyContent: 'center', alignItems: 'center' }}
-          >
-            <Image source={require('../../assets/icons/customers.png')} />
-            <Text preset={['p3']} style={{ marginTop: scale(10),textAlign:"center" }}>
-              Review
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{ justifyContent: 'center', alignItems: 'center' }}
-          >
-            <Image source={require('../../assets/icons/earning.png')} />
-            <Text preset={['p3']} style={{ marginTop: scale(10),textAlign:"center" }}>
-              Ticket
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{ justifyContent: 'center', alignItems: 'center' }}
-          >
-            <Image source={require('../../assets/icons/earning.png')} />
-            <Text preset={['p3']} style={{ marginTop: scale(10),textAlign:"center" }}>
-              Orders
-            </Text>
-          </TouchableOpacity>
-        </View>
-
-
-</View>
 
 
 
 
         {/* <Slider /> */}
-        <ScrollView  horizontal={true} showsHorizontalScrollIndicator={false}>
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
           <Image
             style={{
               marginTop: 32,
               width: 300,
               height: 100,
-              borderRadius:10,
-              resizeMode:"contain",
-              borderWidth:1,borderColor:"#DDD"
+              borderRadius: 10,
+              resizeMode: "contain",
+              borderWidth: 1, borderColor: "#DDD"
             }}
             source={require('../../assets/img/banner_2.png')}
           />
-           <Image
+          <Image
             style={{
               marginTop: 32,
               width: 300,
               height: 100,
-              borderRadius:10,
-              resizeMode:"contain",
-              borderWidth:1,borderColor:"#DDD",
-              marginLeft:10
+              borderRadius: 10,
+              resizeMode: "contain",
+              borderWidth: 1, borderColor: "#DDD",
+              marginLeft: 10
             }}
             source={require('../../assets/img/banner_2.png')}
           />
-           <Image
+          <Image
             style={{
               marginTop: 32,
               width: 300,
               height: 100,
-              borderRadius:10,
-              resizeMode:"contain",
-              marginLeft:10,
+              borderRadius: 10,
+              resizeMode: "contain",
+              marginLeft: 10,
 
-              borderWidth:1,borderColor:"#DDD"
+              borderWidth: 1, borderColor: "#DDD"
             }}
             source={require('../../assets/img/banner_2.png')}
           />
 
         </ScrollView>
 
-        <Text style={{ marginVertical: 20,fontFamily:"RB"}}> Weekly Top Selling</Text>
+        <Text style={{ marginVertical: 20, fontFamily: "RB" }}> Weekly Top Selling</Text>
         <View style={{ flexDirection: "row", flexWrap: "wrap", alignSelf: "center", alignItems: "center", justifyContent: "center" }}>
 
           {

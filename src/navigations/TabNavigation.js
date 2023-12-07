@@ -61,7 +61,7 @@ const Dash = ({navigation}) => {
 
   const resetFun = (e) => {
     e.preventDefault();
-    console.log("hello calling");
+    // console.log("hello calling");
     // Reset the navigation stack to the home screen
     navigation.reset({
       index: 0,

@@ -16,6 +16,7 @@ const Filters = ({navigation,onFilterClick}) => {
           <CustomTouchBtn onPress={onFilterClick}>
            <Ionicons name="options" size={24} color="black" />
           </CustomTouchBtn>
+
           <TouchableOpacity
             style={{
               flexDirection: "row",
@@ -37,7 +38,7 @@ const Filters = ({navigation,onFilterClick}) => {
           </TouchableOpacity>
         {/* </View> */}
         {/* <View preset={["row center "]}>
-          
+
           <CustomTouchBtn>
             <Feather name="filter" size={24} color="black" />
           </CustomTouchBtn>

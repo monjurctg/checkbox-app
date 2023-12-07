@@ -7,7 +7,7 @@ import Dropdown from '../../components/Input/Dropdown';
 import AttributeDropdown from '../../components/Input/AttributeDropdown';
 import RenderHtml from 'react-native-render-html';
 import * as Clipboard from 'expo-clipboard';
-
+import { Picker } from '@react-native-picker/picker';
 // import {  } from 'react-native';
 import SingleProduct from '../../components/products/SingleProduct';
 import Categories from '../../components/products/Categories';
@@ -246,7 +246,11 @@ const FilterIndex = ({ route, navigation }) => {
         const unsubscribe = navigation.addListener("focus", () => {
             // fetchSingCart();
             dispatch(setTabShow(true))
-            getCollectionDetail()
+            if(nFrom=="collection"){
+                 getCollectionDetail()
+
+            }
+
 
 
         });

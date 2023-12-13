@@ -47,6 +47,7 @@ import AllCollection from './src/screen/AllCollection';
 import FilterIndex from './src/screen/filter/FilterIndex';
 import OTPForgetPassword from './src/screen/auth/OTPForgetPassword';
 import ResetPassword from './src/screen/auth/ResetPassword';
+import RedirectWeb from './src/components/RedirectWeb';
 
 
 
@@ -477,7 +478,7 @@ export default function App() {
   // }
   return (
     <Provider store={store} >
-     
+
 
      <StatusBar backgroundColor={"#f2f2f2"} />
       <NavigationContainer>
@@ -494,12 +495,14 @@ export default function App() {
 
           <Stack.Screen name="tab" component={TabScreen} />
           <Stack.Screen name="cart" component={Cart} />
+          <Stack.Screen name="redirectweb" component={RedirectWeb} />
+
           <Stack.Screen name="confirm-order" component={ConfirmOrder} />
           <Stack.Screen name="cart-information" component={CustomerDetails} />
           <Stack.Screen name="select-address" component={SelecAdress} />
 
           <Stack.Screen name="product-details" component={ProductDetails} />
-         
+
           <Stack.Screen name="otp_verify" component={OTPVerification} />
           <Stack.Screen name="login" component={Login} />
           <Stack.Screen name="checkout" component={Checkout} />
@@ -512,7 +515,7 @@ export default function App() {
           <Stack.Screen name="products-filter" component={ProductList} />
           <Stack.Screen name="send" component={WebViewUrl} />
           <Stack.Screen name="forget_password" component={ForgetPassword} />
-       
+
 
           <Stack.Screen name="reset_password" component={ResetPassword} />
           <Stack.Screen name="user_info" component={UserInfo} />
@@ -528,7 +531,7 @@ export default function App() {
       <FlashMessage position={'bottom'} />
       <Toast style={{ zIndex: 1000000 }} config={toastConfig} type="wellcome" visibilityTime={1000} autoHide={true}  hide />
 
-      
+
     </Provider>
   );
 }

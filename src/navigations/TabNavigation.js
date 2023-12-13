@@ -76,8 +76,8 @@ const Dash = () => {
   // }
 
   // console.log("https://cb-next-reseller-omega.vercel.app/?token=" +token )
-  let url = "https://checkbox-rosy.vercel.app/test_facebok/product-list/5182"
-  // let url = "https://cb-next-reseller-omega.vercel.app/?token=" + token
+  // let url = "https://checkbox-rosy.vercel.app/test_facebok/product-list/5182"
+  let url = "https://cb-next-reseller-omega.vercel.app/?token=" + token
   const handleNavigationStateChange = (navState) => {
     console.log('Current URL:', navState.url);
 
@@ -94,7 +94,7 @@ const Dash = () => {
       <WebView
 
       javaScriptEnabled={true}
-      source={{ uri: 'https://checkbox-rosy.vercel.app/test_facebok/product-list/5182' }}
+      source={{ uri: url }}
       onNavigationStateChange={handleNavigationStateChange}
       onShouldStartLoadWithRequest={(event) => {
         console.log(event.url);

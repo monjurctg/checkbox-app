@@ -194,56 +194,23 @@ const Home = ({ navigation }) => {
         })
        } */}
         </View>
-        <View
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            borderRadius: 8, marginTop: 10
+        <View style={{display: 'flex',flexDirection: 'row', justifyContent: 'space-between',alignItems: 'center',gap:10, borderRadius: 8, marginTop: 10,flexWrap:"wrap"
           }}
         >
-
-          <View
-            style={{
-
-              alignItems: 'center',
-              justifyContent: "center",
-              width: "48%",
-              height: 90,
-              backgroundColor: '#fff',
-
-              borderRadius: 10
-            }}
-          >
-            <Text
-              style={{
-                // fontFamily: "Gotham",
-                fontStyle: 'normal',
-                fontWeight: '400',
-                fontSize: 14,
-                // lineHeight: 16,
-                color: '#231F20',
-                // marginBottom: 8,
-                // width:100
-              }}
-            >
-              Total Orders
-            </Text>
-            <Text
-              style={{
-                // fontFamily: "Gotham",
-                fontStyle: 'normal',
-                fontWeight: '700',
-                fontSize: 20,
-                lineHeight: 28,
-                color: '#BE202E',
-              }}
-            >
-              {summary[0]?.all_orders_count}
-            </Text>
-          </View>
-          <View
+{
+  summary.map((s,i)=>{
+    return <View key={i}
+      style={{alignItems: 'center',justifyContent: "center", width: "48%",height: 90, backgroundColor: '#fff', borderRadius: 10 }} >
+      <Text style={{fontStyle: 'normal',fontWeight: '400',fontSize: 13,color: '#231F20',}}>
+        {s?.title}
+      </Text>
+      <Text style={{ fontStyle: 'normal',fontWeight: '700', fontSize: 20,  lineHeight: 28,color: '#BE202E'}}>
+        {s?.value}
+      </Text>
+    </View>
+  })
+}
+          {/* <View
             style={{
 
               alignItems: 'center',
@@ -280,190 +247,10 @@ const Home = ({ navigation }) => {
             >
               {summary[1]?.current_balance}
             </Text>
-          </View>
+          </View> */}
         </View>
 
-        <View
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            borderRadius: 8, marginTop: 10
-          }}
-        >
 
-          <View
-            style={{
-
-              alignItems: 'center',
-              justifyContent:"center",
-              width: "48%",
-              height:90,
-            backgroundColor: '#fff',
-
-            borderRadius:10
-            }}
-          >
-            <Text
-              style={{
-                // fontFamily: "Gotham",
-                fontStyle: 'normal',
-                fontWeight: '400',
-                fontSize: 14,
-                lineHeight: 16,
-                color: '#231F20',
-                marginBottom: 8,
-                // width: 100
-              }}
-            >
-
-              Last Payment Amount
-            </Text>
-            <Text
-              style={{
-                // fontFamily: "Gotham",
-                fontStyle: 'normal',
-                fontWeight: '700',
-                fontSize: 24,
-                lineHeight: 28,
-                color: '#BE202E',
-              }}
-            >
-              {summary[2]?.last_payment_amount}
-            </Text>
-          </View>
-          <View
-            style={{
-
-              alignItems: 'center',
-              justifyContent:"center",
-              width: "48%",
-              height:90,
-            backgroundColor: '#fff',
-
-            borderRadius:10
-            }}
-          >
-            <Text
-              style={{
-                // fontFamily: "Gotham",
-                fontStyle: 'normal',
-                fontWeight: '400',
-                fontSize: 14,
-                lineHeight: 16,
-                color: '#231F20',
-                marginBottom: 8,
-              }}
-            >
-              Delivered Orders
-            </Text>
-            <Text
-              style={{
-                // fontFamily: "Gotham",
-                fontStyle: 'normal',
-                fontWeight: '700',
-                fontSize: 24,
-                lineHeight: 28,
-                color: '#BE202E',
-              }}
-            >
-              {summary[3]?.delivered_orders}
-            </Text>
-          </View>
-        </View>
-
-        <View
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-
-            borderRadius: 8,
-            marginTop: 20
-          }}
-        >
-          <View
-            style={{
-
-              alignItems: 'center',
-              justifyContent:"center",
-              width: "48%",
-              height:90,
-            backgroundColor: '#fff',
-
-            borderRadius:10
-            }}
-          >
-            <Text
-              style={{
-                fontFamily: "RB",
-                // fontStyle: 'normal',
-                // fontWeight: '400',
-
-                fontSize: 14,
-                lineHeight: 16,
-                color: '#231F20',
-                marginBottom: 8,
-              }}
-            >
-              In-transit
-            </Text>
-            <Text
-              style={{
-                // fontFamily: "Gotham",
-                fontStyle: 'normal',
-                fontWeight: '700',
-                fontSize: 24,
-                lineHeight: 28,
-                color: '#BE202E',
-              }}
-            >
-              {summary[4]?.in_transit_orders}
-            </Text>
-          </View>
-
-          <View
-            style={{
-
-              alignItems: 'center',
-              justifyContent:"center",
-              width: "48%",
-              height:90,
-            backgroundColor: '#fff',
-
-            borderRadius:10
-            }}
-          >
-            <Text
-              style={{
-                // fontFamily: "Gotham",
-                fontStyle: 'normal',
-                fontWeight: '400',
-                fontSize: 14,
-                lineHeight: 16,
-                color: '#231F20',
-                marginBottom: 8,
-              }}
-            >
-              Returned
-            </Text>
-            <Text
-              style={{
-                // fontFamily: "Gotham",
-                fontStyle: 'normal',
-                fontWeight: '700',
-                fontSize: 24,
-                lineHeight: 28,
-                color: '#BE202E',
-              }}
-            >
-              {summary[5]?.returned_orders}
-
-            </Text>
-          </View>
-        </View>
         {/* statistic */}
 
 
@@ -477,6 +264,7 @@ const Home = ({ navigation }) => {
           }}
         >
           <TouchableOpacity
+          onPress={()=>navigation.navigate("redirectweb",{url:"announcement"})}
             style={{ justifyContent: 'center', alignItems: 'center' }}
           >
             <Image source={require('../../assets/icons/product.png')} />
@@ -485,6 +273,7 @@ const Home = ({ navigation }) => {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
+              onPress={()=>navigation.navigate("redirectweb",{url:"my-products"})}
             style={{ justifyContent: 'center', alignItems: 'center' }}
           >
             <Image source={require('../../assets/icons/product.png')} />
@@ -501,6 +290,8 @@ const Home = ({ navigation }) => {
             </Text>
           </TouchableOpacity> */}
           <TouchableOpacity
+              onPress={()=>navigation.navigate("redirectweb",{url:"profile"})}
+
             style={{ justifyContent: 'center', alignItems: 'center' }}
           >
             <Image source={require('../../assets/icons/earning.png')} />
@@ -518,6 +309,8 @@ const Home = ({ navigation }) => {
         >
           <TouchableOpacity
             style={{ justifyContent: 'center', alignItems: 'center' }}
+            onPress={()=>navigation.navigate("redirectweb",{url:"payments"})}
+
           >
             <Image source={require('../../assets/icons/product.png')} />
             <Text preset={['p3']} style={{ marginTop: scale(10),width:80,textAlign:"center" }}>
@@ -527,6 +320,8 @@ const Home = ({ navigation }) => {
 
           <TouchableOpacity
             style={{ justifyContent: 'center', alignItems: 'center' }}
+            onPress={()=>navigation.navigate("redirectweb",{url:"review"})}
+
           >
             <Image source={require('../../assets/icons/customers.png')} />
             <Text preset={['p3']} style={{ marginTop: scale(10),textAlign:"center" }}>
@@ -535,6 +330,8 @@ const Home = ({ navigation }) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={{ justifyContent: 'center', alignItems: 'center' }}
+            onPress={()=>navigation.navigate("redirectweb",{url:"support"})}
+
           >
             <Image source={require('../../assets/icons/earning.png')} />
             <Text preset={['p3']} style={{ marginTop: scale(10),textAlign:"center" }}>
@@ -543,6 +340,8 @@ const Home = ({ navigation }) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={{ justifyContent: 'center', alignItems: 'center' }}
+            onPress={()=>navigation.navigate("redirectweb",{url:"orders"})}
+
           >
             <Image source={require('../../assets/icons/earning.png')} />
             <Text preset={['p3']} style={{ marginTop: scale(10),textAlign:"center" }}>

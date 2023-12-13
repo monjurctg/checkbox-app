@@ -5,6 +5,9 @@ import Mainlayout from '../../components/layout/Mainlayout';
 import { SafeAreaView } from "react-native-safe-area-context";
 import Dropdown from '../../components/Input/Dropdown';
 import AttributeDropdown from '../../components/Input/AttributeDropdown';
+import RenderHtml from 'react-native-render-html';
+import * as Clipboard from 'expo-clipboard';
+import { Picker } from '@react-native-picker/picker';
 // import {  } from 'react-native';
 import SingleProduct from '../../components/products/SingleProduct';
 import Categories from '../../components/products/Categories';
@@ -15,13 +18,20 @@ import { filterCategories, scale } from '../../../utils/funtions';
 import { ActivityIndicator } from 'react-native';
 import { setTabShow } from '../../redux/reducers/utilsSlice';
 import { useDispatch } from 'react-redux';
+import { AntDesign, Feather } from '@expo/vector-icons';
+import axios from 'axios';
+import api from '../../services/api';
 
 let scroll = 0
 let clickCount = 0;
 
 const FilterIndex = ({ route, navigation }) => {
     const drawerRef = useRef(null);
-    const { data, from } = route.params ?? {};
+    const { data, from, nFrom } = route.params ?? {};
+    const [collectionData, setCollectionData] = useState("")
+    const[total,setTotal]=useState()
+    // console.log(from)
+    const [showText, setShowText] = useState(false)
 
     const initialState = {
         category_slug: null,
@@ -50,13 +60,21 @@ const FilterIndex = ({ route, navigation }) => {
     const [brandIds, setBrandIds] = useState([])
     const [categorySlug, setCategorySlug] = useState(data?.category_slug)
     const dispatch = useDispatch()
-    console.log(filterCategories)
+
     const openDrawer = () => {
         drawerRef.current.openDrawer();
     };
     const closeDrawer = () => {
         drawerRef.current.closeDrawer();
     };
+
+    let getCollectionDetail = async () => {
+        let url = `/collection/details/${data?.collection_slug}?type=facebook_post`;
+        let res = await api.get(url);
+        setCollectionData(res.data.data)
+
+    };
+
     let getFilterData = async () => {
         let params = {
             category_slug: categorySlug,
@@ -65,7 +83,7 @@ const FilterIndex = ({ route, navigation }) => {
         };
         setLoadingAttribute(true)
         let res = await productServices.getSearchedAttributes(params);
-        // console.log("resData", res);
+        // console.log("resData", res.data);
         if (res?.status === 200) {
             setSearchAttributes(res.data.data)
             setLoading(false)
@@ -76,8 +94,6 @@ const FilterIndex = ({ route, navigation }) => {
     };
 
     const handleCategoryChange = (slug) => {
-        // alert(cateId)
-        // console.log(slug, "slug")
         setCategorySlug(slug)
     };
 
@@ -91,7 +107,6 @@ const FilterIndex = ({ route, navigation }) => {
 
             if (valueArray.includes(value)) {
                 updatedState[id] = valueArray.filter((item) => item !== value);
-                // console.log(updatedState)
                 if (valueArray.length == 1) {
                     delete updatedState[`${id}`];
                 }
@@ -99,26 +114,28 @@ const FilterIndex = ({ route, navigation }) => {
                 updatedState[id] = [...valueArray, value];
             }
         }
-        // dispatch(set_selected_attribute_values(updatedState));
-        // console.log(updatedState)
-
         setAttributeValues(updatedState)
     };
 
     const handleColorChange = (color, isReset) => {
         setPage(1)
         if (colorCode.includes(color.code)) {
-            // console.log(color.code,"from if")
             const resdata = colorCode.filter((c) => c !== color.code)
-            // console.log(resdata)
+
             setColorCode(resdata)
         }
         else {
-            // console.log(color.code,"from else")
+
             setColorCode([...colorCode, color.code])
-            // console.log(resdata)
+
         }
     }
+
+    const fetchCopiedText = async (text2) => {
+        await Clipboard.setStringAsync(text2);
+        alert("Copied")
+
+    };
     const handleBrandChange = (brand) => {
         setPage(1)
 
@@ -135,26 +152,22 @@ const FilterIndex = ({ route, navigation }) => {
         }
     }
     const getSearchProducts = async () => {
-        // console.log("hitting product")
         let paramms = {
             category_slug: categorySlug,
             collection_slug: data?.collection_slug,
             keyword: data?.keyword,
-            // sort_by: sortBy,
-            // min_price: priceRange?.length > 0 ? priceRange[0] : null,
-            // max_price: priceRange?.length > 0 ? priceRange[1] : null,
             brand_ids: brandIds,
             color_codes: colorCode,
             selected_attribute_values: attributeValues,
             page: 1,
         };
-        // console.log(para,"params")
         setLoading(true)
         const response = await productServices.getSearchedProduct(paramms);
-        // console.log("response", response.data.data);
+        // console.log("response", response.data.data.total);
         if (response?.status === 200) {
             setSearchProducts([...response.data.data.data])
             // setPage(page + 1);
+            setTotal(response.data.data.total)
             setTotalProductsCount(response.data.data?.total);
             setLoading(false)
 
@@ -181,8 +194,7 @@ const FilterIndex = ({ route, navigation }) => {
     };
 
     const fetchData = async () => {
-        console.log("hitting")
-        console.log(loaidngMore)
+
         if (!loaidngMore) {
 
             if (searchProducts.length >= 8) {
@@ -192,20 +204,14 @@ const FilterIndex = ({ route, navigation }) => {
                     category_slug: data?.category_slug,
                     collection_slug: data?.collection_slug,
                     keyword: data?.keyword,
-                    // sort_by: sortBy,
-                    // min_price: priceRange?.length > 0 ? priceRange[0] : null,
-                    // max_price: priceRange?.length > 0 ? priceRange[1] : null,
                     brand_ids: brandIds,
                     color_codes: colorCode,
-                    // selected_attribute_values: selected_attribute_values,
                     page: page + 1,
                 };
                 setLoadingMore(true)
                 const response = await productServices.getSearchedProduct(paramms);
-
-                // console.log("response", response?.data?.data?.data);
                 if (response?.status === 200) {
-                    // console.log(response.data.data.data)
+
                     setPage(page + 1);
                     setLoadingMore(false)
 
@@ -240,6 +246,11 @@ const FilterIndex = ({ route, navigation }) => {
         const unsubscribe = navigation.addListener("focus", () => {
             // fetchSingCart();
             dispatch(setTabShow(true))
+            if(nFrom=="collection"){
+                 getCollectionDetail()
+
+            }
+
 
 
         });
@@ -248,24 +259,24 @@ const FilterIndex = ({ route, navigation }) => {
 
 
     useEffect(() => {
-console.log(categorySlug)
+
         const unsubscribe = navigation.addListener("beforeRemove", (e) => {
             if (filterCategories.length > 0
             ) {
 
                 e.preventDefault();
-                if (clickCount === 0 && filterCategories.length>1) {
+                if (clickCount === 0 && filterCategories.length > 1) {
                     // On the first click, pop two elements
                     filterCategories.pop()
                     const a = filterCategories.pop()
-                    console.log(a)
+                    // console.log(a)
                     setCategorySlug(a)
 
-                } else   {
+                } else {
                     const a = filterCategories.pop()
 
                     setCategorySlug(a)
-                    console.log(a)
+                    // console.log(a)
 
                 }
 
@@ -444,19 +455,71 @@ console.log(categorySlug)
     const Header = () => {
         return (
             <>
-                <Text
-                    style={{
+                {
+                    nFrom == "collection" ? <View style={{ flexDirection: "row", justifyContent: 'space-around', alignItems: 'center', height: 80, borderRadius: 4, borderWidth: 1, borderColor: "#DDD", marginTop: 20 }}>
+                        <View style={{ flexDirection: "row", alignItems: "center" }}>
+                            <Text
+                                numberOfLines={1}
+                                style={{
 
-                        fontStyle: "normal",
-                        fontWeight: "500",
-                        fontSize: 18,
-                        lineHeight: 22,
-                        color: "#000000",
-                        marginVertical: 15, fontFamily: "RB"
-                    }}
-                >
-                    {from}
-                </Text>
+                                    fontStyle: "normal",
+                                    fontWeight: "500",
+                                    fontSize: 18,
+                                    lineHeight: 22,
+                                    color: "#000000",
+                                    width: 100,
+                                    marginVertical: 15, fontFamily: "RB"
+                                }}
+                            >
+                                {from}
+                            </Text>
+                            <Text>({total})</Text>
+                        </View>
+                        <TouchableOpacity onPress={() => setShowText(!showText)}>
+                            <AntDesign name="downcircleo" size={24} color="black" />
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                            <AntDesign name="download" size={24} color="black" />
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                            <Feather name="facebook" size={24} color="black" />
+                        </TouchableOpacity>
+                    </View> : <View style={{ flexDirection: "row", alignItems: "center" }}>
+                        <Text
+                            numberOfLines={1}
+                            style={{
+
+                                fontStyle: "normal",
+                                fontWeight: "500",
+                                fontSize: 18,
+                                lineHeight: 22,
+                                color: "#000000",
+
+
+                                marginVertical: 15, fontFamily: "RB"
+                            }}
+                        >
+                            {from}
+                        </Text>
+                        <Text>({total})</Text>
+                    </View>
+                }
+                {
+                    showText && <View style={{ minHeight: 200, width: "98%", alignSelf: 'center', borderWidth: 1, borderColor: "#DDD", marginTop: 10 }}>
+                        <View style={{ flexDirection: "row", justifyContent: "space-between", padding: 10 }}>
+                            <Text>{from}</Text>
+                            <TouchableOpacity onPress={() => fetchCopiedText(collectionData?.plain_description)}>
+                                <Feather name="copy" size={24} color="black" />
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{ marginTop: 10 }}>
+                            <RenderHtml contentWidth={350} source={{ html: collectionData?.description }} />
+
+
+                        </View>
+                    </View>
+                }
+
                 {loading ?
                     <CategorySkeleton /> : <Categories
                         TYPE={"scroll"}

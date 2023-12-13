@@ -101,7 +101,7 @@ const dispatch=useDispatch()
 
 
   useEffect(() => {
-    console.log("hello")
+    // console.log("hello")
     fetchData();
     // fetchCollection();
     fetchTopCategories();
@@ -254,7 +254,7 @@ const dispatch=useDispatch()
     // navigation.navigate("products-filter", { data:{category_slug:slug} })
     filterCategories.push(slug)
 
-   navigation.navigate("filter", { data:{category_slug:slug},from:name})
+   navigation.navigate("filter", { data:{category_slug:slug},from:name,nFrom:"category"})
 
   }
 

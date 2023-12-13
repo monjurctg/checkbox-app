@@ -108,7 +108,7 @@ const UserInfo = ({ route, navigation }) => {
     // email: e.email,
 
     if (error) return;
-    console.log(phone)
+    // console.log(phone)
     let data = {
       name: name,
       email: email,
@@ -124,7 +124,7 @@ const UserInfo = ({ route, navigation }) => {
       setLoading(false);
       // dispatch(setAuth(true));
       // await AsyncStorage.setItem('token', res.data?.data?.access_token);
-      
+
       showMessage({
         style: { alignItems: 'center' },
         message: res?.data?.message || 'Please Login Now',

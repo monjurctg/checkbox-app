@@ -104,7 +104,7 @@ const Cart = () => {
 
   const saveCart = async () => {
     let cart_id = activeSwichCartId;
-    console.log(await AsyncStorage.getItem("cart_id"))
+    // console.log(await AsyncStorage.getItem("cart_id"))
 
     if (cart_id) {
       let data = {

@@ -183,7 +183,7 @@ const ConfirmOrder = ({ navigation, route }) => {
     let res = await cartServices.orderStore(data);
     // console.log("ressss", res);
     if (res.status === 200) {
-      console.log(res.data);
+      // console.log(res.data);
       await AsyncStorage.removeItem("cart_id")
       dispatch(setCartSize(0))
       dispatch(setSelectDistricts({name:"Select Districts",key:"nD"}))

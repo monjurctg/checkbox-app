@@ -330,7 +330,6 @@ const Home = ({ navigation }) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={{ justifyContent: 'center', alignItems: 'center' }}
-            onPress={()=>navigation.navigate("redirectweb",{url:"support"})}
 
           >
             <Image source={require('../../assets/icons/earning.png')} />

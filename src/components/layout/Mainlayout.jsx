@@ -89,9 +89,9 @@ const Mainlayout = ({ children }) => {
       await AsyncStorage.clear()
       dispatch(setAuth(false))
       dispatch(setUser({}))
-      
+
     } catch (err) {
-      console.log(err)
+      // console.log(err)
     } finally {
       // DevSettings.reload();
       setLoading(false)
@@ -183,7 +183,7 @@ const Mainlayout = ({ children }) => {
                 {/* <TouchableOpacity
                   onPress={() => navigation?.navigate("cart")}
                   style={{marginRight: scale(10)}}>
-                 
+
                   <Feather name="shopping-cart" size={24} color="black" />
                 </TouchableOpacity> */}
               </View>
@@ -221,7 +221,7 @@ const Mainlayout = ({ children }) => {
                     color={colors.primary_1}
                     style={styles.menuIcon}
                   />
-               
+
                   <Text
                     style={[styles.logoutText, { color: colors.primary_1 }]}
                   >
@@ -266,7 +266,7 @@ const styles = StyleSheet.create({
     // backgroundColor: colors.white,
 
     // paddingTop: scale(10),
-  },  
+  },
 
   headerContainer: {
     flexDirection: "row",
@@ -279,7 +279,7 @@ const styles = StyleSheet.create({
     // backgroundColor:"#fff"
   },
   left: {
-    // width: 100, 
+    // width: 100,
     flexDirection: "row",
     width: width / 2,
     alignItems: "center"
@@ -336,7 +336,7 @@ const styles = StyleSheet.create({
 
     top: 60,
     left: 10,
-    // minHeight: 160,   
+    // minHeight: 160,
     minWidth: 200,
     zIndex: 999999,
     shadowColor: "#000",

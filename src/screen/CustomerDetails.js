@@ -53,7 +53,7 @@ const CustomerDetails = ({ navigation, route }) => {
     if (res.status === 200) {
       setCarts(res.data.data);
       if(res.data.data?.reseller_to_customer_price==0){
-        console.log("modal")
+        // console.log("modal")
         setIsBill(true)
       }else{
         setIsBill(false)

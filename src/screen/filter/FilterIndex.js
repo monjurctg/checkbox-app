@@ -59,6 +59,7 @@ const FilterIndex = ({ route, navigation }) => {
     const [attributeValues, setAttributeValues] = useState({})
     const [brandIds, setBrandIds] = useState([])
     const [categorySlug, setCategorySlug] = useState(data?.category_slug)
+    const[sort_by,setSort_by]=useState("best_seller")
     const dispatch = useDispatch()
 
     const openDrawer = () => {
@@ -158,7 +159,8 @@ const FilterIndex = ({ route, navigation }) => {
             keyword: data?.keyword,
             brand_ids: brandIds,
             color_codes: colorCode,
-            selected_attribute_values: attributeValues,
+            selected_attribute_values: attributeValues,sort_by,
+
             page: 1,
         };
         setLoading(true)
@@ -206,6 +208,7 @@ const FilterIndex = ({ route, navigation }) => {
                     keyword: data?.keyword,
                     brand_ids: brandIds,
                     color_codes: colorCode,
+
                     page: page + 1,
                 };
                 setLoadingMore(true)
@@ -305,7 +308,7 @@ const FilterIndex = ({ route, navigation }) => {
     }, [categorySlug])
     useEffect(() => {
         getSearchProducts()
-    }, [colorCode, brandIds, categorySlug, attributeValues])
+    }, [colorCode, brandIds, categorySlug, attributeValues,sort_by])
 
 
     const onScroll = (event) => {
@@ -529,7 +532,7 @@ const FilterIndex = ({ route, navigation }) => {
                     />
                 }
 
-                <Filters navigation={navigation} onFilterClick={openDrawer} />
+                <Filters navigation={navigation} setSort_by={setSort_by} onFilterClick={openDrawer} />
             </>
         );
     };

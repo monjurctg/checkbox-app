@@ -43,12 +43,13 @@ const SingleProduct = ({
       style={{
         width: scale(from=="home"?157:160),
         height:scale(230),
+
         backgroundColor:colors.white,
         // shadowColor: "rgba(0, 0, 0,0.5)",
       //  borderColor:"#f2e9e9",
       //  borderWidth:1,
        borderRadius:5,
-       
+
        elevation:2,shadowOpacity: 0.8,
        shadowRadius: 5,shadowOffset: {
         width: 0,
@@ -76,7 +77,7 @@ const SingleProduct = ({
         onRate={handleRate}
       />
       </View>
-     
+
     </View>
   );
 };

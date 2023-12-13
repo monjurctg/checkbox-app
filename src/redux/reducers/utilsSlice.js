@@ -9,7 +9,8 @@ const authSlice = createSlice({
     customerSelectedThana: {},
     customerRoad: "",
     tabShow:true,
-    filterCategories:[]
+    filterCategories:[],
+    sortState:"Best Seller"
   },
   reducers: {
     setDetailsBottomSheet: (state, { payload }) => {
@@ -31,10 +32,13 @@ const authSlice = createSlice({
     removeFilteCategoriens :(state,{payload})=>{
       const newData = state.filterCategories.filter(f=>f!=payload)
       state.filterCategories = newData
+    },
+    setSortState :(state,{payload})=>{
+      state.sortState=payload
     }
   },
 });
 
-export const { setDetailsBottomSheet, setSelectDistricts, setThana,setTabShow,setFilterCategories,removeFilteCategoriens } =
+export const { setDetailsBottomSheet, setSelectDistricts,setSortState, setThana,setTabShow,setFilterCategories,removeFilteCategoriens } =
   authSlice.actions;
 export default authSlice.reducer;

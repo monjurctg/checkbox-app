@@ -17,7 +17,7 @@ import { setSortState } from "../../redux/reducers/utilsSlice";
 
 
 
-const Filters = ({ navigation, onFilterClick,setSort_by }) => {
+const Filters = ({ navigation, onFilterClick,setSort_by ,from}) => {
   const[filtershow,setFiltershow]=useState(false)
   const { sortState } = useSelector((state) => state.utils);
 
@@ -33,24 +33,13 @@ const Filters = ({ navigation, onFilterClick,setSort_by }) => {
   return (
     <View preset={["mt-5"]} style={{ marginVertical: 15 }}>
       <View preset={["row jc_between "]} style={{ alignItems: "center" }}>
-        {/* <View preset={["row center"]}> */}
-        <CustomTouchBtn onPress={onFilterClick}>
+
+        {
+          from =="filter" && <CustomTouchBtn onPress={onFilterClick}>
           <Ionicons name="options" size={24} color="black" />
         </CustomTouchBtn>
-        {/* <Picker
-              // selectedValue={district}
-              style={{ height: 10, width: 200,borderWidth:1 }}
-              // onValueChange={(itemValue, itemIndex) => setDistrict(itemValue)}
-              placeholder="Select district"
-            >
-              {[{name:"Best Seller",value:"best-seller"}].map((option, index) => (
-                <Picker.Item
-                  key={index}
-                  label={option.name}
-                  value={option.value}
-                />
-              ))}
-            </Picker> */}
+        }
+
         <TouchableOpacity
        onPress={()=>setFiltershow(!filtershow)}
           style={{

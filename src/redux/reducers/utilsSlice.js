@@ -10,7 +10,8 @@ const authSlice = createSlice({
     customerRoad: "",
     tabShow:true,
     filterCategories:[],
-    sortState:"Best Seller"
+    sortState:"Best Seller",
+    sortState2:"Best Seller"
   },
   reducers: {
     setDetailsBottomSheet: (state, { payload }) => {
@@ -36,9 +37,12 @@ const authSlice = createSlice({
     setSortState :(state,{payload})=>{
       state.sortState=payload
     }
+    , setSortState2 :(state,{payload})=>{
+      state.sortState2=payload
+    }
   },
 });
 
-export const { setDetailsBottomSheet, setSelectDistricts,setSortState, setThana,setTabShow,setFilterCategories,removeFilteCategoriens } =
+export const { setDetailsBottomSheet, setSelectDistricts,setSortState2,setSortState, setThana,setTabShow,setFilterCategories,removeFilteCategoriens } =
   authSlice.actions;
 export default authSlice.reducer;

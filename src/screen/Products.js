@@ -30,6 +30,7 @@ import Collections from "../components/Collections";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
 import { setTabShow } from "../redux/reducers/utilsSlice";
+import Filters from "../components/products/Filters";
 let scroll = 0
 
 const Products = (props) => {
@@ -39,7 +40,7 @@ const Products = (props) => {
   const navigation = useNavigation()
   const [categoriLoading, setCategoryLoading] = useState(false);
 
-const dispatch=useDispatch()
+  const dispatch = useDispatch()
   const [lastPage, setLastPage] = useState();
   const [data, setData] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -49,13 +50,15 @@ const dispatch=useDispatch()
   const [loadingMore, setLoadingMore] = useState(false);
   const [page, setPage] = useState(1);
   const flatListRef = useRef(null);
+  const [sort_by, setSort_by] = useState("best_seller")
+
   const [refreshing, setRefreshing] = React.useState(false);
 
 
 
   // const[offset,setOffset]=useState(0)
 
-// console.log(viewPosition)
+  // console.log(viewPosition)
   // apis
 
   const fetchTopCategories = () => {
@@ -110,7 +113,7 @@ const dispatch=useDispatch()
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       // fetchSingCart();
-    dispatch(setTabShow(true))
+      dispatch(setTabShow(true))
 
 
     });
@@ -141,13 +144,13 @@ const dispatch=useDispatch()
   // };
   const onScroll = (event) => {
 
-    let scroll2 =0
+    let scroll2 = 0
     const currentOffset = event.nativeEvent.contentOffset.y;
     const dif = currentOffset - scroll;
-    const dif2 = currentOffset-scroll2
+    const dif2 = currentOffset - scroll2
 
     // console.log(dif2)
-    if(dif2<=3){
+    if (dif2 <= 3) {
       // console.log(dif2)
       dispatch(setTabShow(true))
     }
@@ -164,7 +167,7 @@ const dispatch=useDispatch()
     //console.log('dif=',dif);
 
     // setOffset(currentOffset)
-    scroll=currentOffset
+    scroll = currentOffset
   }
 
   const onBottomSheetOpen = (item) => {
@@ -249,12 +252,12 @@ const dispatch=useDispatch()
   };
 
 
-  const onCategoryPress = (slug,name)=>{
+  const onCategoryPress = (slug, name) => {
     // alert(slug)
     // navigation.navigate("products-filter", { data:{category_slug:slug} })
     filterCategories.push(slug)
 
-   navigation.navigate("filter", { data:{category_slug:slug},from:name,nFrom:"category"})
+    navigation.navigate("filter", { data: { category_slug: slug }, from: name, nFrom: "category" })
 
   }
 
@@ -263,19 +266,19 @@ const dispatch=useDispatch()
     return (
       <>
 
-         <Text
-        style={{
-          // fontFamily: "Gotham",
-          fontStyle: "normal",
-          fontWeight: "500",
-          fontSize: 18,
-          lineHeight: 22,
-          color: "#000000",
-          marginVertical:15,fontFamily:"RB"
-        }}
-      >
-   Product  Categories
-      </Text>
+        <Text
+          style={{
+            // fontFamily: "Gotham",
+            fontStyle: "normal",
+            fontWeight: "500",
+            fontSize: 18,
+            lineHeight: 22,
+            color: "#000000",
+            marginVertical: 15, fontFamily: "RB"
+          }}
+        >
+          Product  Categories
+        </Text>
 
         <Categories onCategoryPress={onCategoryPress} TYPE={"scroll"} data={categories} />
         {categoriLoading && categories.length == 0 && <CategorySkeleton />}
@@ -283,21 +286,21 @@ const dispatch=useDispatch()
 
 
         <View>
-          <View style={{marginTop: 40,display: "flex", flexDirection: "row",justifyContent: "space-between",alignItems: "center",}}>
+          <View style={{ marginTop: 40, display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", }}>
             <Text style={{
-                fontFamily: "RB",
-                fontStyle: "normal",
+              fontFamily: "RB",
+              fontStyle: "normal",
 
-                fontSize: 20,
-                lineHeight: 24,
-              }}
+              fontSize: 20,
+              lineHeight: 24,
+            }}
             >
               Collection
             </Text>
             <TouchableOpacity
-          onPress={()=>{
-            navigation.navigate("all-collection",)
-          }}
+              onPress={() => {
+                navigation.navigate("all-collection",)
+              }}
               style={{
                 borderColor: "#BE202E",
                 borderWidth: 1,
@@ -322,7 +325,7 @@ const dispatch=useDispatch()
           </View>
         </View>
 
-        <Collections refreshing={refreshing} navigation={navigation}/>
+        <Collections refreshing={refreshing} navigation={navigation} />
 
         <View>
           <View
@@ -331,7 +334,7 @@ const dispatch=useDispatch()
               display: "flex",
               flexDirection: "row",
               justifyContent: "space-between",
-              alignItems: "center",
+              // alignItems: "center",
             }}
           >
             <Text
@@ -346,7 +349,7 @@ const dispatch=useDispatch()
             >
               All Products
             </Text>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={{
                 flexDirection: "row",
                 width: scale(114),
@@ -365,7 +368,9 @@ const dispatch=useDispatch()
                 Best sellers
               </Text>
               <AntDesign name="down" size={11} color="black" />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
+            <Filters navigation={navigation} from={"products"} setSort_by={setSort_by} />
+
           </View>
         </View>
         {data.length <= 0 && (
@@ -391,7 +396,7 @@ const dispatch=useDispatch()
       {/* <ScrollView showsVerticalScrollIndicator={false}> */}
       <View style={{}}>
         <FlatList
-        onScroll={onScroll}
+          onScroll={onScroll}
           ListHeaderComponent={Header}
           refreshControl={
             <RefreshControl

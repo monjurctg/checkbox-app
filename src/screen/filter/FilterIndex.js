@@ -569,7 +569,7 @@ const FilterIndex = ({ route, navigation }) => {
                     />
                 }
 
-                <Filters navigation={navigation} setSort_by={setSort_by} onFilterClick={openDrawer} />
+                <Filters navigation={navigation} from={"filter"} setSort_by={setSort_by} onFilterClick={openDrawer} />
             </>
         );
     };

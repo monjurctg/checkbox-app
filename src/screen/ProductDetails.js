@@ -48,6 +48,7 @@ const ProductDetails = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
 
   const [singleProduct, setSingleProduct] = useState({});
+  const[singProductRating,setSingleProductRating]=useState(0)
   const dispatch = useDispatch();
   const route = useRoute();
   const [reviews, setReviews] = useState([]);
@@ -162,6 +163,7 @@ const ProductDetails = ({ navigation }) => {
         setLoading(false);
         setVariants(res.data.data.variant_info)
         setSingleProduct(res.data.data);
+        setSingleProductRating(res.data.data.rating.rating)
       })
       .catch((err) => {
         setLoading(false);
@@ -476,11 +478,12 @@ const ProductDetails = ({ navigation }) => {
           </Text>
           <View preset={[" row mt_5 "]} style={{ alignItems: "center", gap: 3 }}>
             {/* <Text>{singleProduct?.rating?.rating_count}</Text> */}
-            <Rating
-              from={"details"}
-              defaultStars={singleProduct?.rating?.rating}
-              maxStars={5}
-            />
+           <Rating
+            from={"details"}
+            defaultStars={Math.round(singProductRating)}
+            maxStars={5}
+          />
+
             <Text preset={["p1 RR"]}>
               ({singleProduct?.rating?.rating} stars) • {singleProduct?.rating?.rating_count} reviews
             </Text>

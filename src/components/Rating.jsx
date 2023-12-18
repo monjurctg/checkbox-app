@@ -7,26 +7,28 @@ import Text from "./tags/Text";
 
 const Rating = ({maxStars, from, defaultStars,sales,onRate}) => {
   const [stars, setStars] = useState(defaultStars);
+// console.log(stars)
 
   const handleStarPress = (rating) => {
-    setStars(rating);
-    onRate(rating);
+    // setStars(rating);
+    // onRate(rating);
   };
 
   return (
     <View preset={["row"]}>
       <View style={styles.container}>
         {[...Array(maxStars)].map((_, index) => (
-          <TouchableWithoutFeedback
+          <View
           style={{}}
             key={index}
-            onPress={() => handleStarPress(index + 1)}>
+            // onPress={() => handleStarPress(index + 1)}
+            >
             <Ionicons
-              name={index < stars ? "star" : "star-outline"}
+              name={index < defaultStars ? "star" : "star-outline"}
               size={scale(12)}
               color="#E77C40"
             />
-          </TouchableWithoutFeedback>
+          </View>
         ))}
         {from === "product" && <Text preset={["ml_5"]}>({sales})</Text>}
       </View>

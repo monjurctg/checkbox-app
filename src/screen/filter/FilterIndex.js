@@ -21,6 +21,7 @@ import { useDispatch } from 'react-redux';
 import { AntDesign, Feather } from '@expo/vector-icons';
 import axios from 'axios';
 import api from '../../services/api';
+import Rating from '../../components/Rating';
 
 let scroll = 0
 let clickCount = 0;
@@ -29,7 +30,7 @@ const FilterIndex = ({ route, navigation }) => {
     const drawerRef = useRef(null);
     const { data, from, nFrom } = route.params ?? {};
     const [collectionData, setCollectionData] = useState("")
-    const[total,setTotal]=useState()
+    const [total, setTotal] = useState()
     // console.log(from)
     const [showText, setShowText] = useState(false)
 
@@ -58,8 +59,9 @@ const FilterIndex = ({ route, navigation }) => {
     const [colorCode, setColorCode] = useState([])
     const [attributeValues, setAttributeValues] = useState({})
     const [brandIds, setBrandIds] = useState([])
+    const [rating, setRating] = useState()
     const [categorySlug, setCategorySlug] = useState(data?.category_slug)
-    const[sort_by,setSort_by]=useState("best_seller")
+    const [sort_by, setSort_by] = useState("best_seller")
     const dispatch = useDispatch()
 
     const openDrawer = () => {
@@ -97,6 +99,11 @@ const FilterIndex = ({ route, navigation }) => {
     const handleCategoryChange = (slug) => {
         setCategorySlug(slug)
     };
+    const handleRatingChange = (rating) => {
+        setRating(rating)
+
+    }
+
 
 
     const handleAttrChange = (id, value) => {
@@ -159,8 +166,8 @@ const FilterIndex = ({ route, navigation }) => {
             keyword: data?.keyword,
             brand_ids: brandIds,
             color_codes: colorCode,
-            selected_attribute_values: attributeValues,sort_by,
-
+            selected_attribute_values: attributeValues, sort_by,
+            rating:rating,
             page: 1,
         };
         setLoading(true)
@@ -208,8 +215,9 @@ const FilterIndex = ({ route, navigation }) => {
                     keyword: data?.keyword,
                     brand_ids: brandIds,
                     color_codes: colorCode,
-
                     page: page + 1,
+                    rating:rating
+
                 };
                 setLoadingMore(true)
                 const response = await productServices.getSearchedProduct(paramms);
@@ -249,8 +257,8 @@ const FilterIndex = ({ route, navigation }) => {
         const unsubscribe = navigation.addListener("focus", () => {
             // fetchSingCart();
             dispatch(setTabShow(true))
-            if(nFrom=="collection"){
-                 getCollectionDetail()
+            if (nFrom == "collection") {
+                getCollectionDetail()
 
             }
 
@@ -308,7 +316,7 @@ const FilterIndex = ({ route, navigation }) => {
     }, [categorySlug])
     useEffect(() => {
         getSearchProducts()
-    }, [colorCode, brandIds, categorySlug, attributeValues,sort_by])
+    }, [colorCode, brandIds, categorySlug, attributeValues, sort_by,rating])
 
 
     const onScroll = (event) => {
@@ -352,6 +360,32 @@ const FilterIndex = ({ route, navigation }) => {
                     state={"category_ids"}
                 />
             )}
+        </View>
+    );
+
+    const ratingDrop = (
+        <View style={{ borderWidth: 1, width: "97%", alignSelf: "center", borderColor: "#DDD", padding: 10 }}>
+            <Text>Rating</Text>
+         <View style={{marginTop:10}}>
+         <TouchableOpacity style={{padding:10}} onPress={()=>handleRatingChange(5)}>
+                <Rating maxStars={5} defaultStars={5} />
+            </TouchableOpacity>
+            <TouchableOpacity style={{padding:10}} onPress={()=>handleRatingChange(4)}>
+                <Rating maxStars={5} defaultStars={4} />
+            </TouchableOpacity>
+            <TouchableOpacity style={{padding:10}} onPress={()=>handleRatingChange(3)}>
+                <Rating maxStars={5} defaultStars={3} />
+            </TouchableOpacity>
+
+            <TouchableOpacity style={{padding:10}} onPress={()=>handleRatingChange(2)}>
+                <Rating maxStars={5} defaultStars={2} />
+            </TouchableOpacity>
+            <TouchableOpacity style={{padding:10}} onPress={()=>handleRatingChange(1)}>
+                <Rating maxStars={5} defaultStars={1} />
+            </TouchableOpacity>
+         </View>
+
+
         </View>
     );
 
@@ -429,6 +463,9 @@ const FilterIndex = ({ route, navigation }) => {
                 {brandDrop}
                 {colorsDrop}
                 {attributesDrop}
+                {ratingDrop}
+
+
                 <View style={{ height: 100 }}></View>
             </ScrollView>
         </SafeAreaView>
@@ -444,7 +481,7 @@ const FilterIndex = ({ route, navigation }) => {
             // toggleBottomNavigationView={onBottomSheetOpen}
             //   visible={visible}
             price={item?.price?.main_price}
-            rate={item?.rating?.rating}
+            rate={Math.round(item?.rating?.rating)}
             sales={item?.sales}
             item={item}
         />
@@ -558,6 +595,8 @@ const FilterIndex = ({ route, navigation }) => {
                     <Text style={{ color: "#ab0f29", textAlign: "center", fontSize: 12 }}>Loading...</Text>
                     <View style={{ height: 200 }}></View>
                 </ScrollView>
+                {/* <View style={{ height: 400 }}></View> */}
+
             </View>
         );
 
@@ -589,7 +628,7 @@ const FilterIndex = ({ route, navigation }) => {
                     onEndReached={fetchData}
                     onEndReachedThreshold={0.5}
                     // ListFooterComponent={renderFooter}
-                    ListFooterComponent={() => loaidngMore && <ListFooterComponent />}
+                    ListFooterComponent={() => loaidngMore? <ListFooterComponent />:<View style={{height:200}}></View>}
 
                 />
 

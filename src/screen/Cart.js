@@ -9,6 +9,8 @@ import {
 import React, { memo, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import View from "../components/tags/View";
+import * as Clipboard from 'expo-clipboard';
+
 import Text from "../components/tags/Text";
 import { scale, setSwichCartIdInLocal } from "../../utils/funtions";
 import CustomTouchBtn from "../components/tags/CustomTouchBtn";
@@ -44,6 +46,24 @@ const Cart = () => {
     setUpdateCartModalVisible(false);
     setInputValue("");
   };
+
+  // const fetchCopiedText = async (text2) => {
+
+  //   alert("Copied")
+
+  // };
+
+
+  let copyCartLink =async()=>{
+    const hostname = "https://checkbox-rosy.vercel.app";
+    // console.log('hostname', window.location)
+    // router.push("/customer/cart/"+singlecartData?.data?.data?.slug})
+     const res = await Clipboard.setStringAsync(hostname+ "/customer/cart/"+carts.slug);
+    //  console.log(res)
+    alert("Cart copied")
+
+
+  }
 
   const handleOk = () => {
     // Handle the input value
@@ -101,10 +121,10 @@ const Cart = () => {
       setSwichCartIdInLocal(activeSwichCartId ? activeSwichCartId : cart_id);
     }
   };
-
+// console.log(carts.slug,"carts")
   const saveCart = async () => {
     let cart_id = activeSwichCartId;
-    // console.log(await AsyncStorage.getItem("cart_id"))
+    // console.log(await AsyncStorage.gectItem("cart_id"))
 
     if (cart_id) {
       let data = {
@@ -243,6 +263,7 @@ const Cart = () => {
       <Text preset={["RB  fs_18"]}>{carts?.name}</Text>
       <View preset={["flex row center"]}>
         <TouchableOpacity
+        onPress={copyCartLink}
           style={{
             borderColor: "#BE202E",
             borderWidth: 1,

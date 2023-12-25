@@ -23,7 +23,7 @@ api.defaults.headers.common[
 
 // Set up an interceptor to add the token to the request headers
 api.interceptors.request.use(async (config) => {
-  console.log(config,"config")
+  // console.log(config,"config")
   try {
     const token = await AsyncStorage.getItem("token");
     if (token) {

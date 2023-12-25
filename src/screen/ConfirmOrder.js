@@ -401,8 +401,8 @@ const ConfirmOrder = ({ navigation, route }) => {
           <Text style={{ fontSize: 17, fontWeight: "600" }}>{singleCart?.reseller_to_customer_price - singleCart?.advance_from_customer} BDT</Text>
         </View>
         <View style={{ flexDirection: "row", justifyContent: "space-between", padding: 7, }}>
-          <Text style={{ fontSize: 15, color: "#58595B" }}>Supplier amount</Text>
-          <Text style={{ fontSize: 15, color: "#58595B" }}>(-) {singleCart?.price} BDT</Text>
+          <Text style={{ fontSize: 15, color: "red" }}>Supplier amount</Text>
+          <Text style={{ fontSize: 15, color: "red" }}>(-) {singleCart?.price} BDT</Text>
         </View>
         {/* if discount then show  */}
         {singleCart.coupon?.cashback_discount === "discount" && (
@@ -412,13 +412,19 @@ const ConfirmOrder = ({ navigation, route }) => {
           </View>
         )}
         <View style={{ flexDirection: "row", justifyContent: "space-between", padding: 7, }}>
-          <Text style={{ fontSize: 15, color: "#58595B" }}>Proccessing Fee</Text>
-          <Text style={{ fontSize: 15, color: "#58595B" }}>(-) {processingFee} BDT</Text>
+          <Text style={{ fontSize: 15, color: "red" }}>Proccessing Fee</Text>
+          <Text style={{ fontSize: 15, color: "red" }}>(-) {processingFee} BDT</Text>
         </View>
         <View style={{ flexDirection: "row", justifyContent: "space-between", padding: 7, }}>
-          <Text style={{ fontSize: 15, color: "#58595B" }}>Shipping Charge</Text>
-          <Text style={{ fontSize: 15, color: "#58595B" }}>(-) {shippingFee} BDT</Text>
+          <Text style={{ fontSize: 15, color: "red" }}>Shipping Charge</Text>
+          <Text style={{ fontSize: 15, color: "red" }}>(-) {shippingFee} BDT</Text>
         </View>
+        <View style={{ flexDirection: "row", justifyContent: "space-between", padding: 7, }}>
+          <Text style={{ fontSize: 15, color: "red" }}>Cod amount</Text>
+          <Text style={{ fontSize: 15, color: "red" }}>(-) {singleCart?.cod_amount} BDT</Text>
+        </View>
+
+
         {/* if cashback then show */}
         {singleCart?.coupon?.cashback_discount === "cashback" && (
           <View style={{ flexDirection: "row", justifyContent: "space-between", padding: 7, }}>
@@ -431,7 +437,7 @@ const ConfirmOrder = ({ navigation, route }) => {
     {/* if not coupon code */}
     {!singleCart?.coupon_code && (
       <View style={{ flexDirection: "row", alignSelf: "flex-end", alignItems: "center", gap: 7, marginTop: 10, }}>
-        <TextInput onChangeText={(text) => setCouponText(text)} style={{ textAlign: "center", borderColor: "#E6E7E8", borderWidth: 1, width: scale(200), height: 40, backgroundColor: "#FFFFFF", fontSize: 14, }} />
+        <TextInput onChangeText={(text) => setCouponText(text)} placeholder="Add voucher code" style={{ textAlign: "center", borderColor: "#E6E7E8", borderWidth: 1, width: scale(200), height: 40, backgroundColor: "#FFFFFF", fontSize: 14, }} />
         <TouchableOpacity onPress={applyVoucher} style={{ backgroundColor: "black", paddingHorizontal: 25, height: 40, }}>
           <Text style={{ color: "white", alignSelf: "center", marginTop: 10, fontWeight: "500" }}>Confirm</Text>
         </TouchableOpacity>

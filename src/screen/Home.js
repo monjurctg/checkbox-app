@@ -45,7 +45,7 @@ const Home = ({ navigation }) => {
 
   const fetchDashSummary = async () => {
     const res = await api.get("/reseller/dashboard/summary")
-    console.log(res.data.data, "dfdkjfk")
+    // console.log(res.data.data, "dfdkjfk")
     setSummary(res.data.data)
   }
   const allCategories = () => {

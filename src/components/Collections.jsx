@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import productServices from '../services/productServices';
 import CollectionItems from './products/CollectionItems';
 import CollectionSkeleton from './loader/CollectionSkeleton';
@@ -54,6 +54,6 @@ const Collections = ({ refreshing, navigation }) => {
     )
 }
 
-export default Collections
+export default memo(Collections)
 
 const styles = StyleSheet.create({})

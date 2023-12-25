@@ -10,7 +10,7 @@ import { Foundation } from "@expo/vector-icons";
 import { Ionicons } from '@expo/vector-icons';
 import { Picker } from '@react-native-picker/picker';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSortState } from "../../redux/reducers/utilsSlice";
+import { setSortState, setSortState2 } from "../../redux/reducers/utilsSlice";
 
 
 
@@ -19,7 +19,7 @@ import { setSortState } from "../../redux/reducers/utilsSlice";
 
 const Filters = ({ navigation, onFilterClick,setSort_by ,from}) => {
   const[filtershow,setFiltershow]=useState(false)
-  const { sortState } = useSelector((state) => state.utils);
+  const { sortState ,sortState2} = useSelector((state) => state.utils);
 
   const[activesort,setActivesort]=useState("Best Seller")
   const dispatch = useDispatch()
@@ -27,7 +27,14 @@ const Filters = ({ navigation, onFilterClick,setSort_by ,from}) => {
 
   const handleShortclick  = data=>{
     // setActivesort(data)
-    dispatch(setSortState(data))
+    if(from=="filter"){
+      dispatch(setSortState(data))
+
+    }
+    else{
+      dispatch(setSortState2(data))
+    }
+
     setFiltershow(false)
   }
   return (
@@ -56,7 +63,7 @@ const Filters = ({ navigation, onFilterClick,setSort_by ,from}) => {
             paddingHorizontal: scale(12),
           }}>
           <Text preset={["fs_12  lh_14  fw_400 pl_5 center"]}>
-            {sortState}
+            {from=="filter"?sortState:sortState2}
           </Text>
           <AntDesign name="caretdown" size={14} color="black" />
         </TouchableOpacity>

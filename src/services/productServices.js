@@ -34,8 +34,9 @@ productServices.bestSeller = () => {
     .then((res) => res)
     .catch((err) => err);
 };
-productServices.productList = (page,limit) => {
-  let url = `products/all?page=${page}&limit=${limit}`;
+productServices.productList = (page,limit,sort_by) => {
+  let url = `products/all?page=${page}&limit=${limit}&sort_by=${sort_by}`;
+  console.log(url)
   return api.get(url);
 };
 
@@ -69,6 +70,7 @@ productServices.getSearchedProduct = async ( params) => {
       // console.log(err,"from ai")
     return  err.response
     });
+
   return data;
 };
 

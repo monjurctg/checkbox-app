@@ -31,9 +31,7 @@ const FilterIndex = ({ route, navigation }) => {
     const { data, from, nFrom } = route.params ?? {};
     const [collectionData, setCollectionData] = useState("")
     const [total, setTotal] = useState()
-    // console.log(from)
     const [showText, setShowText] = useState(false)
-
     const initialState = {
         category_slug: null,
         collection_slug: null,
@@ -167,7 +165,7 @@ const FilterIndex = ({ route, navigation }) => {
             brand_ids: brandIds,
             color_codes: colorCode,
             selected_attribute_values: attributeValues, sort_by,
-            rating:rating,
+            rating: rating,
             page: 1,
         };
         setLoading(true)
@@ -216,7 +214,7 @@ const FilterIndex = ({ route, navigation }) => {
                     brand_ids: brandIds,
                     color_codes: colorCode,
                     page: page + 1,
-                    rating:rating
+                    rating: rating
 
                 };
                 setLoadingMore(true)
@@ -316,7 +314,7 @@ const FilterIndex = ({ route, navigation }) => {
     }, [categorySlug])
     useEffect(() => {
         getSearchProducts()
-    }, [colorCode, brandIds, categorySlug, attributeValues, sort_by,rating])
+    }, [colorCode, brandIds, categorySlug, attributeValues, sort_by, rating])
 
 
     const onScroll = (event) => {
@@ -366,24 +364,24 @@ const FilterIndex = ({ route, navigation }) => {
     const ratingDrop = (
         <View style={{ borderWidth: 1, width: "97%", alignSelf: "center", borderColor: "#DDD", padding: 10 }}>
             <Text>Rating</Text>
-         <View style={{marginTop:10}}>
-         <TouchableOpacity style={{padding:10}} onPress={()=>handleRatingChange(5)}>
-                <Rating maxStars={5} defaultStars={5} />
-            </TouchableOpacity>
-            <TouchableOpacity style={{padding:10}} onPress={()=>handleRatingChange(4)}>
-                <Rating maxStars={5} defaultStars={4} />
-            </TouchableOpacity>
-            <TouchableOpacity style={{padding:10}} onPress={()=>handleRatingChange(3)}>
-                <Rating maxStars={5} defaultStars={3} />
-            </TouchableOpacity>
+            <View style={{ marginTop: 10 }}>
+                <TouchableOpacity style={{ padding: 10 }} onPress={() => handleRatingChange(5)}>
+                    <Rating maxStars={5} defaultStars={5} />
+                </TouchableOpacity>
+                <TouchableOpacity style={{ padding: 10 }} onPress={() => handleRatingChange(4)}>
+                    <Rating maxStars={5} defaultStars={4} />
+                </TouchableOpacity>
+                <TouchableOpacity style={{ padding: 10 }} onPress={() => handleRatingChange(3)}>
+                    <Rating maxStars={5} defaultStars={3} />
+                </TouchableOpacity>
 
-            <TouchableOpacity style={{padding:10}} onPress={()=>handleRatingChange(2)}>
-                <Rating maxStars={5} defaultStars={2} />
-            </TouchableOpacity>
-            <TouchableOpacity style={{padding:10}} onPress={()=>handleRatingChange(1)}>
-                <Rating maxStars={5} defaultStars={1} />
-            </TouchableOpacity>
-         </View>
+                <TouchableOpacity style={{ padding: 10 }} onPress={() => handleRatingChange(2)}>
+                    <Rating maxStars={5} defaultStars={2} />
+                </TouchableOpacity>
+                <TouchableOpacity style={{ padding: 10 }} onPress={() => handleRatingChange(1)}>
+                    <Rating maxStars={5} defaultStars={1} />
+                </TouchableOpacity>
+            </View>
 
 
         </View>
@@ -628,7 +626,7 @@ const FilterIndex = ({ route, navigation }) => {
                     onEndReached={fetchData}
                     onEndReachedThreshold={0.5}
                     // ListFooterComponent={renderFooter}
-                    ListFooterComponent={() => loaidngMore? <ListFooterComponent />:<View style={{height:200}}></View>}
+                    ListFooterComponent={() => loaidngMore ? <ListFooterComponent /> : <View style={{ height: 200 }}></View>}
 
                 />
 

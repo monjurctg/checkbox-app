@@ -29,7 +29,7 @@ import CollectionItems from "../components/products/CollectionItems";
 import Collections from "../components/Collections";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
-import { setTabShow } from "../redux/reducers/utilsSlice";
+import { setSortState2, setTabShow } from "../redux/reducers/utilsSlice";
 import Filters from "../components/products/Filters";
 let scroll = 0
 
@@ -79,7 +79,7 @@ const Products = (props) => {
     // console.log("hitting")
     setLoadingMore(true);
     productServices
-      .productList(page, 20)
+      .productList(page, 20,sort_by)
       .then((res) => {
         // setLoading(false);
         // flatListRef.current.scrollToEnd({ animated: false });
@@ -108,12 +108,16 @@ const Products = (props) => {
     fetchData();
     // fetchCollection();
     fetchTopCategories();
-  }, [refreshing]);
+
+  }, [refreshing,sort_by]);
+
+
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       // fetchSingCart();
       dispatch(setTabShow(true))
+      dispatch(setSortState2("Best Seller"))
 
 
     });
